@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all">
   <link rel="stylesheet" th:href="@{/frame/style/admin.css}" media="all">
+  <link rel="icon" th:href="@{/frame/layui/images/MIX_2.png}">
 </head>
 <body class="layui-layout-body">
   <div id="LAY_app">
@@ -37,9 +38,8 @@
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
           
           <li class="layui-nav-item" lay-unselect>
-            <a lay-href="app/message/index.html" layadmin-event="message" lay-text="消息中心">
-              <i class="layui-icon layui-icon-notice"></i>  
-              
+            <a lay-href="/message/page" layadmin-event="message" lay-text="消息中心">
+              <i class="layui-icon layui-icon-notice"></i>
               <!-- 如果有新消息，则显示小圆点 -->
               <span class="layui-badge-dot"></span>
             </a>
@@ -362,7 +362,7 @@
               </a>
               <dl class="layui-nav-child">
                 <dd>
-                  <a layadmin-event="im">LayIM 通讯系统</a>  
+                  <a layadmin-event="im">IM通讯</a>
                 </dd>
                 <dd data-name="echarts">
                   <a href="javascript:;">Echarts集成</a>
@@ -462,21 +462,10 @@
   <script th:src="@{/frame/layui/layui.js}"></script>
   <script>
   layui.config({
-    base: '../frame' //静态资源所在路径
+    base: '/frame/'//静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
   }).use('index');
-  </script>
-  
-  <!-- 百度统计 -->
-  <script>
-  var _hmt = _hmt || [];
-  (function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?d214947968792b839fd669a4decaaffc";
-    var s = document.getElementsByTagName("script")[0]; 
-    s.parentNode.insertBefore(hm, s);
-  })();
   </script>
 </body>
 </html>
