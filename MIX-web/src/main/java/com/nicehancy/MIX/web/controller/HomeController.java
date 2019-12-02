@@ -33,7 +33,7 @@ public class HomeController {
      */
     @GetMapping("/login")
     public ModelAndView login(String error){
-        ModelAndView modelAndView = new ModelAndView("/user/login");
+        ModelAndView modelAndView = new ModelAndView("user/login");
         modelAndView.addObject("error", error);
         return modelAndView;
     }
@@ -44,7 +44,7 @@ public class HomeController {
      */
     @RequestMapping("/home/homepage")
     public ModelAndView homepage(){
-        return new ModelAndView("/home/homepage");
+        return new ModelAndView("home/homepage");
     }
 
     /**
@@ -53,6 +53,6 @@ public class HomeController {
      */
     @RequestMapping("/home/console")
     public ModelAndView console(){
-        return new ModelAndView("/home/console");
+        return new ModelAndView("home/console");
     }
 }

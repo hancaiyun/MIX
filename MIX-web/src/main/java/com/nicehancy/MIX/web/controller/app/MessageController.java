@@ -21,7 +21,7 @@ public class MessageController{
      */
     @RequestMapping("/message/page")
     public ModelAndView index(){
-        return new ModelAndView("/app/message/index");
+        return new ModelAndView("app/message/index");
     }
 
     /**
@@ -30,6 +30,6 @@ public class MessageController{
      */
     @RequestMapping("/message/detail")
     public ModelAndView detail(){
-        return new ModelAndView("/app/message/detail");
+        return new ModelAndView("app/message/detail");
     }
 }

@@ -21,7 +21,7 @@ public class UserController {
      */
     @RequestMapping("/user/info")
     public ModelAndView info(){
-        return new ModelAndView("/set/user/info");
+        return new ModelAndView("set/user/info");
     }
 
     /**
@@ -30,6 +30,6 @@ public class UserController {
      */
     @RequestMapping("/user/password")
     public ModelAndView password(){
-        return new ModelAndView("/set/user/password");
+        return new ModelAndView("set/user/password");
     }
 }

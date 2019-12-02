@@ -23,16 +23,16 @@ public class MyErrorController implements ErrorController {
         if(statusCode == 401){
             return "/401";
         }else if(statusCode == 404){
-            return "/template/tips/404";
+            return "template/tips/404";
         }else if(statusCode == 403){
             return "/403";
         }else{
-            return "/template/tips/error";
+            return "template/tips/error";
         }
     }
 
     @Override
     public String getErrorPath() {
-        return "/template/tips/error";
+        return "template/tips/error";
     }
 }

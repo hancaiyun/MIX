@@ -18,7 +18,7 @@
 	</parent>
 	<groupId>com.nicehancy</groupId>
 	<artifactId>MIX</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>MIX</name>
 	<description>A project for that i think about，also，a  web</description>
 

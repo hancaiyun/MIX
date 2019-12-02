@@ -21,6 +21,6 @@ public class SearchController {
      */
     @RequestMapping("/search")
     public ModelAndView info(){
-        return new ModelAndView("/template/search");
+        return new ModelAndView("template/search");
     }
 }
