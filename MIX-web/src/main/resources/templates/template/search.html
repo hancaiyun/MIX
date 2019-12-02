@@ -1,16 +1,14 @@
-
-
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
   <title>搜索</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
-  <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
-  <link rel="stylesheet" href="../../layuiadmin/style/template.css" media="all">
+  <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all">
+  <link rel="stylesheet" th:href="@{/frame/style/admin.css}" media="all">
+  <link rel="stylesheet" th:href="@{/frame/style/template.css}" media="all">
 </head>
 <body>
 
@@ -36,7 +34,7 @@
               </li>
               <li>
                 <a href="" class="layui-serachlist-cover">
-                  <img src="../../layuiadmin/style/res/layui-logo.jpg">
+                  <img th:src="@{/frame/style/res/layui-logo.jpg}">
                 </a>
                 <div class="layui-serachlist-text">
                   <h3><a href="">layuiAdmin 成为国内颇受欢迎的通用后台模板解决方案</a></h3>
@@ -78,10 +76,10 @@
     </div>
   </div>
   
-  <script src="../../layuiadmin/layui/layui.js"></script>  
+  <script th:src="@{/frame/layui/layui.js}"></script>
   <script>
   layui.config({
-    base: '../../layuiadmin/' //静态资源所在路径
+    base: '../frame/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index', 'laypage'], function(){

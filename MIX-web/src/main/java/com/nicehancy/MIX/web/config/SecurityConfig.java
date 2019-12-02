@@ -56,8 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //http.sessionManagement().maximumSessions(1).expiredSessionStrategy(expiredSessionStrategy());
         //单用户登录，如果有一个登录了，同一个用户在其他地方不能登录
         http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true);
-        //退出时清空cookies
-        http.logout().deleteCookies("JSESSIONID");
+        //自定义退出页，退出时清空cookies并跳转到登录页
+        http.logout().logoutSuccessUrl("/login").deleteCookies("JSESSIONID");
         //解决中文乱码问题
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");

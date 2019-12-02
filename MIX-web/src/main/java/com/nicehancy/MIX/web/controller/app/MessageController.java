@@ -23,4 +23,13 @@ public class MessageController{
     public ModelAndView index(){
         return new ModelAndView("/app/message/index");
     }
+
+    /**
+     * 消息中心详情页面
+     * @return      默认页视图
+     */
+    @RequestMapping("/message/detail")
+    public ModelAndView detail(){
+        return new ModelAndView("/app/message/detail");
+    }
 }

@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all">
   <link rel="stylesheet" th:href="@{/frame/style/admin.css}" media="all">
-  <link rel="icon" th:href="@{/frame/layui/images/MIX_2.png}">
+  <link rel="icon" th:href="@{/frame/layui/images/MIX.png}">
 </head>
 <body class="layui-layout-body">
   <div id="LAY_app">
@@ -32,7 +32,8 @@
             </a>
           </li>
           <li class="layui-nav-item layui-hide-xs" lay-unselect>
-            <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search.html?keywords="> 
+            <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search"
+                   layadmin-event="serach" lay-action="search?keywords=">
           </li>
         </ul>
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
@@ -64,10 +65,10 @@
               <cite>韩旭</cite>
             </a>
             <dl class="layui-nav-child">
-              <dd><a lay-href="set/user/info.html">基本资料</a></dd>
-              <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+              <dd><a lay-href="user/info">基本资料</a></dd>
+              <dd><a lay-href="user/password">修改密码</a></dd>
               <hr>
-              <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+              <dd layadmin-event="logout" style="text-align:center;"><a>退出</a></dd>
             </dl>
           </li>
           
@@ -407,14 +408,14 @@
                 <dd class="layui-nav-itemed">
                   <a href="javascript:;">我的设置</a>
                   <dl class="layui-nav-child">
-                    <dd><a lay-href="set/user/info.html">基本资料</a></dd>
-                    <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+                    <dd><a lay-href="user/info">基本资料</a></dd>
+                    <dd><a lay-href="user/password">修改密码</a></dd>
                   </dl>
                 </dd>
               </dl>
             </li>
             <li data-name="get" class="layui-nav-item">
-              <a href="javascript:;" lay-href="//www.layui.com/admin/#get" lay-tips="授权" lay-direction="2">
+              <a href="javascript:;" lay-href="//www.baidu.com" lay-tips="授权" lay-direction="2">
                 <i class="layui-icon layui-icon-auz"></i>
                 <cite>授权</cite>
               </a>
@@ -441,7 +442,7 @@
         </div>
         <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
           <ul class="layui-tab-title" id="LAY_app_tabsheader">
-            <li lay-id="home/console.html" lay-attr="home/console.html" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
+            <li lay-id="home/console" lay-attr="home/console" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
           </ul>
         </div>
       </div>
