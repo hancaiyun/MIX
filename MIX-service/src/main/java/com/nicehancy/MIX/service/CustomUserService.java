@@ -29,6 +29,9 @@ public class CustomUserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         log.info("call CustomUserService loadUserByUsername, parameter:{}", username);
+        if(!"user".equals(username)){
+            throw new RuntimeException("用户不存在！");
+        }
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         //用于添加用户的权限。只要把用户权限添加到authorities
         authorities.add(new SimpleGrantedAuthority("ADMIN"));
