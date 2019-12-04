@@ -1,14 +1,12 @@
-
-
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
   <title>layuiAdmin 角色管理 iframe 框</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all">
 </head>
 <body>
 
@@ -19,11 +17,10 @@
         <select name="rolename">
           <option value="0">管理员</option>
           <option value="1">超级管理员</option>
-          <option value="2">纠错员</option>
-          <option value="3">采购员</option>
-          <option value="4">推销员</option>
-          <option value="5">运营人员</option>
-          <option value="6">编辑</option>
+          <option value="2">开发人员</option>
+          <option value="3">测试人员</option>
+          <option value="4">运营人员</option>
+          <option value="5">编辑</option>
         </select>
       </div>
     </div>
@@ -32,12 +29,11 @@
       <div class="layui-input-block">
         <input type="checkbox" name="limits[]" lay-skin="primary" title="内容系统">
         <input type="checkbox" name="limits[]" lay-skin="primary" title="社区系统">
-        <input type="checkbox" name="limits[]" lay-skin="primary" title="用户">
-        <input type="checkbox" name="limits[]" lay-skin="primary" title="角色">
+        <input type="checkbox" name="limits[]" lay-skin="primary" title="用户管理">
+        <input type="checkbox" name="limits[]" lay-skin="primary" title="角色管理">
         <input type="checkbox" name="limits[]" lay-skin="primary" title="评论审核">
-        <input type="checkbox" name="limits[]" lay-skin="primary" title="发货">
-        <input type="checkbox" name="limits[]" lay-skin="primary" title="采购">
         <input type="checkbox" name="limits[]" lay-skin="primary" title="系统设置">
+        <input type="checkbox" name="limits[]" lay-skin="primary" title="IM">
         <input type="checkbox" name="limits[]" lay-skin="primary" title="发邮件">
         <input type="checkbox" name="limits[]" lay-skin="primary" title="发短信">
         <input type="checkbox" name="limits[]" lay-skin="primary" title="审核">
@@ -55,10 +51,10 @@
     </div>
   </div>
 
-  <script src="../../../layuiadmin/layui/layui.js"></script>  
+  <script th:src="@{/frame/layui/layui.js}"></script>
   <script>
   layui.config({
-    base: '../../../layuiadmin/' //静态资源所在路径
+    base: '../../frame/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index', 'form'], function(){

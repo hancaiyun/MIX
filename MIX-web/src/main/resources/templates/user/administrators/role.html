@@ -1,15 +1,13 @@
-
-
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
   <title>layuiAdmin 角色管理</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
-  <link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+  <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all">
+  <link rel="stylesheet" th:href="@{/frame/style/admin.css}" media="all">
 </head>
 <body>
 
@@ -25,11 +23,10 @@
               <option value="-1">全部角色</option>
               <option value="0">管理员</option>
               <option value="1">超级管理员</option>
-              <option value="2">纠错员</option>
-              <option value="3">采购员</option>
-              <option value="4">推销员</option>
-              <option value="5">运营人员</option>
-              <option value="6">编辑</option>
+              <option value="2">开发人员</option>
+              <option value="3">测试人员</option>
+              <option value="4">运营人员</option>
+              <option value="5">编辑</option>
             </select>
           </div>
         </div>
@@ -56,10 +53,10 @@
     </div>
   </div>
 
- <script src="../../../layuiadmin/layui/layui.js"></script>  
+ <script th:src="@{/frame/layui/layui.js}"></script>
   <script>
   layui.config({
-    base: '../../../layuiadmin/' //静态资源所在路径
+    base: '../../frame/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index', 'useradmin', 'table'], function(){
@@ -104,7 +101,7 @@
         layer.open({
           type: 2
           ,title: '添加新角色'
-          ,content: 'roleform.html'
+          ,content: 'roleform'
           ,area: ['500px', '480px']
           ,btn: ['确定', '取消']
           ,yes: function(index, layero){
