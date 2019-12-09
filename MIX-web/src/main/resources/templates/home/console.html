@@ -9,8 +9,8 @@
   <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all">
   <link rel="stylesheet" th:href="@{/frame/style/admin.css}" media="all">
 </head>
+<script th:src="@{/frame/layui/layui.js}"></script>
 <body>
-  
   <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
       <div class="layui-col-md8">
@@ -146,7 +146,7 @@
                   <td>基于框架</td>
                   <td>
                     <script type="text/html" template>
-                      layui-v{{ layui.v }}
+                      layui-v{{layui.v}}
                     </script>
                     </br>SpringBoot 2.0
                     </br>thymeleaf
@@ -156,6 +156,22 @@
                 <tr>
                   <td>主要特色</td>
                   <td>一体化 / 适用 / 极简</td>
+                </tr>
+                <tr>
+                  <!-- 时间倒计时 -->
+                  <div id="test"></div>
+                  <script>
+                    layui.use('util', function(){
+                      var util = layui.util;
+                      //示例
+                      var endTime = new Date(2020,1,1).getTime() //假设为结束日期
+                              ,serverTime = new Date().getTime(); //假设为当前服务器时间，这里采用的是本地时间，实际使用一般是取服务端的
+                      util.countdown(endTime, serverTime, function(date, serverTime, timer){
+                        var str = date[0] + '天' + date[1] + '时' +  date[2] + '分' + date[3] + '秒';
+                        layui.$('#test').html('距离2020年1月1日还有：'+ str);
+                      });
+                    });
+                  </script>
                 </tr>
               </tbody>
             </table>
@@ -184,7 +200,6 @@
     </div>
   </div>
 
-  <script th:src="@{/frame/layui/layui.js}"></script>
   <script>
   layui.config({
     base: '../../frame/' //静态资源所在路径

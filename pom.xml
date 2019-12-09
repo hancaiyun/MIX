@@ -9,7 +9,8 @@
 		<module>MIX-manager</module>
 		<module>MIX-dal</module>
 		<module>MIX-common</module>
-	</modules>
+        <module>MIX-service-api</module>
+    </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -24,6 +25,10 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<oval.version>1.81</oval.version>
+		<validation-api.version>1.1.0.Final</validation-api.version>
+<!--		<commons-fileupload.ersion>1.4</commons-fileupload.ersion>-->
+<!--		<commons-cellection.version>3.2.2</commons-cellection.version>-->
 	</properties>
 
 	<dependencies>
@@ -85,5 +90,30 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<!-- oval -->
+		<dependency>
+			<groupId>net.sf.oval</groupId>
+			<artifactId>oval</artifactId>
+			<version>${oval.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${validation-api.version}</version>
+		</dependency>
+
+<!--		&lt;!&ndash; https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>commons-fileupload</groupId>-->
+<!--			<artifactId>commons-fileupload</artifactId>-->
+<!--			<version>${commons-fileupload.ersion}</version>-->
+<!--		</dependency>-->
+<!--		&lt;!&ndash; https://mvnrepository.com/artifact/commons-collections/commons-collections &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>commons-collections</groupId>-->
+<!--			<artifactId>commons-collections</artifactId>-->
+<!--			<version>${commons-cellection.version}</version>-->
+<!--		</dependency>-->
 	</dependencies>
 </project>

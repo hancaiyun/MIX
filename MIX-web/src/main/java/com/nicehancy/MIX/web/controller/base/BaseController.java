@@ -17,7 +17,7 @@ import java.util.Map;
  * @since 2019/4/11 19:55
  **/
 @Controller
-@RequestMapping("/base")
+@RequestMapping
 public class BaseController extends AbstractController{
 
     //通用内容此处增加
