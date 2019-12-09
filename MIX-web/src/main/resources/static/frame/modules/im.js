@@ -63,7 +63,7 @@ layui.define(['index', 'layim'], function(exports){
     
     //,brief: true //是否简约模式（若开启则不显示主面板）
     
-    //,title: 'WebIM' //自定义主面板最小化时的标题
+    ,title: 'IM' //自定义主面板最小化时的标题
     //,right: '100px' //主面板相对浏览器右侧距离
     //,minRight: '90px' //聊天面板最小化时相对浏览器右侧距离
     ,initSkin: '3.jpg' //1-5 设置初始背景

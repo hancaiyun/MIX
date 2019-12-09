@@ -84,7 +84,6 @@
 				}       
 				*/
 				//上传完毕回调
-				//假设code=0000代表上传成功
 				layer.close(layer.index);
 				if (res.code === "0000") {//此处只用于单文件图片的上传，若为多图片多文件请做其他处理
 					element.progress('upload_progress', '100%');
