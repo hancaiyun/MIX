@@ -12,9 +12,10 @@ import com.nicehancy.MIX.service.api.model.result.FileDownloadResultDTO;
 import com.nicehancy.MIX.service.api.model.result.FileUploadResultDTO;
 import com.nicehancy.MIX.service.convert.file.FileManagementDTOConvert;
 import lombok.extern.slf4j.Slf4j;
+import com.alibaba.dubbo.config.annotation.Service;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * 文件管理实现类
@@ -25,7 +26,8 @@ import org.springframework.stereotype.Service;
  * @since 2019/12/5 11:13
  **/
 @Slf4j
-@Service
+@Service(timeout = 3000)
+@Component("fileManagementServiceImpl")
 public class FileManagementServiceImpl implements FileManagementService {
 
     /**
@@ -60,8 +62,7 @@ public class FileManagementServiceImpl implements FileManagementService {
             log.error("call FileManagementService uploadFile Fail, exception:{}, result:{}", e, result);
             //异常信息包装
 
-            log.error("call FileManagementService " +
-                    " Fail,result:{}", result);
+            log.error("call FileManagementService Fail,result:{}", result);
         }finally {
             MDC.clear();
         }
