@@ -29,4 +29,5 @@ public interface FileManagementService {
      * @return                 下载结果
      */
     Result<FileDownloadResultDTO> downloadFile(FileDownloadRequestDTO requestDTO);
+
 }

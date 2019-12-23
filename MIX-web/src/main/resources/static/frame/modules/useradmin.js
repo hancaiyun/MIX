@@ -179,7 +179,7 @@ layui.define(['table', 'form'], function(exports){
       layer.open({
         type: 2
         ,title: '编辑角色'
-        ,content: '../../../views/user/administrators/roleform.html'
+        ,content: '../../../views/user/administrators/accountform.html'
         ,area: ['500px', '480px']
         ,btn: ['确定', '取消']
         ,yes: function(index, layero){
