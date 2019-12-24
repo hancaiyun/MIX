@@ -50,4 +50,15 @@ public class UnitTest extends BaseSpringTest {
         }
     }
 
+    /**
+     * hash碰撞数据
+     */
+    @Test
+    public void hashTest(){
+        System.out.println("atatatatatatatat".hashCode());
+        System.out.println("c6atatatatatatbU".hashCode());
+        System.out.println("atatatatatatbUat".hashCode());
+        System.out.println("c6c6c6c6c6c6bUat".hashCode());
+    }
+
 }
