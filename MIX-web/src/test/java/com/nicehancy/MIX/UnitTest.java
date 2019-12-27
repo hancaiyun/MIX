@@ -52,6 +52,7 @@ public class UnitTest extends BaseSpringTest {
 
     /**
      * hash碰撞数据
+     * 哈希算法：Times31
      */
     @Test
     public void hashTest(){
@@ -59,6 +60,12 @@ public class UnitTest extends BaseSpringTest {
         System.out.println("c6atatatatatatbU".hashCode());
         System.out.println("atatatatatatbUat".hashCode());
         System.out.println("c6c6c6c6c6c6bUat".hashCode());
+    }
+
+    @Test
+    public void ClassTest(){
+        
+        //UnitTest.class;
     }
 
 }
