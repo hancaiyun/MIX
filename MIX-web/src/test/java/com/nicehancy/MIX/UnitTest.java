@@ -52,7 +52,7 @@ public class UnitTest extends BaseSpringTest {
 
     /**
      * hash碰撞数据
-     * 哈希算法：Times31
+     * 哈希算法：Times31（java）
      */
     @Test
     public void hashTest(){
@@ -64,8 +64,7 @@ public class UnitTest extends BaseSpringTest {
 
     @Test
     public void ClassTest(){
-        
+
         //UnitTest.class;
     }
-
 }
