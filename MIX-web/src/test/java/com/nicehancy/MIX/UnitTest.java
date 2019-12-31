@@ -66,5 +66,7 @@ public class UnitTest extends BaseSpringTest {
     public void ClassTest(){
 
         //UnitTest.class;
+        ThreadLocal local = new ThreadLocal();
+        local.remove();
     }
 }
