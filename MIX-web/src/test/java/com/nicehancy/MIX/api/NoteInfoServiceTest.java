@@ -29,8 +29,8 @@ public class NoteInfoServiceTest extends BaseSpringTest {
     public void queryDirectoryTest(){
 
         DirectoryQueryReqDTO reqDTO = new DirectoryQueryReqDTO();
-        reqDTO.setUserNo("");
-
+        reqDTO.setUserNo("admin");
+        reqDTO.setPrimaryDirectory("1");
         reqDTO.setRequestSystem("CY");
         reqDTO.setTraceLogId(UUIDUtil.createNoByUUId());
         noteInfoService.queryDirectory(reqDTO);

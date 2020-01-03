@@ -5,8 +5,7 @@
     <title>MIX笔记管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all">
     <link rel="stylesheet" th:href="@{/frame/style/admin.css}" media="all">
 </head>
@@ -18,22 +17,16 @@
             <!--一级目录-->
             <label class="layui-form-label">目录索引</label>
             <div class="layui-input-block">
-                <div class="layui-inline">
-                    <select id="primaryDirectory" name="primaryDirectory">
-                        <option value="0">一级目录</option>
-                    </select>
+                <div class="layui-inline" >
+                    <select id="primaryDirectory" name="primaryDirectory" onChange="querySecondDirectory()"></select>
                 </div>
                 <!--二级目录-->
                 <div class="layui-inline">
-                    <select id="secondaryDirectory" name="secondaryDirectory">
-                        <option value="0">二级目录</option>
-                    </select>
+                    <select id="secondaryDirectory" name="secondaryDirectory"></select>
                 </div>
                 <!--文件名-->
                 <div class="layui-inline">
-                    <select id="fileName" name="fileName">
-                        <option value="0">文件名</option>
-                    </select>
+                    <select id="fileName" name="fileName"></select>
                 </div>
                 <!--触发查询-->
                 <div class="layui-inline">
@@ -59,46 +52,55 @@
         </div>
     </div>
 </div>
-</div>
 
 <script th:src="@{/frame/layui/layui.js}"></script>
 <!--预加载-->
 <script>
     //根据用户ID查询用户笔记目录树
     //缓存中获取用户ID
-    window.onload=function(){
-      var $ = layui.jquery;
-      //请求查询
-      $.ajax({
-        url: '/note/notemanage/queryPrimaryDirectory',
-        data:{"userNo": window.localStorage["userNo"]},
-        dataType: 'json',//数据类型
-        type: 'GET',//类型
-        timeout: 3000,//超时
-        //请求成功
-        success: function (res) {
-          if (res.code === "0000") {
-            //拼接目录一
-            layer.msg("请求成功");
-          } else {
-            layer.open({
-              title: '提示信息'
-              , content: '笔记目录查询失败，失败原因：' + res.data.msg
-            });
-          }
-        },
-        //失败/超时
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-          if (textStatus === 'timeout') {
-            layer.error('网络异常');
-            setTimeout(function () {
-              layer.msg('正在重新请求');
-            }, 3000);
-          }
-          alert(errorThrown);
-        }
-      });
-
+    window.onload = function () {
+        var $ = layui.jquery;
+        //请求查询
+        $.ajax({
+            url: '/note/notemanage/queryDirectory',
+            data: {"userNo": window.localStorage["userNo"]},
+            dataType: 'json',//数据类型
+            type: 'GET',//类型
+            timeout: 3000,//超时
+            //请求成功
+            success: function (res) {
+                if (res.code === "0000") {
+                    //拼接一级目录
+                    //默认栏
+                    var html = "<option value=\"0\">请选择</option>\n";
+                    var directoryList = res.data;
+                    if (directoryList == null) {
+                        return;
+                    }
+                    //循环目录列表设置目录
+                    for (var i = 0; i < directoryList.length; i++) {
+                        var primaryDirectory = directoryList[i];
+                        html = html + "<option value=\"" + primaryDirectory + "\">" + primaryDirectory + "</option>\n";
+                    }
+                    document.getElementById("primaryDirectory").innerHTML = html;
+                } else {
+                    layer.open({
+                        title: '提示信息'
+                        , content: '笔记目录查询失败，失败原因：' + res.data.msg
+                    });
+                }
+            },
+            //失败/超时
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                if (textStatus === 'timeout') {
+                    layer.error('网络异常');
+                    setTimeout(function () {
+                        layer.msg('正在重新请求');
+                    }, 3000);
+                }
+                alert(errorThrown);
+            }
+        });
     };
 </script>
 
@@ -110,7 +112,18 @@
         var $ = layui.jquery;
         //建立编辑器
         var textarea = layedit.build('note-area', {height: 480});
+
     });
+</script>
+
+<script type="text/javascript">
+
+    //查询二级目录
+    function querySecondDirectory(){
+        //清空富文本内容
+        alert("联动二级目录");
+        //layedit.setContent(textarea, "");
+    }
 </script>
 </body>
 </html>

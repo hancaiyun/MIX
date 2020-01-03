@@ -54,6 +54,8 @@ public class NoteInfoServiceImpl implements NoteInfoService {
         }catch (Exception e){
             result.setErrorMsg(e.getMessage());
             log.error("call NoteInfoServiceImpl queryDirectory failed, message：e={}， result={}", e, result);
+        }finally {
+            MDC.clear();
         }
         return result;
     }

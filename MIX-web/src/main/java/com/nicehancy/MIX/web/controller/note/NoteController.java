@@ -1,12 +1,20 @@
 package com.nicehancy.MIX.web.controller.note;
 
+import com.nicehancy.MIX.common.Result;
+import com.nicehancy.MIX.service.api.model.request.note.DirectoryQueryReqDTO;
 import com.nicehancy.MIX.service.api.note.NoteInfoService;
+import com.nicehancy.MIX.web.controller.base.BaseController;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -17,8 +25,9 @@ import java.util.UUID;
  * @author hancaiyun
  * @since 2019/12/16 14:16
  **/
+@Slf4j
 @Controller
-public class NoteController {
+public class NoteController extends BaseController {
 
     @Autowired
     private NoteInfoService noteInfoService;
@@ -36,21 +45,26 @@ public class NoteController {
      * 查询一级目录列表
      * @return        一级目录列表
      */
-    @RequestMapping("/note/notemanage/queryPrimaryDirectory")
-    public ModelMap queryPrimary(){
+    @RequestMapping("/note/notemanage/queryDirectory")
+    @ResponseBody
+    public ModelMap queryDirectory(HttpServletRequest request){
         String traceLogId = UUID.randomUUID().toString();
         MDC.put("TRACE_LOG_ID", traceLogId);
-//        NoteQueryReqDTO reqDTO = new NoteQueryReqDTO();
-//        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
-//        reqDTO.setPrimaryDirectory(this.getParameters(request).get("primaryDirectory"));
-//        reqDTO.setDocumentId(this.getParameters(request).get("documentId"));
-//        reqDTO.setTraceLogId(traceLogId);
-
-        //log.info("AccountController pageQuery request PARAM: reqDTO={}", reqDTO);
-
-//        Result<List<NoteInfoDTO>> result =  noteService.queryNoteInfo(reqDTO);
-
-        return null;//this.processSuccessJSON("");
+        DirectoryQueryReqDTO reqDTO = new DirectoryQueryReqDTO();
+        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
+        reqDTO.setPrimaryDirectory(this.getParameters(request).get("primaryDirectory"));
+        reqDTO.setRequestSystem("SYSTEM");
+        reqDTO.setTraceLogId(traceLogId);
+        log.info("NoteController queryDirectory request PARAM: reqDTO={}", reqDTO);
+        Result<List<String>> result =  noteInfoService.queryDirectory(reqDTO);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap =  this.processSuccessJSON(result.getResult());
+        }else{
+            modelMap =  this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("NoteController queryDirectory result: {}", modelMap);
+        return modelMap;
     }
 
     /**
@@ -61,6 +75,7 @@ public class NoteController {
     public ModelMap pageQuery(){
         String traceLogId = UUID.randomUUID().toString();
         MDC.put("TRACE_LOG_ID", traceLogId);
+
 //        NoteQueryReqDTO reqDTO = new NoteQueryReqDTO();
 //        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
 //        reqDTO.setPrimaryDirectory(this.getParameters(request).get("primaryDirectory"));
