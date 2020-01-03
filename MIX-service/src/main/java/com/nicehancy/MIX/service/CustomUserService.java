@@ -1,10 +1,19 @@
 package com.nicehancy.MIX.service;
 
+import com.nicehancy.MIX.common.Result;
+import com.nicehancy.MIX.common.utils.PasswordUtil;
+import com.nicehancy.MIX.manager.model.UserInfoBO;
+import com.nicehancy.MIX.manager.user.UserInfoManager;
+import com.nicehancy.MIX.service.api.model.UserInfoDTO;
+import com.nicehancy.MIX.service.convert.user.UserInfoDTOConvert;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +30,9 @@ import java.util.List;
 @Service
 public class CustomUserService implements UserDetailsService {
 
+    @Autowired
+    private UserInfoManager userInfoManager;
+
     /**
      * 登陆验证时，通过username获取用户的所有权限信息
      * 并返回UserDetails放到spring的全局缓存SecurityContextHolder中，以供授权器使用
@@ -29,18 +41,106 @@ public class CustomUserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         log.info("call CustomUserService loadUserByUsername, parameter:{}", username);
-        if(!"user".equals(username)){
-            throw new RuntimeException("用户不存在！");
+        UserInfoBO user = userInfoManager.queryByUserName(username);
+        log.info("call CustomUserService loadUserByUsername result:{}", user);
+        if(user == null){
+            throw new RuntimeException("用户名不存在！");
         }
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         //用于添加用户的权限。只要把用户权限添加到authorities
-        authorities.add(new SimpleGrantedAuthority("ADMIN"));
+        authorities.add(new SimpleGrantedAuthority(user.getAuthCode()));
 
         MUserDetails userDetails = new MUserDetails();
-        userDetails.setUsername(username);
-        userDetails.setPassword("$2a$10$xDRS1CbwUGaT1QqasT5UU.G3Z7jKtcphSiE/pP0rqbDX87D7KYe4S");//1234
-
+        userDetails.setUsername(user.getUserName());
+        userDetails.setPassword(user.getPassword());
         userDetails.setAuthorities(authorities);
         return userDetails;
+    }
+
+    /**
+     * 新增用户请求
+     * @param userInfoDTO           用户信息DTO
+     * @param traceLogId            日志ID
+     * @return                      注册结果
+     */
+    public Result<Boolean> register(UserInfoDTO userInfoDTO, String traceLogId) {
+
+        Result<Boolean> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        try {
+            log.info("CustomUserService register request PARAM: userInfoDTO={}, traceLogId={}", userInfoDTO, traceLogId);
+            //查询用户是否已存在
+            UserInfoBO user = userInfoManager.queryByUserName(userInfoDTO.getUserNo());
+            if(user != null){
+                throw new RuntimeException("用户已存在！");
+            }
+            //密码加密，通过BCrypt
+            String password = userInfoDTO.getPassword();
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            userInfoDTO.setPassword(bCryptPasswordEncoder.encode(password));
+            boolean isOk = userInfoManager.addUser(UserInfoDTOConvert.getBOByDTO(userInfoDTO));
+            result.setResult(isOk);
+            log.info("CustomUserService register result: result={}", result);
+        }catch (Exception e){
+            result.setErrorCode("SYSTEM_ERROR");
+            result.setErrorMsg(e.getMessage());
+            log.error("CustomUserService register error: result={}, e={}", result, e);
+        }
+        return result;
+    }
+
+    /**
+     * 密码重置接口
+     * @param userNo                用户名
+     * @param traceLogId            日志ID
+     * @return                      邮箱
+     */
+    public Result<String> resetPassword(String userNo, String traceLogId) {
+
+        Result<String> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        try {
+            log.info("CustomUserService resetPassword request PARAM: userNo={}, traceLogId={}", userNo, traceLogId);
+
+            //密码加密，通过BCrypt
+            String password = PasswordUtil.randomPassword();
+            String email = userInfoManager.resetPassword(userNo, password);
+            result.setResult(email);
+            log.info("CustomUserService resetPassword result: result={}", result);
+        }catch (Exception e){
+            result.setErrorCode("SYSTEM_ERROR");
+            result.setErrorMsg(e.getMessage());
+            log.error("CustomUserService resetPassword error: result={}, e={}", result, e);
+        }
+        return result;
+    }
+
+    /**
+     * 密码修改接口
+     * @param userNo                用户名
+     * @param oldPassword           密码
+     * @param newPassword           新密码
+     * @param traceLogId            日志ID
+     * @return                      返回修改结果
+     */
+    public Result<Boolean> modifyPassword(String userNo, String oldPassword, String newPassword, String traceLogId) {
+
+        Result<Boolean> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        try{
+            log.info("CustomUserService modifyPassword request PARAM: userNo={}, oldPassword={}, newPassword={}, " +
+                    "traceLogId={}", userNo, oldPassword, newPassword, traceLogId);
+            //TODO 参数校验
+
+            //密码修改
+            boolean isModify = userInfoManager.modifyPassword(userNo, oldPassword, newPassword);
+            result.setResult(isModify);
+            log.error("CustomUserService modifyPassword success: result={}", result);
+        }catch (Exception e){
+            result.setErrorCode("SYSTEM_ERROR");
+            result.setErrorMsg(e.getMessage());
+            log.error("CustomUserService modifyPassword error: result={}, e={}", result, e);
+        }
+        return result;
     }
 }

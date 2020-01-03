@@ -1,8 +1,8 @@
 package com.nicehancy.MIX.service.api.file;
 
 import com.nicehancy.MIX.common.Result;
-import com.nicehancy.MIX.service.api.model.request.FileDownloadRequestDTO;
-import com.nicehancy.MIX.service.api.model.request.FileUploadRequestDTO;
+import com.nicehancy.MIX.service.api.model.request.file.FileDownloadRequestDTO;
+import com.nicehancy.MIX.service.api.model.request.file.FileUploadRequestDTO;
 import com.nicehancy.MIX.service.api.model.result.FileDownloadResultDTO;
 import com.nicehancy.MIX.service.api.model.result.FileUploadResultDTO;
 

@@ -62,8 +62,8 @@
             </a>
           </li>
           <li class="layui-nav-item" lay-unselect>
-            <a href="javascript:;">
-              <cite>韩旭</cite>
+            <a th:id="userno" href="javascript:;">
+<!--              <cite>我的空间</cite>-->
             </a>
             <dl class="layui-nav-child">
               <dd><a lay-href="user/info">基本资料</a></dd>
@@ -255,6 +255,13 @@
   }).extend({
     index: 'lib/index' //主入口模块
   }).use('index');
+  </script>
+  <script type="text/javascript">
+    <!-- 本地缓存中获取用户名并设置到指定位置 -->
+    window.onload=function(){
+      var storage = window.localStorage;//拼接用户前缀图标
+      document.getElementById("userno").innerHTML = "<cite><i class='layui-icon'>&#xe66f;</i>" + storage["userNo"] + "</cite>";
+    }
   </script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.nicehancy.MIX.web.controller.note;
 
+import com.nicehancy.MIX.service.api.note.NoteInfoService;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,9 @@ import java.util.UUID;
 @Controller
 public class NoteController {
 
+    @Autowired
+    private NoteInfoService noteInfoService;
+
     /**
      * 主页面
      * @return      主页视图
@@ -25,6 +30,27 @@ public class NoteController {
     @RequestMapping("/note/notemanage/page")
     public ModelAndView mainPage(){
         return new ModelAndView("note/notemanage/page");
+    }
+
+    /**
+     * 查询一级目录列表
+     * @return        一级目录列表
+     */
+    @RequestMapping("/note/notemanage/queryPrimaryDirectory")
+    public ModelMap queryPrimary(){
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+//        NoteQueryReqDTO reqDTO = new NoteQueryReqDTO();
+//        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
+//        reqDTO.setPrimaryDirectory(this.getParameters(request).get("primaryDirectory"));
+//        reqDTO.setDocumentId(this.getParameters(request).get("documentId"));
+//        reqDTO.setTraceLogId(traceLogId);
+
+        //log.info("AccountController pageQuery request PARAM: reqDTO={}", reqDTO);
+
+//        Result<List<NoteInfoDTO>> result =  noteService.queryNoteInfo(reqDTO);
+
+        return null;//this.processSuccessJSON("");
     }
 
     /**

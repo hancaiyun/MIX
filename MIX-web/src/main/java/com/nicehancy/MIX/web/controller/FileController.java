@@ -2,13 +2,12 @@ package com.nicehancy.MIX.web.controller;
 
 import com.nicehancy.MIX.common.Result;
 import com.nicehancy.MIX.service.api.file.FileManagementService;
-import com.nicehancy.MIX.service.api.model.request.FileUploadRequestDTO;
+import com.nicehancy.MIX.service.api.model.request.file.FileUploadRequestDTO;
 import com.nicehancy.MIX.service.api.model.result.FileUploadResultDTO;
 import com.nicehancy.MIX.web.controller.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;

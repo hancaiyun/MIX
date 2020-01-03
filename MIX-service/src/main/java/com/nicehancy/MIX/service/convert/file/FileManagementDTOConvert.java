@@ -1,7 +1,7 @@
 package com.nicehancy.MIX.service.convert.file;
 
 import com.nicehancy.MIX.manager.model.FileUploadRequestBO;
-import com.nicehancy.MIX.service.api.model.request.FileUploadRequestDTO;
+import com.nicehancy.MIX.service.api.model.request.file.FileUploadRequestDTO;
 
 /**
  * 文件管理DTO模型转换类

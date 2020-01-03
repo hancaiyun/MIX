@@ -1,0 +1,113 @@
+package com.nicehancy.MIX.manager.user;
+
+import com.nicehancy.MIX.common.enums.SensitiveTypeEnum;
+import com.nicehancy.MIX.common.utils.MaskUtil;
+import com.nicehancy.MIX.common.utils.SendEmailUtil;
+import com.nicehancy.MIX.dal.UserInfoRepository;
+import com.nicehancy.MIX.manager.convert.UserInfoBOConvert;
+import com.nicehancy.MIX.manager.model.UserInfoBO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+/**
+ * 用户管理manager
+ * <p>
+ * <p/>
+ *
+ * @author hancaiyun
+ * @since 2020/1/2 20:01
+ **/
+@Component
+public class UserInfoManager {
+
+    @Autowired
+    private UserInfoRepository userInfoRepository;
+
+    /**
+     * 根据用户名查询用户信息
+     * @param userNo          账号
+     * @return                用户信息
+     */
+    public UserInfoBO queryByUserName(String userNo) {
+
+        return UserInfoBOConvert.getBOByDO(userInfoRepository.queryByUserNo(userNo));
+    }
+
+    /**
+     * 注册用户
+     * @param userInfoBO      用户信息
+     * @return                结果
+     */
+    public boolean addUser(UserInfoBO userInfoBO) {
+
+        userInfoRepository.addUser(UserInfoBOConvert.getDOByBO(userInfoBO));
+        return true;
+    }
+
+    /**
+     * 更新用户密码
+     * @param userNo           用户名
+     * @param password         密码明文
+     * @return                 邮箱
+     */
+    public String resetPassword(String userNo, String password) {
+
+        //查询用户信息
+        UserInfoBO user = queryByUserName(userNo);
+        if(user == null){
+            throw new RuntimeException("用户不存在！");
+        }
+        if(StringUtils.isEmpty(user.getEMail())){
+            throw new RuntimeException("用户邮箱信息有误！");
+        }
+
+        //重置密码
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String encodePassword = bCryptPasswordEncoder.encode(password);
+        userInfoRepository.resetPassword(userNo, encodePassword);
+
+        //异步发送邮件通知
+        new Thread(() -> {
+            String subject = "密码重置提醒";
+            String content = "您的密码已重置, 重置后的密码为：" + password;
+            SendEmailUtil.sendEmail(subject, content, user.getEMail());
+        }).start();
+
+        //返回邮箱，掩码处理
+        return MaskUtil.getMask(SensitiveTypeEnum.EMAIL.getCode(), user.getEMail());
+    }
+
+    /**
+     * 修改密码
+     * @param userNo            用户名
+     * @param oldPassword       原密码
+     * @param newPassword       新密码
+     * @return                  修改结果
+     */
+    public boolean modifyPassword(String userNo, String oldPassword, String newPassword) {
+
+        //查询用户信息
+        UserInfoBO user = queryByUserName(userNo);
+        if(user == null){
+            throw new RuntimeException("用户不存在！");
+        }
+
+        //密码无效性修改校验
+        if(oldPassword.equals(newPassword)){
+            throw new RuntimeException("新密码与原密码一样，无需修改！");
+        }
+
+        //原密码比对
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        if(!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())){
+            throw new RuntimeException("原密码错误！");
+        }
+
+        //更新密码
+        userInfoRepository.resetPassword(userNo, bCryptPasswordEncoder.encode(newPassword));
+
+        return true;
+    }
+}

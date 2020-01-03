@@ -1,4 +1,4 @@
-package com.nicehancy.MIX.service.api.model.request;
+package com.nicehancy.MIX.service.api.model.request.file;
 
 import com.nicehancy.MIX.service.api.model.base.BaseReqDTO;
 import lombok.Getter;
