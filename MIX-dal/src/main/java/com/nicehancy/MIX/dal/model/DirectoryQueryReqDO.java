@@ -2,22 +2,21 @@ package com.nicehancy.MIX.dal.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
- * 笔记查询请求对象
+ * 笔记目录查询请求参数
  * <p>
  * <p/>
  *
  * @author hancaiyun
- * @since 2019/11/13 19:41
+ * @since 2020/1/6 15:09
  **/
 @Getter
 @Setter
-public class NoteQueryReqDO {
+public class DirectoryQueryReqDO {
 
     /**
-     * 用户名（登录名）
+     * 用户账号
      */
     private String userNo;
 
@@ -27,13 +26,14 @@ public class NoteQueryReqDO {
     private String primaryDirectory;
 
     /**
+     * 是否查询一级目录下的笔记名列表
+     * Y-是
+     * N/null-否
+     */
+    private String fileInPrimary;
+
+    /**
      * 二级目录名
      */
     private String secondaryDirectory;
-
-    /**
-     * 文档名
-     */
-    private String documentName;
-
 }

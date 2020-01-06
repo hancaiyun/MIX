@@ -1,6 +1,7 @@
 package com.nicehancy.MIX.dal;
 
 
+import com.nicehancy.MIX.dal.model.DirectoryQueryReqDO;
 import com.nicehancy.MIX.dal.model.NoteInfoDO;
 import com.nicehancy.MIX.dal.model.NoteQueryReqDO;
 
@@ -18,11 +19,10 @@ public interface NoteInfoRepository {
 
     /**
      *  目录列表查询
-     * @param userNo                 用户名
-     * @param primaryDirectory       一级目录名
-     * @return                       一级目录列表或者二级目录列表
+     * @param reqDO                  请求DO
+     * @return                       一级目录列表或者二级目录列表或者一级目录下笔记列表
      */
-    List<NoteInfoDO> queryDirectory(String userNo, String primaryDirectory);
+    List<NoteInfoDO> queryDirectory(DirectoryQueryReqDO reqDO);
 
     /**
      * 查询文档

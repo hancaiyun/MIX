@@ -1,11 +1,12 @@
 package com.nicehancy.MIX.manager.convert;
 
+import com.nicehancy.MIX.dal.model.DirectoryQueryReqDO;
 import com.nicehancy.MIX.dal.model.NoteInfoDO;
 import com.nicehancy.MIX.dal.model.NoteQueryReqDO;
+import com.nicehancy.MIX.manager.model.DirectoryQueryReqBO;
 import com.nicehancy.MIX.manager.model.NoteInfoBO;
 import com.nicehancy.MIX.manager.model.NoteQueryReqBO;
 import org.springframework.util.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,8 +113,29 @@ public class NoteInfoBOConvert {
         NoteQueryReqDO noteQueryReqDO = new NoteQueryReqDO();
         noteQueryReqDO.setUserNo(reqBO.getUserNo());
         noteQueryReqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
-        noteQueryReqDO.setDocumentId(reqBO.getDocumentId());
+        noteQueryReqDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+        noteQueryReqDO.setDocumentName(reqBO.getDocumentName());
 
         return noteQueryReqDO;
+    }
+
+    /**
+     * 请求BO转DO
+     * @param reqBO         BO
+     * @return              DO
+     */
+    public static DirectoryQueryReqDO getDOByBO(DirectoryQueryReqBO reqBO) {
+
+        if (reqBO == null) {
+            return null;
+        }
+
+        DirectoryQueryReqDO directoryQueryReqDO = new DirectoryQueryReqDO();
+        directoryQueryReqDO.setUserNo(reqBO.getUserNo());
+        directoryQueryReqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+        directoryQueryReqDO.setFileInPrimary(reqBO.getFileInPrimary());
+        directoryQueryReqDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+
+        return directoryQueryReqDO;
     }
 }

@@ -5,11 +5,7 @@ import com.nicehancy.MIX.dal.NoteInfoRepository;
 import com.nicehancy.MIX.dal.model.NoteInfoDO;
 import com.nicehancy.MIX.dal.model.NoteQueryReqDO;
 import com.nicehancy.MIX.manager.convert.NoteInfoBOConvert;
-import com.nicehancy.MIX.manager.model.NoteInfoBO;
-import com.nicehancy.MIX.manager.model.NoteManageReqBO;
-import com.nicehancy.MIX.manager.model.NoteQueryReqBO;
-import com.nicehancy.MIX.manager.model.NoteSaveReqBO;
-import io.netty.util.internal.StringUtil;
+import com.nicehancy.MIX.manager.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -34,19 +30,18 @@ public class NoteInfoManager {
 
     /**
      * 目录列表查询
-     * @param userNo            用户名
-     * @param primaryDirectory  一级目录名
-     * @return                  一级目录列表或者二级目录列表
+     * @param reqBO             请求BO
+     * @return                  一级目录列表或者二级目录列表或者文件列表
      */
-    public List<String> queryDirectory(String userNo, String primaryDirectory) {
+    public List<String> queryDirectory(DirectoryQueryReqBO reqBO) {
         List<String> list = new ArrayList<>();
-        List<NoteInfoDO> noteInfoDOS = noteRepository.queryDirectory(userNo, primaryDirectory);
+        List<NoteInfoDO> noteInfoDOS = noteRepository.queryDirectory(NoteInfoBOConvert.getDOByBO(reqBO));
         //结果为空
         if(CollectionUtils.isEmpty(noteInfoDOS)){
             return list;
         }else{
             //设置一级目录列表
-            if(StringUtils.isEmpty(primaryDirectory)){
+            if(StringUtils.isEmpty(reqBO.getPrimaryDirectory())){
                 for(NoteInfoDO noteInfoDO: noteInfoDOS){
                     list.add(noteInfoDO.getPrimaryDirectory());
                 }
@@ -54,7 +49,20 @@ public class NoteInfoManager {
             }
             //设置二级目录列表
             for(NoteInfoDO noteInfoDO: noteInfoDOS){
+                if(StringUtils.isEmpty(noteInfoDO.getSecondaryDirectory())){
+                    continue;
+                }
                 list.add(noteInfoDO.getSecondaryDirectory());
+                return list;
+            }
+            //设置文件名列表
+            if(!StringUtils.isEmpty(reqBO.getSecondaryDirectory())){
+                for(NoteInfoDO noteInfoDO: noteInfoDOS){
+                    if(StringUtils.isEmpty(noteInfoDO.getDocumentName())){
+                        continue;
+                    }
+                    list.add(noteInfoDO.getDocumentName());
+                }
             }
             return list;
         }
@@ -81,7 +89,7 @@ public class NoteInfoManager {
         NoteQueryReqDO reqDO = new NoteQueryReqDO();
         reqDO.setUserNo(reqBO.getUserNo());
         reqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
-        reqDO.setDocumentId(reqBO.getDocumentId());
+        //reqDO.setDocumentId(reqBO.getDocumentId());
         List<NoteInfoDO> noteInfoDOS = noteRepository.queryNoteInfo(reqDO);
         if(!CollectionUtils.isEmpty(noteInfoDOS)){
             //更新

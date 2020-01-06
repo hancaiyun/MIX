@@ -1,9 +1,9 @@
 package com.nicehancy.MIX.service.api.model.request.note;
 
+import com.nicehancy.MIX.service.api.model.base.BaseReqDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class NoteQueryReqDTO implements Serializable {
+public class NoteQueryReqDTO extends BaseReqDTO implements Serializable {
 
     /**
      * 序列化ID
@@ -41,14 +41,14 @@ public class NoteQueryReqDTO implements Serializable {
     private String primaryDirectory;
 
     /**
-     * 文档id
+     * 二级目录名
      */
-    private String documentId;
+    private String secondaryDirectory;
 
     /**
-     * 日志ID
+     * 文档名
      */
-    @NotEmpty(message = "日志ID不允许为空")
-    @NotNull(message = "日志ID不允许为空")
-    private String traceLogId;
+    @NotEmpty(message = "文档名不允许为空")
+    @NotNull(message = "文档名不允许为空")
+    private String documentName;
 }

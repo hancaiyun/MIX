@@ -35,7 +35,7 @@ public class NoteInfoServiceImpl implements NoteInfoService {
 
     /**
      * 目录列表查询接口
-     * 可查询一级目录列表或者二级目录列表
+     * 可查询一级目录列表或者二级目录列表或一级目录下文件列表
      * 注：仅能查询单级目录列表
      * @param reqDTO        请求参数
      * @return              返回结果
@@ -48,14 +48,12 @@ public class NoteInfoServiceImpl implements NoteInfoService {
         try{
             log.info("call NoteInfoServiceImpl queryDirectory param: reqDTO={}", reqDTO);
             //业务处理
-            List<String> list= noteInfoManager.queryDirectory(reqDTO.getUserNo(), reqDTO.getPrimaryDirectory());
+            List<String> list= noteInfoManager.queryDirectory(NoteDTOConvert.getBOByDTO(reqDTO));
             result.setResult(list);
             log.info("call NoteInfoServiceImpl queryDirectory result: {}", result);
         }catch (Exception e){
             result.setErrorMsg(e.getMessage());
             log.error("call NoteInfoServiceImpl queryDirectory failed, message：e={}， result={}", e, result);
-        }finally {
-            MDC.clear();
         }
         return result;
     }

@@ -24,9 +24,7 @@ public class FileManagementManager {
 
         //文件存储
 
-
         //文件路径更新
-
         FileUploadResultBO resultBO = new FileUploadResultBO();
         resultBO.setFileId("qeiqbaiudh1937219873");
         resultBO.setFileName("测试.PNG");

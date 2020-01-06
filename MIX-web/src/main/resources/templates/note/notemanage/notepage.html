@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>MIX笔记管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/frame/style/admin.css}" media="all">
+</head>
+<body>
+
+<div class="layui-card">
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+        <div class="layui-form-item">
+            <!--一级目录-->
+            <label class="layui-form-label">目录索引：</label>
+            <div class="layui-input-block">
+                <div class="layui-inline">
+                    <select id="primaryDirectory" lay-filter="primaryDirectory">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <!--二级目录-->
+                <div class="layui-inline">
+                    <select id="secondaryDirectory" lay-filter="secondaryDirectory">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <!--文件名-->
+                <div class="layui-inline">
+                    <select id="fileName" lay-filter="fileName">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <!--查询按钮-->
+<!--                <div class="layui-inline">-->
+<!--                    <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-user-front-search"-->
+<!--                            th:onclick="search()">-->
+<!--                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>-->
+<!--                    </button>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-card-body">
+        <!--操作栏-->
+        <div style="padding-bottom: 10px;">
+            <button class="layui-btn layuiadmin-btn-useradmin" data-type="save">保存</button>
+            <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">管理</button>
+            <button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
+        </div>
+        <!--富文本域-->
+        <div class="my-btn-box">
+            <label for="note-area"></label><textarea class="layui-form-item" id="note-area" style="display: none;">
+            </textarea>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/frame/layui/layui.js}"></script>
+<!--预加载-->
+<script>
+    //根据用户ID查询用户笔记目录树
+    //缓存中获取用户ID
+    window.onload = function () {
+        var $ = layui.jquery;
+        //请求查询
+        $.ajax({
+            url: '/note/notemanage/queryDirectory',
+            data: {"userNo": window.localStorage["userNo"]},
+            dataType: 'json',//数据类型
+            type: 'GET',//类型
+            timeout: 3000,//超时
+            //请求成功
+            success: function (res) {
+                if (res.code === "0000") {
+
+                    var directoryList = res.data;
+                    $.each(directoryList, function(index, item){
+                        //alert("参数打印：" + index + ";" + item);
+                        $("#primaryDirectory").append(new Option(item, item));
+                    });
+                    //重载select模块，否则不会展示
+                    layui.form.render("select");
+
+                } else {
+                    layer.open({
+                        title: '提示信息'
+                        , content: '笔记目录查询失败，失败原因：' + res.data.msg
+                    });
+                }
+            },
+            //失败/超时
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                if (textStatus === 'timeout') {
+                    layer.error('网络异常');
+                    setTimeout(function () {
+                        layer.msg('正在重新请求');
+                    }, 3000);
+                }
+                alert("失败原因：" + errorThrown);
+            }
+        });
+    };
+
+</script>
+
+<!--富文本域相关操作-->
+<script>
+    //初始化富文本域
+    layui.use('layedit', function () {
+        var layedit = layui.layedit;
+        //建立编辑器
+        var textarea = layedit.build('note-area', {height: 480});
+        //放入缓存，用于之后的更新操作
+        layui.data('session', {
+            key: 'textarea',
+            value: textarea
+        });
+    });
+</script>
+
+<!--联动菜单下拉框监听事件-->
+<script>
+    layui.use(['form','layer','layedit'], function () {
+        var $ = layui.jquery;
+        var form = layui.form;
+        var layer = layui.layer;
+        var layedit = layui.layedit;
+
+        //一级目录选中触发事件——查询二级目录列表
+        form.on('select(primaryDirectory)', function(data){
+
+            //清除二级目录与文件列表表单， 防止一直append
+            // document.getElementById("secondaryDirectory").remove();
+
+            //1、清空富文本内容
+            //2、获取data.value得到被选中的值
+            var primaryDirectory = data.value;
+            if(primaryDirectory === "" || primaryDirectory == null){
+                return;
+            }
+
+            //3、查询一级目录下面的二级目录以及文档列表
+            //3.1 查询二级目录列表并append option
+            //请求查询
+            $.ajax({
+                url: '/note/notemanage/queryDirectory',
+                data: {"userNo": window.localStorage["userNo"], "primaryDirectory": primaryDirectory},
+                dataType: 'json',//数据类型
+                type: 'GET',//类型
+                timeout: 3000,//超时
+                //请求成功
+                success: function (res) {
+                    if (res.code === "0000") {
+                        var directoryList = res.data;
+                        $.each(directoryList, function(index, item){
+                            $("#secondaryDirectory").append(new Option(item, item));
+                        });
+                        //重载select模块，否则不会展示
+                        layui.form.render("select");
+                    } else {
+                        layer.open({
+                            title: '提示信息'
+                            , content: '笔记目录查询失败，失败原因：' + res.data.msg
+                        });
+                    }
+                },
+                //失败/超时
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if (textStatus === 'timeout') {
+                        layer.error('网络异常');
+                        setTimeout(function () {
+                            layer.msg('正在重新请求');
+                        }, 3000);
+                    }
+                    layer.error("失败原因：" + errorThrown);
+                }
+            });
+
+            //3.2 查询一级目录下的笔记列表
+            //请求查询
+            $.ajax({
+                url: '/note/notemanage/queryDirectory',
+                data: {"userNo": window.localStorage["userNo"], "primaryDirectory": primaryDirectory, "isFileInPrimary" : true},
+                dataType: 'json',//数据类型
+                type: 'GET',//类型
+                timeout: 3000,//超时
+                //请求成功
+                success: function (res) {
+                    if (res.code === "0000") {
+                        var directoryList = res.data;
+                        $.each(directoryList, function(index, item){
+                            $("#fileName").append(new Option(item, item));
+                        });
+                        //重载select模块，否则不会展示
+                        layui.form.render("select");
+                    } else {
+                        layer.open({
+                            title: '提示信息'
+                            , content: '笔记目录查询失败，失败原因：' + res.data.msg
+                        });
+                    }
+                },
+                //失败/超时
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if (textStatus === 'timeout') {
+                        layer.error('网络异常');
+                        setTimeout(function () {
+                            layer.msg('正在重新请求');
+                        }, 3000);
+                    }
+                    layer.error("失败原因：" + errorThrown);
+                }
+            });
+        });
+
+        //二级目录选中触发事件——查询文件列表
+        form.on('select(secondaryDirectory)',function(data){
+
+            //data.value 得到被选中的值
+            var secondaryDirectory = data.value;
+            if(secondaryDirectory === "" || secondaryDirectory == null){
+                return;
+            }
+            //获取一级目录选中的值
+            var primaryDirectory = document.getElementById("primaryDirectory").value;
+            //清空富文本集内容
+
+            //查询文件名列表并append option
+            //请求查询
+            $.ajax({
+                url: '/note/notemanage/queryDirectory',
+                data: {"userNo": window.localStorage["userNo"], "primaryDirectory": primaryDirectory, "secondaryDirectory" : secondaryDirectory},
+                dataType: 'json',//数据类型
+                type: 'GET',//类型
+                timeout: 3000,//超时
+                //请求成功
+                success: function (res) {
+                    if (res.code === "0000") {
+                        var directoryList = res.data;
+                        $.each(directoryList, function(index, item){
+                            $("#fileName").append(new Option(item, item));
+                        });
+                        //重载select模块，否则不会展示
+                        layui.form.render("select");
+                    } else {
+                        layer.open({
+                            title: '提示信息'
+                            , content: '笔记目录查询失败，失败原因：' + res.data.msg
+                        });
+                    }
+                },
+                //失败/超时
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if (textStatus === 'timeout') {
+                        layer.error('网络异常');
+                        setTimeout(function () {
+                            layer.msg('正在重新请求');
+                        }, 3000);
+                    }
+                    layer.error("失败原因：" + errorThrown);
+                }
+            });
+
+        });
+
+        //文件列表点击触发事件——查询文件内容
+        form.on('select(fileName)',function(data){
+            //data.value 得到被选中的值
+            var fileName = data.value;
+            //获取一级目录名
+            var primaryDirectory = document.getElementById("primaryDirectory").value;
+            //获取二级目录名
+            var secondaryDirectory = document.getElementById("secondaryDirectory").value;
+            //清空富文本集内容
+
+            //查询文件内容
+            $.ajax({
+                url: '/note/notemanage/queryNoteInfo',
+                data: {"userNo": window.localStorage["userNo"],
+                       "primaryDirectory": primaryDirectory,
+                       "secondaryDirectory": secondaryDirectory,
+                       "fileName" : fileName},
+                dataType: 'json',//数据类型
+                type: 'GET',//类型
+                timeout: 3000,//超时
+                //请求成功
+                success: function (res) {
+                    if (res.code === "0000") {
+                        var noteContent = res.data;
+                        var session = layui.data("session");
+                        layedit.setContent(session.textarea, noteContent);
+                    } else {
+                        layer.open({
+                            title: '提示信息'
+                            , content: '笔记查询失败，失败原因：' + res.data.msg
+                        });
+                    }
+                },
+                //失败/超时
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if (textStatus === 'timeout') {
+                        layer.error('网络异常');
+                        setTimeout(function () {
+                            layer.msg('正在重新请求');
+                        }, 3000);
+                    }
+                    layer.error("失败原因：" + errorThrown);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,11 +1,9 @@
 package com.nicehancy.MIX.service.convert.note;
 
 
-import com.nicehancy.MIX.manager.model.NoteInfoBO;
-import com.nicehancy.MIX.manager.model.NoteManageReqBO;
-import com.nicehancy.MIX.manager.model.NoteQueryReqBO;
-import com.nicehancy.MIX.manager.model.NoteSaveReqBO;
+import com.nicehancy.MIX.manager.model.*;
 import com.nicehancy.MIX.service.api.model.NoteInfoDTO;
+import com.nicehancy.MIX.service.api.model.request.note.DirectoryQueryReqDTO;
 import com.nicehancy.MIX.service.api.model.request.note.NoteManageReqDTO;
 import com.nicehancy.MIX.service.api.model.request.note.NoteQueryReqDTO;
 import com.nicehancy.MIX.service.api.model.request.note.NoteSaveReqDTO;
@@ -89,7 +87,8 @@ public class NoteDTOConvert {
         NoteQueryReqBO noteQueryReqBO = new NoteQueryReqBO();
         noteQueryReqBO.setUserNo(reqDTO.getUserNo());
         noteQueryReqBO.setPrimaryDirectory(reqDTO.getPrimaryDirectory());
-        noteQueryReqBO.setDocumentId(reqDTO.getDocumentId());
+        noteQueryReqBO.setSecondaryDirectory(reqDTO.getSecondaryDirectory());
+        noteQueryReqBO.setDocumentName(reqDTO.getDocumentName());
         return noteQueryReqBO;
     }
     /**
@@ -129,5 +128,24 @@ public class NoteDTOConvert {
         noteManageReqBO.setDocumentName(reqDTO.getDocumentName());
 
         return noteManageReqBO;
+    }
+
+    /**
+     * 笔记目录查询DTO转换成BO
+     * @param reqDTO                请求DTO
+     * @return                      请求BO
+     */
+    public static DirectoryQueryReqBO getBOByDTO(DirectoryQueryReqDTO reqDTO) {
+
+        if (reqDTO == null) {
+            return null;
+        }
+
+        DirectoryQueryReqBO directoryQueryReqBO = new DirectoryQueryReqBO();
+        directoryQueryReqBO.setUserNo(reqDTO.getUserNo());
+        directoryQueryReqBO.setPrimaryDirectory(reqDTO.getPrimaryDirectory());
+        directoryQueryReqBO.setFileInPrimary(reqDTO.getFileInPrimary());
+        directoryQueryReqBO.setSecondaryDirectory(reqDTO.getSecondaryDirectory());
+        return directoryQueryReqBO;
     }
 }

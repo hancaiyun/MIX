@@ -3,6 +3,7 @@ package com.nicehancy.MIX.dal.impl;
 import com.nicehancy.MIX.common.enums.NoteStatusEnum;
 import com.nicehancy.MIX.common.utils.UUIDUtil;
 import com.nicehancy.MIX.dal.NoteInfoRepository;
+import com.nicehancy.MIX.dal.model.DirectoryQueryReqDO;
 import com.nicehancy.MIX.dal.model.NoteInfoDO;
 import com.nicehancy.MIX.dal.model.NoteQueryReqDO;
 import lombok.extern.slf4j.Slf4j;
@@ -33,19 +34,25 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
 
     /**
      * 目录列表查询
-     * @param userNo                 用户名
-     * @param primaryDirectory       一级目录名
+     * @param reqDO                  请求DO
      * @return                       目录列表
      */
     @Override
-    public List<NoteInfoDO> queryDirectory(String userNo, String primaryDirectory) {
+    public List<NoteInfoDO> queryDirectory(DirectoryQueryReqDO reqDO) {
 
         Query query = new Query();
         Criteria criteria = new Criteria();
-        criteria.and("userNo").is(userNo);
-        if(!StringUtils.isEmpty(primaryDirectory)) {
-            criteria.and("primaryDirectory").is(primaryDirectory);
+        criteria.and("userNo").is(reqDO.getUserNo());
+        if(!StringUtils.isEmpty(reqDO.getFileInPrimary())) {
+            criteria.and("primaryDirectory").is(reqDO.getPrimaryDirectory());
         }
+        if(!StringUtils.isEmpty(reqDO.getSecondaryDirectory())){
+            criteria.and("secondaryDirectory").is(reqDO.getSecondaryDirectory());
+        }
+        if("Y".equals(reqDO.getFileInPrimary())){
+            criteria.and("secondaryDirectory").is(null);
+        }
+
         criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
 
         query.addCriteria(criteria);
@@ -64,13 +71,13 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         Criteria criteria = new Criteria();
         criteria.and("userNo").is(reqDO.getUserNo());
         criteria.and("primaryDirectory").is(reqDO.getPrimaryDirectory());
+        if(StringUtils.isEmpty(reqDO.getSecondaryDirectory())){
+            criteria.and("secondaryDirectory").is(null);
+        }else{
+            criteria.and("secondaryDirectory").is(reqDO.getSecondaryDirectory());
+        }
+        criteria.and("documentName").is(reqDO.getDocumentName());
         criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
-        if(!StringUtils.isEmpty(reqDO.getDocumentId())) {
-            criteria.and("documentId").is(reqDO.getDocumentId());
-        }
-        if(!StringUtils.isEmpty(reqDO.getDocumentName())){
-            criteria.and("documentName").is(reqDO.getDocumentName());
-        }
 
         query.addCriteria(criteria);
         return mongoTemplate.find(query, NoteInfoDO.class);

@@ -36,4 +36,16 @@ public class DirectoryQueryReqDTO extends BaseReqDTO {
      * 一级目录名
      */
     private String primaryDirectory;
+
+    /**
+     * 是否查询一级目录下的笔记名列表
+     * Y-是
+     * N/null-否
+     */
+    private String fileInPrimary;
+
+    /**
+     * 二级目录名
+     */
+    private String secondaryDirectory;
 }
