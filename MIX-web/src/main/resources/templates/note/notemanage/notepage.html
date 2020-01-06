@@ -19,19 +19,19 @@
             <div class="layui-input-block">
                 <div class="layui-inline">
                     <select id="primaryDirectory" lay-filter="primaryDirectory" lay-verify="required">
-                        <option value="">请选择</option>
+                        <option value="">选择一级目录</option>
                     </select>
                 </div>
                 <!--二级目录-->
                 <div class="layui-inline">
                     <select id="secondaryDirectory" lay-filter="secondaryDirectory">
-                        <option value="">请选择</option>
+                        <option value="">选择二级目录</option>
                     </select>
                 </div>
                 <!--文件名-->
                 <div class="layui-inline">
                     <select id="fileName" lay-filter="fileName">
-                        <option value="">请选择</option>
+                        <option value="">选择文件</option>
                     </select>
                 </div>
                 <!--查询按钮-->
@@ -139,9 +139,6 @@
         //一级目录选中触发事件——查询二级目录列表
         form.on('select(primaryDirectory)', function(data){
 
-            //清除二级目录与文件列表表单， 防止一直append
-            // document.getElementById("secondaryDirectory").remove();
-
             //1、清空富文本内容
             //2、获取data.value得到被选中的值
             var primaryDirectory = data.value;
@@ -166,7 +163,7 @@
                             $("#secondaryDirectory").append(new Option(item, item));
                         });
                         //重载select模块，否则不会展示
-                        layui.form.render("select");
+                        form.render("select");
                     } else {
                         layer.open({
                             title: '提示信息'
@@ -202,7 +199,7 @@
                             $("#fileName").append(new Option(item, item));
                         });
                         //重载select模块，否则不会展示
-                        layui.form.render("select");
+                        form.render("select");
                     } else {
                         layer.open({
                             title: '提示信息'
@@ -251,7 +248,7 @@
                             $("#fileName").append(new Option(item, item));
                         });
                         //重载select模块，否则不会展示
-                        layui.form.render("select");
+                        form.render("select");
                     } else {
                         layer.open({
                             title: '提示信息'
