@@ -18,7 +18,7 @@
             <label class="layui-form-label">目录索引：</label>
             <div class="layui-input-block">
                 <div class="layui-inline">
-                    <select id="primaryDirectory" lay-filter="primaryDirectory">
+                    <select id="primaryDirectory" lay-filter="primaryDirectory" lay-verify="required">
                         <option value="">请选择</option>
                     </select>
                 </div>
@@ -79,10 +79,15 @@
                 if (res.code === "0000") {
 
                     var directoryList = res.data;
-                    $.each(directoryList, function(index, item){
-                        //alert("参数打印：" + index + ";" + item);
-                        $("#primaryDirectory").append(new Option(item, item));
-                    });
+                    var pri = document.getElementById("primaryDirectory");
+                    for(var i = 0; i<directoryList.length; i++){
+                        pri.options.add(new Option(directoryList[i], directoryList[i]));
+                    }
+
+                    // $.each(directoryList, function(index, item){
+                    //     //alert("参数打印：" + index + ";" + item);
+                    //     $("#primaryDirectory").append(new Option(item, item));
+                    // });
                     //重载select模块，否则不会展示
                     layui.form.render("select");
 
