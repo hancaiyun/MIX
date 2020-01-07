@@ -27,6 +27,11 @@ public class NoteManageReqBO {
     private String primaryDirectory;
 
     /**
+     * 二级目录名
+     */
+    private String secondaryDirectory;
+
+    /**
      * 操作类型
      * 增加-ADD
      * 删除-DELETE

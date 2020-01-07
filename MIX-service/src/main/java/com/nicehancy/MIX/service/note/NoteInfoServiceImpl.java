@@ -4,10 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.nicehancy.MIX.common.Result;
 import com.nicehancy.MIX.manager.note.NoteInfoManager;
 import com.nicehancy.MIX.service.api.model.NoteInfoDTO;
-import com.nicehancy.MIX.service.api.model.request.note.DirectoryQueryReqDTO;
-import com.nicehancy.MIX.service.api.model.request.note.NoteManageReqDTO;
-import com.nicehancy.MIX.service.api.model.request.note.NoteQueryReqDTO;
-import com.nicehancy.MIX.service.api.model.request.note.NoteSaveReqDTO;
+import com.nicehancy.MIX.service.api.model.request.note.*;
 import com.nicehancy.MIX.service.api.note.NoteInfoService;
 import com.nicehancy.MIX.service.convert.note.NoteDTOConvert;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +32,7 @@ public class NoteInfoServiceImpl implements NoteInfoService {
 
     /**
      * 目录列表查询接口
-     * 可查询一级目录列表或者二级目录列表或一级目录下文件列表
+     * 可查询一级目录列表或者二级目录列表
      * 注：仅能查询单级目录列表
      * @param reqDTO        请求参数
      * @return              返回结果
@@ -54,6 +51,28 @@ public class NoteInfoServiceImpl implements NoteInfoService {
         }catch (Exception e){
             result.setErrorMsg(e.getMessage());
             log.error("call NoteInfoServiceImpl queryDirectory failed, message：e={}， result={}", e, result);
+        }
+        return result;
+    }
+
+    /**
+     * 查询一级目录下文件列表
+     * @return               文件列表
+     */
+    @Override
+    public Result<List<String>> queryFileList(FileListReqDTO reqDTO) {
+
+        Result<List<String>> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", reqDTO.getTraceLogId());
+        try{
+            log.info("call NoteInfoServiceImpl queryFileList param: reqDTO={}", reqDTO);
+            //业务处理
+            List<String> list= noteInfoManager.queryFileList(NoteDTOConvert.getBOByDTO(reqDTO));
+            result.setResult(list);
+            log.info("call NoteInfoServiceImpl queryFileList result: {}", result);
+        }catch (Exception e){
+            result.setErrorMsg(e.getMessage());
+            log.error("call NoteInfoServiceImpl queryFileList failed, message：e={}， result={}", e, result);
         }
         return result;
     }
@@ -120,8 +139,8 @@ public class NoteInfoServiceImpl implements NoteInfoService {
         try{
             log.info("call NoteInfoServiceImpl manage param: reqDTO={}", reqDTO);
             //业务处理
-            boolean isDone = noteInfoManager.manage(NoteDTOConvert.getReqBOByDTO(reqDTO));
-            result.setResult(isDone);
+            Result<Boolean> res = noteInfoManager.manage(NoteDTOConvert.getReqBOByDTO(reqDTO));
+            result = res;
             log.info("call NoteInfoServiceImpl manage result: {}", result);
         }catch (Exception e){
             result.setErrorMsg(e.getMessage());

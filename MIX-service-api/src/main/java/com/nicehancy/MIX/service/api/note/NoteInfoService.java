@@ -2,10 +2,7 @@ package com.nicehancy.MIX.service.api.note;
 
 import com.nicehancy.MIX.common.Result;
 import com.nicehancy.MIX.service.api.model.NoteInfoDTO;
-import com.nicehancy.MIX.service.api.model.request.note.DirectoryQueryReqDTO;
-import com.nicehancy.MIX.service.api.model.request.note.NoteManageReqDTO;
-import com.nicehancy.MIX.service.api.model.request.note.NoteQueryReqDTO;
-import com.nicehancy.MIX.service.api.model.request.note.NoteSaveReqDTO;
+import com.nicehancy.MIX.service.api.model.request.note.*;
 
 import java.util.List;
 
@@ -26,6 +23,12 @@ public interface NoteInfoService {
      * @return
      */
     Result<List<String>> queryDirectory(DirectoryQueryReqDTO reqDTO);
+
+    /**
+     * 文档列表查询
+     * @return          文档列表
+     */
+    Result<List<String>> queryFileList(FileListReqDTO reqDTO);
 
     /**
      * 笔记查询

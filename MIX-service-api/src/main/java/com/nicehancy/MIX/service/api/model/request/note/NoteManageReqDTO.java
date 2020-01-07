@@ -41,6 +41,16 @@ public class NoteManageReqDTO implements Serializable {
     private String primaryDirectory;
 
     /**
+     * 二级目录名
+     */
+    private String secondaryDirectory;
+
+    /**
+     * 文档名称
+     */
+    private String documentName;
+
+    /**
      * 操作类型
      * 增加-ADD
      * 删除-DELETE
@@ -48,11 +58,6 @@ public class NoteManageReqDTO implements Serializable {
     @NotEmpty(message = "操作类型不允许为空")
     @NotNull(message = "操作类型不允许为空")
     private String operatorType;
-
-    /**
-     * 文档名称
-     */
-    private String documentName;
 
     /**
      * 日志ID

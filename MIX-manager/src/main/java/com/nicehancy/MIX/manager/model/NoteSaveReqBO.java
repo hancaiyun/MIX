@@ -26,9 +26,14 @@ public class NoteSaveReqBO {
     private String primaryDirectory;
 
     /**
-     * 文档id
+     * 二级目录
      */
-    private String documentId;
+    private String secondaryDirectory;
+
+    /**
+     * 文档名
+     */
+    private String documentName;
 
     /**
      * 笔记内容

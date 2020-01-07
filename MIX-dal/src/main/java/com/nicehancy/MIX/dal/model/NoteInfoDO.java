@@ -41,11 +41,6 @@ public class NoteInfoDO extends BaseDO {
     private String tertiaryDirectory;
 
     /**
-     * 文档id
-     */
-    private String documentId;
-
-    /**
      * 文档名
      */
     private String documentName;

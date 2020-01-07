@@ -1,19 +1,19 @@
-package com.nicehancy.MIX.dal.model;
+package com.nicehancy.MIX.manager.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 笔记目录查询请求参数
+ * 一级目录下文件列表查询请求DTO
  * <p>
  * <p/>
  *
  * @author hancaiyun
- * @since 2020/1/6 15:09
+ * @since 2020/1/3 10:37
  **/
 @Getter
 @Setter
-public class DirectoryQueryReqDO {
+public class FileListReqBO {
 
     /**
      * 用户账号
@@ -24,9 +24,4 @@ public class DirectoryQueryReqDO {
      * 一级目录名
      */
     private String primaryDirectory;
-
-    /**
-     * 二级目录名
-     */
-    private String secondaryDirectory;
 }

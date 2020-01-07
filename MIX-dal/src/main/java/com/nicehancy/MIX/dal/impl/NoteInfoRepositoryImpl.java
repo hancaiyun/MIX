@@ -4,6 +4,7 @@ import com.nicehancy.MIX.common.enums.NoteStatusEnum;
 import com.nicehancy.MIX.common.utils.UUIDUtil;
 import com.nicehancy.MIX.dal.NoteInfoRepository;
 import com.nicehancy.MIX.dal.model.DirectoryQueryReqDO;
+import com.nicehancy.MIX.dal.model.FileListReqDO;
 import com.nicehancy.MIX.dal.model.NoteInfoDO;
 import com.nicehancy.MIX.dal.model.NoteQueryReqDO;
 import lombok.extern.slf4j.Slf4j;
@@ -43,18 +44,31 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         Query query = new Query();
         Criteria criteria = new Criteria();
         criteria.and("userNo").is(reqDO.getUserNo());
-        if(!StringUtils.isEmpty(reqDO.getFileInPrimary())) {
+        if(!StringUtils.isEmpty(reqDO.getPrimaryDirectory())) {
             criteria.and("primaryDirectory").is(reqDO.getPrimaryDirectory());
         }
         if(!StringUtils.isEmpty(reqDO.getSecondaryDirectory())){
             criteria.and("secondaryDirectory").is(reqDO.getSecondaryDirectory());
         }
-        if("Y".equals(reqDO.getFileInPrimary())){
-            criteria.and("secondaryDirectory").is(null);
-        }
-
         criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
+        query.addCriteria(criteria);
+        return mongoTemplate.find(query, NoteInfoDO.class);
+    }
 
+    /**
+     * 文档列表查询
+     * @param reqDO                  请求DO
+     * @return                       列表结果
+     */
+    @Override
+    public List<NoteInfoDO> queryFileList(FileListReqDO reqDO) {
+
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.and("userNo").is(reqDO.getUserNo());
+        criteria.and("primaryDirectory").is(reqDO.getPrimaryDirectory());
+        criteria.and("secondaryDirectory").is(null).orOperator(criteria.and("secondaryDirectory").is(""));
+        criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
         query.addCriteria(criteria);
         return mongoTemplate.find(query, NoteInfoDO.class);
     }
@@ -72,7 +86,7 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         criteria.and("userNo").is(reqDO.getUserNo());
         criteria.and("primaryDirectory").is(reqDO.getPrimaryDirectory());
         if(StringUtils.isEmpty(reqDO.getSecondaryDirectory())){
-            criteria.and("secondaryDirectory").is(null);
+            criteria.and("secondaryDirectory").is(null).orOperator(criteria.and("secondaryDirectory").is(""));
         }else{
             criteria.and("secondaryDirectory").is(reqDO.getSecondaryDirectory());
         }
@@ -95,7 +109,6 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         noteInfoDO.setCreatedAt(new Date());
         noteInfoDO.setUpdatedAt(new Date());
         noteInfoDO.setStatus(NoteStatusEnum.ENABLE.getCode());
-        noteInfoDO.setUpdatedBy(noteInfoDO.getUpdatedBy());
 
         mongoTemplate.insert(noteInfoDO);
     }
@@ -112,12 +125,8 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         Criteria criteria = new Criteria();
         criteria.and("userNo").is(noteDO.getUserNo());
         criteria.and("primaryDirectory").is(noteDO.getPrimaryDirectory());
-        if(!StringUtils.isEmpty(noteDO.getDocumentId())) {
-            criteria.and("documentId").is(noteDO.getDocumentId());
-        }
-        if(!StringUtils.isEmpty(noteDO.getDocumentName())) {
-            criteria.and("documentName").is(noteDO.getDocumentName());
-        }
+        criteria.and("secondaryDirectory").is(noteDO.getSecondaryDirectory());
+        criteria.and("documentName").is(noteDO.getDocumentName());
         query.addCriteria(criteria);
 
         //更新内容

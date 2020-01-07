@@ -1,5 +1,6 @@
 package com.nicehancy.MIX.manager.note;
 
+import com.nicehancy.MIX.common.Result;
 import com.nicehancy.MIX.common.enums.NoteStatusEnum;
 import com.nicehancy.MIX.dal.NoteInfoRepository;
 import com.nicehancy.MIX.dal.model.NoteInfoDO;
@@ -10,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 笔记数据库接口实现类
@@ -45,27 +46,45 @@ public class NoteInfoManager {
                 for(NoteInfoDO noteInfoDO: noteInfoDOS){
                     list.add(noteInfoDO.getPrimaryDirectory());
                 }
-                return list;
+                return list.stream().distinct().collect(Collectors.toList());
             }
             //设置二级目录列表
-            for(NoteInfoDO noteInfoDO: noteInfoDOS){
-                if(StringUtils.isEmpty(noteInfoDO.getSecondaryDirectory())){
-                    continue;
-                }
-                list.add(noteInfoDO.getSecondaryDirectory());
-                return list;
-            }
-            //设置文件名列表
-            if(!StringUtils.isEmpty(reqBO.getSecondaryDirectory())){
-                for(NoteInfoDO noteInfoDO: noteInfoDOS){
-                    if(StringUtils.isEmpty(noteInfoDO.getDocumentName())){
+            if(StringUtils.isEmpty(reqBO.getSecondaryDirectory())) {
+                for (NoteInfoDO noteInfoDO : noteInfoDOS) {
+                    if (StringUtils.isEmpty(noteInfoDO.getSecondaryDirectory())) {
                         continue;
                     }
-                    list.add(noteInfoDO.getDocumentName());
+                    list.add(noteInfoDO.getSecondaryDirectory());
                 }
+                return list.stream().distinct().collect(Collectors.toList());
             }
+            //设置文件名列表
+            for(NoteInfoDO noteInfoDO: noteInfoDOS){
+                if(StringUtils.isEmpty(noteInfoDO.getDocumentName())){
+                    continue;
+                }
+                list.add(noteInfoDO.getDocumentName());
+            }
+            return list.stream().distinct().collect(Collectors.toList());
+        }
+    }
+
+    /**
+     * 文件列表查询
+     * @param reqBO     请求BO
+     * @return          文件列表
+     */
+    public List<String> queryFileList(FileListReqBO reqBO) {
+
+        List<String> list = new ArrayList<>();
+        List<NoteInfoDO> noteInfoDOS = noteRepository.queryFileList(NoteInfoBOConvert.getDOByBO(reqBO));
+        if(CollectionUtils.isEmpty(noteInfoDOS)){
             return list;
         }
+        for(NoteInfoDO noteInfoDO: noteInfoDOS){
+            list.add(noteInfoDO.getDocumentName());
+        }
+        return list;
     }
 
     /**
@@ -89,14 +108,16 @@ public class NoteInfoManager {
         NoteQueryReqDO reqDO = new NoteQueryReqDO();
         reqDO.setUserNo(reqBO.getUserNo());
         reqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
-        //reqDO.setDocumentId(reqBO.getDocumentId());
+        reqDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+        reqDO.setDocumentName(reqBO.getDocumentName());
         List<NoteInfoDO> noteInfoDOS = noteRepository.queryNoteInfo(reqDO);
         if(!CollectionUtils.isEmpty(noteInfoDOS)){
             //更新
             NoteInfoDO noteBOForUpdate = new NoteInfoDO();
             noteBOForUpdate.setUserNo(reqBO.getUserNo());
             noteBOForUpdate.setPrimaryDirectory(reqBO.getPrimaryDirectory());
-            noteBOForUpdate.setDocumentId(reqBO.getDocumentId());
+            noteBOForUpdate.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+            noteBOForUpdate.setDocumentName(reqBO.getDocumentName());
             noteBOForUpdate.setContent(reqBO.getContent());
             noteBOForUpdate.setUpdatedBy(reqBO.getUserNo());
             noteRepository.updateContent(noteBOForUpdate);
@@ -105,7 +126,8 @@ public class NoteInfoManager {
             NoteInfoDO noteBOForSave = new NoteInfoDO();
             noteBOForSave.setUserNo(reqBO.getUserNo());
             noteBOForSave.setPrimaryDirectory(reqBO.getPrimaryDirectory());
-            noteBOForSave.setDocumentId(reqBO.getDocumentId());
+            noteBOForSave.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+            noteBOForSave.setDocumentName(reqBO.getDocumentName());
             noteBOForSave.setContent(reqBO.getContent());
             noteBOForSave.setCreatedBy(reqBO.getUserNo());
             noteBOForSave.setUpdatedBy(reqBO.getUserNo());
@@ -119,19 +141,24 @@ public class NoteInfoManager {
      * @param reqBO         请求参数BO
      * @return              处理结果
      */
-    public boolean manage(NoteManageReqBO reqBO){
+    public Result<Boolean> manage(NoteManageReqBO reqBO){
 
+        Result<Boolean> result = new Result<>();
         //增加
         if("ADD".equals(reqBO.getOperatorType())){
-            //查询已有，返回成功
+            //查询已有，返回已存在
             NoteQueryReqDO reqDO = new NoteQueryReqDO();
             reqDO.setUserNo(reqBO.getUserNo());
             reqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+            reqDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+            reqDO.setDocumentName(reqBO.getDocumentName());
             List<NoteInfoDO> noteInfoDOS = noteRepository.queryNoteInfo(reqDO);
             if(!CollectionUtils.isEmpty(noteInfoDOS)){
                 for(NoteInfoDO noteInfoDO : noteInfoDOS){
                     if(noteInfoDO.getDocumentName().equals(reqBO.getDocumentName())){
-                        return true;
+                        result.setResult(false);
+                        result.setErrorMsg("文档已存在");
+                        return result;
                     }
                 }
             }
@@ -140,8 +167,7 @@ public class NoteInfoManager {
             NoteInfoDO noteInfoDO = new NoteInfoDO();
             noteInfoDO.setUserNo(reqBO.getUserNo());
             noteInfoDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
-            noteInfoDO.setDocumentId(reqBO.getPrimaryDirectory() + (CollectionUtils.isEmpty(noteInfoDOS)? 1:
-                    noteInfoDOS.size() + 1));
+            noteInfoDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
             noteInfoDO.setDocumentName(reqBO.getDocumentName());
             noteInfoDO.setCreatedBy(reqBO.getUserNo());
             noteInfoDO.setUpdatedBy(reqBO.getUserNo());
@@ -154,10 +180,13 @@ public class NoteInfoManager {
             NoteInfoDO noteBOForUpdate = new NoteInfoDO();
             noteBOForUpdate.setUserNo(reqBO.getUserNo());
             noteBOForUpdate.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+            noteBOForUpdate.setSecondaryDirectory(reqBO.getSecondaryDirectory());
             noteBOForUpdate.setDocumentName(reqBO.getDocumentName());
+            //设置状态为不可用
             noteBOForUpdate.setStatus(NoteStatusEnum.DISABLE.getCode());
             noteRepository.updateContent(noteBOForUpdate);
         }
-        return true;
+        result.setResult(true);
+        return result;
     }
 }

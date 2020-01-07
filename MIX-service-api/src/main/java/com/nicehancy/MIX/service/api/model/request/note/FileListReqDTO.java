@@ -5,10 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import net.sf.oval.constraint.NotNull;
+
 import javax.validation.constraints.NotBlank;
 
 /**
- * 一级目录列表查询接口
+ * 一级目录下文件列表查询请求DTO
  * <p>
  * <p/>
  *
@@ -18,12 +19,12 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @ToString
-public class DirectoryQueryReqDTO extends BaseReqDTO {
+public class FileListReqDTO extends BaseReqDTO {
 
     /**
      * 序列化ID
      */
-    private static final long serialVersionUID = 8375211550774154485L;
+    private static final long serialVersionUID = 4220847953157591113L;
 
     /**
      * 用户账号
@@ -36,10 +37,4 @@ public class DirectoryQueryReqDTO extends BaseReqDTO {
      * 一级目录名
      */
     private String primaryDirectory;
-
-
-    /**
-     * 二级目录名
-     */
-    private String secondaryDirectory;
 }

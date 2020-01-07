@@ -41,11 +41,16 @@ public class NoteSaveReqDTO implements Serializable {
     private String primaryDirectory;
 
     /**
-     * 文档id
+     * 二级目录
      */
-    @NotEmpty(message = "文档id不允许为空")
-    @NotNull(message = "文档id不允许为空")
-    private String documentId;
+    private String secondaryDirectory;
+
+    /**
+     * 文档名
+     */
+    @NotEmpty(message = "文档名不允许为空")
+    @NotNull(message = "文档名不允许为空")
+    private String documentName;
 
     /**
      * 笔记内容
