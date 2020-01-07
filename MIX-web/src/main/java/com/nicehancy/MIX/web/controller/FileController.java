@@ -50,7 +50,7 @@ public class FileController extends BaseController {
         MDC.put("TRACE_LOG_ID", traceLogId);
         FileUploadRequestDTO requestDTO = new FileUploadRequestDTO();
         requestDTO.setTraceLogId(traceLogId);
-        requestDTO.setRequestSystem("MIX");
+        requestDTO.setRequestSystem("SYSTEM");
         requestDTO.setUserNo(this.getParameters(request).get("userNo"));
         requestDTO.setFileType(this.getParameters(request).get("fileType"));
         requestDTO.setSubFileType(this.getParameters(request).get("subFileType"));

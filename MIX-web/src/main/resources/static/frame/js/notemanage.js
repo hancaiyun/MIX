@@ -1,4 +1,4 @@
-//根据用户ID查询用户笔记目录树
+//初始化一级目录
 //缓存中获取用户ID
 window.onload = function () {
     var $ = layui.jquery;
@@ -13,11 +13,6 @@ window.onload = function () {
         success: function (res) {
             if (res.code === "0000") {
                 var directoryList = res.data;
-                // var pri = document.getElementById("primaryDirectory");
-                // for(var i = 0; i<directoryList.length; i++){
-                //     pri.options.add(new Option(directoryList[i], directoryList[i]));
-                // }
-
                 $.each(directoryList, function (index, item) {
                     //alert("参数打印：" + index + ";" + item);
                     $("#primaryDirectory").append(new Option(item, item));
@@ -46,6 +41,7 @@ window.onload = function () {
 
 
 //初始化富文本域
+//富文本集相关操作
 layui.use('layedit', function () {
     var layedit = layui.layedit;
     var $ = layui.jquery;
