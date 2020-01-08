@@ -237,8 +237,7 @@
           </ul>
         </div>
       </div>
-      
-      
+
       <!-- 主体内容 -->
       <div class="layui-body" id="LAY_app_body">
         <div class="layadmin-tabsbody-item layui-show">
@@ -263,7 +262,17 @@
     <!-- 本地缓存中获取用户名并设置到指定位置 -->
     window.onload=function(){
       var storage = window.localStorage;//拼接用户前缀图标
-      document.getElementById("userno").innerHTML = "<cite><i class='layui-icon'>&#xe66f;</i>" + storage["userNo"] + "</cite>";
+      var maskName = mobilePhoneMask(storage["userNo"]);
+      document.getElementById("userno").innerHTML = "<cite><i class='layui-icon'>&#xe66f;</i>" + maskName + "</cite>";
+    }
+
+    //手机号掩码处理
+    function mobilePhoneMask(input) {
+      var output = input;
+      if (input == null || input === "")return output;
+
+      output = input.substr(0, 3) + "****" + input.substr(input.length - 4);
+      return output;
     }
   </script>
 </body>
