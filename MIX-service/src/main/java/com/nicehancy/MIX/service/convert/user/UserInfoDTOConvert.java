@@ -41,4 +41,27 @@ public class UserInfoDTOConvert {
 
         return userInfoBO;
     }
+
+    /**
+     * 用户信息BO转DTO
+     * @param user          BO
+     * @return              DTO
+     */
+    public static UserInfoDTO getDTOByBO(UserInfoBO user) {
+
+        if (user == null) {
+            return null;
+        }
+
+        UserInfoDTO userInfoDTO = new UserInfoDTO();
+        userInfoDTO.setLoginNo(user.getLoginNo());
+        userInfoDTO.setNickName(user.getNickName());
+        userInfoDTO.setEmail(user.getEmail());
+        userInfoDTO.setPassword(user.getPassword());
+        userInfoDTO.setAuthCode(user.getAuthCode());
+        userInfoDTO.setStatus(user.getStatus());
+        userInfoDTO.setRemark(user.getRemark());
+
+        return userInfoDTO;
+    }
 }

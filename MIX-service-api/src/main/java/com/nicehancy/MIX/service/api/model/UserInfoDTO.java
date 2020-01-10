@@ -40,6 +40,11 @@ public class UserInfoDTO implements Serializable{
     private String email;
 
     /**
+     * 状态
+     */
+    private String status;
+
+    /**
      * 密码
      * MD5密文
      */

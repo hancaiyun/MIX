@@ -17,68 +17,59 @@
         <div class="layui-card">
           <div class="layui-card-header">设置我的资料</div>
           <div class="layui-card-body" pad15>
-            
             <div class="layui-form" lay-filter="">
               <div class="layui-form-item">
                 <label class="layui-form-label">我的角色</label>
                 <div class="layui-input-inline">
                   <select name="role" lay-verify="">
-                    <option value="1" selected>超级管理员</option>
-                    <option value="2" disabled>普通管理员</option>
-                    <option value="3" disabled>审核员</option>
-                    <option value="4" disabled>编辑人员</option>
+                    <option value="SUPPER_ADMIN" disabled>超级管理员</option>
+                    <option value="ADMIN" disabled>普通管理员</option>
+                    <option value="DEVELOPER" disabled>开发人员</option>
+                    <option value="TESTER" disabled>测试人员</option>
+                    <option value="USER" selected>普通用户</option>
                   </select> 
                 </div>
-                <div class="layui-form-mid layui-word-aux">当前角色不可更改为其它角色</div>
               </div>
               <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
                 <div class="layui-input-inline">
-                  <input type="text" name="username" value="xianxin" readonly class="layui-input">
+                  <input type="text" id="username" readonly class="layui-input">
                 </div>
-                <div class="layui-form-mid layui-word-aux">不可修改。一般用于后台登入名</div>
               </div>
               <div class="layui-form-item">
                 <label class="layui-form-label">昵称</label>
                 <div class="layui-input-inline">
-                  <input type="text" name="nickname" value="贤心" lay-verify="nickname" autocomplete="off" placeholder="请输入昵称" class="layui-input">
+                  <input type="text" id="nickname" name="nickname" lay-verify="nickname" autocomplete="off" placeholder="请输入昵称" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item">
                 <label class="layui-form-label">性别</label>
                 <div class="layui-input-block">
-                  <input type="radio" name="sex" value="男" title="男">
-                  <input type="radio" name="sex" value="女" title="女" checked>
+                  <input type="radio" name="sex" value="male" title="男" checked>
+                  <input type="radio" name="sex" value="female" title="女">
                 </div>
               </div>
               <div class="layui-form-item">
-                <label class="layui-form-label">头像</label>
+                <label class="layui-form-label">修改头像</label>
                 <div class="layui-input-inline">
-                  <input name="avatar" lay-verify="required" id="LAY_avatarSrc" placeholder="图片地址" value="http://cdn.layui.com/avatar/168.jpg" class="layui-input">
+                  <input name="avatar" id="LAY_avatarSrc" placeholder="图片地址" readonly  class="layui-input">
                 </div>
                 <div class="layui-input-inline layui-btn-container" style="width: auto;">
                   <button type="button" class="layui-btn layui-btn-primary" id="LAY_avatarUpload">
                     <i class="layui-icon">&#xe67c;</i>上传图片
                   </button>
-                  <button class="layui-btn layui-btn-primary" layadmin-event="avartatPreview">查看图片</button >
                 </div>
              </div>
               <div class="layui-form-item">
-                <label class="layui-form-label">手机</label>
-                <div class="layui-input-inline">
-                  <input type="text" name="cellphone" value="" lay-verify="phone" autocomplete="off" class="layui-input">
-                </div>
-              </div>
-              <div class="layui-form-item">
                 <label class="layui-form-label">邮箱</label>
                 <div class="layui-input-inline">
-                  <input type="text" name="email" value="" lay-verify="email" autocomplete="off" class="layui-input">
+                  <input type="text" id="email" name="email" value="" lay-verify="email" autocomplete="off" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">备注</label>
                 <div class="layui-input-block">
-                  <textarea name="remarks" placeholder="请输入内容" class="layui-textarea"></textarea>
+                  <textarea id="remarks" name="remarks" placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
               </div>
               <div class="layui-form-item">
@@ -88,7 +79,6 @@
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
@@ -96,12 +86,74 @@
   </div>
 
   <script th:src="@{/frame/layui/layui.js}"></script>
+  <script th:src="@{/frame/js/jquery-3.4.1.min.js}"></script>
   <script>
   layui.config({
     base: '../../frame/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index', 'set']);
+  </script>
+  <!--查询用户信息-->
+  <script>
+    window.onload=function(){
+      $.ajax({
+        url: '/set/user/info',
+        data: {"userNo": window.localStorage["loginNo"]},
+        dataType: 'json',//数据类型
+        type: 'GET',//类型
+        timeout: 3000,//超时
+        //请求成功
+        success: function (res) {
+          if (res.code === "0000") {
+            //设置表单数据
+            var maskUserNo = mobilePhoneMask(res.data.result.loginNo);
+            $("#username").attr("value", maskUserNo);
+            $("#nickname").attr("value", res.data.result.nickName);
+            $("#email").attr("value", res.data.result.email);
+            $("#remarks").html(res.data.result.remark);
+          } else {
+            layer.open({
+              title: '提示信息'
+              , content: '用户信息查询失败，失败原因：' + res.msg
+            });
+          }
+        },
+        //失败/超时
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          if (textStatus === 'timeout') {
+            layer.msg('网络异常');
+          }
+          layer.msg("失败原因：" + errorThrown);
+        }
+      });
+
+      //手机号掩码处理
+      function mobilePhoneMask(input) {
+        var output = input;
+        if (input == null || input === "")return output;
+
+        output = input.substr(0, 3) + "****" + input.substr(input.length - 4);
+        return output;
+      }
+
+    };
+
+    //监听图片上传事件
+    // layui.use('upload', function () {
+    //   var upload = layui.upload;
+    //   upload.render({
+    //     elem: '#LAY_avatarUpload'
+    //     , url: '/file/upload'
+    //     , accept: 'file'
+    //     , auto: true
+    //     , done: function (res) {
+    //       alert(res.data.src);
+    //
+    //       $("[name=userImage]").val(res.data.src);
+    //     }
+    //   });
+    // });
   </script>
 </body>
 </html>

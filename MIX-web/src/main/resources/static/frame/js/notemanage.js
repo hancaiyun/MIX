@@ -1,7 +1,7 @@
 //初始化一级目录
 //缓存中获取用户ID
 window.onload = function () {
-    var $ = layui.jquery;
+    var $ = layer.jquery;
     //请求查询
     $.ajax({
         url: '/note/notemanage/queryDirectory',

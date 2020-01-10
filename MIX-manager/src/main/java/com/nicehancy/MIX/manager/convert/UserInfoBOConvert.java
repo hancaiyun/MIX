@@ -21,9 +21,9 @@ public class UserInfoBOConvert {
     }
 
     /**
-     * 根据用户信息DO转化成BO
-     * @param userInfoDO        DO
-     * @return                  BO
+     * 用户信息DO转BO
+     * @param userInfoDO    DO
+     * @return              BO
      */
     public static UserInfoBO getBOByDO(UserInfoDO userInfoDO) {
 
@@ -35,7 +35,9 @@ public class UserInfoBOConvert {
         userInfoBO.setLoginNo(userInfoDO.getUserNo());
         userInfoBO.setNickName(userInfoDO.getNickName());
         userInfoBO.setPassword(userInfoDO.getPassword());
+        userInfoBO.setEmail(userInfoDO.getEmail());
         userInfoBO.setAuthCode(userInfoDO.getAuthCode());
+        userInfoBO.setStatus(userInfoDO.getStatus());
         userInfoBO.setRemark(userInfoDO.getRemark());
         userInfoBO.setCreatedAt(userInfoDO.getCreatedAt());
         userInfoBO.setCreatedBy(userInfoDO.getCreatedBy());

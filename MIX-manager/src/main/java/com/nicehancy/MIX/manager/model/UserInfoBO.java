@@ -45,6 +45,11 @@ public class UserInfoBO extends BaseBO{
     private String authCode;
 
     /**
+     * 状态
+     */
+    private String status;
+
+    /**
      * 备注
      */
     private String remark;

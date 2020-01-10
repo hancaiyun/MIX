@@ -1,8 +1,20 @@
 package com.nicehancy.MIX.web.controller.user;
 
+import com.nicehancy.MIX.common.Result;
+import com.nicehancy.MIX.service.CustomUserService;
+import com.nicehancy.MIX.service.api.model.UserInfoDTO;
+import com.nicehancy.MIX.web.controller.base.BaseController;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 /**
  * 用户信息controller
@@ -12,8 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
  * @author hancaiyun
  * @since 2019/12/2 10:03
  **/
+@Slf4j
 @Controller
-public class UserController {
+public class UserController extends BaseController {
+
+    @Autowired
+    private CustomUserService customUserService;
 
     /**
      * 用户信息页面
@@ -87,4 +103,27 @@ public class UserController {
         return new ModelAndView("user/administrators/roleform");
     }
 
+    /**
+     * 用户信息查询
+     * @return     用户信息
+     */
+    @RequestMapping(value = "/set/user/info")
+    @ResponseBody
+    public ModelMap queryUserInfo(HttpServletRequest request){
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        String userNo = this.getParameters(request).get("userNo");
+        log.info("UserController queryUserInfo request PARAM: userNo={}, traceLogId={}", userNo, traceLogId);
+        Result<UserInfoDTO> result =  customUserService.queryUserInfo(userNo, traceLogId);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap = this.processSuccessJSON(result);
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+
+        log.info("UserController upload result={}", modelMap);
+        return modelMap;
+    }
 }

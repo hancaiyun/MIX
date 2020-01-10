@@ -100,14 +100,17 @@ layui.define(['form', 'upload'], function(exports){
     return false;
   });
 
+
   //上传头像
   var avatarSrc = $('#LAY_avatarSrc');
   upload.render({
     url: '/api/upload/'
     ,elem: '#LAY_avatarUpload'
     ,done: function(res){
-      if(res.status == 0){
+      if(res.code === "0000"){
+        layer.msg("图片上传成功", {icon: 1});
         avatarSrc.val(res.url);
+        $("#LAY_avatarSrc").attr("value", res.fileName);
       } else {
         layer.msg(res.msg, {icon: 5});
       }

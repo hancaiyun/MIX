@@ -90,6 +90,34 @@ public class CustomUserService implements UserDetailsService {
     }
 
     /**
+     * 用户基本信息查询
+     * @param userNo        用户名
+     * @param traceLogId    日志ID
+     * @return              用户信息
+     */
+    public Result<UserInfoDTO> queryUserInfo(String userNo, String traceLogId){
+
+        Result<UserInfoDTO> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        try {
+            log.info("CustomUserService queryUserInfo request PARAM: userNo={}, traceLogId={}", userNo, traceLogId);
+            //查询用户是否已存在
+            UserInfoBO user = userInfoManager.queryByUserName(userNo);
+            if(user == null){
+                throw new RuntimeException("用户信息不存在！");
+            }
+
+            result.setResult(UserInfoDTOConvert.getDTOByBO(user));
+            log.info("CustomUserService queryUserInfo result: result={}", result);
+        }catch (Exception e){
+            result.setErrorCode("SYSTEM_ERROR");
+            result.setErrorMsg(e.getMessage());
+            log.error("CustomUserService queryUserInfo error: result={}, e={}", result, e);
+        }
+        return result;
+    }
+
+    /**
      * 新增用户请求
      * @param userInfoDTO           用户信息DTO
      * @param traceLogId            日志ID

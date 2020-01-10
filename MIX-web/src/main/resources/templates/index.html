@@ -262,9 +262,9 @@
     <!-- 本地缓存中获取用户名并设置到指定位置 -->
     window.onload=function(){
       var storage = window.localStorage;//拼接用户前缀图标
-      var maskName = mobilePhoneMask(storage["userNo"]);
+      var maskName = mobilePhoneMask(storage["loginNo"]);
       document.getElementById("userno").innerHTML = "<cite><i class='layui-icon'>&#xe66f;</i>" + maskName + "</cite>";
-    }
+    };
 
     //手机号掩码处理
     function mobilePhoneMask(input) {

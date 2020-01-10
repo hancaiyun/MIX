@@ -45,6 +45,11 @@ public class UserInfoDO extends BaseDO {
     private String authCode;
 
     /**
+     * 状态
+     */
+    private String status;
+
+    /**
      * 备注
      */
     private String remark;

@@ -1,22 +1,24 @@
 package com.nicehancy.MIX.web.controller;
 
-import com.nicehancy.MIX.common.Result;
+import com.nicehancy.MIX.common.constant.DatePatternConstant;
+import com.nicehancy.MIX.common.utils.DateUtil;
+import com.nicehancy.MIX.common.utils.UUIDUtil;
 import com.nicehancy.MIX.service.api.file.FileManagementService;
-import com.nicehancy.MIX.service.api.model.request.file.FileUploadRequestDTO;
-import com.nicehancy.MIX.service.api.model.result.FileUploadResultDTO;
 import com.nicehancy.MIX.web.controller.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -31,36 +33,45 @@ import java.util.UUID;
 @Controller
 public class FileController extends BaseController {
 
-    @Autowired
-    private FileManagementService fileManagementService;
-
     /**
      * 文件上传
      * @return     文件路径
      */
-    @RequestMapping(value = "/file/upload")
+    @RequestMapping(value = "/api/upload")
     @ResponseBody
-    public ModelMap upload(HttpServletRequest request){
-
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        List<MultipartFile> files = multipartRequest.getFiles("files");
-        log.info("文件:{}", files);
+    public ModelMap upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
 
         String traceLogId = UUID.randomUUID().toString();
         MDC.put("TRACE_LOG_ID", traceLogId);
-        FileUploadRequestDTO requestDTO = new FileUploadRequestDTO();
-        requestDTO.setTraceLogId(traceLogId);
-        requestDTO.setRequestSystem("SYSTEM");
-        requestDTO.setUserNo(this.getParameters(request).get("userNo"));
-        requestDTO.setFileType(this.getParameters(request).get("fileType"));
-        requestDTO.setSubFileType(this.getParameters(request).get("subFileType"));
-        log.info("图片:{}", this.getParameters(request).get("upload"));
-        //requestDTO.setFileData(fileData);
+        log.info("FileController upload request: traceLogId={}", traceLogId);
 
-        log.info("FileController upload request PARAM: requestDTO={}", requestDTO);
-        Result<FileUploadResultDTO> result =  fileManagementService.uploadFile(requestDTO);
-        log.info("FileController upload result={}", result);
+        String oldName = file.getOriginalFilename();
+        //服务器文件目录
+        String path = "C://file/";
+        assert oldName != null;
+        String fileName = changeName(oldName);
+        String filePath = path + fileName;
 
-        return this.processSuccessJSON(result);
+        log.info("oldName={}, path={}, fileName={}", oldName, path, fileName);
+        File localFile = new File(filePath);
+        if (!localFile.exists()) {
+            localFile.mkdirs();
+        }
+        file.transferTo(localFile);
+        //返回文件名
+        return this.processSuccessJSON(fileName, "success");
+    }
+
+    /**
+     * 更改文件名
+     * @param oldName               原名字
+     * @return                      文件名，格式 随机+_yyyy-MM-dd HH:mm:ss+.+文件后缀
+     */
+    private static String changeName(String oldName) {
+        String newName = oldName.substring(oldName.indexOf('.'));
+        //前缀
+        String prefix = DateUtil.format(new Date(), DatePatternConstant.FULL_PATTERN) + UUIDUtil.createNoByUUId();
+        newName = prefix + newName;
+        return newName;
     }
 }

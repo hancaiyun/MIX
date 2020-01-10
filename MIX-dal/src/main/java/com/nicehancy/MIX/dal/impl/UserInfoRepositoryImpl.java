@@ -56,6 +56,8 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
         userInfoDO.setId(Long.valueOf(UUIDUtil.createNoByUUId()));
         //暂新用户默认为用户角色USER
         userInfoDO.setAuthCode("USER");
+        //状态为可用
+        userInfoDO.setStatus("USABLE");
         userInfoDO.setUpdatedAt(new Date());
         userInfoDO.setCreatedAt(new Date());
 

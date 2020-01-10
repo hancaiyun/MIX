@@ -9,7 +9,6 @@ layui.config({
 }).extend({
     index: 'lib/index' //主入口模块
 }).use(['index', 'user'], function () {
-    var $ = layui.$;
     var form = layui.form;
     form.render();
 });
