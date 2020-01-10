@@ -16,7 +16,7 @@ import java.io.Serializable;
  **/
 @Getter
 @Setter
-@ToString(callSuper = true)
+@ToString
 public class UserInfoDTO implements Serializable{
 
     /**
@@ -25,14 +25,9 @@ public class UserInfoDTO implements Serializable{
     private static final long serialVersionUID = -6977478057972485794L;
 
     /**
-     * 用户编号/登陆号
+     * 登陆号
      */
-    private String userNo;
-
-    /**
-     * 用户名
-     */
-    private String userName;
+    private String loginNo;
 
     /**
      * 昵称
@@ -40,15 +35,15 @@ public class UserInfoDTO implements Serializable{
     private String nickName;
 
     /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
      * 密码
      * MD5密文
      */
     private String password;
-
-    /**
-     * 邮箱
-     */
-    private String eMail;
 
     /**
      * 权限编号
@@ -59,4 +54,9 @@ public class UserInfoDTO implements Serializable{
      * 备注
      */
     private String remark;
+
+    /**
+     * 验证码
+     */
+    private String vercode;
 }

@@ -19,14 +19,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class UserInfoDO extends BaseDO {
 
     /**
-     * 用户编号/登陆号
+     * 登陆号（邮箱）
      */
     private String userNo;
-
-    /**
-     * 用户名
-     */
-    private String userName;
 
     /**
      * 昵称
@@ -42,7 +37,7 @@ public class UserInfoDO extends BaseDO {
     /**
      * 邮箱
      */
-    private String eMail;
+    private String email;
 
     /**
      * 权限编号

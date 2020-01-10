@@ -17,15 +17,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserInfoBO extends BaseBO{
-    /**
-     * 用户编号/登陆号
-     */
-    private String userNo;
 
     /**
-     * 用户名
+     * 登陆号（邮箱）
      */
-    private String userName;
+    private String loginNo;
 
     /**
      * 昵称
@@ -33,14 +29,15 @@ public class UserInfoBO extends BaseBO{
     private String nickName;
 
     /**
-     * 密码
-     */
-    private String password;
-
-    /**
      * 邮箱
      */
-    private String eMail;
+    private String email;
+
+    /**
+     * 密码
+     * MD5密文
+     */
+    private String password;
 
     /**
      * 权限编号

@@ -5,7 +5,7 @@ window.onload = function () {
     //请求查询
     $.ajax({
         url: '/note/notemanage/queryDirectory',
-        data: {"userNo": window.localStorage["userNo"]},
+        data: {"userNo": window.localStorage["loginNo"]},
         dataType: 'json',//数据类型
         type: 'GET',//类型
         timeout: 3000,//超时
@@ -76,7 +76,7 @@ layui.use('layedit', function () {
         $.ajax({
             url: '/note/notemanage/save',//提交地址
             data: {
-                "userNo": window.localStorage["userNo"],
+                "userNo": window.localStorage["loginNo"],
                 "primaryDirectory": primaryDirectory,
                 "secondaryDirectory": secondaryDirectory,
                 "fileName": fileName,
@@ -132,7 +132,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
         //请求查询
         $.ajax({
             url: '/note/notemanage/queryDirectory',
-            data: {"userNo": window.localStorage["userNo"], "primaryDirectory": primaryDirectory},
+            data: {"userNo": window.localStorage["loginNo"], "primaryDirectory": primaryDirectory},
             dataType: 'json',//数据类型
             type: 'GET',//类型
             timeout: 3000,//超时
@@ -171,7 +171,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
         $.ajax({
             url: '/note/notemanage/queryFileList',
             data: {
-                "userNo": window.localStorage["userNo"],
+                "userNo": window.localStorage["loginNo"],
                 "primaryDirectory": primaryDirectory
             },
             dataType: 'json',//数据类型
@@ -228,7 +228,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
         $.ajax({
             url: '/note/notemanage/queryDirectory',
             data: {
-                "userNo": window.localStorage["userNo"],
+                "userNo": window.localStorage["loginNo"],
                 "primaryDirectory": primaryDirectory,
                 "secondaryDirectory": secondaryDirectory
             },
@@ -282,7 +282,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
         $.ajax({
             url: '/note/notemanage/queryNoteInfo',
             data: {
-                "userNo": window.localStorage["userNo"],
+                "userNo": window.localStorage["loginNo"],
                 "primaryDirectory": primaryDirectory,
                 "secondaryDirectory": secondaryDirectory,
                 "fileName": fileName
@@ -351,7 +351,7 @@ function manageFile() {
                         "secondaryDirectory": field.secondaryDirectory,
                         "documentName": field.fileName,
                         "operateType": field.operateType,
-                        "userNo": window.localStorage["userNo"]
+                        "userNo": window.localStorage["loginNo"]
                     },
                     dataType: 'json',//数据类型
                     type: 'GET',//请求方式

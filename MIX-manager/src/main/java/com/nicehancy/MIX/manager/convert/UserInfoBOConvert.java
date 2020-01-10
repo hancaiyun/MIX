@@ -32,11 +32,9 @@ public class UserInfoBOConvert {
         }
 
         UserInfoBO userInfoBO = new UserInfoBO();
-        userInfoBO.setUserNo(userInfoDO.getUserNo());
-        userInfoBO.setUserName(userInfoDO.getUserName());
+        userInfoBO.setLoginNo(userInfoDO.getUserNo());
         userInfoBO.setNickName(userInfoDO.getNickName());
         userInfoBO.setPassword(userInfoDO.getPassword());
-        userInfoBO.setEMail(userInfoDO.getEMail());
         userInfoBO.setAuthCode(userInfoDO.getAuthCode());
         userInfoBO.setRemark(userInfoDO.getRemark());
         userInfoBO.setCreatedAt(userInfoDO.getCreatedAt());
@@ -59,12 +57,11 @@ public class UserInfoBOConvert {
         }
 
         UserInfoDO userInfoDO = new UserInfoDO();
-        userInfoDO.setUserNo(userInfoBO.getUserNo());
-        userInfoDO.setUserName(userInfoBO.getUserName());
+        userInfoDO.setUserNo(userInfoBO.getLoginNo());
         userInfoDO.setNickName(userInfoBO.getNickName());
         userInfoDO.setPassword(userInfoBO.getPassword());
-        userInfoDO.setEMail(userInfoBO.getEMail());
         userInfoDO.setAuthCode(userInfoBO.getAuthCode());
+        userInfoDO.setEmail(userInfoBO.getEmail());
         userInfoDO.setRemark(userInfoBO.getRemark());
         userInfoDO.setCreatedAt(userInfoBO.getCreatedAt());
         userInfoDO.setCreatedBy(userInfoBO.getCreatedBy());

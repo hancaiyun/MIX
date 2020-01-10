@@ -1,11 +1,15 @@
 package com.nicehancy.MIX.manager.user;
 
+import com.alibaba.fastjson.JSON;
 import com.nicehancy.MIX.common.enums.SensitiveTypeEnum;
+import com.nicehancy.MIX.common.utils.GsonUtil;
 import com.nicehancy.MIX.common.utils.MaskUtil;
 import com.nicehancy.MIX.common.utils.SendEmailUtil;
+import com.nicehancy.MIX.common.utils.SendSmsUtil;
 import com.nicehancy.MIX.dal.UserInfoRepository;
 import com.nicehancy.MIX.manager.convert.UserInfoBOConvert;
 import com.nicehancy.MIX.manager.model.UserInfoBO;
+import com.nicehancy.MIX.manager.redis.RedisManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -25,6 +29,9 @@ public class UserInfoManager {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
+    @Autowired
+    private RedisManager redisManager;
+
     /**
      * 根据用户名查询用户信息
      * @param userNo          账号
@@ -33,6 +40,24 @@ public class UserInfoManager {
     public UserInfoBO queryByUserName(String userNo) {
 
         return UserInfoBOConvert.getBOByDO(userInfoRepository.queryByUserNo(userNo));
+    }
+
+    /**
+     * 发送短信验证码
+     * @param phone             手机号
+     * @return                  发送结果
+     */
+    public boolean sendVercode(String phone) {
+
+        try {
+            //发送短信
+            String vercode = SendSmsUtil.sendVercode(phone);
+            //将验证码放入缓存中， 并设置超时时间为5分钟
+            redisManager.insertObject(vercode, phone, 300);
+        } catch (Exception e) {
+            throw new RuntimeException("发送验证码失败，请稍后重试！");
+        }
+        return true;
     }
 
     /**
@@ -59,7 +84,7 @@ public class UserInfoManager {
         if(user == null){
             throw new RuntimeException("用户不存在！");
         }
-        if(StringUtils.isEmpty(user.getEMail())){
+        if(StringUtils.isEmpty(user.getLoginNo())){
             throw new RuntimeException("用户邮箱信息有误！");
         }
 
@@ -72,11 +97,11 @@ public class UserInfoManager {
         new Thread(() -> {
             String subject = "密码重置提醒";
             String content = "您的密码已重置, 重置后的密码为：" + password;
-            SendEmailUtil.sendEmail(subject, content, user.getEMail());
+            SendEmailUtil.sendEmail(subject, content, user.getLoginNo());
         }).start();
 
         //返回邮箱，掩码处理
-        return MaskUtil.getMask(SensitiveTypeEnum.EMAIL.getCode(), user.getEMail());
+        return MaskUtil.getMask(SensitiveTypeEnum.EMAIL.getCode(), user.getLoginNo());
     }
 
     /**
@@ -110,4 +135,5 @@ public class UserInfoManager {
 
         return true;
     }
+
 }

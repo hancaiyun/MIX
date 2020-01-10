@@ -93,21 +93,23 @@ layui.define('view', function(exports){
           var success = options.ajax.success;
           delete options.ajax.success;
         }
-        
+
         admin.req($.extend(true, {
-          url: '/auth/code'
+          url: '/reg/vercode'
           ,type: 'get'
           ,data: {
             phone: value
           }
           ,success: function(res){
-            layer.msg('验证码已发送至你的手机，请注意查收', {
-              icon: 1
-              ,shade: 0
-            });
-            options.elemVercode.focus();
-            countDown();
-            success && success(res);
+            if(res.code ==="0000"){
+              layer.msg('验证码已发送至你的手机，请注意查收', {
+                icon: 1
+                ,shade: 0
+              });
+              options.elemVercode.focus();
+              countDown();
+              success && success(res);
+            }
           }
         }, options.ajax));
       });

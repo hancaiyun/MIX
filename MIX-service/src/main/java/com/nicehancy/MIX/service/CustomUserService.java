@@ -1,8 +1,11 @@
 package com.nicehancy.MIX.service;
 
+import com.alibaba.fastjson.JSON;
 import com.nicehancy.MIX.common.Result;
+import com.nicehancy.MIX.common.utils.GsonUtil;
 import com.nicehancy.MIX.common.utils.PasswordUtil;
 import com.nicehancy.MIX.manager.model.UserInfoBO;
+import com.nicehancy.MIX.manager.redis.RedisManager;
 import com.nicehancy.MIX.manager.user.UserInfoManager;
 import com.nicehancy.MIX.service.api.model.UserInfoDTO;
 import com.nicehancy.MIX.service.convert.user.UserInfoDTOConvert;
@@ -15,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +37,9 @@ public class CustomUserService implements UserDetailsService {
 
     @Autowired
     private UserInfoManager userInfoManager;
+
+    @Autowired
+    private RedisManager redisManager;
 
     /**
      * 登陆验证时，通过username获取用户的所有权限信息
@@ -51,10 +59,34 @@ public class CustomUserService implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority(user.getAuthCode()));
 
         MUserDetails userDetails = new MUserDetails();
-        userDetails.setUsername(user.getUserName());
+        userDetails.setUsername(user.getNickName());
         userDetails.setPassword(user.getPassword());
         userDetails.setAuthorities(authorities);
         return userDetails;
+    }
+
+    /**
+     * 短信验证码发送接口
+     * @param phone                     手机号
+     * @param traceLogId                日志ID
+     * @return
+     */
+    public Result<Boolean> sendVercode(String phone, String traceLogId){
+
+        Result<Boolean> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        try {
+            log.info("CustomUserService sendVercode request PARAM: phone={}, traceLogId={}", phone, traceLogId);
+            //发送短信验证码
+            boolean isOk = userInfoManager.sendVercode(phone);
+            result.setResult(isOk);
+            log.info("CustomUserService sendVercode result: result={}", result);
+        }catch (Exception e){
+            result.setErrorCode("SYSTEM_ERROR");
+            result.setErrorMsg(e.getMessage());
+            log.error("CustomUserService sendVercode error: result={}, e={}", result, e);
+        }
+        return result;
     }
 
     /**
@@ -70,10 +102,20 @@ public class CustomUserService implements UserDetailsService {
         try {
             log.info("CustomUserService register request PARAM: userInfoDTO={}, traceLogId={}", userInfoDTO, traceLogId);
             //查询用户是否已存在
-            UserInfoBO user = userInfoManager.queryByUserName(userInfoDTO.getUserNo());
+            UserInfoBO user = userInfoManager.queryByUserName(userInfoDTO.getLoginNo());
             if(user != null){
                 throw new RuntimeException("用户已存在！");
             }
+            //验证码校验
+            String cache = GsonUtil.fromJson(redisManager.queryObjectByKey(userInfoDTO.getLoginNo()), String.class);
+            if(StringUtils.isEmpty(cache)){
+                throw new RuntimeException("验证码已失效！");
+            }
+            if(!cache.equals(userInfoDTO.getVercode())){
+                log.error("缓存中的验证码：{}, 用户输入的验证码：{}", cache, userInfoDTO.getVercode());
+                throw new RuntimeException("验证码有误！");
+            }
+
             //密码加密，通过BCrypt
             String password = userInfoDTO.getPassword();
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();

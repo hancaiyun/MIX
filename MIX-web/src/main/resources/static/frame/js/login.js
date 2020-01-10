@@ -1,7 +1,7 @@
 //本地缓存用户信息， 输入密码后输入验证码时，触发缓存
 function storage() {
     var storage = window.localStorage;
-    storage["userNo"] = document.getElementsByName("username")[0].value;
+    storage["loginNo"] = document.getElementsByName("username")[0].value;
 }
 
 layui.config({

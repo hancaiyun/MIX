@@ -8,7 +8,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 /**
- * 发送邮件工具类
+ * 邮件发送工具类
  * <p>
  * <p/>
  *

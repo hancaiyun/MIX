@@ -47,7 +47,7 @@ layui.define('form', function(exports){
     ,elemPhone: '#LAY-user-login-cellphone'
     ,elemVercode: '#LAY-user-login-vercode'
     ,ajax: {
-      url: layui.setter.base + 'json/user/sms.js' //实际使用请改成服务端真实接口
+      url: '/reg/vercode' //实际使用请改成服务端真实接口
     }
   });
   
