@@ -109,8 +109,8 @@ layui.define(['form', 'upload'], function(exports){
     ,done: function(res){
       if(res.code === "0000"){
         layer.msg("图片上传成功", {icon: 1});
-        avatarSrc.val(res.url);
-        $("#LAY_avatarSrc").attr("value", res.fileName);
+        avatarSrc.val(res.data);
+        $("#LAY_avatarSrc").attr("value", res.data);
       } else {
         layer.msg(res.msg, {icon: 5});
       }
@@ -124,7 +124,7 @@ layui.define(['form', 'upload'], function(exports){
       photos: {
         "title": "查看头像" //相册标题
         ,"data": [{
-          "src": src //原图地址
+          "src": "/download/" + src //原图地址
         }]
       }
       ,shade: 0.01
