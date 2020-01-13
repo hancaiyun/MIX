@@ -29,6 +29,11 @@ public class UserInfoDO extends BaseDO {
     private String nickName;
 
     /**
+     * 头像
+     */
+    private String headCopy;
+
+    /**
      * 密码
      * MD5密文
      */

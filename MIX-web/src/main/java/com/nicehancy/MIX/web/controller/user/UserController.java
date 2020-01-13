@@ -118,12 +118,12 @@ public class UserController extends BaseController {
         Result<UserInfoDTO> result =  customUserService.queryUserInfo(userNo, traceLogId);
         ModelMap modelMap;
         if(result.isSuccess()){
-            modelMap = this.processSuccessJSON(result);
+            modelMap = this.processSuccessJSON(result.getResult());
         }else{
             modelMap = this.processSuccessJSON(result.getErrorMsg());
         }
 
-        log.info("UserController upload result={}", modelMap);
+        log.info("UserController queryUserInfo result={}", modelMap);
         return modelMap;
     }
 }

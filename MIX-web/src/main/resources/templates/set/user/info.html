@@ -108,11 +108,12 @@
         success: function (res) {
           if (res.code === "0000") {
             //设置表单数据
-            var maskUserNo = mobilePhoneMask(res.data.result.loginNo);
+            var maskUserNo = mobilePhoneMask(res.data.loginNo);
             $("#username").attr("value", maskUserNo);
-            $("#nickname").attr("value", res.data.result.nickName);
-            $("#email").attr("value", res.data.result.email);
-            $("#remarks").html(res.data.result.remark);
+            $("#nickname").attr("value", res.data.nickName);
+            $("#email").attr("value", res.data.email);
+            $("#remarks").html(res.data.remark);
+            $("#LAY_avatarSrc").attr("value", res.data.headCopy);
           } else {
             layer.open({
               title: '提示信息'

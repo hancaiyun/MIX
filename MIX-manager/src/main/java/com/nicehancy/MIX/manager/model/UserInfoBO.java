@@ -29,6 +29,11 @@ public class UserInfoBO extends BaseBO{
     private String nickName;
 
     /**
+     * 头像
+     */
+    private String headCopy;
+
+    /**
      * 邮箱
      */
     private String email;

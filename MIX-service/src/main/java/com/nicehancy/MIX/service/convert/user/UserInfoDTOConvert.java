@@ -56,6 +56,7 @@ public class UserInfoDTOConvert {
         UserInfoDTO userInfoDTO = new UserInfoDTO();
         userInfoDTO.setLoginNo(user.getLoginNo());
         userInfoDTO.setNickName(user.getNickName());
+        userInfoDTO.setHeadCopy(user.getHeadCopy());
         userInfoDTO.setEmail(user.getEmail());
         userInfoDTO.setPassword(user.getPassword());
         userInfoDTO.setAuthCode(user.getAuthCode());
