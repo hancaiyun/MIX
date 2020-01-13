@@ -34,6 +34,7 @@ public class UserInfoDTOConvert {
         UserInfoBO userInfoBO = new UserInfoBO();
         userInfoBO.setLoginNo(userInfoDTO.getLoginNo());
         userInfoBO.setNickName(userInfoDTO.getNickName());
+        userInfoBO.setHeadCopy(userInfoDTO.getHeadCopy());
         userInfoBO.setPassword(userInfoDTO.getPassword());
         userInfoBO.setAuthCode(userInfoDTO.getAuthCode());
         userInfoBO.setEmail(userInfoDTO.getEmail());

@@ -87,4 +87,30 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
         //更新操作
         mongoTemplate.updateFirst(query, update, UserInfoDO.class);
     }
+
+    /**
+     * 更新用户基本信息
+     * @param userInfoDO        用户信息
+     */
+    @Override
+    public void updateUserInfo(UserInfoDO userInfoDO) {
+
+        //查询条件
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.and("userNo").is(userInfoDO.getUserNo());
+        query.addCriteria(criteria);
+
+        //更新内容
+        Update update = new Update();
+        update.set("nickName", userInfoDO.getNickName());
+        update.set("headCopy", userInfoDO.getHeadCopy());
+        update.set("email", userInfoDO.getEmail());
+        update.set("remark", userInfoDO.getRemark());
+        update.set("updatedAt", new Date());
+        update.set("updatedBy", userInfoDO.getUserNo());
+
+        //更新操作
+        mongoTemplate.updateFirst(query, update, UserInfoDO.class);
+    }
 }

@@ -213,4 +213,30 @@ public class CustomUserService implements UserDetailsService {
         }
         return result;
     }
+
+    /**
+     * 用户信息修改接口
+     * @param userInfoDTO           用户信息
+     * @param traceLogId            日志ID
+     * @return                      返回修改结果
+     */
+    public Result<Boolean> updateUserInfo(UserInfoDTO userInfoDTO, String traceLogId) {
+
+        Result<Boolean> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        try{
+            log.info("CustomUserService updateUserInfo request PARAM: userInfoDTO={}, traceLogId={}", userInfoDTO, traceLogId);
+            //TODO 参数校验
+
+            //密码修改
+            boolean isModify = userInfoManager.updateUserInfo(UserInfoDTOConvert.getBOByDTO(userInfoDTO));
+            result.setResult(isModify);
+            log.error("CustomUserService updateUserInfo success: result={}", result);
+        }catch (Exception e){
+            result.setErrorCode("SYSTEM_ERROR");
+            result.setErrorMsg(e.getMessage());
+            log.error("CustomUserService updateUserInfo error: result={}, e={}", result, e);
+        }
+        return result;
+    }
 }

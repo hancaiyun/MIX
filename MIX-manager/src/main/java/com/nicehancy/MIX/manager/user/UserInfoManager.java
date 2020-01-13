@@ -136,4 +136,14 @@ public class UserInfoManager {
         return true;
     }
 
+    /**
+     * 更新用户信息
+     * @param userInfoBO          用户信息
+     * @return                    更新结果
+     */
+    public boolean updateUserInfo(UserInfoBO userInfoBO) {
+
+        userInfoRepository.updateUserInfo(UserInfoBOConvert.getDOByBO(userInfoBO));
+        return true;
+    }
 }

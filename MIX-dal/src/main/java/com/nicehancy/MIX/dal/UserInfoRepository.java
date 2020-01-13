@@ -31,4 +31,10 @@ public interface UserInfoRepository {
      * @param encodePassword    密码密文
      */
     void resetPassword(String userNo, String encodePassword);
+
+    /**
+     * 用户基本信息更新
+     * @param userInfoDO        用户信息
+     */
+    void updateUserInfo(UserInfoDO userInfoDO);
 }

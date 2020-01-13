@@ -1,12 +1,3 @@
-/**
-
- @Name：layuiAdmin（iframe版） 设置
- @Author：贤心
- @Site：http://www.layui.com/admin/
- @License: LPPL
-    
- */
- 
 layui.define(['form', 'upload'], function(exports){
   var $ = layui.$
   ,layer = layui.layer
@@ -82,21 +73,23 @@ layui.define(['form', 'upload'], function(exports){
     return false;
   });
   
-  
   //设置我的资料
   form.on('submit(setmyinfo)', function(obj){
-    layer.msg(JSON.stringify(obj.field));
-    
+    var data = obj.field;
+    data.userNo = window.localStorage["loginNo"];
     //提交修改
-    /*
     admin.req({
-      url: ''
+      url: '/set/user/update'
       ,data: obj.field
-      ,success: function(){
-        
+      ,success: function(res){
+        if(res.code === "0000"){
+          //成功提示
+          layer.msg("用户信息更新成功");
+        }else{
+          layer.msg("用户信息更新失败，失败原因："+ res.msg);
+        }
       }
     });
-    */
     return false;
   });
 
@@ -132,23 +125,27 @@ layui.define(['form', 'upload'], function(exports){
       ,anim: 5
     });
   };
-  
-  
+
   //设置密码
   form.on('submit(setmypass)', function(obj){
-    layer.msg(JSON.stringify(obj.field));
-    
+
+    obj.field.userNo = window.localStorage["loginNo"];
     //提交修改
-    /*
     admin.req({
-      url: ''
+      url: '/set/user/password'
       ,data: obj.field
-      ,success: function(){
-        
+      ,success: function(res){
+        if(res.code === "0000"){
+          layer.msg("密码修改成功，即将重新登录", {icon: 1});
+          setTimeout(function () {
+            top.location = "/logout";
+          }, 3000);
+        } else {
+          layer.msg(res.msg, {icon: 5});
+          return true;
+        }
       }
     });
-    */
-    return false;
   });
   
   //对外暴露的接口

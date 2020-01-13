@@ -62,6 +62,7 @@ public class UserInfoBOConvert {
         UserInfoDO userInfoDO = new UserInfoDO();
         userInfoDO.setUserNo(userInfoBO.getLoginNo());
         userInfoDO.setNickName(userInfoBO.getNickName());
+        userInfoDO.setHeadCopy(userInfoBO.getHeadCopy());
         userInfoDO.setPassword(userInfoBO.getPassword());
         userInfoDO.setAuthCode(userInfoBO.getAuthCode());
         userInfoDO.setEmail(userInfoBO.getEmail());

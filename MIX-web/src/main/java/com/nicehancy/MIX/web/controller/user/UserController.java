@@ -126,4 +126,62 @@ public class UserController extends BaseController {
         log.info("UserController queryUserInfo result={}", modelMap);
         return modelMap;
     }
+
+    /**
+     * 用户信息更新
+     * @return     用户信息
+     */
+    @RequestMapping(value = "/set/user/update")
+    @ResponseBody
+    public ModelMap updateUserInfo(HttpServletRequest request){
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        UserInfoDTO userInfoDTO = new UserInfoDTO();
+        userInfoDTO.setLoginNo(this.getParameters(request).get("userNo"));
+        userInfoDTO.setNickName(this.getParameters(request).get("nickname"));
+        userInfoDTO.setHeadCopy(this.getParameters(request).get("avatar"));
+        userInfoDTO.setEmail(this.getParameters(request).get("email"));
+        userInfoDTO.setRemark(this.getParameters(request).get("remarks"));
+
+        log.info("UserController updateUserInfo request PARAM: userInfoDTO={}, traceLogId={}", userInfoDTO, traceLogId);
+        Result<Boolean> result =  customUserService.updateUserInfo(userInfoDTO, traceLogId);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap = this.processSuccessJSON(result.getResult());
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+
+        log.info("UserController updateUserInfo result={}", modelMap);
+        return modelMap;
+    }
+
+    /**
+     * 用户信息更新
+     * @return     用户信息
+     */
+    @RequestMapping(value = "/set/user/password")
+    @ResponseBody
+    public ModelMap updatePassword(HttpServletRequest request){
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        String userNo = this.getParameters(request).get("userNo");
+        String oldPassword = this.getParameters(request).get("oldPassword");
+        String newPassword = this.getParameters(request).get("password");
+
+        log.info("UserController updatePassword request PARAM: userNo={}, oldPassword={}, newPassword={} traceLogId={}",
+                userNo, oldPassword, newPassword, traceLogId);
+        Result<Boolean> result =  customUserService.modifyPassword(userNo, oldPassword, newPassword, traceLogId);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap = this.processSuccessJSON(result.getResult());
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+
+        log.info("UserController updatePassword result={}", modelMap);
+        return modelMap;
+    }
 }
