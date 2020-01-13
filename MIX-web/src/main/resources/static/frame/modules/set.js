@@ -104,7 +104,7 @@ layui.define(['form', 'upload'], function(exports){
   //上传头像
   var avatarSrc = $('#LAY_avatarSrc');
   upload.render({
-    url: '/api/upload/'
+    url: '/file/upload/'
     ,elem: '#LAY_avatarUpload'
     ,done: function(res){
       if(res.code === "0000"){
@@ -124,7 +124,7 @@ layui.define(['form', 'upload'], function(exports){
       photos: {
         "title": "查看头像" //相册标题
         ,"data": [{
-          "src": "/download/" + src //原图地址
+          "src": "/file/download?fileName=" + src //原图地址
         }]
       }
       ,shade: 0.01

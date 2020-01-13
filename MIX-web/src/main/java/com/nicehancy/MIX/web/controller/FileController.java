@@ -8,10 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Date;
@@ -34,7 +37,7 @@ public class FileController extends BaseController {
      *
      * @return 文件路径
      */
-    @RequestMapping(value = "/api/upload")
+    @RequestMapping(value = "/file/upload")
     @ResponseBody
     public ModelMap upload(@RequestParam("file") MultipartFile file) throws IOException {
 
@@ -80,18 +83,83 @@ public class FileController extends BaseController {
 
     /**
      * 文件 下载
-     *
+     * fileName
      * @return 文件路径
      */
-    @RequestMapping(value = "/api/download")
-    @ResponseBody
-    public ModelMap download(@RequestParam(name = "filePath") String filePathParam, @RequestParam(name = "menuCode")
-            String menuCodeParam, HttpServletResponse resp){
+    @RequestMapping(value = "/file/download")
+    public void download(HttpServletRequest request, HttpServletResponse response){
 
         String traceLogId = UUID.randomUUID().toString();
         MDC.put("TRACE_LOG_ID", traceLogId);
-        log.info("FileController download request: traceLogId={}", traceLogId);
+        String fileName = this.getParameters(request).get("fileName");
+        log.info("FileController download request: fileName={}, traceLogId={}", fileName, traceLogId);
+        if(StringUtils.isEmpty(fileName)){
+            return;
+        }
 
-        return null;
+        //图片下载
+        //通过物理路径上传文件
+        String realPath = "C://file/" + fileName;
+        File file = new File(realPath);
+        downFile(response, file, fileName);
     }
+
+    /**
+     * 文件下载逻辑
+     * @param response          返回http
+     * @param file              文件路径
+     * @param fileName          文件名
+     */
+    private void downFile(HttpServletResponse response,File file,String fileName){
+
+        boolean bo=file.exists();
+
+        if (bo) {
+            try {
+                //把文件名按UTF-8取出并按ISO8859-1编码，保证弹出窗口中的文件名中文不乱码，中文不要太多，最多支持17个中文，因为header有150个字节限制。
+                fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            response.setContentType("application/force-download");// 设置强制下载不打开
+            //response.setContentType("application/octet-stream");// 告诉浏览器输出内容为流
+            //Content-Disposition中指定的类型是文件的扩展名，并且弹出的下载对话框中的文件类型图片是按照文件的扩展名显示的，点保存后，
+            // 文件以filename的值命名，保存类型以Content中设置的为准。注意：在设置Content-Disposition头字段之前，一定要设置Content-Type头字段。
+            response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
+            String len = String.valueOf(file.length());
+            response.setHeader("Content-Length", len);//设置内容长度
+            byte[] buffer = new byte[1024];
+            FileInputStream fis = null;
+            BufferedInputStream bis = null;
+            try {
+                fis = new FileInputStream(file);
+                bis = new BufferedInputStream(fis);
+                OutputStream os = response.getOutputStream();
+                int i = bis.read(buffer);
+                while (i != -1) {
+                    os.write(buffer, 0, i);
+                    i = bis.read(buffer);
+                }
+                // System.out.println("success");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (bis != null) {
+                    try {
+                        bis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
 }
