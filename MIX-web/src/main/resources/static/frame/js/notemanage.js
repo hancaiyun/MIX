@@ -1,7 +1,6 @@
 //初始化一级目录
 //缓存中获取用户ID
 window.onload = function () {
-    var $ = layer.jquery;
     //请求查询
     $.ajax({
         url: '/note/notemanage/queryDirectory',
@@ -38,7 +37,6 @@ window.onload = function () {
         }
     });
 };
-
 
 //初始化富文本域
 //富文本集相关操作

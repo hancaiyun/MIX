@@ -82,7 +82,7 @@ public class FileController extends BaseController {
     }
 
     /**
-     * 文件 下载
+     * 文件下载
      * fileName
      * @return 文件路径
      */
