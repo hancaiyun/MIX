@@ -1,6 +1,7 @@
 package com.nicehancy.MIX.web.controller;
 
 import com.nicehancy.MIX.common.Result;
+import com.nicehancy.MIX.common.utils.SystemResourceUtil;
 import com.nicehancy.MIX.service.CustomUserService;
 import com.nicehancy.MIX.service.api.model.UserInfoDTO;
 import com.nicehancy.MIX.web.controller.base.BaseController;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -142,4 +145,29 @@ public class HomeController extends BaseController {
     public ModelAndView console(){
         return new ModelAndView("home/console");
     }
+
+    /**
+     * 系统信息查询
+     * @return       系统资源使用
+     */
+    @RequestMapping("/home/console/systemInfo")
+    @ResponseBody
+    public ModelMap querySystemInfo(){
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        log.info("HomeController querySystemInfo request");
+
+        Map<String, Integer> map = new HashMap<>();
+        //map.put("CPU", SystemResourceUtil.getCpuRatioForWindows());
+        //map.put("MEMORY", SystemResourceUtil.getMemery());
+        map.put("DISK", SystemResourceUtil.getTotalDisk());
+        ModelMap modelMap;
+        modelMap = this.processSuccessJSON(map);
+
+        log.info("HomeController querySystemInfo result={}", modelMap);
+        return modelMap;
+    }
+
+
 }
