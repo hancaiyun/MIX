@@ -1,6 +1,5 @@
 package com.nicehancy.MIX.service;
 
-import com.alibaba.fastjson.JSON;
 import com.nicehancy.MIX.common.Result;
 import com.nicehancy.MIX.common.utils.GsonUtil;
 import com.nicehancy.MIX.common.utils.PasswordUtil;
@@ -19,7 +18,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
