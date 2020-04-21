@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.UUID;
 
@@ -55,7 +56,11 @@ public class FileController extends BaseController {
         log.info("oldName={}, path={}, fileName={}", oldName, path, fileName);
         File localFile = new File(filePath);
         if (!localFile.exists()) {
-            localFile.mkdirs();
+            boolean isCreated = localFile.mkdirs();
+            if(!isCreated){
+                log.error("文件目录创建失败！");
+                throw new RuntimeException("文件目录创建失败！");
+            }
         }
         file.transferTo(localFile);
 
@@ -83,8 +88,7 @@ public class FileController extends BaseController {
 
     /**
      * 文件下载
-     * fileName
-     * @return 文件路径
+     * 根据文件名fileName下载文件
      */
     @RequestMapping(value = "/file/download")
     public void download(HttpServletRequest request, HttpServletResponse response){
@@ -117,7 +121,7 @@ public class FileController extends BaseController {
         if (bo) {
             try {
                 //把文件名按UTF-8取出并按ISO8859-1编码，保证弹出窗口中的文件名中文不乱码，中文不要太多，最多支持17个中文，因为header有150个字节限制。
-                fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
+                fileName = new String(fileName.getBytes(StandardCharsets.UTF_8), "ISO8859-1");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

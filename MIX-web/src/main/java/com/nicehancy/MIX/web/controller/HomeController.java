@@ -46,7 +46,7 @@ public class HomeController extends BaseController {
     /**
      * 自定义登录页面
      * @param error 错误信息显示标识
-     * @return
+     * @return      登录页
      *
      */
     @GetMapping("/login")

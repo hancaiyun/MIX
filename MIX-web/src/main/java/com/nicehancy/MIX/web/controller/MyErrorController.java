@@ -21,11 +21,11 @@ public class MyErrorController implements ErrorController {
         //获取statusCode:401,404,500
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         if(statusCode == 401){
-            return "/401";
+            return "/401";//缺省页面
         }else if(statusCode == 404){
             return "template/tips/404";
         }else if(statusCode == 403){
-            return "/403";
+            return "/403";//缺省页面
         }else{
             return "template/tips/error";
         }

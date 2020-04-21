@@ -198,10 +198,10 @@ public class NoteController extends BaseController {
         log.info("NoteController manage result: {}", modelMap);
         return modelMap;
     }
-    /**
-     * 表单页
-     * @return      主页视图
-     */
+//    /**
+//     * 表单页
+//     * @return      主页视图
+//     */
 //    @RequestMapping("/note/updateOrAddAccount")
 //    public ModelAndView accountForm(){
 //        return new ModelAndView("note/account/accountForm");
