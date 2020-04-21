@@ -76,7 +76,7 @@ public class FileController extends BaseController {
      * 更改文件名
      *
      * @param oldName 原名字
-     * @return 文件名，格式 随机+_yyyy-MM-dd HH:mm:ss+.+文件后缀
+     * @return 文件名，格式 yyyyMMddHHmmss+随机码.+文件后缀
      */
     private static String changeName(String oldName) {
         String newName = oldName.substring(oldName.indexOf('.'));
@@ -102,7 +102,7 @@ public class FileController extends BaseController {
         }
 
         //图片下载
-        //通过物理路径上传文件
+        //通过物理路径下载文件
         String realPath = "C://file/" + fileName;
         File file = new File(realPath);
         downFile(response, file, fileName);
