@@ -14,13 +14,13 @@
 
     <!-- 系统日志打印 -->
     <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${logger_logback_logpath}MIX.log</File>
+        <File>${logger_logback_logPath}MIX.log</File>
         <encoder>
             <Pattern>[%date] [%-5level] %c{40} %line --%mdc{client} [%X{TRACE_LOG_ID}] [%X{dstTraceId}] %msg%n</Pattern>
             <charset>UTF-8</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${logger_logback_logpath}MIX.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${logger_logback_logPath}MIX.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>30</maxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>512MB</maxFileSize>
