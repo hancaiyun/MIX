@@ -2,6 +2,8 @@ package com.nicehancy.MIX;
 
 import com.nicehancy.MIX.base.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -23,6 +25,7 @@ public class DOSTest extends BaseSpringTest {
      * collision碰撞攻击数据测试
      * 谨慎执行：攻击服务器CPU将被耗尽
      */
+    @Test
     public void collisionTest() {
 
         String jsonStr = "";

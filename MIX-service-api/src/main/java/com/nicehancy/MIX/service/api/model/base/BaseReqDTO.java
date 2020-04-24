@@ -3,9 +3,9 @@ package com.nicehancy.MIX.service.api.model.base;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotNull;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

@@ -1,18 +1,16 @@
 package com.nicehancy.MIX;
 
+import com.nicehancy.MIX.base.BaseSpringTest;
 import com.nicehancy.MIX.common.utils.FileIdUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
+import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 @Slf4j
-@SpringBootTest
-class MixApplicationTests {
+class MixApplicationTests extends BaseSpringTest {
 
 	@Test
 	void createFileIdTest(){

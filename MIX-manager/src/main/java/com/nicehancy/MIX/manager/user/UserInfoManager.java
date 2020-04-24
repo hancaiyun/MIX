@@ -1,8 +1,6 @@
 package com.nicehancy.MIX.manager.user;
 
-import com.alibaba.fastjson.JSON;
 import com.nicehancy.MIX.common.enums.SensitiveTypeEnum;
-import com.nicehancy.MIX.common.utils.GsonUtil;
 import com.nicehancy.MIX.common.utils.MaskUtil;
 import com.nicehancy.MIX.common.utils.SendEmailUtil;
 import com.nicehancy.MIX.common.utils.SendSmsUtil;

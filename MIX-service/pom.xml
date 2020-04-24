@@ -14,14 +14,15 @@
         <dependency>
             <groupId>com.nicehancy</groupId>
             <artifactId>MIX-service-api</artifactId>
-            <version>1.3.0</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.nicehancy</groupId>
             <artifactId>MIX-manager</artifactId>
-            <version>1.3.0</version>
-            <scope>compile</scope>
+        </dependency>
+        <!-- dubbo -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
         </dependency>
     </dependencies>
 

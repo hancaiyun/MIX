@@ -4,8 +4,8 @@ import com.nicehancy.MIX.service.api.model.base.BaseReqDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotNull;
-import javax.validation.constraints.NotBlank;
 
 /**
  * 一级目录列表查询接口

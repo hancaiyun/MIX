@@ -19,8 +19,8 @@ public interface NoteInfoService {
 
     /**
      * 目录查询
-     * @param reqDTO
-     * @return
+     * @param reqDTO    请求参数
+     * @return          目录列表
      */
     Result<List<String>> queryDirectory(DirectoryQueryReqDTO reqDTO);
 

@@ -68,5 +68,5 @@ public class UserInfoDTO implements Serializable{
     /**
      * 验证码
      */
-    private String vercode;
+    private String verCode;
 }

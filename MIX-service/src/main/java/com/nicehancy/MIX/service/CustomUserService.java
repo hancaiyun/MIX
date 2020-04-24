@@ -137,8 +137,8 @@ public class CustomUserService implements UserDetailsService {
             if(StringUtils.isEmpty(cache)){
                 throw new RuntimeException("验证码已失效！");
             }
-            if(!cache.equals(userInfoDTO.getVercode())){
-                log.error("缓存中的验证码：{}, 用户输入的验证码：{}", cache, userInfoDTO.getVercode());
+            if(!cache.equals(userInfoDTO.getVerCode())){
+                log.error("缓存中的验证码：{}, 用户输入的验证码：{}", cache, userInfoDTO.getVerCode());
                 throw new RuntimeException("验证码有误！");
             }
 
