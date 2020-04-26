@@ -120,7 +120,6 @@ public class DateUtil {
         return new DateTime(date).toString(pattern);
     }
 
-
     /**
      * 获取当前时间
      *

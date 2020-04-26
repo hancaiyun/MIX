@@ -92,3 +92,56 @@ function randomColor() {//得到随机的颜色值
     var b = Math.floor(Math.random() * 256);
     return "rgb(" + r + "," + g + "," + b + ")";
 }
+
+//忘记密码
+function forgetPS(userNo) {
+    layui.use('layer', function () {
+        // 操作对象
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        //弹出发送密码重置邮件的弹窗
+        parent.layer.open({
+            title: '重置密码提示信息'
+            , btn: ['确定']
+            , content: '确认重置密码？ 确认重置后，密码将已邮件的方式发送到您的邮箱'
+            ,yes:function () {
+                //alert("用户名:" + userNo);
+                if(userNo == null || userNo ===''){
+                    return;
+                }
+                //请求密码重置
+                $.ajax({
+                    url: '/user/resetPassword',
+                    data:{"userNo": userNo},
+                    dataType: 'json',//数据类型
+                    type: 'GET',//请求方式
+                    timeout: 3000,//超时时间
+                    //请求成功
+                    success: function (res) {
+                        if (res.code === "0000") {
+                            //展示主页
+                            layer.open({
+                                title: '提示信息'
+                                , content: '密码已重置，请稍后在邮箱' + res.data.email + '中查看密码'
+                            });
+                        } else {
+                            layer.open({
+                                title: '提示信息'
+                                , content: '密码重置失败，失败原因：' + res.msg
+                            });
+                        }
+                    },
+                    //失败/超时
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        if (textStatus === 'timeout') {
+                            alert('网络异常');
+                            setTimeout(function () {
+                            }, 30000);
+                        }
+                        alert(errorThrown);
+                    }
+                });
+            }
+        });
+    });
+}

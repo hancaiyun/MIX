@@ -3,6 +3,7 @@ package com.nicehancy.MIX.web.controller.user;
 import com.nicehancy.MIX.common.Result;
 import com.nicehancy.MIX.service.CustomUserService;
 import com.nicehancy.MIX.service.api.model.UserInfoDTO;
+import com.nicehancy.MIX.service.api.model.result.PasswordResetDTO;
 import com.nicehancy.MIX.web.controller.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -182,6 +183,32 @@ public class UserController extends BaseController {
         }
 
         log.info("UserController updatePassword result={}", modelMap);
+        return modelMap;
+    }
+
+    /**
+     * 重置密码请求
+     * @param request       重置密码请求
+     * @return              重置结果
+     */
+    @RequestMapping(value = "/user/resetPassword")
+    @ResponseBody
+    public ModelMap resetPassword(HttpServletRequest request){
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        String userNo = this.getParameters(request).get("userNo");
+        log.info("UserController resetPassword request PARAM: userNo={}, traceLogId={}", userNo, traceLogId);
+
+        Result<PasswordResetDTO> result =  customUserService.resetPassword(userNo, traceLogId);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap = this.processSuccessJSON(result.getResult());
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+
+        log.info("UserController resetPassword result: {}", result);
         return modelMap;
     }
 }

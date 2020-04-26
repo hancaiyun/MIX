@@ -7,6 +7,7 @@ import com.nicehancy.MIX.manager.model.UserInfoBO;
 import com.nicehancy.MIX.manager.redis.RedisManager;
 import com.nicehancy.MIX.manager.user.UserInfoManager;
 import com.nicehancy.MIX.service.api.model.UserInfoDTO;
+import com.nicehancy.MIX.service.api.model.result.PasswordResetDTO;
 import com.nicehancy.MIX.service.convert.user.UserInfoDTOConvert;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -163,9 +164,9 @@ public class CustomUserService implements UserDetailsService {
      * @param traceLogId            日志ID
      * @return                      邮箱
      */
-    public Result<String> resetPassword(String userNo, String traceLogId) {
+    public Result<PasswordResetDTO> resetPassword(String userNo, String traceLogId) {
 
-        Result<String> result = new Result<>();
+        Result<PasswordResetDTO> result = new Result<>();
         MDC.put("TRACE_LOG_ID", traceLogId);
         try {
             log.info("CustomUserService resetPassword request PARAM: userNo={}, traceLogId={}", userNo, traceLogId);
@@ -173,7 +174,9 @@ public class CustomUserService implements UserDetailsService {
             //密码加密，通过BCrypt
             String password = PasswordUtil.randomPassword();
             String email = userInfoManager.resetPassword(userNo, password);
-            result.setResult(email);
+            PasswordResetDTO prDTO = new PasswordResetDTO();
+            prDTO.setEmail(email);
+            result.setResult(prDTO);
             log.info("CustomUserService resetPassword result: result={}", result);
         }catch (Exception e){
             result.setErrorCode("SYSTEM_ERROR");

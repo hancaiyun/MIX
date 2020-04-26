@@ -1,9 +1,7 @@
 package com.nicehancy.MIX.manager.user;
 
 import com.nicehancy.MIX.common.enums.SensitiveTypeEnum;
-import com.nicehancy.MIX.common.utils.MaskUtil;
-import com.nicehancy.MIX.common.utils.SendEmailUtil;
-import com.nicehancy.MIX.common.utils.SendSmsUtil;
+import com.nicehancy.MIX.common.utils.*;
 import com.nicehancy.MIX.dal.UserInfoRepository;
 import com.nicehancy.MIX.manager.convert.UserInfoBOConvert;
 import com.nicehancy.MIX.manager.model.UserInfoBO;
@@ -82,7 +80,7 @@ public class UserInfoManager {
         if(user == null){
             throw new RuntimeException("用户不存在！");
         }
-        if(StringUtils.isEmpty(user.getLoginNo())){
+        if(StringUtils.isEmpty(user.getEmail()) || !RegularValidatorUtil.isEmail(user.getEmail())){
             throw new RuntimeException("用户邮箱信息有误！");
         }
 
@@ -92,14 +90,13 @@ public class UserInfoManager {
         userInfoRepository.resetPassword(userNo, encodePassword);
 
         //异步发送邮件通知
-        new Thread(() -> {
-            String subject = "密码重置提醒";
-            String content = "您的密码已重置, 重置后的密码为：" + password;
-            SendEmailUtil.sendEmail(subject, content, user.getLoginNo());
-        }).start();
+        //设置邮件主题与内容
+        String subject = "MIX登陆密码重置提醒";
+        String content = "您的账户密码已重置, 重置后的密码为：" + password;
+        SendEmailUtil.sendEmail(subject, content, user.getEmail());
 
         //返回邮箱，掩码处理
-        return MaskUtil.getMask(SensitiveTypeEnum.EMAIL.getCode(), user.getLoginNo());
+        return MaskUtil.getMask(SensitiveTypeEnum.EMAIL.getCode(), user.getEmail());
     }
 
     /**

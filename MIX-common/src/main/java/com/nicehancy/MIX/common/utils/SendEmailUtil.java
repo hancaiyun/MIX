@@ -38,7 +38,6 @@ public class SendEmailUtil {
         properties.setProperty("mail.transport.protocol","smtp");
         properties.setProperty("mail.smtp.auth","true");
 
-
         //QQ存在一个特性设置SSL加密
         try {
             MailSSLSocketFactory sf = new MailSSLSocketFactory();
@@ -85,6 +84,7 @@ public class SendEmailUtil {
             transport.close();
         }catch (Exception e){
             log.error("发送邮件失败，失败信息：{}, 待发送的邮件信息：收件人邮箱={}， 邮件主题={},邮件内容={}", e, reciter,subject,content);
+            throw new RuntimeException("邮件发送失败");
         }
     }
 }

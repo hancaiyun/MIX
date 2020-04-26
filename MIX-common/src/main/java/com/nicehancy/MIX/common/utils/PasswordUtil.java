@@ -24,7 +24,7 @@ public class PasswordUtil {
      */
     public static String randomPassword(){
 
-        StringBuffer password = new StringBuffer();
+        StringBuilder password = new StringBuilder();
 
         //初始化数字英文和符号
         String num = "0123456789";
@@ -33,7 +33,7 @@ public class PasswordUtil {
         String symbol = "!@#$%^&*";
         String stringSum = num + english + englishBig + symbol;
         int length = stringSum.length();
-        //定义密码长度,写死8
+        //定义密码长度,固定长度8
         int passwordLength = 8;
         for (int i = 0; i < passwordLength; i++) {
             Random random = new Random();

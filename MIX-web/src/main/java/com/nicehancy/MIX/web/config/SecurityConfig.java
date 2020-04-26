@@ -45,8 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
              .permitAll()
              .and()
              //允许不登陆就可以访问的方法，多个用逗号分隔
-             .authorizeRequests().antMatchers("/reg/**","/user/password/reset","/frame/**")
-                .permitAll()
+             .authorizeRequests().antMatchers("/reg/**","/user/password/reset","/user/resetPassword",
+                "/frame/**").permitAll()
              //其他的需要授权后访问
              .anyRequest().authenticated();
 

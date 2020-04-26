@@ -58,7 +58,7 @@ public class HomeController extends BaseController {
 
     /**
      * 用户注册页
-     * @return      默认页视图
+     * @return      注册页视图
      */
     @RequestMapping("/reg")
     public ModelAndView reg(){
@@ -67,7 +67,7 @@ public class HomeController extends BaseController {
 
     /**
      * 短信验证码发送
-     * @return      默认页视图
+     * @return      短信验证码发送结果
      */
     @RequestMapping("/reg/vercode")
     @ResponseBody
