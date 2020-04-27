@@ -130,38 +130,38 @@
                 <col>
               </colgroup>
               <tbody>
-                <tr>
-                  <td>当前版本</td>
-                  <td>
-                    1.0.0
-                  </td>
-                </tr>
-                <tr>
-                  <td>基于框架</td>
-                  <td>
-                    <script type="text/html" template>
-                      layui-v{{layui.v}}
-                    </script>
-                    </br>SpringBoot 2.0
-                    </br>thymeleaf
-                    </br>MyBatis
-                 </td>
-                </tr>
-                <tr>
-                  <td>主要特色</td>
-                  <td>一体化 / 适用 / 极简</td>
-                </tr>
+<!--                <tr>-->
+<!--                  <td>当前版本</td>-->
+<!--                  <td>-->
+<!--                    1.0.0-->
+<!--                  </td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                  <td>基于框架</td>-->
+<!--                  <td>-->
+<!--                    <script type="text/html" template>-->
+<!--                      layui-v{{layui.v}}-->
+<!--                    </script>-->
+<!--                    </br>SpringBoot 2.0-->
+<!--                    </br>thymeleaf-->
+<!--                    </br>MyBatis-->
+<!--                 </td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                  <td>主要特色</td>-->
+<!--                  <td>一体化 / 适用 / 极简</td>-->
+<!--                </tr>-->
                 <tr>
                   <!-- 时间倒计时 -->
                   <div id="timer"></div>
                   <script>
                     layui.use('util', function(){
-                      var util = layui.util;
+                      const util = layui.util;
                       //示例
-                      var endTime = new Date(2022,4,14).getTime() //假设为结束日期
-                              ,serverTime = new Date().getTime(); //假设为当前服务器时间，这里采用的是本地时间，实际使用一般是取服务端的
+                      const endTime = new Date(2022, 4, 14).getTime() //假设为结束日期
+                              , serverTime = new Date().getTime(); //假设为当前服务器时间，这里采用的是本地时间，实际使用一般是取服务端的
                       util.countdown(endTime, serverTime, function(date, serverTime, timer){
-                        var str = date[0] + '天' + date[1] + '时' +  date[2] + '分' + date[3] + '秒';
+                        const str = date[0] + '天' + date[1] + '时' + date[2] + '分' + date[3] + '秒';
                         layui.$('#timer').html('距离2022年4月14日还有：'+ str);
                       });
                     });

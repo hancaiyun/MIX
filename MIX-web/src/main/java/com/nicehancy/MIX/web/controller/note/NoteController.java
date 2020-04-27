@@ -28,7 +28,7 @@ import java.util.UUID;
  **/
 @Slf4j
 @Controller
-@RequestMapping("/note/notemanage")
+@RequestMapping("/note")
 public class NoteController extends BaseController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class NoteController extends BaseController {
      * 主页面
      * @return      主页视图
      */
-    @RequestMapping("/page")
+    @RequestMapping("/notemanage/page")
     public ModelAndView mainPage(){
         return new ModelAndView("note/notemanage/notepage");
     }
@@ -47,7 +47,7 @@ public class NoteController extends BaseController {
      * 笔记管理表单页
      * @return      表单页视图
      */
-    @RequestMapping("/noteform")
+    @RequestMapping("/notemanage/noteform")
     public ModelAndView noteForm(){
         return new ModelAndView("note/notemanage/noteform");
     }
@@ -56,7 +56,7 @@ public class NoteController extends BaseController {
      * 查询目录列表
      * @return        目录列表
      */
-    @RequestMapping("/queryDirectory")
+    @RequestMapping("/notemanage/queryDirectory")
     @ResponseBody
     public ModelMap queryDirectory(HttpServletRequest request){
         String traceLogId = UUID.randomUUID().toString();
@@ -83,7 +83,7 @@ public class NoteController extends BaseController {
      * 查询文档列表
      * @return        文档列表
      */
-    @RequestMapping("/queryFileList")
+    @RequestMapping("/notemanage/queryFileList")
     @ResponseBody
     public ModelMap queryFileList(HttpServletRequest request){
         String traceLogId = UUID.randomUUID().toString();
@@ -109,7 +109,7 @@ public class NoteController extends BaseController {
      * 查询笔记信息
      * @return        目录列表
      */
-    @RequestMapping("/queryNoteInfo")
+    @RequestMapping("/notemanage/queryNoteInfo")
     @ResponseBody
     public ModelMap queryNoteInfo(HttpServletRequest request){
         String traceLogId = UUID.randomUUID().toString();
@@ -142,7 +142,7 @@ public class NoteController extends BaseController {
      * 笔记保存
      * @return     处理结果
      */
-    @RequestMapping(value = "/save")
+    @RequestMapping(value = "/notemanage/save")
     @ResponseBody
     public ModelMap save(HttpServletRequest request){
 
@@ -172,7 +172,7 @@ public class NoteController extends BaseController {
      * 笔记管理
      * @return       分页查询数据
      */
-    @RequestMapping("/manage")
+    @RequestMapping("/notemanage/manage")
     @ResponseBody
     public ModelMap manage(HttpServletRequest request){
         String traceLogId = UUID.randomUUID().toString();
@@ -197,6 +197,36 @@ public class NoteController extends BaseController {
         log.info("NoteController manage result: {}", modelMap);
         return modelMap;
     }
+
+    /**
+     * 笔记删除
+     * @return       分页查询数据
+     */
+    @RequestMapping("/delete")
+    @ResponseBody
+    public ModelMap delete(HttpServletRequest request){
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+
+        NoteDeleteReqDTO reqDTO = new NoteDeleteReqDTO();
+        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
+        reqDTO.setPrimaryDirectory(this.getParameters(request).get("primaryDirectory"));
+        reqDTO.setSecondaryDirectory(this.getParameters(request).get("secondaryDirectory"));
+        reqDTO.setDocumentName(this.getParameters(request).get("documentName"));
+        reqDTO.setTraceLogId(traceLogId);
+
+        log.info("NoteController delete request PARAM: reqDTO={}", reqDTO);
+        Result<Boolean> result =  noteInfoService.delete(reqDTO);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap = this.processSuccessJSON(result.getResult());
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("NoteController delete result: {}", modelMap);
+        return modelMap;
+    }
+
 //    /**
 //     * 表单页
 //     * @return      主页视图

@@ -50,4 +50,11 @@ public interface NoteInfoService {
      * @return                      返回结果
      */
     Result<Boolean> manage(NoteManageReqDTO reqDTO);
+
+    /**
+     * 笔记删除接口
+     * @param reqDTO                请求参数
+     * @return                      返回结果
+     */
+    Result<Boolean> delete(NoteDeleteReqDTO reqDTO);
 }

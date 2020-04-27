@@ -111,10 +111,10 @@ layui.use('layedit', function () {
 
 //目录集操作
 layui.use(['form', 'layer', 'layedit'], function () {
-    var $ = layui.jquery;
-    var form = layui.form;
-    var layer = layui.layer;
-    var layedit = layui.layedit;
+    const $ = layui.jquery;
+    const form = layui.form;
+    const layer = layui.layer;
+    const layedit = layui.layedit;
 
     //一级目录选中触发事件——查询二级目录列表
     form.on('select(primaryDirectory)', function (data) {
@@ -210,7 +210,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
     form.on('select(secondaryDirectory)', function (data) {
 
         //data.value 得到被选中的值
-        var secondaryDirectory = data.value;
+        const secondaryDirectory = data.value;
         if (secondaryDirectory === "" || secondaryDirectory == null) {
             //清空文件列表
             removeAll("fileName");
@@ -218,7 +218,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
             return;
         }
         //获取一级目录选中的值
-        var primaryDirectory = document.getElementById("primaryDirectory").value;
+        const primaryDirectory = document.getElementById("primaryDirectory").value;
         //清空富文本集内容
 
         //查询文件名列表并append option
@@ -269,11 +269,11 @@ layui.use(['form', 'layer', 'layedit'], function () {
     form.on('select(fileName)', function (data) {
 
         //data.value 得到被选中的值
-        var fileName = data.value;
+        const fileName = data.value;
         //获取一级目录名
-        var primaryDirectory = document.getElementById("primaryDirectory").value;
+        const primaryDirectory = document.getElementById("primaryDirectory").value;
         //获取二级目录名
-        var secondaryDirectory = document.getElementById("secondaryDirectory").value;
+        const secondaryDirectory = document.getElementById("secondaryDirectory").value;
         //清空富文本集内容
 
         //查询文件内容
@@ -291,8 +291,8 @@ layui.use(['form', 'layer', 'layedit'], function () {
             //请求成功
             success: function (res) {
                 if (res.code === "0000") {
-                    var noteContent = res.data;
-                    var session = layui.data("session");
+                    const noteContent = res.data;
+                    const session = layui.data("session");
                     layedit.setContent(session.textarea, noteContent);
                 } else {
                     layer.open({
@@ -318,7 +318,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
 
 //删除select中的option——用于清空历史append
 function removeAll(selectId) {
-    var obj = document.getElementById(selectId);
+    const obj = document.getElementById(selectId);
     obj.options.length = 1;
 }
 
@@ -389,4 +389,67 @@ function manageFile() {
 //删除文件
 function deleteFile() {
 
+    //获取用户名
+    const userNo = window.localStorage["loginNo"];
+    //获取一级目录名
+    const primaryDirectory = document.getElementById("primaryDirectory").value;
+    //获取二级目录名
+    const secondaryDirectory = document.getElementById("secondaryDirectory").value;
+    //获取文件名
+    const fileName = document.getElementById("fileName").value;
+
+    alert("用户名：" + userNo + ";一级目录名：" + primaryDirectory +";二级目录名：" + secondaryDirectory + "；文件名：" + fileName);
+    //文件名为空， 弹出提示信息
+    if(fileName === '' || fileName == null){
+        layer.open({
+            title: '删除失败'
+            , content: '未选中待删除文档！'
+        });
+        return;
+    }
+    //删除之前弹出提示信息
+    layer.open({
+        title: '文档删除提示信息'
+        , btn: ['确定']
+        , content: '确认删除此条文档？删除后无法恢复'
+        ,yes:function () {
+
+            //请求密码重置
+            $.ajax({
+                url: '/note/delete',
+                data:{
+                    "primaryDirectory": primaryDirectory,
+                    "secondaryDirectory": secondaryDirectory,
+                    "documentName": fileName,
+                    "userNo": window.localStorage["loginNo"]},
+                dataType: 'json',//数据类型
+                type: 'GET',//请求方式
+                timeout: 3000,//超时时间
+                //请求成功
+                success: function (res) {
+                    if (res.code === "0000") {
+                        //展示主页
+                        layer.open({
+                            title: '提示信息'
+                            , content: '删除成功'
+                        });
+                    } else {
+                        layer.open({
+                            title: '提示信息'
+                            , content: '文档删除失败，失败原因：' + res.msg
+                        });
+                    }
+                },
+                //失败/超时
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if (textStatus === 'timeout') {
+                        alert('网络异常');
+                        setTimeout(function () {
+                        }, 30000);
+                    }
+                    alert(errorThrown);
+                }
+            });
+        }
+    });
 }

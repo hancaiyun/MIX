@@ -9,7 +9,7 @@ import net.sf.oval.constraint.NotNull;
 import java.io.Serializable;
 
 /**
- * 笔记管理请求对象
+ * 笔记删除请求对象
  * <p>
  * <p/>
  *
@@ -19,12 +19,12 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class NoteManageReqDTO implements Serializable {
+public class NoteDeleteReqDTO implements Serializable {
 
     /**
      * 序列化ID
      */
-    private static final long serialVersionUID = 3014263504502894983L;
+    private static final long serialVersionUID = -2165705747772457663L;
 
     /**
      * 用户名（登录名）
@@ -48,16 +48,9 @@ public class NoteManageReqDTO implements Serializable {
     /**
      * 文档名称
      */
+    @NotEmpty(message = "笔记名不允许为空")
+    @NotNull(message = "笔记名不允许为空")
     private String documentName;
-
-    /**
-     * 操作类型
-     * 增加-ADD
-     * 删除-DELETE
-     */
-    @NotEmpty(message = "操作类型不允许为空")
-    @NotNull(message = "操作类型不允许为空")
-    private String operatorType;
 
     /**
      * 日志ID

@@ -148,4 +148,25 @@ public class NoteInfoServiceImpl implements NoteInfoService {
         }
         return result;
     }
+
+    /**
+     * 笔记删除接口
+     * @param reqDTO                请求参数
+     * @return                      返回结果
+     */
+    public Result<Boolean> delete(NoteDeleteReqDTO reqDTO) {
+
+        Result<Boolean> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", reqDTO.getTraceLogId());
+        try{
+            log.info("call NoteInfoServiceImpl delete param: reqDTO={}", reqDTO);
+            //业务处理
+            result = noteInfoManager.delete(NoteDTOConvert.getReqBOByDTO(reqDTO));
+            log.info("call NoteInfoServiceImpl delete result: {}", result);
+        }catch (Exception e){
+            result.setErrorMsg(e.getMessage());
+            log.error("call NoteInfoServiceImpl delete failed, message：e={}, result={}", e, result);
+        }
+        return result;
+    }
 }

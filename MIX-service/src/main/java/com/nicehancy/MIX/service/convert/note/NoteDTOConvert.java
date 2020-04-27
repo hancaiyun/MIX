@@ -108,7 +108,7 @@ public class NoteDTOConvert {
     }
 
     /**
-     * 笔记管理请求DTOzhuanBO
+     * 笔记管理请求DTO转BO
      * @param reqDTO              请求DTO
      * @return                    BO
      */
@@ -126,6 +126,26 @@ public class NoteDTOConvert {
         noteManageReqBO.setOperatorType(reqDTO.getOperatorType());
 
         return noteManageReqBO;
+    }
+
+    /**
+     * 笔记删除请求DTO转BO
+     * @param reqDTO              请求DTO
+     * @return                    BO
+     */
+    public static NoteDeleteReqBO getReqBOByDTO(NoteDeleteReqDTO reqDTO) {
+
+        if (reqDTO == null) {
+            return null;
+        }
+
+        NoteDeleteReqBO noteDeleteReqBO = new NoteDeleteReqBO();
+        noteDeleteReqBO.setUserNo(reqDTO.getUserNo());
+        noteDeleteReqBO.setPrimaryDirectory(reqDTO.getPrimaryDirectory());
+        noteDeleteReqBO.setSecondaryDirectory(reqDTO.getSecondaryDirectory());
+        noteDeleteReqBO.setDocumentName(reqDTO.getDocumentName());
+
+        return noteDeleteReqBO;
     }
 
     /**
@@ -148,8 +168,8 @@ public class NoteDTOConvert {
 
     /**
      * 文件列表查询请求DTO转BO
-     * @param reqDTO
-     * @return
+     * @param reqDTO                请求DTO
+     * @return                      请求BO
      */
     public static FileListReqBO getBOByDTO(FileListReqDTO reqDTO) {
 

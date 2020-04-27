@@ -182,10 +182,34 @@ public class NoteInfoManager {
             noteBOForUpdate.setPrimaryDirectory(reqBO.getPrimaryDirectory());
             noteBOForUpdate.setSecondaryDirectory(reqBO.getSecondaryDirectory());
             noteBOForUpdate.setDocumentName(reqBO.getDocumentName());
+            noteBOForUpdate.setUpdatedBy(reqBO.getUserNo());
             //设置状态为不可用
             noteBOForUpdate.setStatus(NoteStatusEnum.DISABLE.getCode());
             noteRepository.updateContent(noteBOForUpdate);
         }
+        result.setResult(true);
+        return result;
+    }
+
+    /**
+     * 笔记删除
+     * @param reqBO         请求BO
+     * @return              处理结果
+     */
+    public Result<Boolean> delete(NoteDeleteReqBO reqBO) {
+
+        Result<Boolean> result = new Result<>();
+
+        NoteInfoDO noteBOForUpdate = new NoteInfoDO();
+        noteBOForUpdate.setUserNo(reqBO.getUserNo());
+        noteBOForUpdate.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+        noteBOForUpdate.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+        noteBOForUpdate.setDocumentName(reqBO.getDocumentName());
+        noteBOForUpdate.setUpdatedBy(reqBO.getUserNo());
+        //设置状态为不可用
+        noteBOForUpdate.setStatus(NoteStatusEnum.DISABLE.getCode());
+        noteRepository.updateContent(noteBOForUpdate);
+
         result.setResult(true);
         return result;
     }
