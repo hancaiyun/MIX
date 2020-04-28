@@ -3,6 +3,7 @@ package com.nicehancy.MIX.service;
 import com.nicehancy.MIX.common.Result;
 import com.nicehancy.MIX.common.utils.GsonUtil;
 import com.nicehancy.MIX.common.utils.PasswordUtil;
+import com.nicehancy.MIX.common.utils.VerifyUtil;
 import com.nicehancy.MIX.manager.model.UserInfoBO;
 import com.nicehancy.MIX.manager.redis.RedisManager;
 import com.nicehancy.MIX.manager.user.UserInfoManager;
@@ -227,8 +228,11 @@ public class CustomUserService implements UserDetailsService {
         MDC.put("TRACE_LOG_ID", traceLogId);
         try{
             log.info("CustomUserService updateUserInfo request PARAM: userInfoDTO={}, traceLogId={}", userInfoDTO, traceLogId);
-            //TODO 参数校验
-
+            //参数校验
+            VerifyUtil.validateObject(userInfoDTO);
+            if(StringUtils.isEmpty(traceLogId)){
+                throw new RuntimeException("日志ID不允许为空");
+            }
             //密码修改
             boolean isModify = userInfoManager.updateUserInfo(UserInfoDTOConvert.getBOByDTO(userInfoDTO));
             result.setResult(isModify);
