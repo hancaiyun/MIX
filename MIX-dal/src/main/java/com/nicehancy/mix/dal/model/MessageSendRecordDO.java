@@ -4,9 +4,10 @@ import com.nicehancy.mix.dal.model.base.BaseDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * 邮件发送记录DO模型
+ * 消息发送记录DO模型
  * <p>
  * <p/>
  *
@@ -16,6 +17,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Document("c_message_send_record")
 public class MessageSendRecordDO extends BaseDO {
 
     /**

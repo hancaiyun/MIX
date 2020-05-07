@@ -3,7 +3,6 @@ package com.nicehancy.mix.dal.impl;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.UserInfoRepository;
 import com.nicehancy.mix.dal.model.UserInfoDO;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -21,7 +20,6 @@ import java.util.Date;
  * @author hancaiyun
  * @since 2019/11/8 9:28
  **/
-@Slf4j
 @Repository(value = "userInfoRepositoryImpl")
 public class UserInfoRepositoryImpl implements UserInfoRepository {
 

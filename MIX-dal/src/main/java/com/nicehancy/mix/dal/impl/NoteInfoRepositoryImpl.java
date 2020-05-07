@@ -7,7 +7,6 @@ import com.nicehancy.mix.dal.model.DirectoryQueryReqDO;
 import com.nicehancy.mix.dal.model.FileListReqDO;
 import com.nicehancy.mix.dal.model.NoteInfoDO;
 import com.nicehancy.mix.dal.model.NoteQueryReqDO;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -26,7 +25,6 @@ import java.util.List;
  * @author hancaiyun
  * @since 2019/10/17 12:09
  **/
-@Slf4j
 @Repository(value = "noteInfoRepositoryImpl")
 public class NoteInfoRepositoryImpl implements NoteInfoRepository {
 
