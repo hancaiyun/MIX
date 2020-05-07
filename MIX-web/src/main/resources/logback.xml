@@ -42,7 +42,7 @@
         <appender-ref ref="STDOUT"/>
     </root>
 
-    <root level="INFO" name="com.nicehancy.MIX">
+    <root level="INFO" name="com.nicehancy.mix">
         <appender-ref ref="logfile" />
     </root>
 

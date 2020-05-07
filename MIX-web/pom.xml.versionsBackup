@@ -36,7 +36,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.nicehancy.MIX.MixApplication</mainClass>
+                    <mainClass>com.nicehancy.mix.MixApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
