@@ -45,7 +45,7 @@ public class SendSmsUtil {
 
         //发送短信
         ZhenziSmsClient client = new ZhenziSmsClient(apiUrl, appId, appSecret);
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(10);
         map.put("message", message);
         map.put("number", phone);
         String result = client.send(map);

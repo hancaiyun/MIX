@@ -14,4 +14,9 @@ public final class CommonConstant {
      * 日志ID KEY
      */
     public static final String TRACE_LOG_ID = "TRACE_LOG_ID";
+
+    /**
+     * 系统名
+     */
+    public static final String SYSTEM = "MIX";
 }

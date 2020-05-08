@@ -84,7 +84,7 @@ public class SystemResourceUtil {
                 }
                 String s1 = substring(line, kmtidx, rocidx - 1).trim();
                 String s2 = substring(line, umtidx, wocidx - 1).trim();
-                if (caption.equals("System Idle Process") || caption.equals("System")) {
+                if ("System Idle Process".equals(caption) || "System".equals(caption)) {
                     if (s1.length() > 0)
                         idletime += Long.parseLong(s1);
                     if (s2.length() > 0)
