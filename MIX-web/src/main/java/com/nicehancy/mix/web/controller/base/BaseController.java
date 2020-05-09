@@ -27,7 +27,7 @@ public class BaseController extends AbstractController{
      * @return                  map
      */
     protected Map<String,String> getParameters(HttpServletRequest request) {
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(1024);
         for (Enumeration enu = request.getParameterNames(); enu.hasMoreElements(); ) {
             String key = enu.nextElement().toString();
             String val = request.getParameter(key);

@@ -31,7 +31,6 @@ public class UnitTest extends BaseSpringTest {
         if(i==j){
             log.info("{}","两者相等");
         }
-
     }
 
     /**

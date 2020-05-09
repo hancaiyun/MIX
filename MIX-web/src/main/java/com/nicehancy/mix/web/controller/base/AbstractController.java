@@ -47,6 +47,19 @@ public abstract class AbstractController {
     }
 
     /**
+     * 处理分页返回结果
+     *
+     * @param result    结果
+     */
+    protected ModelMap processSuccessJSON(Object result, int count) {
+        ModelMap modelMap = new ModelMap();
+        modelMap.put(ResultConstant.RESULT_CODE_NAME, ResultConstant.SUCCESS_CODE);
+        modelMap.put(ResultConstant.RESULT_DATA_NAME, result);
+        modelMap.put(ResultConstant.COUNT, count);
+        return modelMap;
+    }
+
+    /**
      * 处理返回结果
      *
      * @param result    结果

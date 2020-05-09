@@ -1,6 +1,5 @@
-package com.nicehancy.mix.dal.model;
+package com.nicehancy.mix.manager.model;
 
-import com.nicehancy.mix.dal.model.base.PageQueryBaseDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,7 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class MessageSendRecordPageQueryDO extends PageQueryBaseDO {
+public class MessageSendRecordPageQueryBO {
 
     /**
      * 当前页
@@ -47,5 +46,4 @@ public class MessageSendRecordPageQueryDO extends PageQueryBaseDO {
      * 消息类型
      */
     private String messageType;
-
 }

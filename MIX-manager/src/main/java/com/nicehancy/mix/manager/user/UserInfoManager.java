@@ -60,6 +60,8 @@ public class UserInfoManager {
         messageSendRecordDO.setMessageName(MessageTypeEnum.MESSAGE.getDesc());
         messageSendRecordDO.setSender(CommonConstant.SYSTEM);
         messageSendRecordDO.setRecipient(phone);
+        messageSendRecordDO.setCreatedBy(CommonConstant.SYSTEM);
+        messageSendRecordDO.setUpdatedBy(CommonConstant.SYSTEM);
 
         try {
             //发送短信
@@ -120,6 +122,8 @@ public class UserInfoManager {
         messageSendRecordDO.setMessageName(MessageTypeEnum.EMAIL.getDesc());
         messageSendRecordDO.setSender(CommonConstant.SYSTEM);
         messageSendRecordDO.setRecipient(user.getEmail());
+        messageSendRecordDO.setCreatedBy(CommonConstant.SYSTEM);
+        messageSendRecordDO.setUpdatedBy(CommonConstant.SYSTEM);
         //设置邮件主题与内容
         String subject = "MIX登陆密码重置提醒";
         String content = "您的账户密码已重置, 重置后的密码为：" + password;

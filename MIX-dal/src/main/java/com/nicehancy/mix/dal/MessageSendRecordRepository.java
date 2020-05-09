@@ -16,7 +16,7 @@ public interface MessageSendRecordRepository {
 
     /**
      * 新增消息发送记录
-     * @param messageSendRecordDO   DO
+     * @param messageSendRecordDO           DO
      */
     void insert(MessageSendRecordDO messageSendRecordDO);
 
@@ -26,4 +26,11 @@ public interface MessageSendRecordRepository {
      * @return                              分页结果
      */
     List<MessageSendRecordDO> pageQuery(MessageSendRecordPageQueryDO messageSendRecordPageQueryDO);
+
+    /**
+     * 查询总条数
+     * @param pageQueryDO                   DO
+     * @return                              条目数
+     */
+    int queryCount(MessageSendRecordPageQueryDO pageQueryDO);
 }

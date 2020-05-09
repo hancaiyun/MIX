@@ -31,7 +31,7 @@ public class SemaphoreTest extends BaseSpringTest {
                 try {
                     windows.acquire();//占用窗口
                     System.out.println(Thread.currentThread().getName() + ": 开始买票");
-                    Thread.sleep(2000);//睡2秒，模拟买票流程
+                    //Thread.sleep(2000);//睡2秒，模拟买票流程
                     System.out.println(Thread.currentThread().getName() + ": 购票成功");
                     windows.release();//释放窗口
                 } catch (InterruptedException e) {

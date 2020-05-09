@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
+
 import java.util.Date;
 import java.util.List;
 
@@ -44,24 +46,59 @@ public class MessageSendRecordRepositoryImpl implements MessageSendRecordReposit
 
     /**
      * 消息发送记录分页查询
-     * @param messageSendRecordPageQueryDO  DO
+     * @param pageQueryDO                   DO
      * @return                              分页查询结果
      */
     @Override
-    public List<MessageSendRecordDO> pageQuery(MessageSendRecordPageQueryDO messageSendRecordPageQueryDO) {
+    public List<MessageSendRecordDO> pageQuery(MessageSendRecordPageQueryDO pageQueryDO) {
 
         //查询条件
         Query query = new Query();
         Criteria criteria = new Criteria();
-        criteria.and("userNo").is(messageSendRecordPageQueryDO.getUserNo());
+        if(!StringUtils.isEmpty(pageQueryDO.getMessageType())){
+            criteria.and("messageType").is(pageQueryDO.getMessageType());
+        }
+        if(!StringUtils.isEmpty(pageQueryDO.getRecipient())){
+            criteria.and("recipient").is(pageQueryDO.getRecipient());
+        }
+        if(null != pageQueryDO.getStartDate() && null != pageQueryDO.getEndDate()){
+            criteria.and("createdAt").gte(pageQueryDO.getStartDate()).lte(pageQueryDO.getEndDate());
+        }
+
         query.addCriteria(criteria);
         //设置排序
         query.with(Sort.by(Sort.Direction.DESC, "createdAt"));
         //分页
-        int pageNumber = messageSendRecordPageQueryDO.getCurrentPage();
-        int pageSize = messageSendRecordPageQueryDO.getPageSize();
+        int pageNumber = pageQueryDO.getCurrentPage();
+        int pageSize = pageQueryDO.getPageSize();
         query.skip((pageNumber - 1) * pageSize).limit(pageSize);
 
         return mongoTemplate.find(query, MessageSendRecordDO.class);
+    }
+
+    /**
+     * 查询总条数
+     * @param pageQueryDO                   DO
+     * @return                              条目数
+     */
+    @Override
+    public int queryCount(MessageSendRecordPageQueryDO pageQueryDO) {
+
+        //设置分页查询条件
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        if(!StringUtils.isEmpty(pageQueryDO.getMessageType())){
+            criteria.and("messageType").is(pageQueryDO.getMessageType());
+        }
+        if(!StringUtils.isEmpty(pageQueryDO.getRecipient())){
+            criteria.and("recipient").is(pageQueryDO.getRecipient());
+        }
+        query.addCriteria(criteria);
+        //设置排序
+        query.with(Sort.by(Sort.Direction.DESC, "createdAt"));
+        //查询
+        long count = mongoTemplate.count(query, MessageSendRecordDO.class);
+
+        return (int) count;
     }
 }

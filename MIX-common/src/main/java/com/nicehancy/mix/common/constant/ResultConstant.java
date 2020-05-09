@@ -31,6 +31,9 @@ public final class ResultConstant {
     /** 结果集data值的名称 */
     public static final String RESULT_DATA_NAME = "data";
 
+    /** 分页总条数值名称 */
+    public static final String COUNT = "count";
+
     /*************************返回编码及页面****************************************/
     /** 通用访问并且处理成功时的编码 */
     public static final String SUCCESS_CODE = "0000";
