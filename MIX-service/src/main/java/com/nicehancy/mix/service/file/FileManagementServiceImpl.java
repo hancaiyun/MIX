@@ -12,9 +12,10 @@ import com.nicehancy.mix.service.api.model.result.FileDownloadResultDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadResultDTO;
 import com.nicehancy.mix.service.convert.file.FileManagementDTOConvert;
 import lombok.extern.slf4j.Slf4j;
-import com.alibaba.dubbo.config.annotation.Service;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * 文件管理实现类
@@ -25,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since 2019/12/5 11:13
  **/
 @Slf4j
-@Service(timeout = 3000)
+@Service
 public class FileManagementServiceImpl implements FileManagementService {
 
     /**

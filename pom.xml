@@ -27,7 +27,7 @@
 		<java.version>1.8</java.version>
 		<oval.version>1.81</oval.version>
 		<zkclient.version>0.1</zkclient.version>
-		<dubbo-spring-boot-starter.version>0.1.0</dubbo-spring-boot-starter.version>
+<!--		<dubbo-spring-boot-starter.version>0.1.0</dubbo-spring-boot-starter.version>-->
 		<dubbo.version>2.6.6</dubbo.version>
 		<zkclient.version>0.1</zkclient.version>
 		<fastjson.version>1.2.57</fastjson.version>
@@ -251,11 +251,11 @@
 			<version>${dubbo.version}</version>
 		</dependency>
 		<!-- dubbo starter -->
-		<dependency>
-			<groupId>com.alibaba.boot</groupId>
-			<artifactId>dubbo-spring-boot-starter</artifactId>
-			<version>${dubbo-spring-boot-starter.version}</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.alibaba.boot</groupId>-->
+<!--			<artifactId>dubbo-spring-boot-starter</artifactId>-->
+<!--			<version>${dubbo-spring-boot-starter.version}</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>com.github.sgroschupf</groupId>
 			<artifactId>zkclient</artifactId>

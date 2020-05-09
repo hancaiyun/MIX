@@ -1,6 +1,5 @@
 package com.nicehancy.mix.service.message;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.manager.message.MessageSendRecordManager;
 import com.nicehancy.mix.manager.model.MessageSendRecordBO;
@@ -13,6 +12,7 @@ import com.nicehancy.mix.service.convert.message.MessageDTOConvert;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * @since 2020/5/9 10:52
  **/
 @Slf4j
-@Service(timeout = 3000)
+@Service
 public class MessageServiceImpl implements MessageService {
 
     @Autowired

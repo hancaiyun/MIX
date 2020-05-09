@@ -1,6 +1,5 @@
 package com.nicehancy.mix.service.note;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.manager.note.NoteInfoManager;
 import com.nicehancy.mix.service.api.model.NoteInfoDTO;
@@ -11,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2019/10/16 15:19
  **/
 @Slf4j
-@Service(timeout = 3000)
+@Service
 public class NoteInfoServiceImpl implements NoteInfoService {
 
     @Autowired
