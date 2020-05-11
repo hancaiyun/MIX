@@ -38,7 +38,7 @@
           </li>
         </ul>
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-          
+          <!--消息中心-->
           <li class="layui-nav-item" lay-unselect>
             <a lay-href="/message/page" layadmin-event="message" lay-text="消息中心">
               <i class="layui-icon layui-icon-notice"></i>
@@ -46,16 +46,19 @@
               <span class="layui-badge-dot"></span>
             </a>
           </li>
+          <!--主题-->
           <li class="layui-nav-item layui-hide-xs" lay-unselect>
             <a href="javascript:;" layadmin-event="theme">
               <i class="layui-icon layui-icon-theme"></i>
             </a>
           </li>
+          <!--便签-->
           <li class="layui-nav-item layui-hide-xs" lay-unselect>
             <a href="javascript:;" layadmin-event="note">
               <i class="layui-icon layui-icon-note"></i>
             </a>
           </li>
+          <!--全屏-->
           <li class="layui-nav-item layui-hide-xs" lay-unselect>
             <a href="javascript:;" layadmin-event="fullscreen">
               <i class="layui-icon layui-icon-screen-full"></i>
@@ -63,7 +66,7 @@
           </li>
           <li class="layui-nav-item" lay-unselect>
             <a th:id="userNo" href="javascript:;">
-<!--              <cite>我的空间</cite>-->
+              <cite>我的空间</cite>
             </a>
             <dl class="layui-nav-child">
               <dd><a lay-href="user/info">基本资料</a></dd>
@@ -152,26 +155,26 @@
               </a>
               <dl class="layui-nav-child">
                 <dd>
-                  <a href="">缓存管理</a>
+                  <a lay-href="cache/page">缓存管理</a>
                 </dd>
                 <dd>
-                  <a href="http://49.234.116.249:9090/">ZK注册中心</a>
+                  <a lay-href="http://49.234.116.249:9090/">ZK注册中心</a>
                 </dd>
                 <dd>
-                  <a href="http://49.234.116.249:9092/">dubbo服务管理</a>
+                  <a lay-href="http://49.234.116.249:9092/">dubbo服务管理</a>
                 </dd>
               </dl>
             </li>
 
-            <!--邮件管理-->
+            <!--消息管理（邮件、短信）-->
             <li data-name="email" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="邮件" lay-direction="2">
+              <a href="javascript:;" lay-tips="消息" lay-direction="2">
                 <i class="layui-icon layui-icon-release"></i>
-                <cite>邮件管理</cite>
+                <cite>消息管理</cite>
               </a>
               <dl class="layui-nav-child">
-                <dd><a lay-href="message/sendRecordpage">邮件发送记录</a></dd>
-                <dd><a lay-href="">邮件补发</a></dd>
+                <dd><a lay-href="message/sendRecordpage">消息发送记录</a></dd>
+                <dd><a lay-href="">消息补发</a></dd>
               </dl>
             </li>
 

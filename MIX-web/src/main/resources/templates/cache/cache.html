@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>缓存管理页</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all">
+</head>
+<body>
+
+<!--提示语-->
+<div style="margin: 0 15px;">
+  <blockquote class="layui-elem-quote">
+    1、有效期的单位是秒，设置有效期时需自行转换<br>
+    2、新增、清除缓存请谨慎操作，可能会影响当前其它业务<br>
+    3、新增缓存时，有效期不填则系统认为永久缓存
+  </blockquote>
+</div>
+  <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
+    <div class="layui-form-item">
+      <label class="layui-form-label">KEY值</label>
+      <div class="layui-input-inline">
+        <label>
+          <input type="text" id="key" name="key" lay-verify="required" placeholder="请输入KEY值" autocomplete="off" class="layui-input">
+        </label>
+      </div>
+      <div class="layui-inline">
+        <button class="layui-btn layuiadmin-btn-useradmin" onclick="queryCache()" data-type="query">查询</button>
+      </div>
+      <div class="layui-inline">
+        <button class="layui-btn layuiadmin-btn-useradmin" onclick="deleteCache()" data-type="delete">清除</button>
+      </div>
+      <div class="layui-inline">
+        <button class="layui-btn layuiadmin-btn-useradmin" onclick="addCache()" data-type="add">添加</button>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">VALUE</label>
+      <div class="layui-input-inline">
+        <label>
+          <input type="text" id="value" name="value" autocomplete="off" class="layui-input">
+        </label>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">有效期</label>
+      <div class="layui-input-inline">
+        <input type="text" id="expire" name="expire" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+  </div>
+
+  <script th:src="@{/frame/js/jquery-3.4.1.min.js}"></script>
+  <script th:src="@{/frame/layui/layui.js}"></script>
+  <script>
+    //查询
+    function queryCache() {
+      layui.use('layer', function () {
+        // 操作对象
+        const layer = layui.layer;
+        const $ = layui.jquery;
+        //请求缓存查询
+        const key = document.getElementById("key").value;
+        if(key === "" || key == null){
+          layer.msg("请填写KEY值", {icon: 2});
+          setTimeout(function () {
+          }, 1000);
+          return;
+        }
+        $.ajax({
+          url: '/cache/queryCache',
+          data: {"key": key},
+          dataType: 'json',//数据类型
+          type: 'GET',//请求方式
+          timeout: 3000,//超时时间
+          //请求成功
+          success: function (res) {
+            if (res.code === "0000") {
+              if(res.data.value == null){
+                //清空表单中的value跟expire
+                document.getElementsByName("value")[0].value = null;
+                document.getElementsByName("expire")[0].value = null;
+                layer.msg("无此KEY值缓存信息", {icon: 1});
+                setTimeout(function () {
+                }, 1000);
+              }else{
+                //回填value与expireTime
+                document.getElementsByName("value")[0].value = res.data.value;
+                document.getElementsByName("expire")[0].value = res.data.leftExpireTime;
+              }
+            } else {
+              layer.open({
+                title: '提示信息'
+                , content: '查询失败，失败原因：' + res.msg
+              });
+            }
+          },
+          //失败/超时
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+            if (textStatus === 'timeout') {
+              alert('网络异常');
+              setTimeout(function () {
+              }, 30000);
+            }
+            alert(errorThrown);
+          }
+        });
+      });
+    }
+
+    //新增
+    function addCache() {
+      layui.use('layer', function () {
+        // 操作对象
+        const layer = layui.layer;
+        const $ = layui.jquery;
+        //请求缓存新增
+        const key = document.getElementById("key").value;
+        const value = document.getElementById("value").value;
+        const expire = document.getElementById("expire").value;
+        if(key === "" || key == null){
+          layer.msg("请填写KEY值", {icon: 2});
+          setTimeout(function () {
+          }, 1000);
+          return;
+        }
+        if(value === "" || value == null){
+          layer.msg("请填写VALUE", {icon: 2});
+          setTimeout(function () {
+          }, 1000);
+          return;
+        }
+        $.ajax({
+          url: '/cache/addCache',
+          data: {"key": key, "value": value, "expire": expire},
+          dataType: 'json',//数据类型
+          type: 'GET',//请求方式
+          timeout: 3000,//超时时间
+          //请求成功
+          success: function (res) {
+            if (res.code === "0000") {
+              layer.msg("新增缓存成功", {icon: 1});
+              setTimeout(function () {
+              }, 1000);
+            } else {
+              layer.open({
+                title: '提示信息'
+                , content: '新增缓存失败，失败原因：' + res.msg
+              });
+            }
+          },
+          //失败/超时
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+            if (textStatus === 'timeout') {
+              alert('网络异常');
+              setTimeout(function () {
+              }, 30000);
+            }
+            alert(errorThrown);
+          }
+        });
+      });
+    }
+
+    //删除
+    function deleteCache() {
+      layui.use('layer', function () {
+        // 操作对象
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        //弹出发送密码重置邮件的弹窗
+        parent.layer.open({
+          title: '重置密码提示信息'
+          , btn: ['确定']
+          , content: '确认重置密码？ 确认重置后，密码将已邮件的方式发送到您的邮箱'
+          ,yes:function () {
+            //alert("用户名:" + userNo);
+            if(userNo == null || userNo ===''){
+              return;
+            }
+            //请求密码重置
+            $.ajax({
+              url: '/user/resetPassword',
+              data:{"userNo": userNo},
+              dataType: 'json',//数据类型
+              type: 'GET',//请求方式
+              timeout: 3000,//超时时间
+              //请求成功
+              success: function (res) {
+                if (res.code === "0000") {
+                  //展示主页
+                  layer.open({
+                    title: '提示信息'
+                    , content: '密码已重置，请稍后在邮箱' + res.data.email + '中查看密码'
+                  });
+                } else {
+                  layer.open({
+                    title: '提示信息'
+                    , content: '密码重置失败，失败原因：' + res.msg
+                  });
+                }
+              },
+              //失败/超时
+              error: function (XMLHttpRequest, textStatus, errorThrown) {
+                if (textStatus === 'timeout') {
+                  alert('网络异常');
+                  setTimeout(function () {
+                  }, 30000);
+                }
+                alert(errorThrown);
+              }
+            });
+          }
+        });
+      });
+    }
+  </script>
+</body>
+</html>

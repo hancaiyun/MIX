@@ -125,13 +125,16 @@ public class FileController extends BaseController {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            response.setContentType("application/force-download");// 设置强制下载不打开
+            // 设置强制下载不打开
+            response.setContentType("application/force-download");
             //response.setContentType("application/octet-stream");// 告诉浏览器输出内容为流
             //Content-Disposition中指定的类型是文件的扩展名，并且弹出的下载对话框中的文件类型图片是按照文件的扩展名显示的，点保存后，
             // 文件以filename的值命名，保存类型以Content中设置的为准。注意：在设置Content-Disposition头字段之前，一定要设置Content-Type头字段。
-            response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
+            // 设置文件名
+            response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
             String len = String.valueOf(file.length());
-            response.setHeader("Content-Length", len);//设置内容长度
+            //设置内容长度
+            response.setHeader("Content-Length", len);
             byte[] buffer = new byte[1024];
             FileInputStream fis = null;
             BufferedInputStream bis = null;
@@ -144,7 +147,6 @@ public class FileController extends BaseController {
                     os.write(buffer, 0, i);
                     i = bis.read(buffer);
                 }
-                // System.out.println("success");
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
