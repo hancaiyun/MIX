@@ -4,11 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,16 +47,13 @@ public class RedisManager {
 
         log.debug("queryObjectByKey request：{}", keyEnum);
 
-        String resultStr = (String) redisTemplate.execute(new RedisCallback<Object>() {
-            @Override
-            public String doInRedis(RedisConnection connection) throws DataAccessException {
-                byte[] redisKey = redisTemplate.getStringSerializer().serialize(keyEnum);
-                if (connection.exists(redisKey)) {
-                    byte[] value = connection.get(redisKey);
-                    return redisTemplate.getStringSerializer().deserialize(value);
-                }
-                return null;
+        String resultStr = (String) redisTemplate.execute((RedisCallback<Object>) connection -> {
+            byte[] redisKey = redisTemplate.getStringSerializer().serialize(keyEnum);
+            if (connection.exists(redisKey)) {
+                byte[] value = connection.get(redisKey);
+                return redisTemplate.getStringSerializer().deserialize(value);
             }
+            return null;
         });
 
         log.debug("queryObjectByKey result：{}", resultStr);
@@ -126,5 +121,21 @@ public class RedisManager {
 
         log.debug("deleteObject result：{}", result);
         return result > 0;
+    }
+
+    /**
+     * 6、查询key值的剩余超时时间
+     * @param keyEnum           查询关键字
+     * @return                  剩余秒数
+     */
+    public Long queryExpireTime(final String keyEnum){
+
+        log.debug("queryExpireTime request:key={}", keyEnum);
+
+        Long surplusTime = redisTemplate.getExpire(keyEnum, TimeUnit.SECONDS);
+
+        log.debug("deleteObject result：{}", surplusTime);
+
+        return surplusTime;
     }
 }

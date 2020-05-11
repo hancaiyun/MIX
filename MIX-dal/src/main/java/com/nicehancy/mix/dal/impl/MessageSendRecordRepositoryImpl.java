@@ -93,6 +93,9 @@ public class MessageSendRecordRepositoryImpl implements MessageSendRecordReposit
         if(!StringUtils.isEmpty(pageQueryDO.getRecipient())){
             criteria.and("recipient").is(pageQueryDO.getRecipient());
         }
+        if(null != pageQueryDO.getStartDate() && null != pageQueryDO.getEndDate()){
+            criteria.and("createdAt").gte(pageQueryDO.getStartDate()).lte(pageQueryDO.getEndDate());
+        }
         query.addCriteria(criteria);
         //设置排序
         query.with(Sort.by(Sort.Direction.DESC, "createdAt"));
