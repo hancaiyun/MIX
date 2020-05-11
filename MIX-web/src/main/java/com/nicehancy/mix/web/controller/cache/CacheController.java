@@ -4,6 +4,7 @@ import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.service.api.cache.CacheService;
 import com.nicehancy.mix.service.api.model.request.cache.CacheAddReqDTO;
+import com.nicehancy.mix.service.api.model.request.cache.CacheDeleteReqDTO;
 import com.nicehancy.mix.service.api.model.request.cache.CacheQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.cache.CacheQueryResDTO;
 import com.nicehancy.mix.web.controller.base.BaseController;
@@ -102,6 +103,34 @@ public class CacheController extends BaseController {
             modelMap = this.processSuccessJSON(result.getErrorMsg());
         }
         log.info("CacheController addCache result modelMap={}", modelMap);
+        return modelMap;
+    }
+
+    /**
+     * 删除缓存
+     * @param request   请求参数
+     * @return          返回结果
+     */
+    @RequestMapping("/deleteCache")
+    @ResponseBody
+    public ModelMap deleteCache(HttpServletRequest request){
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        CacheDeleteReqDTO reqDTO = new CacheDeleteReqDTO();
+        reqDTO.setTraceLogId(traceLogId);
+        reqDTO.setRequestSystem(CommonConstant.SYSTEM);
+        reqDTO.setKey(this.getParameters(request).get("key"));
+
+        log.info("CacheController deleteCache request PARAM: reqDTO={}", reqDTO);
+        Result<Boolean> result = cacheService.deleteCache(reqDTO);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap = this.processSuccessJSON(result.getResult());
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("CacheController deleteCache result modelMap={}", modelMap);
         return modelMap;
     }
 }

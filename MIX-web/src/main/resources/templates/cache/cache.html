@@ -168,22 +168,29 @@
     function deleteCache() {
       layui.use('layer', function () {
         // 操作对象
-        var layer = layui.layer;
-        var $ = layui.jquery;
-        //弹出发送密码重置邮件的弹窗
-        parent.layer.open({
-          title: '重置密码提示信息'
+        const layer = layui.layer;
+        const $ = layui.jquery;
+
+        //KEY值获取
+        const key = document.getElementById("key").value;
+        if(key === "" || key == null){
+          layer.msg("请填写KEY", {icon: 2});
+          setTimeout(function () {
+          }, 1000);
+          return;
+        }
+        //确认弹窗
+        layer.open({
+          title: '缓存清理确认提示信息'
           , btn: ['确定']
-          , content: '确认重置密码？ 确认重置后，密码将已邮件的方式发送到您的邮箱'
-          ,yes:function () {
-            //alert("用户名:" + userNo);
-            if(userNo == null || userNo ===''){
-              return;
-            }
-            //请求密码重置
+          , content: '确认清理KEY为'+ key +'的缓存？'
+          ,yes:function (index, layero) {
+            //关闭弹窗
+            layer.close(index);
+            //请求删除
             $.ajax({
-              url: '/user/resetPassword',
-              data:{"userNo": userNo},
+              url: '/cache/deleteCache',
+              data:{"key": key},
               dataType: 'json',//数据类型
               type: 'GET',//请求方式
               timeout: 3000,//超时时间
@@ -191,14 +198,13 @@
               success: function (res) {
                 if (res.code === "0000") {
                   //展示主页
-                  layer.open({
-                    title: '提示信息'
-                    , content: '密码已重置，请稍后在邮箱' + res.data.email + '中查看密码'
-                  });
+                  layer.msg("缓存已清理", {icon: 1});
+                  setTimeout(function () {
+                  }, 1000);
                 } else {
                   layer.open({
                     title: '提示信息'
-                    , content: '密码重置失败，失败原因：' + res.msg
+                    , content: '缓存清理失败，失败原因：' + res.msg
                   });
                 }
               },

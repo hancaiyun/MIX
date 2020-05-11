@@ -56,7 +56,7 @@ public class CacheServiceImpl implements CacheService {
     /**
      * 新增缓存接口
      * @param cacheAddReqDTO     缓存更新DTO
-     * @return
+     * @return                   新增结果
      */
     @Override
     public Result<Boolean> addCache(CacheAddReqDTO cacheAddReqDTO) {
