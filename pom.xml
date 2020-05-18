@@ -10,6 +10,7 @@
 		<module>MIX-service</module>
 		<module>MIX-service-api</module>
 		<module>MIX-web</module>
+        <module>MIX-core</module>
     </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
