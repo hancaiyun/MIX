@@ -1,6 +1,5 @@
 package com.nicehancy.mix.service.cache;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.manager.cache.CacheManager;
 import com.nicehancy.mix.manager.model.CacheQueryResBO;
@@ -13,6 +12,7 @@ import com.nicehancy.mix.service.convert.cache.CacheDTOConvert;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 缓存管理接口
@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since 2020/5/11 13:53
  **/
 @Slf4j
-@Service(timeout = 3000)
+@Service
 public class CacheServiceImpl implements CacheService {
 
     @Autowired
