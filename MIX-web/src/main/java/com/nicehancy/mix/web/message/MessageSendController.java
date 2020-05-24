@@ -43,8 +43,17 @@ public class MessageSendController extends BaseController {
      * @return      列表页视图
      */
     @RequestMapping("/message/sendRecordpage")
-    public ModelAndView index(){
+    public ModelAndView recordPage(){
         return new ModelAndView("message/messagelist");
+    }
+
+    /**
+     * 消息补发页
+     * @return      列表页视图
+     */
+    @RequestMapping("/message/sendPage")
+    public ModelAndView sendPage(){
+        return new ModelAndView("message/send");
     }
 
     /**

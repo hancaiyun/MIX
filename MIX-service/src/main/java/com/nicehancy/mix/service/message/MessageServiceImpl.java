@@ -57,8 +57,8 @@ public class MessageServiceImpl implements MessageService {
                 List<MessageSendRecordDTO> dtoList = MessageDTOConvert.getDTOSByBOS(list);
                 resDTO.setPageResult(dtoList);
                 resDTO.setCount(count);
-                result.setResult(resDTO);
             }
+            result.setResult(resDTO);
             log.info("call MessageServiceImpl pageQuery result: {}", result);
         }catch (Exception e){
             result.setErrorMsg(e.getMessage());

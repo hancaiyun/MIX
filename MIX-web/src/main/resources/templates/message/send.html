@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>邮件手动补发页</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all">
+  <link rel="stylesheet" th:href="@{/frame/style/admin.css}" media="all">
+</head>
+<body>
+
+  <div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md12">
+        <div class="layui-card">
+          <div class="layui-card-body" pad15>
+            <div class="layui-form" lay-filter="">
+              <div class="layui-form-item">
+                <label class="layui-form-label">消息类型</label>
+                <div class="layui-input-inline">
+                  <label>
+                    <select name="messageType" lay-verify="">
+                      <option value="">请选择消息类型</option>
+                      <option value="MESSAGE">短信</option>
+                      <option value="EMAIL">邮件</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">补发类型</label>
+                <div class="layui-input-inline">
+                  <label>
+                    <select name="sendType" lay-verify="">
+                      <option value="">请选择补发类型</option>
+                      <option value="passwordReset">密码重置</option>
+                      <option value="registerMessage">用户注册</option>
+                      <option value="custom">自定义 </option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div class="layui-form-item">
+                <label class="layui-form-label">发件人</label>
+                <div class="layui-input-inline">
+                  <input type="text" id="sender" readonly value="MIX" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">收件人</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="recipient"  placeholder="请输入手机号或者邮箱" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">消息内容</label>
+                <div class="layui-input-block">
+                  <textarea id="content" name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <div class="layui-input-block">
+                  <button class="layui-btn" lay-submit lay-filter="send">发送</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script th:src="@{/frame/layui/layui.js}"></script>
+  <script>
+  layui.config({
+    base: '../../frame/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'set']);
+  </script>
+  <!-- 发送-->
+  <script>
+    layui.define(['form', 'upload'], function () {
+      const $ = layui.$
+              , layer = layui.layer
+              , admin = layui.admin
+              , form = layui.form;
+
+      //发送
+      form.on('submit(send)', function (obj) {
+        const data = obj.field;
+        data.userNo = window.localStorage["loginNo"];
+        //提交修改
+        admin.req({
+          url: '/set/user/update'
+          , data: obj.field
+          , success: function (res) {
+            if (res.code === "0000") {
+              //成功提示
+              layer.msg("发送成功");
+            } else {
+              layer.msg("发送失败失败，失败原因：" + res.msg);
+            }
+          }
+        });
+        return false;
+      });
+    });
+  </script>
+</body>
+</html>
