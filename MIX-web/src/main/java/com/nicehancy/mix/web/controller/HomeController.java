@@ -159,11 +159,10 @@ public class HomeController extends BaseController {
         log.info("HomeController querySystemInfo request");
 
         Map<String, Integer> map = new HashMap<>();
-        //map.put("CPU", SystemResourceUtil.getCpuRatioForWindows());
-        //map.put("MEMORY", SystemResourceUtil.getMemery());
+//        map.put("CPU", SystemResourceUtil.getCpuRatioForWindows());
+        map.put("MEMORY", SystemResourceUtil.getMemery());
         map.put("DISK", SystemResourceUtil.getTotalDisk());
-        ModelMap modelMap;
-        modelMap = this.processSuccessJSON(map);
+        ModelMap modelMap = this.processSuccessJSON(map);
 
         log.info("HomeController querySystemInfo result={}", modelMap);
         return modelMap;

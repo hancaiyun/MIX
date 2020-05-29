@@ -51,7 +51,11 @@ public class SystemResourceUtil {
         }
     }
 
-    // 读取cpu相关信息
+    /**
+     * 读取cpu相关信息
+     * @param proc
+     * @return
+     */
     private static long[] readCpu(final Process proc) {
         long[] retn = new long[2];
         try {

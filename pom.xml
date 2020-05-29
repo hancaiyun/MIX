@@ -39,6 +39,7 @@
 		<spring-boot-starter.version>2.2.1.RELEASE</spring-boot-starter.version>
 		<junit.version>4.12</junit.version>
 		<javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+		<spring-kafka.version>2.3.0.RELEASE</spring-kafka.version>
 	</properties>
 
 	<dependencyManagement>
@@ -243,6 +244,13 @@
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>2.10.5</version>
+		</dependency>
+
+		<!--KAFKA-->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<version>${spring-kafka.version}</version>
 		</dependency>
 
 		<!-- dubbo -->
