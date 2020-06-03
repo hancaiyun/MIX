@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * 消息补发请求DTO
  * <p>
  * <p/>
  *
@@ -18,4 +19,26 @@ import lombok.ToString;
 public class MessageSendReqDTO extends BaseReqDTO {
 
     private static final long serialVersionUID = -1808433468778452431L;
+
+    /**
+     * 消息类型
+     *
+     * 短信
+     * 邮件
+     */
+    private String messageType;
+
+    /**
+     * 发补发类型
+     *
+     * 用户注册
+     * 密码重置
+     */
+    private String sendType;
+
+    /**
+     * 收件人
+     */
+    private String recipient;
+
 }

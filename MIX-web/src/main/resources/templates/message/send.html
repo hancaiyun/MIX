@@ -16,49 +16,41 @@
       <div class="layui-col-md12">
         <div class="layui-card">
           <div class="layui-card-body" pad15>
-            <div class="layui-form" lay-filter="">
+            <div class="layui-form" lay-filter="messageType">
               <div class="layui-form-item">
-                <label class="layui-form-label">消息类型</label>
+                <label class="layui-form-label">补发业务</label>
                 <div class="layui-input-inline">
                   <label>
-                    <select name="messageType" lay-verify="">
-                      <option value="">请选择消息类型</option>
-                      <option value="MESSAGE">短信</option>
-                      <option value="EMAIL">邮件</option>
-                    </select>
-                  </label>
-                </div>
-              </div>
-              <div class="layui-form-item">
-                <label class="layui-form-label">补发类型</label>
-                <div class="layui-input-inline">
-                  <label>
-                    <select name="sendType" lay-verify="">
-                      <option value="">请选择补发类型</option>
+                    <select name="businessType" lay-verify="">
+                      <option value="">请选择业务类型</option>
                       <option value="passwordReset">密码重置</option>
                       <option value="registerMessage">用户注册</option>
-                      <option value="custom">自定义 </option>
                     </select>
                   </label>
                 </div>
               </div>
-
               <div class="layui-form-item">
                 <label class="layui-form-label">发件人</label>
                 <div class="layui-input-inline">
-                  <input type="text" id="sender" readonly value="MIX" class="layui-input">
+                  <label>
+                    <input type="text" name="sender" readonly value="MIX" class="layui-input">
+                  </label>
                 </div>
               </div>
               <div class="layui-form-item">
                 <label class="layui-form-label">收件人</label>
                 <div class="layui-input-inline">
-                  <input type="text" name="recipient"  placeholder="请输入手机号或者邮箱" autocomplete="off" class="layui-input">
+                  <label>
+                    <input type="text" name="recipient"  placeholder="请输入手机号或者邮箱" autocomplete="off" class="layui-input">
+                  </label>
                 </div>
               </div>
               <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">消息内容</label>
+                <label class="layui-form-label">补发原因</label>
                 <div class="layui-input-block">
-                  <textarea id="content" name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+                  <label>
+                    <textarea name="content" placeholder="请输入补发原因" class="layui-textarea"></textarea>
+                  </label>
                 </div>
               </div>
               <div class="layui-form-item">
@@ -93,10 +85,11 @@
       form.on('submit(send)', function (obj) {
         const data = obj.field;
         data.userNo = window.localStorage["loginNo"];
+        alert("暂不支持补发");
         //提交修改
         admin.req({
-          url: '/set/user/update'
-          , data: obj.field
+          url: ''
+          , data: data
           , success: function (res) {
             if (res.code === "0000") {
               //成功提示

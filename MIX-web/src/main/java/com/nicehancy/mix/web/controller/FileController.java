@@ -9,6 +9,7 @@ import org.slf4j.MDC;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -165,6 +166,37 @@ public class FileController extends BaseController {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * 处理图片显示请求
+     * @param fileName 文件名
+     */
+    @RequestMapping("/file/showPic/{fileName}.{suffix}")
+    public void showPicture(@PathVariable("fileName") String fileName,
+                            @PathVariable("suffix") String suffix,
+                            HttpServletResponse response){
+        File imgFile = new File("C://file/" + fileName + "." + suffix);
+        responseFile(response, imgFile);
+    }
+
+    /**
+     * 响应输出图片文件
+     * @param response      http返回报文
+     * @param imgFile       图片文件
+     */
+    private void responseFile(HttpServletResponse response, File imgFile) {
+        try(InputStream is = new FileInputStream(imgFile);
+            OutputStream os = response.getOutputStream()){
+            // 图片文件流缓存池
+            byte [] buffer = new byte[1024];
+            while(is.read(buffer) != -1){
+                os.write(buffer);
+            }
+            os.flush();
+        } catch (IOException ioe){
+            ioe.printStackTrace();
         }
     }
 }

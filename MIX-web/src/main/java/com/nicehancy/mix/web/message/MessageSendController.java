@@ -97,4 +97,47 @@ public class MessageSendController extends BaseController {
         log.info("MessageSendController pageQuery result modelMap={}", modelMap);
         return modelMap;
     }
+
+
+    /**
+     * 消息补发
+     * @return      发送结果
+     */
+    @RequestMapping("/message/reSend")
+    @ResponseBody
+    public ModelMap send(HttpServletRequest request) {
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        MessageSendRecordPageQueryReqDTO pageQueryReqDTO = new MessageSendRecordPageQueryReqDTO();
+        pageQueryReqDTO.setTraceLogId(traceLogId);
+        pageQueryReqDTO.setRequestSystem(CommonConstant.SYSTEM);
+        pageQueryReqDTO.setCurrentPage(Integer.valueOf(this.getParameters(request).get("page")));
+        pageQueryReqDTO.setPageSize(Integer.valueOf(this.getParameters(request).get("limit")));
+        pageQueryReqDTO.setMessageType(this.getParameters(request).get("messageType"));
+        pageQueryReqDTO.setRecipient(this.getParameters(request).get("recipient"));
+        String startDate = this.getParameters(request).get("startDate");
+        String endDate = this.getParameters(request).get("endDate");
+        pageQueryReqDTO.setStartDate(StringUtils.isEmpty(startDate) ? null : DateUtil.parse(startDate, "yyyy-MM-dd"));
+        pageQueryReqDTO.setEndDate(StringUtils.isEmpty(endDate) ? null : DateUtil.parse(endDate, "yyyy-MM-dd"));
+
+        log.info("MessageSendController pageQuery request PARAM: reqDTO={}", pageQueryReqDTO);
+        Result<BasePageQueryResDTO<MessageSendRecordDTO>> result = messageService.pageQuery(pageQueryReqDTO);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            if(!CollectionUtils.isEmpty(result.getResult().getPageResult())) {
+                for (MessageSendRecordDTO messageSendRecordDTO : result.getResult().getPageResult()) {
+                    messageSendRecordDTO.setSendResult(SendResultEnum.SUCCESS.getCode().equals(messageSendRecordDTO.
+                            getSendResult()) ? SendResultEnum.SUCCESS.getDesc() : SendResultEnum.FAILURE.getDesc());
+                }
+                modelMap = this.processSuccessJSON(result.getResult().getPageResult(), result.getResult().getCount());
+            } else {
+                modelMap = this.processSuccessJSON("查无数据");
+            }
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("MessageSendController pageQuery result modelMap={}", modelMap);
+        return modelMap;
+    }
 }
