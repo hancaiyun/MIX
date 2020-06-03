@@ -20,7 +20,7 @@ public class SmsTest extends BaseSpringTest {
      * 发送短信验证码
      */
     @Test
-    public void sendVercodeTest(){
+    public void sendVerCodeTest(){
         try {
             SendSmsUtil.sendVercode("19921577717");
         } catch (Exception e) {

@@ -14,11 +14,13 @@ import org.springframework.stereotype.Component;
  * @since 2020/5/7 14:04
  **/
 @Slf4j
-@Component
+//@Component
 public class KafkaListenerService {
 
     @KafkaListener(topics = {"${spring.kafka.consumer.topic-order-info}"})
     public void listen(ConsumerRecord<String, String> data) {
-            log.info("data value={}", data.value());
+        log.info("data value：{}", data.value());
+        //转成对象DTO
+
     }
 }

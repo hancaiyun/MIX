@@ -24,7 +24,9 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 public class MongoConfig {
 
     @Bean
-    public MappingMongoConverter mappingMongoConverter(MongoDbFactory factory, MongoMappingContext context, BeanFactory beanFactory) {
+    public MappingMongoConverter mappingMongoConverter(MongoDbFactory factory,
+                                                       MongoMappingContext context,
+                                                       BeanFactory beanFactory) {
         DbRefResolver dbRefResolver = new DefaultDbRefResolver(factory);
         MappingMongoConverter mappingConverter = new MappingMongoConverter(dbRefResolver, context);
         try {

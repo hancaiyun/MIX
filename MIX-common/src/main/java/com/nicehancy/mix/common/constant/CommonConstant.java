@@ -19,4 +19,19 @@ public final class CommonConstant {
      * 系统名
      */
     public static final String SYSTEM = "MIX";
+
+    /**
+     * 401状态码
+     */
+    public static final int STATUS_401 = 401;
+
+    /**
+     * 403状态码
+     */
+    public static final int STATUS_403 = 403;
+
+    /**
+     * 404状态码
+     */
+    public static final int STATUS_404 = 404;
 }

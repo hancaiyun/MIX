@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
 
 /**
+ * MongoDB事务配置类
  * <p>
  * <p/>
  *
