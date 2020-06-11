@@ -67,8 +67,27 @@ public class MessageServiceImpl implements MessageService {
         return result;
     }
 
+    /**
+     * 消息手动发送
+     * @param messageSendReqDTO     消息发送请求DTO
+     * @return                      发送结果
+     */
     @Override
     public Result<Boolean> send(MessageSendReqDTO messageSendReqDTO) {
-        return null;
+
+        Result<Boolean> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", messageSendReqDTO.getTraceLogId());
+        try{
+            log.info("call MessageServiceImpl send param: reqDTO={}", messageSendReqDTO);
+            //业务处理
+
+
+            result.setResult(true);
+            log.info("call MessageServiceImpl send result: {}", result);
+        }catch (Exception e){
+            result.setErrorMsg(e.getMessage());
+            log.error("call MessageServiceImpl send failed, message：e={}， result={}", e, result);
+        }
+        return result;
     }
 }

@@ -21,10 +21,10 @@
                 <label class="layui-form-label">补发业务</label>
                 <div class="layui-input-inline">
                   <label>
-                    <select name="businessType" lay-verify="">
+                    <select name="businessType" lay-verify="required">
                       <option value="">请选择业务类型</option>
-                      <option value="passwordReset">密码重置</option>
-                      <option value="registerMessage">用户注册</option>
+                      <option value="PASSWORD_RESET">密码重置</option>
+                      <option value="USER_REGISTER">用户注册</option>
                     </select>
                   </label>
                 </div>
@@ -41,7 +41,8 @@
                 <label class="layui-form-label">收件人</label>
                 <div class="layui-input-inline">
                   <label>
-                    <input type="text" name="recipient"  placeholder="请输入手机号或者邮箱" autocomplete="off" class="layui-input">
+                    <input type="text" name="recipient"  lay-verify="required" placeholder="请输入手机号或者邮箱"
+                           autocomplete="off" class="layui-input">
                   </label>
                 </div>
               </div>
@@ -66,42 +67,13 @@
   </div>
 
   <script th:src="@{/frame/layui/layui.js}"></script>
+  <script th:src="@{/frame/js/message.js}"></script>
   <script>
   layui.config({
     base: '../../frame/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index', 'set']);
-  </script>
-  <!-- 发送-->
-  <script>
-    layui.define(['form', 'upload'], function () {
-      const $ = layui.$
-              , layer = layui.layer
-              , admin = layui.admin
-              , form = layui.form;
-
-      //发送
-      form.on('submit(send)', function (obj) {
-        const data = obj.field;
-        data.userNo = window.localStorage["loginNo"];
-        alert("暂不支持补发");
-        //提交修改
-        admin.req({
-          url: ''
-          , data: data
-          , success: function (res) {
-            if (res.code === "0000") {
-              //成功提示
-              layer.msg("发送成功");
-            } else {
-              layer.msg("发送失败失败，失败原因：" + res.msg);
-            }
-          }
-        });
-        return false;
-      });
-    });
   </script>
 </body>
 </html>

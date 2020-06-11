@@ -15,30 +15,33 @@ import lombok.ToString;
  **/
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 public class MessageSendReqDTO extends BaseReqDTO {
 
     private static final long serialVersionUID = -1808433468778452431L;
 
     /**
-     * 消息类型
+     * 业务类型
      *
-     * 短信
-     * 邮件
+     * 密码重置
+     * 登陆注册
      */
-    private String messageType;
+    private String businessType;
 
     /**
-     * 发补发类型
+     * 发件人
      *
-     * 用户注册
-     * 密码重置
      */
-    private String sendType;
+    private String sender;
 
     /**
      * 收件人
      */
     private String recipient;
+
+    /**
+     * 补发原因
+     */
+    private String reason;
 
 }

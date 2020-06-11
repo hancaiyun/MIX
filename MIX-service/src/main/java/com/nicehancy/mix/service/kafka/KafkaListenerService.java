@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @since 2020/5/7 14:04
  **/
 @Slf4j
-//@Component
+@Component
 public class KafkaListenerService {
 
     @KafkaListener(topics = {"${spring.kafka.consumer.topic-order-info}"})
