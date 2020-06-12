@@ -2,6 +2,7 @@ package com.nicehancy.mix.manager.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 笔记目录查询请求参数
@@ -13,6 +14,7 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
+@ToString
 public class DirectoryQueryReqBO {
 
     /**

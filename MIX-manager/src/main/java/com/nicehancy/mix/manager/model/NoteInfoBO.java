@@ -3,6 +3,7 @@ package com.nicehancy.mix.manager.model;
 import com.nicehancy.mix.manager.model.base.BaseBO;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 笔记BO模型
@@ -14,6 +15,7 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
+@ToString
 public class NoteInfoBO extends BaseBO {
 
     /**

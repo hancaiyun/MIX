@@ -2,6 +2,7 @@ package com.nicehancy.mix.manager.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 笔记保存请求对象
@@ -13,6 +14,7 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
+@ToString
 public class NoteSaveReqBO {
 
     /**

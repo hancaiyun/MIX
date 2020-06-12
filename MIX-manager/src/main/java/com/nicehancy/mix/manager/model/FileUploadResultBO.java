@@ -2,6 +2,7 @@ package com.nicehancy.mix.manager.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 文件上传返回结果
@@ -13,6 +14,7 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
+@ToString
 public class FileUploadResultBO {
 
     /**

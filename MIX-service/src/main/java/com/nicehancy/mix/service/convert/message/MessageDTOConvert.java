@@ -2,7 +2,9 @@ package com.nicehancy.mix.service.convert.message;
 
 import com.nicehancy.mix.manager.model.MessageSendRecordBO;
 import com.nicehancy.mix.manager.model.MessageSendRecordPageQueryBO;
+import com.nicehancy.mix.manager.model.MessageSendReqBO;
 import com.nicehancy.mix.service.api.model.request.message.MessageSendRecordPageQueryReqDTO;
+import com.nicehancy.mix.service.api.model.request.message.MessageSendReqDTO;
 import com.nicehancy.mix.service.api.model.result.message.MessageSendRecordDTO;
 
 import java.util.ArrayList;
@@ -69,6 +71,26 @@ public class MessageDTOConvert {
         messageSendRecordDTO.setUpdatedBy(messageSendRecordBO.getUpdatedBy());
 
         return messageSendRecordDTO;
+    }
+
+    /**
+     * 根据DTO获取BO
+     * @param messageSendReqDTO            DTO
+     * @return                             BO
+     */
+    public static MessageSendReqBO getBOByDTO(MessageSendReqDTO messageSendReqDTO) {
+
+        if (messageSendReqDTO == null) {
+            return null;
+        }
+
+        MessageSendReqBO messageSendReqBO = new MessageSendReqBO();
+        messageSendReqBO.setBusinessType(messageSendReqDTO.getBusinessType());
+        messageSendReqBO.setSender(messageSendReqDTO.getSender());
+        messageSendReqBO.setRecipient(messageSendReqDTO.getRecipient());
+        messageSendReqBO.setReason(messageSendReqDTO.getReason());
+
+        return messageSendReqBO;
     }
 
     /**

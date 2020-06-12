@@ -95,10 +95,9 @@ public class UserInfoManager {
     /**
      * 更新用户密码
      * @param userNo           用户名
-     * @param password         密码明文
      * @return                 邮箱
      */
-    public String resetPassword(String userNo, String password) {
+    public String resetPassword(String userNo) {
 
         //查询用户信息
         UserInfoBO user = queryByUserName(userNo);
@@ -109,7 +108,8 @@ public class UserInfoManager {
             throw new RuntimeException("用户邮箱信息有误！");
         }
 
-        //重置密码
+        //重置密码, 并加密
+        String password = PasswordUtil.randomPassword();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encodePassword = bCryptPasswordEncoder.encode(password);
         userInfoRepository.resetPassword(userNo, encodePassword);

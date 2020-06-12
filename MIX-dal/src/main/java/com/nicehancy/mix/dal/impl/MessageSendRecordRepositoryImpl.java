@@ -1,5 +1,6 @@
 package com.nicehancy.mix.dal.impl;
 
+import com.nicehancy.mix.common.utils.DateUtil;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.MessageSendRecordRepository;
 import com.nicehancy.mix.dal.model.MessageSendRecordDO;
@@ -12,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -62,7 +64,8 @@ public class MessageSendRecordRepositoryImpl implements MessageSendRecordReposit
             criteria.and("recipient").is(pageQueryDO.getRecipient());
         }
         if(null != pageQueryDO.getStartDate() && null != pageQueryDO.getEndDate()){
-            criteria.and("createdAt").gte(pageQueryDO.getStartDate()).lte(pageQueryDO.getEndDate());
+            criteria.and("createdAt").gte(pageQueryDO.getStartDate()).lt(DateUtil.addDate(pageQueryDO.getEndDate(),
+                    Calendar.DATE, 1));
         }
 
         query.addCriteria(criteria);
@@ -94,7 +97,8 @@ public class MessageSendRecordRepositoryImpl implements MessageSendRecordReposit
             criteria.and("recipient").is(pageQueryDO.getRecipient());
         }
         if(null != pageQueryDO.getStartDate() && null != pageQueryDO.getEndDate()){
-            criteria.and("createdAt").gte(pageQueryDO.getStartDate()).lte(pageQueryDO.getEndDate());
+            criteria.and("createdAt").gte(pageQueryDO.getStartDate()).lt(DateUtil.addDate(pageQueryDO.getEndDate(),
+                    Calendar.DATE, 1));
         }
         query.addCriteria(criteria);
         //设置排序

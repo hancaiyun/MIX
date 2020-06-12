@@ -2,6 +2,7 @@ package com.nicehancy.mix.manager.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 
 /**
@@ -14,6 +15,7 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
+@ToString
 public class NoteManageReqBO {
 
     /**

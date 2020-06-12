@@ -1,6 +1,7 @@
 package com.nicehancy.mix.service.message;
 
 import com.nicehancy.mix.common.Result;
+import com.nicehancy.mix.manager.message.MessageReSendManager;
 import com.nicehancy.mix.manager.message.MessageSendRecordManager;
 import com.nicehancy.mix.manager.model.MessageSendRecordBO;
 import com.nicehancy.mix.service.api.message.MessageService;
@@ -30,6 +31,9 @@ public class MessageServiceImpl implements MessageService {
 
     @Autowired
     private MessageSendRecordManager messageSendRecordManager;
+
+    @Autowired
+    private MessageReSendManager messageReSendManager;
 
     /**
      * 分页查询
@@ -80,8 +84,8 @@ public class MessageServiceImpl implements MessageService {
         try{
             log.info("call MessageServiceImpl send param: reqDTO={}", messageSendReqDTO);
             //业务处理
-
-
+            messageReSendManager.sendMessage(MessageDTOConvert.getBOByDTO(messageSendReqDTO));
+            //设置结果
             result.setResult(true);
             log.info("call MessageServiceImpl send result: {}", result);
         }catch (Exception e){

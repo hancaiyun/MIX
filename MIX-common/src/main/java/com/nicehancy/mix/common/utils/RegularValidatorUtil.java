@@ -77,4 +77,18 @@ public class RegularValidatorUtil {
 
         return matcher.matches();
     }
+
+    /**
+     * 手机号验证
+     * @param str           待验证字符串
+     * @return              验证结果
+     */
+    public static boolean isPhone(String str){
+
+        String reg = "^(13[0-9]|14[5-9]|15[0-3,5-9]|16[2,5,6,7]|17[0-8]|18[0-9]|19[0-3,5-9])\\d{8}$";
+        Pattern pattern = Pattern.compile(reg);
+        Matcher matcher = pattern.matcher(str);
+
+        return matcher.matches();
+    }
 }

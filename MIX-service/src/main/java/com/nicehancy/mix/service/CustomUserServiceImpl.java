@@ -172,9 +172,8 @@ public class CustomUserServiceImpl implements UserDetailsService {
         try {
             log.info("CustomUserService resetPassword request PARAM: userNo={}, traceLogId={}", userNo, traceLogId);
 
-            //密码加密，通过BCrypt
-            String password = PasswordUtil.randomPassword();
-            String email = userInfoManager.resetPassword(userNo, password);
+            //密码重置
+            String email = userInfoManager.resetPassword(userNo);
             PasswordResetDTO prDTO = new PasswordResetDTO();
             prDTO.setEmail(email);
             result.setResult(prDTO);
