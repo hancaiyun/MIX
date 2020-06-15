@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author CY
@@ -14,6 +15,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 @SpringBootApplication
 @ServletComponentScan
 @EnableKafka
+@EnableTransactionManagement
 @EnableDubbo(scanBasePackages = "com.nicehancy.MIX.service")
 public class MixApplication {
 

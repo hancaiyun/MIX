@@ -1,16 +1,16 @@
 ﻿$(function() {
 	layui.use([ 'layer', 'element', 'form', 'upload' ], function() {
-		var layer = layui.layer,
+		const layer = layui.layer,
 			element = layui.element,
 			form = layui.form,
 			upload = layui.upload;
 		form.render();
 
 		//创建监听函数
-		var xhrOnProgress = function(fun) {
+		const xhrOnProgress = function (fun) {
 			xhrOnProgress.onprogress = fun; //绑定监听
 			//使用闭包实现监听绑
-			return function() {
+			return function () {
 				//通过$.ajaxSettings.xhr();获得XMLHttpRequest对象
 				var xhr = $.ajaxSettings.xhr();
 				//判断监听函数是否为函数
@@ -24,24 +24,24 @@
 			}
 		};
 
-		var uploadFile = upload.render({
-			elem : '#upload', //绑定元素
-			url : '/file/upload', //上传接口
-			exts : 'jpg|png|jpeg',//限定上传类型
+		const uploadFile = upload.render({
+			elem: '#upload', //绑定元素
+			url: '/file/upload', //上传接口
+			exts: 'jpg|png|jpeg',//限定上传类型
 			//accept: images,//指定允许上传时校验的文件类型 images（图片）、file（所有文件）、video（视频）、audio（音频）
-			acceptMime : 'image/jpg, image/png, image/jpeg',//只筛选上述类型图片
-			data: {"userNo":"19921577717", "fileType":"PICTURE", "subFileType":"HEAD"}, //可选项 额外的参数，如：{id: 123, abc: 'xxx'}
-			enctype:'multipart/form-data',
+			acceptMime: 'image/jpg, image/png, image/jpeg',//只筛选上述类型图片
+			data: {"userNo": "19921577717", "fileType": "PICTURE", "subFileType": "HEAD"}, //可选项 额外的参数，如：{id: 123, abc: 'xxx'}
+			enctype: 'multipart/form-data',
 			//number： '0',//0为不限制上传数量
 			//multiple: true,// 开启多文件上传
 			//drag:true, //是否允许拖拽上传
-			size: 1024*3,//为0为不限制大小
-			xhr : xhrOnProgress,
+			size: 1024 * 3,//为0为不限制大小
+			xhr: xhrOnProgress,
 			//监听xhr进度，并返回给进度条
-			progress: function(value) { //上传进度回调 value进度值
+			progress: function (value) { //上传进度回调 value进度值
 				element.progress('upload_progress', value + '%'); //设置页面进度条
 			},
-			before : function(obj) {
+			before: function (obj) {
 				//开始上传时候让进度条去除隐藏状态
 				$("#upload_progress").removeClass("layui-hide");
 				//或者设置loading
@@ -73,7 +73,7 @@
 				console.log(obj.successful); //请求成功的文件数
 				console.log(obj.aborted); //请求失败的文件数
   			},*/
-			done : function(res, index, upload) {//在多文件上传中 每次成功将被调用一次
+			done: function (res, index, upload) {//在多文件上传中 每次成功将被调用一次
 				/*  你不一定非得按照上述格式返回，只要是合法的 JSON 字符即可。其响应信息会转化成JS对象传递给 done 回调。
 				{	如果上传后，出现文件下载框（一般为ie下），那么你需要在服务端对response的header设置 Content-Type: text/html
   					"code": 0,
@@ -81,7 +81,7 @@
  					"data": {
     					"src": "http://google.com"
  				 	}
-				}       
+				}
 				*/
 				//上传完毕回调
 				layer.close(layer.index);
@@ -94,14 +94,14 @@
 				//获取当前触发上传的元素
 				//var item = this.item;
 			},
-			error : function(index, upload) {
+			error: function (index, upload) {
 				//请求异常回调
 				layer.close(layer.index);
 				layer.confirm("上传失败，您是否要重新上传？", {
-					btn : [ '确定', '取消' ],
-					icon : 3,
-					title : "提示"
-				}, function() {
+					btn: ['确定', '取消'],
+					icon: 3,
+					title: "提示"
+				}, function () {
 					//关闭询问框
 					layer.closeAll();
 					//重新调用上传方法

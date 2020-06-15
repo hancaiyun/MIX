@@ -4,18 +4,24 @@ import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.common.utils.VerifyUtil;
 import com.nicehancy.mix.manager.file.document.FileManagementManager;
+import com.nicehancy.mix.manager.model.FileUploadRecordBO;
 import com.nicehancy.mix.manager.model.FileUploadResultBO;
 import com.nicehancy.mix.service.api.file.FileManagementService;
 import com.nicehancy.mix.service.api.model.request.file.FileDownloadRequestDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileUploadRequestDTO;
+import com.nicehancy.mix.service.api.model.request.note.FileUploadRecordPageQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.FileDownloadResultDTO;
+import com.nicehancy.mix.service.api.model.result.FileUploadRecordDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadResultDTO;
+import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
 import com.nicehancy.mix.service.convert.file.FileManagementDTOConvert;
+import com.nicehancy.mix.service.convert.message.MessageDTOConvert;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 文件管理实现类
@@ -34,6 +40,44 @@ public class FileManagementServiceImpl implements FileManagementService {
      */
     @Autowired
     private FileManagementManager fileManagementManager;
+
+    /**
+     * 文件上传记录分页查询接口
+     * @param reqDTO           请求对象
+     * @return                 分页结果
+     */
+    @Override
+    public Result<BasePageQueryResDTO<FileUploadRecordDTO>> pageQuery(FileUploadRecordPageQueryReqDTO reqDTO) {
+
+        Result<BasePageQueryResDTO<FileUploadRecordDTO>> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", reqDTO.getTraceLogId());
+        try{
+            log.info("call FileManagementServiceImpl pageQuery param: reqDTO={}", reqDTO);
+            //TODO 参数校验
+
+            //业务处理
+            BasePageQueryResDTO<FileUploadRecordDTO> resDTO = new BasePageQueryResDTO<>();
+            //查询总条数
+            int count = fileManagementManager.queryCount(FileManagementDTOConvert.getBOByDTO(reqDTO));
+
+            //查询结果集
+            if(0 == count) {
+                resDTO.setPageResult(null);
+                resDTO.setCount(0);
+            }else{
+                List<FileUploadRecordBO> list = fileManagementManager.pageQuery(FileManagementDTOConvert.getBOByDTO(reqDTO));
+                List<FileUploadRecordDTO> dtoList = FileManagementDTOConvert.getDTOSByBOS(list);
+                resDTO.setPageResult(dtoList);
+                resDTO.setCount(count);
+            }
+            result.setResult(resDTO);
+            log.info("call FileManagementServiceImpl pageQuery result: {}", result);
+        }catch (Exception e){
+            result.setErrorMsg(e.getMessage());
+            log.error("call FileManagementServiceImpl pageQuery failed, message：e={}， result={}", e, result);
+        }
+        return result;
+    }
 
     /**
      * 文件上传接口
