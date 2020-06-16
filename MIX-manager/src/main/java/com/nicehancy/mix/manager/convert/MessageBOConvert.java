@@ -1,7 +1,7 @@
 package com.nicehancy.mix.manager.convert;
 
 import com.nicehancy.mix.dal.model.MessageSendRecordDO;
-import com.nicehancy.mix.dal.model.MessageSendRecordPageQueryDO;
+import com.nicehancy.mix.dal.model.request.MessageSendRecordPageQueryDO;
 import com.nicehancy.mix.manager.model.MessageSendRecordBO;
 import com.nicehancy.mix.manager.model.MessageSendRecordPageQueryBO;
 

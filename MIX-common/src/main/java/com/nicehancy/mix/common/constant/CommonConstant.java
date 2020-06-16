@@ -34,4 +34,9 @@ public final class CommonConstant {
      * 404状态码
      */
     public static final int STATUS_404 = 404;
+
+    /**
+     * 文件路径
+     */
+    public static final String FILE_PATH = "C://file/";
 }

@@ -40,8 +40,6 @@ public class FileManagementDTOConvert {
 
         FileUploadRequestBO fileUploadRequestBO = new FileUploadRequestBO();
         fileUploadRequestBO.setUserNo(requestDTO.getUserNo());
-        fileUploadRequestBO.setFileType(requestDTO.getFileType());
-        fileUploadRequestBO.setSubFileType(requestDTO.getSubFileType());
         fileUploadRequestBO.setFileData(requestDTO.getFileData());
 
         return fileUploadRequestBO;
@@ -53,15 +51,19 @@ public class FileManagementDTOConvert {
      * @return                     BO
      */
     public static FileUploadRecordPageQueryReqBO getBOByDTO(FileUploadRecordPageQueryReqDTO requestDTO) {
+
         if (requestDTO == null) {
             return null;
         }
+
         FileUploadRecordPageQueryReqBO fileUploadRecordPageQueryReqBO = new FileUploadRecordPageQueryReqBO();
+        fileUploadRecordPageQueryReqBO.setUserNo(requestDTO.getUserNo());
         fileUploadRecordPageQueryReqBO.setFileId(requestDTO.getFileId());
         fileUploadRecordPageQueryReqBO.setFileName(requestDTO.getFileName());
         fileUploadRecordPageQueryReqBO.setFileType(requestDTO.getFileType());
         fileUploadRecordPageQueryReqBO.setCurrentPage(requestDTO.getCurrentPage());
         fileUploadRecordPageQueryReqBO.setPageSize(requestDTO.getPageSize());
+
         return fileUploadRecordPageQueryReqBO;
     }
 

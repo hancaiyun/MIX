@@ -1,10 +1,10 @@
 package com.nicehancy.mix.dal;
 
 
-import com.nicehancy.mix.dal.model.DirectoryQueryReqDO;
-import com.nicehancy.mix.dal.model.FileListReqDO;
+import com.nicehancy.mix.dal.model.request.DirectoryQueryReqDO;
+import com.nicehancy.mix.dal.model.request.FileListReqDO;
 import com.nicehancy.mix.dal.model.NoteInfoDO;
-import com.nicehancy.mix.dal.model.NoteQueryReqDO;
+import com.nicehancy.mix.dal.model.request.NoteQueryReqDO;
 
 import java.util.List;
 

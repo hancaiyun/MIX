@@ -3,6 +3,10 @@ package com.nicehancy.mix.manager.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import net.sf.oval.constraint.MemberOf;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件上传请求对象
@@ -23,25 +27,22 @@ public class FileUploadRequestBO {
     private String userNo;
 
     /**
-     * 文件类型-大类
-     * PICTURE-图片
-     * DOCUMENT-文档
+     * 文件数据
+     */
+    private MultipartFile fileData;
+
+    /**
+     * 文件名
+     */
+    private String fileName;
+
+    /**
+     * 文件类型
      */
     private String fileType;
 
     /**
-     * 文件类型-细类
-     *
-     * HEAD-头像
-     * DEFAULT-默认图片、自定义图片
-     * EXCEL-表格文件
-     * PDF-PDF类型文件
-     *
+     * 文件路径
      */
-    private String subFileType;
-
-    /**
-     * 文件数据
-     */
-    private String fileData;
+    private String filePath;
 }

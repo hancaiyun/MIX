@@ -4,7 +4,7 @@ import com.nicehancy.mix.common.utils.DateUtil;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.MessageSendRecordRepository;
 import com.nicehancy.mix.dal.model.MessageSendRecordDO;
-import com.nicehancy.mix.dal.model.MessageSendRecordPageQueryDO;
+import com.nicehancy.mix.dal.model.request.MessageSendRecordPageQueryDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;

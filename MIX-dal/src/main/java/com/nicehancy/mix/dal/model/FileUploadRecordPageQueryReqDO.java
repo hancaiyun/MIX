@@ -1,4 +1,4 @@
-package com.nicehancy.mix.manager.model;
+package com.nicehancy.mix.dal.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class FileUploadRecordPageQueryReqBO {
+public class FileUploadRecordPageQueryReqDO {
 
     /**
      * 用户编号

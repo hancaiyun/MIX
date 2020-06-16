@@ -1,7 +1,7 @@
 package com.nicehancy.mix.dal;
 
 import com.nicehancy.mix.dal.model.MessageSendRecordDO;
-import com.nicehancy.mix.dal.model.MessageSendRecordPageQueryDO;
+import com.nicehancy.mix.dal.model.request.MessageSendRecordPageQueryDO;
 import java.util.List;
 
 /**

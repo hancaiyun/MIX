@@ -1,9 +1,9 @@
 package com.nicehancy.mix.manager.convert;
 
-import com.nicehancy.mix.dal.model.DirectoryQueryReqDO;
-import com.nicehancy.mix.dal.model.FileListReqDO;
+import com.nicehancy.mix.dal.model.request.DirectoryQueryReqDO;
+import com.nicehancy.mix.dal.model.request.FileListReqDO;
 import com.nicehancy.mix.dal.model.NoteInfoDO;
-import com.nicehancy.mix.dal.model.NoteQueryReqDO;
+import com.nicehancy.mix.dal.model.request.NoteQueryReqDO;
 import com.nicehancy.mix.manager.model.DirectoryQueryReqBO;
 import com.nicehancy.mix.manager.model.FileListReqBO;
 import com.nicehancy.mix.manager.model.NoteInfoBO;

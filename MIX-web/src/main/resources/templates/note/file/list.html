@@ -54,7 +54,9 @@
         <!--表格-->
         <table id="LAY-file-manage" lay-filter="LAY-user-manage"></table>
         <script type="text/html" id="table-file-operate">
-          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>预览</a>
+          if(${fileType} = 'PHOTO'){
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="preview"><i class="layui-icon layui-icon-edit"></i>预览</a>
+          }
           <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>下载</a>
           <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
         </script>
@@ -98,8 +100,12 @@
           formType: 1
           , title: '敏感操作，请验证口令'
         }, function (value, index) {
+          //口令
+          if(value !== "我爱露西"){
+            layer.alert("口令验证失败！");
+            return;
+          }
           layer.close(index);
-
           layer.confirm('确定删除吗？', function (index) {
 
             //执行 Ajax 后重载

@@ -24,9 +24,9 @@ public class FileUploadResultDTO implements Serializable {
     private static final long serialVersionUID = -8962305379245557748L;
 
     /**
-     * 文件id
+     * 文件类型
      */
-    private String fileId;
+    private String fileType;
 
     /**
      * 文件名

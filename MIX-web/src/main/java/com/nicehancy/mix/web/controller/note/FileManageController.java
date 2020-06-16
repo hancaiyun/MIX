@@ -3,10 +3,11 @@ package com.nicehancy.mix.web.controller.note;
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.enums.SendResultEnum;
 import com.nicehancy.mix.service.api.file.FileManagementService;
+import com.nicehancy.mix.service.api.model.request.file.FileUploadRequestDTO;
 import com.nicehancy.mix.service.api.model.request.note.FileUploadRecordPageQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadRecordDTO;
+import com.nicehancy.mix.service.api.model.result.FileUploadResultDTO;
 import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
-import com.nicehancy.mix.service.api.model.result.message.MessageSendRecordDTO;
 import com.nicehancy.mix.web.controller.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -15,10 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.UUID;
 
 /**
@@ -60,9 +65,27 @@ public class FileManageController extends BaseController {
      */
     @RequestMapping("/note/file/upload")
     @ResponseBody
-    public ModelMap upload(){
-        Result<String> result = new Result<>();
-        return this.processSuccessJSON(result);
+    public ModelMap upload(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        FileUploadRequestDTO fileUploadRequestDTO = new FileUploadRequestDTO();
+        fileUploadRequestDTO.setUserNo(this.getParameters(request).get("userNo"));
+        fileUploadRequestDTO.setFileData(file);
+        fileUploadRequestDTO.setRequestSystem("SYSTEM");
+        fileUploadRequestDTO.setTraceLogId(traceLogId);
+        log.info("FileManageController upload request: fileUploadRequestDTO={}", fileUploadRequestDTO);
+
+        Result<FileUploadResultDTO> result = fileManagementService.uploadFile(fileUploadRequestDTO);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap = this.processSuccessJSON(result);
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("FileManageController upload result={}", modelMap);
+
+        return modelMap;
     }
 
     /**
@@ -75,6 +98,7 @@ public class FileManageController extends BaseController {
         String traceLogId = UUID.randomUUID().toString();
         MDC.put("TRACE_LOG_ID", traceLogId);
         FileUploadRecordPageQueryReqDTO reqDTO = new FileUploadRecordPageQueryReqDTO();
+        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
         reqDTO.setFileId(this.getParameters(request).get("fileId"));
         reqDTO.setFileName(this.getParameters(request).get("fileName"));
         reqDTO.setFileType(this.getParameters(request).get("fileType"));

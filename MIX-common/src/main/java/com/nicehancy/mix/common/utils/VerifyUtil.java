@@ -17,12 +17,8 @@ import net.sf.oval.expression.ExpressionLanguageGroovyImpl;
 @Slf4j
 public class VerifyUtil {
 
-    private static Validator validator = new Validator();
+    private static final Validator validator = new Validator();
 
-    static {
-        validator.getExpressionLanguageRegistry().registerExpressionLanguage("groovy",
-            new ExpressionLanguageGroovyImpl());
-    }
 
     private VerifyUtil() {
     }

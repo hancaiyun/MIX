@@ -1,22 +1,24 @@
-package com.nicehancy.mix.dal.model;
+package com.nicehancy.mix.dal.model.request;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
- * 笔记查询请求对象
+ * 笔记目录查询请求参数
  * <p>
  * <p/>
  *
  * @author hancaiyun
- * @since 2019/11/13 19:41
+ * @since 2020/1/6 15:09
  **/
 @Getter
 @Setter
-public class NoteQueryReqDO {
+@ToString
+public class DirectoryQueryReqDO {
 
     /**
-     * 用户名（登录名）
+     * 用户账号
      */
     private String userNo;
 
@@ -29,10 +31,4 @@ public class NoteQueryReqDO {
      * 二级目录名
      */
     private String secondaryDirectory;
-
-    /**
-     * 文档名
-     */
-    private String documentName;
-
 }

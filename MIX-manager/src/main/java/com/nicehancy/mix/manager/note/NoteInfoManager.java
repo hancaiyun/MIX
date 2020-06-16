@@ -4,7 +4,7 @@ import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.enums.NoteStatusEnum;
 import com.nicehancy.mix.dal.NoteInfoRepository;
 import com.nicehancy.mix.dal.model.NoteInfoDO;
-import com.nicehancy.mix.dal.model.NoteQueryReqDO;
+import com.nicehancy.mix.dal.model.request.NoteQueryReqDO;
 import com.nicehancy.mix.manager.convert.NoteInfoBOConvert;
 import com.nicehancy.mix.manager.model.*;
 import org.springframework.beans.factory.annotation.Autowired;

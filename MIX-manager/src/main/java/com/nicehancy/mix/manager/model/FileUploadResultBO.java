@@ -18,9 +18,9 @@ import lombok.ToString;
 public class FileUploadResultBO {
 
     /**
-     * 文件id
+     * 文件类型
      */
-    private String fileId;
+    private String fileType;
 
     /**
      * 文件名

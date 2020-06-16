@@ -12,25 +12,6 @@
 
   <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
     <div class="layui-form-item">
-      <label class="layui-form-label">文件名</label>
-      <div class="layui-input-inline">
-        <label>
-          <input type="text" name="fileName" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
-        </label>
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">文件类型</label>
-      <div class="layui-input-inline">
-          <select name="fileType" readonly>
-            <option value="">-</option>
-            <option value="PHOTO">图片</option>
-            <option value="WORD">文档</option>
-            <option value="TEXT">文本</option>
-          </select>
-      </div>
-    </div>
-    <div class="layui-form-item">
       <label class="layui-form-label">文件</label>
       <div class="layui-input-inline">
         <label>
@@ -48,6 +29,15 @@
         </div>
       </div>
     </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">文件类型</label>
+      <div class="layui-input-inline">
+        <label>
+          <input type="text" name="fileType" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </label>
+      </div>
+    </div>
+
     <div class="layui-form-item layui-hide">
       <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">
     </div>

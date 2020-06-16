@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 文件上传记录DTO
@@ -40,7 +41,7 @@ public class FileUploadRecordDTO implements Serializable {
     /**
      * 创建时间
      */
-    private String createdAt;
+    private Date createdAt;
 
     /**
      * 创建人
@@ -50,7 +51,7 @@ public class FileUploadRecordDTO implements Serializable {
     /**
      * 更新时间
      */
-    private String updatedAt;
+    private Date updatedAt;
 
     /**
      * 更新人

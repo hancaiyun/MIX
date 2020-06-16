@@ -6,7 +6,7 @@ layui.define(['table', 'form'], function(exports) {
     //用户管理
     table.render({
         elem: '#LAY-file-manage'
-        , url: '/note/file/pageQuery'
+        , url: '/note/file/pageQuery' + "?userNo=" + window.localStorage["loginNo"]
         , cols: [[
             {type: 'checkbox', fixed: 'left'}
             , {field: 'id', title: 'ID', Width: 100}
@@ -23,7 +23,7 @@ layui.define(['table', 'form'], function(exports) {
 
     //监听工具条
     table.on('tool(LAY-file-manage)', function (obj) {
-        var data = obj.data;
+        const data = obj.data;
         if (obj.event === 'del') {
             layer.prompt({
                 formType: 1
@@ -37,7 +37,7 @@ layui.define(['table', 'form'], function(exports) {
                 });
             });
         } else if (obj.event === 'edit') {
-            var tr = $(obj.tr);
+            const tr = $(obj.tr);
 
             layer.open({
                 type: 2
@@ -47,7 +47,7 @@ layui.define(['table', 'form'], function(exports) {
                 , area: ['500px', '450px']
                 , btn: ['确定', '取消']
                 , yes: function (index, layero) {
-                    var iframeWindow = window['layui-layer-iframe' + index]
+                    const iframeWindow = window['layui-layer-iframe' + index]
                         , submitID = 'LAY-user-front-submit'
                         , submit = layero.find('iframe').contents().find('#' + submitID);
 

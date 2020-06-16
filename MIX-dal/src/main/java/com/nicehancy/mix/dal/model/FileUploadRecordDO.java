@@ -1,8 +1,9 @@
-package com.nicehancy.mix.manager.model;
+package com.nicehancy.mix.dal.model;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
@@ -17,7 +18,13 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class FileUploadRecordBO {
+@Document("c_file_upload_record")
+public class FileUploadRecordDO {
+
+    /**
+     * 用户编号
+     */
+    private String userNo;
 
     /**
      * 文件id
@@ -33,6 +40,11 @@ public class FileUploadRecordBO {
      * 文件类型
      */
     private String fileType;
+
+    /**
+     * 文件路径
+     */
+    private String filePath;
 
     /**
      * 创建时间

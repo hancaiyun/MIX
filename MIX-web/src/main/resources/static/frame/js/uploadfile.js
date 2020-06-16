@@ -27,6 +27,7 @@
 		const uploadFile = upload.render({
 			elem: '#uploadFile', //绑定元素
 			url: '/note/file/upload', //上传接口
+			data:{"userNo": window.localStorage["loginNo"]},
 			exts: 'jpg|png|jpeg|txt|doc|docx|ppt|pptx|xls|xlsx',//限定上传类型
 			//accept: images,//指定允许上传时校验的文件类型 images（图片）、file（所有文件）、video（视频）、audio（音频）
 			acceptMime: 'image/jpg, image/png, image/jpeg',//只筛选上述类型图片
@@ -51,7 +52,11 @@
 					element.progress('upload_progress', '100%');
 					//填充文件名
 					document.getElementsByName("fileName")[0].value = res.data.result.fileName;
+					//填充文件类型
+					document.getElementsByName("fileType")[0].value = res.data.result.fileType;
 					layer.msg("上传成功！");
+				}else{
+					layer.msg("上传失败！原因：" + res.msg);
 				}
 			},
 			error: function (index, upload) {

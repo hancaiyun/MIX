@@ -39,7 +39,7 @@ public class DatePatternConstant {
     /**
      * 日期时间格式：yyyyMMddHHmmssSSS
      */
-    public static final String MS_PATTERN       = "yyyyMMddHHmmssSSS";
+    public static final String MS_PATTERN = "yyyyMMddHHmmssSSS";
 
     /**
      *  日期时间格式：yyyy/MM/dd

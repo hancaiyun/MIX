@@ -25,6 +25,11 @@ public class FileUploadRecordPageQueryReqDTO extends BaseReqDTO implements Seria
     private static final long serialVersionUID = -399878446878099197L;
 
     /**
+     * 用户编号
+     */
+    private String userNo;
+
+    /**
      * 文件ID
      */
     private String fileId;

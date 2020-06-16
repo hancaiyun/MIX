@@ -1,4 +1,4 @@
-package com.nicehancy.mix.dal.model;
+package com.nicehancy.mix.dal.model.request;
 
 import com.nicehancy.mix.dal.model.base.PageQueryBaseDO;
 import lombok.Getter;
@@ -7,6 +7,7 @@ import lombok.ToString;
 import java.util.Date;
 
 /**
+ * 消息发送记录分页查询请求DO
  * <p>
  * <p/>
  *

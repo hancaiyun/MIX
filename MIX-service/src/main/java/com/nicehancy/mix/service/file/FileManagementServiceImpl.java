@@ -2,6 +2,7 @@ package com.nicehancy.mix.service.file;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.constant.CommonConstant;
+import com.nicehancy.mix.common.enums.FileTypeEnum;
 import com.nicehancy.mix.common.utils.VerifyUtil;
 import com.nicehancy.mix.manager.file.document.FileManagementManager;
 import com.nicehancy.mix.manager.model.FileUploadRecordBO;
@@ -15,7 +16,6 @@ import com.nicehancy.mix.service.api.model.result.FileUploadRecordDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadResultDTO;
 import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
 import com.nicehancy.mix.service.convert.file.FileManagementDTOConvert;
-import com.nicehancy.mix.service.convert.message.MessageDTOConvert;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,10 +93,10 @@ public class FileManagementServiceImpl implements FileManagementService {
             MDC.put(CommonConstant.TRACE_LOG_ID, requestDTO.getTraceLogId());
             log.info("call FileManagementService uploadFile request:{}", requestDTO);
             //参数校验
-            //VerifyUtil.validateObject(requestDTO);
+            VerifyUtil.validateObject(requestDTO);
             //业务处理
             FileUploadResultBO resultBO = fileManagementManager.uploadFile(FileManagementDTOConvert.getBOByDTO(requestDTO));
-            resultDTO.setFileId(resultBO.getFileId());
+            resultDTO.setFileType(FileTypeEnum.expireOfCode(resultBO.getFileType()).getDesc());
             resultDTO.setFileName(resultBO.getFileName());
             result.setResult(resultDTO);
             //结果封装
@@ -104,8 +104,8 @@ public class FileManagementServiceImpl implements FileManagementService {
         }catch (Exception e){
             log.error("call FileManagementService uploadFile Fail, exception:{}, result:{}", e, result);
             //异常信息包装
-
-            log.error("call FileManagementService Fail,result:{}", result);
+            result.setErrorMsg(e.getMessage());
+            log.error("call FileManagementService uploadFile Fail,result:{}", result);
         }finally {
             MDC.clear();
         }

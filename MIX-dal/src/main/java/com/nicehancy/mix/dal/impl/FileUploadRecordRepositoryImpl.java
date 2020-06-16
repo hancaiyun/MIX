@@ -1,0 +1,112 @@
+package com.nicehancy.mix.dal.impl;
+
+import com.nicehancy.mix.common.utils.DateUtil;
+import com.nicehancy.mix.common.utils.UUIDUtil;
+import com.nicehancy.mix.dal.FileUploadRecordRepository;
+import com.nicehancy.mix.dal.model.FileUploadRecordDO;
+import com.nicehancy.mix.dal.model.FileUploadRecordPageQueryReqDO;
+import com.nicehancy.mix.dal.model.MessageSendRecordDO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * 文件上传记录
+ * <p>
+ * <p/>
+ *
+ * @author hancaiyun
+ * @since 2020/6/16 11:07
+ **/
+@Repository(value = "fileUploadRecordRepositoryImpl")
+public class FileUploadRecordRepositoryImpl implements FileUploadRecordRepository {
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
+    /**
+     * 新增文件上传记录
+     * @param fileUploadRecordDO    文件上传记录DO
+     */
+    @Override
+    public void insert(FileUploadRecordDO fileUploadRecordDO) {
+
+        //字段初始化
+        fileUploadRecordDO.setFileId(UUIDUtil.createNoByUUId());
+        fileUploadRecordDO.setCreatedAt(new Date());
+        fileUploadRecordDO.setUpdatedAt(new Date());
+
+        mongoTemplate.insert(fileUploadRecordDO);
+    }
+
+    /**
+     * 分页查询总条目数
+     * @param pageQueryReqDO        分页请求参数
+     * @return                      总条目数
+     */
+    @Override
+    public int queryCount(FileUploadRecordPageQueryReqDO pageQueryReqDO) {
+
+        //设置分页查询条件
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        if(!StringUtils.isEmpty(pageQueryReqDO.getFileId())){
+            criteria.and("fileId").is(pageQueryReqDO.getFileId());
+        }
+        if(!StringUtils.isEmpty(pageQueryReqDO.getFileName())){
+            criteria.and("fileName").is(pageQueryReqDO.getFileName());
+        }
+        if(!StringUtils.isEmpty(pageQueryReqDO.getFileType())){
+            criteria.and("fileType").is(pageQueryReqDO.getFileType());
+        }
+        criteria.and("createdBy").is(pageQueryReqDO.getUserNo());
+        query.addCriteria(criteria);
+        //设置排序
+        query.with(Sort.by(Sort.Direction.DESC, "createdAt"));
+        //查询
+        long count = mongoTemplate.count(query, MessageSendRecordDO.class);
+
+        return (int) count;
+    }
+
+    /**
+     * 分页查询结果集
+     * @param pageQueryReqDO        分页请求参数
+     * @return                      分页结果集
+     */
+    @Override
+    public List<FileUploadRecordDO> pageQuery(FileUploadRecordPageQueryReqDO pageQueryReqDO) {
+
+        //设置分页查询条件
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        if(!StringUtils.isEmpty(pageQueryReqDO.getFileId())){
+            criteria.and("fileId").is(pageQueryReqDO.getFileId());
+        }
+        if(!StringUtils.isEmpty(pageQueryReqDO.getFileName())){
+            criteria.and("fileName").is(pageQueryReqDO.getFileName());
+        }
+        if(!StringUtils.isEmpty(pageQueryReqDO.getFileType())){
+            criteria.and("fileType").is(pageQueryReqDO.getFileType());
+        }
+        criteria.and("createdBy").is(pageQueryReqDO.getUserNo());
+        query.addCriteria(criteria);
+
+        //分页
+        int pageNumber = pageQueryReqDO.getCurrentPage();
+        int pageSize = pageQueryReqDO.getPageSize();
+        query.skip((pageNumber - 1) * pageSize).limit(pageSize);
+
+        return mongoTemplate.find(query, FileUploadRecordDO.class);
+    }
+
+
+}
