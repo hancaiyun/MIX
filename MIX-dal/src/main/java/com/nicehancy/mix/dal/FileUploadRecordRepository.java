@@ -41,4 +41,10 @@ public interface FileUploadRecordRepository {
      * @return                      文件明细
      */
     FileUploadRecordDO queryDetail(String fileId);
+
+    /**
+     * 文件上传记录更新
+     * @param fileUploadRecordDO    更新内容
+     */
+    void updateFileInfo(FileUploadRecordDO fileUploadRecordDO);
 }

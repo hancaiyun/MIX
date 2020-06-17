@@ -3,9 +3,12 @@ package com.nicehancy.mix.manager.file.document;
 import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.common.constant.DatePatternConstant;
 import com.nicehancy.mix.common.enums.FileFormatEnum;
+import com.nicehancy.mix.common.enums.FileStatusEnum;
 import com.nicehancy.mix.common.utils.DateUtil;
+import com.nicehancy.mix.common.utils.FileOperateUtil;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.FileUploadRecordRepository;
+import com.nicehancy.mix.dal.model.FileUploadRecordDO;
 import com.nicehancy.mix.manager.convert.FileRecordBOConvert;
 import com.nicehancy.mix.manager.convert.MessageBOConvert;
 import com.nicehancy.mix.manager.model.FileUploadRecordBO;
@@ -124,5 +127,28 @@ public class FileManagementManager {
      */
     public FileUploadRecordBO queryDetail(String fileId) {
         return FileRecordBOConvert.getBOByDO(fileUploadRecordRepository.queryDetail(fileId));
+    }
+
+    /**
+     * 文件删除
+     * @param fileId        文件ID
+     * @param operator      操作人
+     * @return              删除结果
+     */
+    public boolean deleteFile(String fileId, String operator) {
+
+        FileUploadRecordDO fileUploadRecordDO = fileUploadRecordRepository.queryDetail(fileId);
+        //更新数据库
+        FileUploadRecordDO fileUploadRecordReqDO = new FileUploadRecordDO();
+        fileUploadRecordReqDO.setFileId(fileId);
+        fileUploadRecordReqDO.setFileStatus(FileStatusEnum.DELETE.getCode());
+        fileUploadRecordReqDO.setUpdatedBy(operator);
+
+        fileUploadRecordRepository.updateFileInfo(fileUploadRecordReqDO);
+
+        //删除服务器文件
+        FileOperateUtil.deleteFile(fileUploadRecordDO.getFilePath());
+
+        return true;
     }
 }

@@ -1,6 +1,9 @@
 package com.nicehancy.mix.common.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +18,8 @@ import java.net.URLEncoder;
  * @author hancaiyun
  * @since 2020/6/17 14:31
  **/
-public class FileDownloadUtil {
+@Slf4j
+public class FileOperateUtil {
 
     private static final String ENCODING = "UTF-8";
     private static final String CONTENT_DISPOSITION = "Content-Disposition";
@@ -25,45 +29,12 @@ public class FileDownloadUtil {
     private static final String NO_CACHE = "no-cache";
     private static final String PRAGMA = "Pragma";
     private static final String EXPIRES = "Expires";
-    private static final String APPLICATION_X_MSDOWNLOAD = "application/x-msdownload";
 
-//    public static void download(String path, HttpServletResponse response) {
-//        OutputStream fos = null;
-//        FileInputStream fis = null;
-//
-//        try {
-//            response.setHeader(PRAGMA, NO_CACHE);
-//            response.setHeader(CACHE_CONTROL, NO_CACHE);
-//            response.setCharacterEncoding(ENCODING);
-//            response.setHeader(CONTENT_DISPOSITION, ATTACHMENT + URLEncoder.encode(path, ENCODING));
-//            response.setContentType(CONTENT_TYPE);
-//            response.setDateHeader(EXPIRES, 0);
-//            fos = response.getOutputStream();
-//            File file = new File(path);
-//            if (file.exists()) {
-//                fis = new FileInputStream(file);
-//                FileCopyUtils.copy(fis, fos);
-//            }
-//            fos.flush();
-//            fis.close();
-//            fos.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }finally {
-//            try {
-//                if(fis!=null){
-//                    fis.close();
-//                }
-//                if (fos!=null){
-//                    fos.close();
-//                }
-//            }catch (Exception e){
-//                e.getMessage();
-//            }
-//
-//        }
-//    }
-
+    /**
+     * 文件下载
+     * @param path              文件路径
+     * @param response          返回结果
+     */
     public static void download(String path, HttpServletResponse response) {
         OutputStream fos = null;
         FileInputStream fis = null;
@@ -97,5 +68,25 @@ public class FileDownloadUtil {
                 e.getMessage();
             }
         }
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param pathname        文件路径名
+     * @return                删除结果
+     */
+    public static boolean deleteFile(String pathname){
+        boolean result = false;
+        if(StringUtils.isEmpty(pathname)){
+            return false;
+        }
+        File file = new File(pathname);
+        if (file.exists()) {
+            file.delete();
+            result = true;
+            log.info("文件{}已经被成功删除", pathname.substring(pathname.lastIndexOf("/")));
+        }
+        return result;
     }
 }

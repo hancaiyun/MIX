@@ -1,4 +1,4 @@
-layui.define(['table', 'form'], function(exports) {
+layui.define(['table', 'form'], function() {
     const $ = layui.$
         , table = layui.table
         , form = layui.form;
@@ -37,6 +37,35 @@ layui.define(['table', 'form'], function(exports) {
                 }
                 layer.close(index);
                 layer.confirm('真的删除行么', function (index) {
+                    //删除文件数据
+                    $.ajax({
+                        url: '/note/file/delete',
+                        data: {"fileId": data.fileId, "userNo": window.localStorage["loginNo"]},
+                        dataType: 'json',//数据类型
+                        type: 'GET',//类型
+                        timeout: 3000,//超时
+                        //请求成功
+                        success: function (res) {
+                            if (res.code === "0000") {
+                                //成功
+                                layer.alert("删除成功");
+                            } else {
+                                layer.open({
+                                    title: '提示信息'
+                                    , content: '文件删除失败，失败原因：' + res.msg
+                                });
+                            }
+                        },
+                        //失败/超时
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            if (textStatus === 'timeout') {
+                                layer.msg('网络异常');
+                            }
+                            layer.msg("失败原因：" + errorThrown);
+                        }
+                    });
+
+                    //表格删除
                     obj.del();
                     layer.close(index);
                 });

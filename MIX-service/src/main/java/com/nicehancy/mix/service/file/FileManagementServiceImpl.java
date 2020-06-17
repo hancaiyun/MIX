@@ -8,7 +8,7 @@ import com.nicehancy.mix.manager.file.document.FileManagementManager;
 import com.nicehancy.mix.manager.model.FileUploadRecordBO;
 import com.nicehancy.mix.manager.model.FileUploadResultBO;
 import com.nicehancy.mix.service.api.file.FileManagementService;
-import com.nicehancy.mix.service.api.model.request.file.FileDownloadRequestDTO;
+import com.nicehancy.mix.service.api.model.request.file.FileDeleteRequestDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileQueryDetailReqDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileUploadRequestDTO;
 import com.nicehancy.mix.service.api.model.request.note.FileUploadRecordPageQueryReqDTO;
@@ -113,36 +113,6 @@ public class FileManagementServiceImpl implements FileManagementService {
         return result;
     }
 
-    /**
-     * 文件下载接口
-     * @param requestDTO       请求对象
-     * @return                 返回结果
-     */
-    @Override
-    public Result<FileDownloadResultDTO> downloadFile(FileDownloadRequestDTO requestDTO) {
-
-        Result<FileDownloadResultDTO> result = new Result<>();
-        try{
-            MDC.put(CommonConstant.TRACE_LOG_ID, requestDTO.getTraceLogId());
-            log.info("call FileManagementService downloadFile request:{}", requestDTO);
-
-            //参数校验
-            VerifyUtil.validateObject(requestDTO);
-
-            //业务处理
-
-            //结果封装
-
-            log.info("call FileManagementService downloadFile success, result:{}", result);
-        }catch (Exception e){
-            log.error("call FileManagementService downloadFile Fail, exception:{}, result:{}", e, result);
-            //异常信息包装
-
-            log.error("call FileManagementService downloadFile Fail,result:{}", result);
-        }
-        return result;
-    }
-
     @Override
     public Result<FileUploadRecordDTO> queryDetail(FileQueryDetailReqDTO requestDTO) {
 
@@ -166,6 +136,36 @@ public class FileManagementServiceImpl implements FileManagementService {
             //异常信息包装
             result.setErrorMsg(e.getMessage());
             log.error("call FileManagementService queryDetail Fail,result:{}", result);
+        }
+        return result;
+    }
+
+    /**
+     * 文件删除接口
+     * @param requestDTO       请求对象
+     * @return                 返回结果
+     */
+    @Override
+    public Result<Boolean> deleteFile(FileDeleteRequestDTO requestDTO) {
+
+        Result<Boolean> result = new Result<>();
+        try{
+            MDC.put(CommonConstant.TRACE_LOG_ID, requestDTO.getTraceLogId());
+            log.info("call FileManagementService deleteFile request:{}", requestDTO);
+
+            //参数校验
+            VerifyUtil.validateObject(requestDTO);
+
+            //业务处理
+            boolean isDelete = fileManagementManager.deleteFile(requestDTO.getFileId(), requestDTO.getOperator());
+            //结果封装
+            result.setResult(isDelete);
+            log.info("call FileManagementService deleteFile success, result:{}", result);
+        }catch (Exception e){
+            log.error("call FileManagementService deleteFile Fail, exception:{}, result:{}", e, result);
+            //异常信息包装
+            result.setErrorMsg(e.getMessage());
+            log.error("call FileManagementService deleteFile Fail,result:{}", result);
         }
         return result;
     }

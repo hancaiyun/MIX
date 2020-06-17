@@ -1,20 +1,16 @@
 package com.nicehancy.mix.web.controller.note;
 
 import com.nicehancy.mix.common.Result;
-import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.common.constant.CommonErrorConstant;
-import com.nicehancy.mix.common.enums.SendResultEnum;
-import com.nicehancy.mix.common.utils.FileDownloadUtil;
+import com.nicehancy.mix.common.utils.FileOperateUtil;
 import com.nicehancy.mix.service.api.file.FileManagementService;
-import com.nicehancy.mix.service.api.model.request.file.FileDownloadRequestDTO;
+import com.nicehancy.mix.service.api.model.request.file.FileDeleteRequestDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileQueryDetailReqDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileUploadRequestDTO;
 import com.nicehancy.mix.service.api.model.request.note.FileUploadRecordPageQueryReqDTO;
-import com.nicehancy.mix.service.api.model.result.FileDownloadResultDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadRecordDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadResultDTO;
 import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
-import com.nicehancy.mix.web.controller.FileController;
 import com.nicehancy.mix.web.controller.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -28,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -98,7 +93,7 @@ public class FileManageController extends BaseController {
     }
 
     /**
-     * 文件下载
+     * 文件下载至本地
      */
     @RequestMapping("/note/file/download")
     @ResponseBody
@@ -123,7 +118,7 @@ public class FileManageController extends BaseController {
         //查询成功且有文件
         } else{
             //文件下载
-            FileDownloadUtil.download(result.getResult().getFilePath(), response);
+            FileOperateUtil.download(result.getResult().getFilePath(), response);
         }
 
         log.info("FileManageController download result= SUCCESS");
@@ -132,7 +127,7 @@ public class FileManageController extends BaseController {
 
     /**
      * 文件预览
-     * 根据文件名fileName下载文件
+     * 根据文件路径filePath下载文件
      */
     @RequestMapping(value = "/note/file/preview")
     public void preview(HttpServletRequest request, HttpServletResponse response){
@@ -209,6 +204,35 @@ public class FileManageController extends BaseController {
                 }
             }
         }
+    }
+
+    /**
+     * 文件删除
+     * @return      删除结果
+     */
+    @RequestMapping("/note/file/delete")
+    @ResponseBody
+    public ModelMap upload(HttpServletRequest request) {
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        FileDeleteRequestDTO fileDeleteRequestDTO = new FileDeleteRequestDTO();
+        fileDeleteRequestDTO.setOperator(this.getParameters(request).get("userNo"));
+        fileDeleteRequestDTO.setFileId(this.getParameters(request).get("fileId"));
+        fileDeleteRequestDTO.setRequestSystem("SYSTEM");
+        fileDeleteRequestDTO.setTraceLogId(traceLogId);
+        log.info("FileManageController delete request: fileUploadRequestDTO={}", fileDeleteRequestDTO);
+
+        Result<Boolean> result = fileManagementService.deleteFile(fileDeleteRequestDTO);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap = this.processSuccessJSON(result);
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("FileManageController delete result={}", modelMap);
+
+        return modelMap;
     }
 
     /**

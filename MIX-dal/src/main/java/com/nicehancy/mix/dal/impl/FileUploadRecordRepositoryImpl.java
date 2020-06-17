@@ -5,11 +5,13 @@ import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.FileUploadRecordRepository;
 import com.nicehancy.mix.dal.model.FileUploadRecordDO;
 import com.nicehancy.mix.dal.model.FileUploadRecordPageQueryReqDO;
+import com.nicehancy.mix.dal.model.UserInfoDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import java.util.Date;
@@ -124,5 +126,31 @@ public class FileUploadRecordRepositoryImpl implements FileUploadRecordRepositor
         query.addCriteria(criteria);
 
         return mongoTemplate.findOne(query, FileUploadRecordDO.class);
+    }
+
+    /**
+     * 文件信息更新
+     * @param fileUploadRecordDO    更新内容
+     */
+    @Override
+    public void updateFileInfo(FileUploadRecordDO fileUploadRecordDO) {
+
+        //查询条件
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.and("fileId").is(fileUploadRecordDO.getFileId());
+        query.addCriteria(criteria);
+
+        //更新内容
+        Update update = new Update();
+        if(!StringUtils.isEmpty(fileUploadRecordDO.getFileStatus())){
+            update.set("fileStatus", fileUploadRecordDO.getFileStatus());
+        }
+
+        update.set("updatedAt", new Date());
+        update.set("updatedBy", fileUploadRecordDO.getUpdatedBy());
+
+        //更新操作
+        mongoTemplate.updateFirst(query, update, FileUploadRecordDO.class);
     }
 }
