@@ -38,5 +38,5 @@ public final class CommonConstant {
     /**
      * 文件路径
      */
-    public static final String FILE_PATH = "C://file/";
+    public static final String FILE_PATH = "C://file/manager/";
 }

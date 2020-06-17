@@ -47,6 +47,11 @@ public class FileUploadRecordDO {
     private String filePath;
 
     /**
+     * 文件状态
+     */
+    private String fileStatus;
+
+    /**
      * 创建时间
      */
     private Date createdAt;

@@ -24,52 +24,52 @@ public enum FileFormatEnum {
     /**
      * jpg
      */
-    JPG("jpg", "PHOTO", "jpg"),
+    JPG(".jpg", "PHOTO", "jpg"),
 
     /**
      * png
      */
-    PNG("png", "PHOTO", "png"),
+    PNG(".png", "PHOTO", "png"),
 
     /**
      * jpeg
      */
-    JPEG("jpeg", "PHOTO", "jpeg"),
+    JPEG(".jpeg", "PHOTO", "jpeg"),
 
     /**
      * txt
      */
-    TXT("txt", "WORD", "txt"),
+    TXT(".txt", "TEXT", "txt"),
 
     /**
      * doc
      */
-    DOC("doc", "WORD", "doc"),
+    DOC(".doc", "WORD", "doc"),
 
     /**
      * docx
      */
-    DOCX("docx", "WORD", "docx"),
+    DOCX(".docx", "WORD", "docx"),
 
     /**
      * ppt
      */
-    PPT("ppt", "WORD", "ppt"),
+    PPT(".ppt", "WORD", "ppt"),
 
     /**
      * pptx
      */
-    PPTX("pptx", "WORD", "pptx"),
+    PPTX(".pptx", "WORD", "pptx"),
 
     /**
      * xls
      */
-    XLS("xls", "WORD", "xls"),
+    XLS(".xls", "WORD", "xls"),
 
     /**
      * xlsx
      */
-    XLSX("xlsx", "WORD", "xlsx"),
+    XLSX(".xlsx", "WORD", "xlsx"),
     ;
 
     private final String code;

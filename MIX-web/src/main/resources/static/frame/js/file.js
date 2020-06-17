@@ -9,14 +9,14 @@ layui.define(['table', 'form'], function(exports) {
         , url: '/note/file/pageQuery' + "?userNo=" + window.localStorage["loginNo"]
         , cols: [[
             {type: 'checkbox', fixed: 'left'}
-            , {field: 'id', title: 'ID', Width: 100}
+            , {field: 'fileId', title: '文件ID', width: 100}
             , {field: 'fileName', title: '文件名', Width: 100}
             , {field: 'fileType', title: '文件类型', width: 100}
-            , {field: 'createdAt', title: '上传时间', Width:100, sort: true}
-            , {title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-file-operate'}
+            , {field: 'createdAt', title: '上传时间', width:100, sort: true}
+            , {title: '操作', width: 200, align: 'center', fixed: 'right', toolbar: '#table-file-operate'}
         ]]
         , page: true
-        , limit: 30
+        , limit: 10
         , height: 'full-220'
         , text: '对不起，加载出现异常！'
     });
@@ -29,8 +29,12 @@ layui.define(['table', 'form'], function(exports) {
                 formType: 1
                 , title: '敏感操作，请验证口令'
             }, function (value, index) {
+                //口令
+                if(value !== "19921577717"){
+                    layer.alert("口令验证失败！");
+                    return;
+                }
                 layer.close(index);
-
                 layer.confirm('真的删除行么', function (index) {
                     obj.del();
                     layer.close(index);
@@ -53,7 +57,7 @@ layui.define(['table', 'form'], function(exports) {
 
                     //监听提交
                     iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
-                        var field = data.field; //获取提交的字段
+                        const field = data.field; //获取提交的字段
 
                         //提交 Ajax 成功后，静态更新表格中的数据
                         //$.ajax({});

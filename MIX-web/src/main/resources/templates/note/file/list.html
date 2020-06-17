@@ -49,15 +49,16 @@
       <div class="layui-card-body">
         <div style="padding-bottom: 10px;">
           <button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
-          <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+          <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">上传</button>
         </div>
         <!--表格-->
         <table id="LAY-file-manage" lay-filter="LAY-user-manage"></table>
+        <!--仅照片显示预览按钮，共用按钮:下载、删除-->
         <script type="text/html" id="table-file-operate">
-          if(${fileType} = 'PHOTO'){
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="preview"><i class="layui-icon layui-icon-edit"></i>预览</a>
-          }
-          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>下载</a>
+          {{# if(d.fileType == '照片'){}}
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="preview"><i class="layui-icon layui-icon-picture-fine"></i>预览</a>
+          {{# }}}
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-download-circle"></i>下载</a>
           <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
         </script>
       </div>
@@ -81,7 +82,7 @@
       const field = data.field;
 
       //执行重载
-      table.reload('LAY-user-manage', {
+      table.reload('LAY-file-manage', {
         where: field
       });
     });
@@ -89,7 +90,7 @@
     //事件
     const active = {
       batchdel: function () {
-        const checkStatus = table.checkStatus('LAY-user-manage')
+        const checkStatus = table.checkStatus('LAY-file-manage')
                 , checkData = checkStatus.data; //得到选中的数据
 
         if (checkData.length === 0) {
@@ -101,7 +102,7 @@
           , title: '敏感操作，请验证口令'
         }, function (value, index) {
           //口令
-          if(value !== "我爱露西"){
+          if(value !== "19921577717"){
             layer.alert("口令验证失败！");
             return;
           }
@@ -115,7 +116,7 @@
               //,……
             });
             */
-            table.reload('LAY-user-manage');
+            table.reload('LAY-file-manage');
             layer.msg('已删除');
           });
         });

@@ -1,11 +1,10 @@
 package com.nicehancy.mix.dal.impl;
 
-import com.nicehancy.mix.common.utils.DateUtil;
+import com.nicehancy.mix.common.enums.FileStatusEnum;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.FileUploadRecordRepository;
 import com.nicehancy.mix.dal.model.FileUploadRecordDO;
 import com.nicehancy.mix.dal.model.FileUploadRecordPageQueryReqDO;
-import com.nicehancy.mix.dal.model.MessageSendRecordDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -13,8 +12,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -41,6 +38,7 @@ public class FileUploadRecordRepositoryImpl implements FileUploadRecordRepositor
 
         //字段初始化
         fileUploadRecordDO.setFileId(UUIDUtil.createNoByUUId());
+        fileUploadRecordDO.setFileStatus(FileStatusEnum.NORMAL.getCode());
         fileUploadRecordDO.setCreatedAt(new Date());
         fileUploadRecordDO.setUpdatedAt(new Date());
 
@@ -67,12 +65,13 @@ public class FileUploadRecordRepositoryImpl implements FileUploadRecordRepositor
         if(!StringUtils.isEmpty(pageQueryReqDO.getFileType())){
             criteria.and("fileType").is(pageQueryReqDO.getFileType());
         }
-        criteria.and("createdBy").is(pageQueryReqDO.getUserNo());
+        criteria.and("userNo").is(pageQueryReqDO.getUserNo());
+        criteria.and("fileStatus").ne(FileStatusEnum.DELETE.getCode());
         query.addCriteria(criteria);
         //设置排序
         query.with(Sort.by(Sort.Direction.DESC, "createdAt"));
         //查询
-        long count = mongoTemplate.count(query, MessageSendRecordDO.class);
+        long count = mongoTemplate.count(query, FileUploadRecordDO.class);
 
         return (int) count;
     }
@@ -97,7 +96,7 @@ public class FileUploadRecordRepositoryImpl implements FileUploadRecordRepositor
         if(!StringUtils.isEmpty(pageQueryReqDO.getFileType())){
             criteria.and("fileType").is(pageQueryReqDO.getFileType());
         }
-        criteria.and("createdBy").is(pageQueryReqDO.getUserNo());
+        criteria.and("userNo").is(pageQueryReqDO.getUserNo());
         query.addCriteria(criteria);
 
         //分页

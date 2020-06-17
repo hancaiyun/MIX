@@ -73,6 +73,7 @@ public class FileManagementManager {
         //新增文件上传记录
         requestBO.setFileType(FileFormatEnum.expireOfCode(suffix).getType());
         requestBO.setFilePath(filePath);
+        requestBO.setFileName(oldName);
         fileUploadRecordRepository.insert(FileRecordBOConvert.getDOByBO(requestBO));
 
         //返回结果构建

@@ -1,5 +1,6 @@
 package com.nicehancy.mix.service.convert.file;
 
+import com.nicehancy.mix.common.enums.FileTypeEnum;
 import com.nicehancy.mix.manager.model.FileUploadRecordBO;
 import com.nicehancy.mix.manager.model.FileUploadRecordPageQueryReqBO;
 import com.nicehancy.mix.manager.model.FileUploadRequestBO;
@@ -103,7 +104,9 @@ public class FileManagementDTOConvert {
 
         List<FileUploadRecordDTO> fileUploadRecordDTOS = new ArrayList<>();
         for(FileUploadRecordBO fileUploadRecordBO : list){
-            fileUploadRecordDTOS.add(getDTOByBO(fileUploadRecordBO));
+            FileUploadRecordDTO fileUploadRecordDTO = getDTOByBO(fileUploadRecordBO);
+            fileUploadRecordDTO.setFileType(FileTypeEnum.expireOfCode(fileUploadRecordDTO.getFileType()).getDesc());
+            fileUploadRecordDTOS.add(fileUploadRecordDTO);
         }
         return fileUploadRecordDTOS;
     }
