@@ -20,6 +20,11 @@ import java.util.Date;
 public class FileUploadRecordBO {
 
     /**
+     * 用户编号
+     */
+    private String userNo;
+
+    /**
      * 文件id
      */
     private String fileId;
@@ -33,6 +38,16 @@ public class FileUploadRecordBO {
      * 文件类型
      */
     private String fileType;
+
+    /**
+     * 文件路径
+     */
+    private String filePath;
+
+    /**
+     * 文件状态
+     */
+    private String fileStatus;
 
     /**
      * 创建时间

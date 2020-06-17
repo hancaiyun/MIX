@@ -97,6 +97,7 @@ public class FileUploadRecordRepositoryImpl implements FileUploadRecordRepositor
             criteria.and("fileType").is(pageQueryReqDO.getFileType());
         }
         criteria.and("userNo").is(pageQueryReqDO.getUserNo());
+        criteria.and("fileStatus").ne(FileStatusEnum.DELETE.getCode());
         query.addCriteria(criteria);
 
         //分页
@@ -107,5 +108,21 @@ public class FileUploadRecordRepositoryImpl implements FileUploadRecordRepositor
         return mongoTemplate.find(query, FileUploadRecordDO.class);
     }
 
+    /**
+     * 文件上传记录明细查询
+     * @param fileId                文件ID
+     * @return                      文件上传明细
+     */
+    @Override
+    public FileUploadRecordDO queryDetail(String fileId) {
 
+        //设置查询条件
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.and("fileId").is(fileId);
+        criteria.and("fileStatus").ne(FileStatusEnum.DELETE.getCode());
+        query.addCriteria(criteria);
+
+        return mongoTemplate.findOne(query, FileUploadRecordDO.class);
+    }
 }

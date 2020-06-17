@@ -34,4 +34,11 @@ public interface FileUploadRecordRepository {
      * @return                      结果集
      */
     List<FileUploadRecordDO> pageQuery(FileUploadRecordPageQueryReqDO pageQueryReqDO);
+
+    /**
+     * 文件上传记录明细查询
+     * @param fileId                文件ID
+     * @return                      文件明细
+     */
+    FileUploadRecordDO queryDetail(String fileId);
 }

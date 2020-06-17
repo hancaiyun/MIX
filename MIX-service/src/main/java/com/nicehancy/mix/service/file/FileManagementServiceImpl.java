@@ -9,6 +9,7 @@ import com.nicehancy.mix.manager.model.FileUploadRecordBO;
 import com.nicehancy.mix.manager.model.FileUploadResultBO;
 import com.nicehancy.mix.service.api.file.FileManagementService;
 import com.nicehancy.mix.service.api.model.request.file.FileDownloadRequestDTO;
+import com.nicehancy.mix.service.api.model.request.file.FileQueryDetailReqDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileUploadRequestDTO;
 import com.nicehancy.mix.service.api.model.request.note.FileUploadRecordPageQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.FileDownloadResultDTO;
@@ -53,10 +54,12 @@ public class FileManagementServiceImpl implements FileManagementService {
         MDC.put("TRACE_LOG_ID", reqDTO.getTraceLogId());
         try{
             log.info("call FileManagementServiceImpl pageQuery param: reqDTO={}", reqDTO);
-            //TODO 参数校验
+            //参数校验
+            VerifyUtil.validateObject(reqDTO);
 
             //业务处理
             BasePageQueryResDTO<FileUploadRecordDTO> resDTO = new BasePageQueryResDTO<>();
+
             //查询总条数
             int count = fileManagementManager.queryCount(FileManagementDTOConvert.getBOByDTO(reqDTO));
 
@@ -106,8 +109,6 @@ public class FileManagementServiceImpl implements FileManagementService {
             //异常信息包装
             result.setErrorMsg(e.getMessage());
             log.error("call FileManagementService uploadFile Fail,result:{}", result);
-        }finally {
-            MDC.clear();
         }
         return result;
     }
@@ -138,8 +139,33 @@ public class FileManagementServiceImpl implements FileManagementService {
             //异常信息包装
 
             log.error("call FileManagementService downloadFile Fail,result:{}", result);
-        }finally {
-            MDC.clear();
+        }
+        return result;
+    }
+
+    @Override
+    public Result<FileUploadRecordDTO> queryDetail(FileQueryDetailReqDTO requestDTO) {
+
+        Result<FileUploadRecordDTO> result = new Result<>();
+        try{
+            MDC.put(CommonConstant.TRACE_LOG_ID, requestDTO.getTraceLogId());
+            log.info("call FileManagementService queryDetail request:{}", requestDTO);
+
+            //参数校验
+            VerifyUtil.validateObject(requestDTO);
+
+            //业务处理
+            FileUploadRecordBO fileUploadRecordBO = fileManagementManager.queryDetail(requestDTO.getFileId());
+
+            //结果封装
+            result.setResult(FileManagementDTOConvert.getDTOByBO(fileUploadRecordBO));
+
+            log.info("call FileManagementService queryDetail success, result:{}", result);
+        }catch (Exception e){
+            log.error("call FileManagementService queryDetail Fail, exception:{}, result:{}", e, result);
+            //异常信息包装
+            result.setErrorMsg(e.getMessage());
+            log.error("call FileManagementService queryDetail Fail,result:{}", result);
         }
         return result;
     }

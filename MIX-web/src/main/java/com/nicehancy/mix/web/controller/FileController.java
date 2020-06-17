@@ -115,7 +115,7 @@ public class FileController extends BaseController {
      * @param file              文件路径
      * @param fileName          文件名
      */
-    private void downFile(HttpServletResponse response,File file,String fileName){
+    public void downFile(HttpServletResponse response,File file,String fileName){
 
         boolean bo=file.exists();
 

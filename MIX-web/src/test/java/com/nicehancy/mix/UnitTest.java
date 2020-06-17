@@ -98,4 +98,15 @@ public class UnitTest extends BaseSpringTest {
             System.out.println();
         }
     }
+
+    @Test
+    public void splitTest(){
+        String oldName = "分润配置-功能点拆分V2.3.xlsx";
+        int index=oldName.indexOf(".");
+        log.info("index:{}", index);
+//        String[] split = oldName.split(".");
+
+        String str = oldName.substring(oldName.lastIndexOf("."));
+        log.info("{}", str);
+    }
 }

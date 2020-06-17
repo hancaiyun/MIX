@@ -47,16 +47,16 @@ public class FileManagementManager {
         //文件存储
         MultipartFile file = requestBO.getFileData();
         //原完整文件名
-        String oldName = file.getOriginalFilename();
-        assert oldName != null;
+        String filename = file.getOriginalFilename();
+        assert filename != null;
         //文件格式
-        String suffix = oldName.substring(oldName.indexOf('.'));
+        String suffix = filename.substring(filename.lastIndexOf("."));
 
         //服务器文件目录
         String path = CommonConstant.FILE_PATH;
 
         //变更文件名（唯一）
-        String fileName = changeName(oldName);
+        String fileName = changeName(filename);
 
         //文件路径
         String filePath = path + fileName;
@@ -73,13 +73,13 @@ public class FileManagementManager {
         //新增文件上传记录
         requestBO.setFileType(FileFormatEnum.expireOfCode(suffix).getType());
         requestBO.setFilePath(filePath);
-        requestBO.setFileName(oldName);
+        requestBO.setFileName(filename);
         fileUploadRecordRepository.insert(FileRecordBOConvert.getDOByBO(requestBO));
 
         //返回结果构建
         FileUploadResultBO resultBO = new FileUploadResultBO();
         resultBO.setFileType(FileFormatEnum.expireOfCode(suffix).getType());
-        resultBO.setFileName(oldName);
+        resultBO.setFileName(filename);
         return resultBO;
     }
 
@@ -115,5 +115,14 @@ public class FileManagementManager {
     public List<FileUploadRecordBO> pageQuery(FileUploadRecordPageQueryReqBO reqBO) {
 
         return FileRecordBOConvert.getBOSByDOS(fileUploadRecordRepository.pageQuery(FileRecordBOConvert.getDOByBO(reqBO)));
+    }
+
+    /**
+     * 查询文件上传明细
+     * @param fileId        文件ID
+     * @return              文件信息
+     */
+    public FileUploadRecordBO queryDetail(String fileId) {
+        return FileRecordBOConvert.getBOByDO(fileUploadRecordRepository.queryDetail(fileId));
     }
 }

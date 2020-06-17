@@ -39,7 +39,7 @@
             </div>
           </div>
           <div class="layui-inline">
-            <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-user-front-search">
+            <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-file-search">
               <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
             </button>
           </div>
@@ -52,13 +52,13 @@
           <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">上传</button>
         </div>
         <!--表格-->
-        <table id="LAY-file-manage" lay-filter="LAY-user-manage"></table>
+        <table id="LAY-file-manage" lay-filter="LAY-file-manage"></table>
         <!--仅照片显示预览按钮，共用按钮:下载、删除-->
         <script type="text/html" id="table-file-operate">
           {{# if(d.fileType == '照片'){}}
           <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="preview"><i class="layui-icon layui-icon-picture-fine"></i>预览</a>
           {{# }}}
-          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-download-circle"></i>下载</a>
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="download"><i class="layui-icon layui-icon-download-circle"></i>下载</a>
           <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
         </script>
       </div>
@@ -78,7 +78,7 @@
             , table = layui.table;
 
     //监听搜索
-    form.on('submit(LAY-user-front-search)', function(data){
+    form.on('submit(LAY-file-search)', function(data){
       const field = data.field;
 
       //执行重载
@@ -124,9 +124,9 @@
       , add: function () {
         layer.open({
           type: 2
-          , title: '添加用户'
+          , title: '上传文件'
           , content: 'fileForm'
-          , area: ['500px', '450px']
+          , area: ['500px', '250px']
           , btn: ['确定', '取消']
           , yes: function (index, layero) {
             const iframeWindow = window['layui-layer-iframe' + index]
@@ -136,13 +136,9 @@
             //监听提交
             iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
               const field = data.field; //获取提交的字段
-
-              //提交 Ajax 成功后，静态更新表格中的数据
-              //$.ajax({});
-              table.reload('LAY-user-front-submit'); //数据刷新
+              table.reload('LAY-file-search'); //数据刷新
               layer.close(index); //关闭弹层
             });
-
             submit.trigger('click');
           }
         });

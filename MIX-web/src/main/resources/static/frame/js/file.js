@@ -3,7 +3,7 @@ layui.define(['table', 'form'], function(exports) {
         , table = layui.table
         , form = layui.form;
 
-    //用户管理
+    //文件管理
     table.render({
         elem: '#LAY-file-manage'
         , url: '/note/file/pageQuery' + "?userNo=" + window.localStorage["loginNo"]
@@ -24,13 +24,14 @@ layui.define(['table', 'form'], function(exports) {
     //监听工具条
     table.on('tool(LAY-file-manage)', function (obj) {
         const data = obj.data;
+        //删除
         if (obj.event === 'del') {
             layer.prompt({
                 formType: 1
                 , title: '敏感操作，请验证口令'
             }, function (value, index) {
                 //口令
-                if(value !== "19921577717"){
+                if (value !== "19921577717") {
                     layer.alert("口令验证失败！");
                     return;
                 }
@@ -40,37 +41,57 @@ layui.define(['table', 'form'], function(exports) {
                     layer.close(index);
                 });
             });
-        } else if (obj.event === 'edit') {
-            const tr = $(obj.tr);
-
-            layer.open({
-                type: 2
-                , title: '编辑用户'
-                , content: '../../../views/user/user/noteform.html'
-                , maxmin: true
-                , area: ['500px', '450px']
-                , btn: ['确定', '取消']
-                , yes: function (index, layero) {
-                    const iframeWindow = window['layui-layer-iframe' + index]
-                        , submitID = 'LAY-user-front-submit'
-                        , submit = layero.find('iframe').contents().find('#' + submitID);
-
-                    //监听提交
-                    iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
-                        const field = data.field; //获取提交的字段
-
-                        //提交 Ajax 成功后，静态更新表格中的数据
-                        //$.ajax({});
-                        table.reload('LAY-user-front-submit'); //数据刷新
-                        layer.close(index); //关闭弹层
-                    });
-
-                    submit.trigger('click');
+        }
+        //预览
+        if (obj.event === 'preview') {
+            //layer.alert("功能待开发");
+            layer.photos({
+                photos: {
+                    "title": "查看图片"
+                    ,"data": [{
+                        "src": "/note/file/preview?filePath=" + data.filePath
+                    }]
                 }
-                , success: function (layero, index) {
-
-                }
+                ,shade: 0.01
+                ,closeBtn: 1
+                ,anim: 5
             });
+        }
+        //下载
+        if (obj.event === 'download') {
+
+            //获取XMLHttpRequest
+            const xmlHttpRequest = new XMLHttpRequest();
+            //发起请求
+            xmlHttpRequest.open("POST", "/note/file/download" + "?fileId=" + data.fileId, true);
+            //设置请求头类型
+            xmlHttpRequest.setRequestHeader("Content-type", "application/json");
+            xmlHttpRequest.setRequestHeader("id",data.id);
+            xmlHttpRequest.responseType = "blob";
+            //返回
+            xmlHttpRequest.onload = function() {
+                //alert(this.status);
+                const content = xmlHttpRequest.response;
+                // 组装a标签
+                const elink = document.createElement("a");
+
+                //拼接下载的文件名
+                //设置文件下载路径
+                elink.download = data.fileName;
+                elink.style.display = "none";
+                const blob = new Blob([content]);
+
+                //解决下载不存在文件的问题，根据blob大小判断
+                if(blob.size===0){
+                    layer.msg('服务器没找到此文件，请联系管理员!');
+                }else{
+                    elink.href = URL.createObjectURL(blob);
+                    document.body.appendChild(elink);
+                    elink.click();
+                    document.body.removeChild(elink);
+                }
+            };
+            xmlHttpRequest.send();
         }
     });
 })

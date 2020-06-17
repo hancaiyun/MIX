@@ -2,6 +2,7 @@ package com.nicehancy.mix.service.api.file;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.service.api.model.request.file.FileDownloadRequestDTO;
+import com.nicehancy.mix.service.api.model.request.file.FileQueryDetailReqDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileUploadRequestDTO;
 import com.nicehancy.mix.service.api.model.request.note.FileUploadRecordPageQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.FileDownloadResultDTO;
@@ -39,5 +40,12 @@ public interface FileManagementService {
      * @return                 下载结果
      */
     Result<FileDownloadResultDTO> downloadFile(FileDownloadRequestDTO requestDTO);
+
+    /**
+     * 文件明细查询
+     * @param requestDTO       请求对象
+     * @return                 查询结果
+     */
+    Result<FileUploadRecordDTO> queryDetail(FileQueryDetailReqDTO requestDTO);
 
 }

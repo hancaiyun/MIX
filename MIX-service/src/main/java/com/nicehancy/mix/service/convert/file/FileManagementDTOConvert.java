@@ -80,9 +80,12 @@ public class FileManagementDTOConvert {
         }
 
         FileUploadRecordDTO fileUploadRecordDTO = new FileUploadRecordDTO();
+        fileUploadRecordDTO.setUserNo(fileUploadRecordBO.getUserNo());
         fileUploadRecordDTO.setFileId(fileUploadRecordBO.getFileId());
         fileUploadRecordDTO.setFileName(fileUploadRecordBO.getFileName());
         fileUploadRecordDTO.setFileType(fileUploadRecordBO.getFileType());
+        fileUploadRecordDTO.setFilePath(fileUploadRecordBO.getFilePath());
+        fileUploadRecordDTO.setFileStatus(fileUploadRecordBO.getFileStatus());
         fileUploadRecordDTO.setCreatedAt(fileUploadRecordBO.getCreatedAt());
         fileUploadRecordDTO.setCreatedBy(fileUploadRecordBO.getCreatedBy());
         fileUploadRecordDTO.setUpdatedAt(fileUploadRecordBO.getUpdatedAt());

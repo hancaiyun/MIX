@@ -73,20 +73,20 @@ public class FileRecordBOConvert {
      * @return                      BO
      */
     public static FileUploadRecordBO getBOByDO(FileUploadRecordDO fileUploadRecordDO) {
-
         if (fileUploadRecordDO == null) {
             return null;
         }
-
         FileUploadRecordBO fileUploadRecordBO = new FileUploadRecordBO();
+        fileUploadRecordBO.setUserNo(fileUploadRecordDO.getUserNo());
         fileUploadRecordBO.setFileId(fileUploadRecordDO.getFileId());
         fileUploadRecordBO.setFileName(fileUploadRecordDO.getFileName());
         fileUploadRecordBO.setFileType(fileUploadRecordDO.getFileType());
+        fileUploadRecordBO.setFilePath(fileUploadRecordDO.getFilePath());
+        fileUploadRecordBO.setFileStatus(fileUploadRecordDO.getFileStatus());
         fileUploadRecordBO.setCreatedAt(fileUploadRecordDO.getCreatedAt());
         fileUploadRecordBO.setCreatedBy(fileUploadRecordDO.getCreatedBy());
         fileUploadRecordBO.setUpdatedAt(fileUploadRecordDO.getUpdatedAt());
         fileUploadRecordBO.setUpdatedBy(fileUploadRecordDO.getUpdatedBy());
-
         return fileUploadRecordBO;
     }
 
