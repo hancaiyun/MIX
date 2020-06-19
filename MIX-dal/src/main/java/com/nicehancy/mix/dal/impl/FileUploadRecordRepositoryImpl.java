@@ -101,7 +101,8 @@ public class FileUploadRecordRepositoryImpl implements FileUploadRecordRepositor
         criteria.and("userNo").is(pageQueryReqDO.getUserNo());
         criteria.and("fileStatus").ne(FileStatusEnum.DELETE.getCode());
         query.addCriteria(criteria);
-
+        //设置排序
+        query.with(Sort.by(Sort.Direction.DESC, "createdAt"));
         //分页
         int pageNumber = pageQueryReqDO.getCurrentPage();
         int pageSize = pageQueryReqDO.getPageSize();

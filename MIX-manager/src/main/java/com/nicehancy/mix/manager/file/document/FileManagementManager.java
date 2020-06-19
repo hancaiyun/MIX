@@ -10,7 +10,6 @@ import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.FileUploadRecordRepository;
 import com.nicehancy.mix.dal.model.FileUploadRecordDO;
 import com.nicehancy.mix.manager.convert.FileRecordBOConvert;
-import com.nicehancy.mix.manager.convert.MessageBOConvert;
 import com.nicehancy.mix.manager.model.FileUploadRecordBO;
 import com.nicehancy.mix.manager.model.FileUploadRecordPageQueryReqBO;
 import com.nicehancy.mix.manager.model.FileUploadRequestBO;
@@ -52,6 +51,9 @@ public class FileManagementManager {
         //原完整文件名
         String filename = file.getOriginalFilename();
         assert filename != null;
+        //截取目录，获取文件名
+        filename = filename.substring(filename.lastIndexOf("\\") + 1);
+        log.info("原始文件名：{}", filename);
         //文件格式
         String suffix = filename.substring(filename.lastIndexOf("."));
 
@@ -89,10 +91,10 @@ public class FileManagementManager {
     /**
      * 变更文件名
      * @param oldName        原始文件名
-     * @return
+     * @return               新文件名
      */
     private String changeName(String oldName) {
-        String newName = oldName.substring(oldName.indexOf('.'));
+        String newName = oldName.substring(oldName.lastIndexOf("."));
         //前缀
         String prefix = DateUtil.format(new Date(), DatePatternConstant.FULL_PATTERN) + UUIDUtil.createNoByUUId();
         newName = prefix + newName;
