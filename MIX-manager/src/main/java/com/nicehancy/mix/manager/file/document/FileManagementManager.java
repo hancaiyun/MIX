@@ -53,7 +53,7 @@ public class FileManagementManager {
         assert filename != null;
         //截取目录，获取文件名
         filename = filename.substring(filename.lastIndexOf("\\") + 1);
-        
+
         //文件格式
         String suffix = filename.substring(filename.lastIndexOf("."));
 
