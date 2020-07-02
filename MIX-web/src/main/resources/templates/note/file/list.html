@@ -35,6 +35,7 @@
                 <option value="PHOTO">图片</option>
                 <option value="WORD">文档</option>
                 <option value="TEXT">文本</option>
+                <option value="VIDEO">视频</option>
               </select>
             </div>
           </div>
@@ -57,6 +58,9 @@
         <script type="text/html" id="table-file-operate">
           {{# if(d.fileType == '照片'){}}
           <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="preview"><i class="layui-icon layui-icon-picture-fine"></i>预览</a>
+          {{# }}}
+          {{# if(d.fileType == '视频'){}}
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="play"><i class="layui-icon layui-icon-play"></i>播放</a>
           {{# }}}
           <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="download"><i class="layui-icon layui-icon-download-circle"></i>下载</a>
           <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>

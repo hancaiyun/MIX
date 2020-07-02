@@ -9,11 +9,11 @@ layui.define(['table', 'form'], function() {
         , url: '/note/file/pageQuery' + "?userNo=" + window.localStorage["loginNo"]
         , cols: [[
             {type: 'checkbox', fixed: 'left'}
-            , {field: 'fileId', title: '文件ID', width: 100}
-            , {field: 'fileName', title: '文件名', Width: 100}
+            , {field: 'fileId', title: '文件ID', width: 200}
+            , {field: 'fileName', title: '文件名', Width: 50}
             , {field: 'fileType', title: '文件类型', width: 100}
             , {field: 'createdAt', title: '上传时间', width:100, sort: true}
-            , {title: '操作', width: 200, align: 'center', fixed: 'right', toolbar: '#table-file-operate'}
+            , {title: '操作', width: 210, align: 'center', fixed: 'right', toolbar: '#table-file-operate'}
         ]]
         , page: true
         , limit: 10
@@ -73,7 +73,6 @@ layui.define(['table', 'form'], function() {
         }
         //预览
         if (obj.event === 'preview') {
-            //layer.alert("功能待开发");
             layer.photos({
                 photos: {
                     "title": "查看图片"
@@ -84,6 +83,21 @@ layui.define(['table', 'form'], function() {
                 ,shade: 0.01
                 ,closeBtn: 1
                 ,anim: 5
+            });
+        }
+        //播放
+        if(obj.event === 'play'){
+
+            let html = '<div class="wrap">';
+            html += '<video  height="100%" width="100%" controls autobuffer>';
+            html += '<source src="/note/file/preview?filePath='+ data.filePath +'" type="video/mp4" />';
+            html += '</video>';
+            html += '</div>';
+            //弹出层
+            layer.open({
+                type: 1,
+                title: "视频播放",
+                content: html
             });
         }
         //下载

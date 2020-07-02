@@ -186,7 +186,8 @@ public class FileManageController extends BaseController {
                     i = bis.read(buffer);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                log.warn("文件流异常，异常信息:{}", e.getMessage());
+            //关闭流（客户端手动终止文件流传输，服务端会IOException，服务端需主动关闭流）
             } finally {
                 if (bis != null) {
                     try {
