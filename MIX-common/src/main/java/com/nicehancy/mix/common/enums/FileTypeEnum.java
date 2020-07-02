@@ -32,6 +32,11 @@ public enum FileTypeEnum {
     TEXT("TEXT", "文本"),
 
     /**
+     * 视频
+     */
+    VIDEO("VIDEO", "视频"),
+
+    /**
      * 未知配置
      */
     UNKNOWN("UNKNOWN","未知"),

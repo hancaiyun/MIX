@@ -27,7 +27,7 @@ public enum NoteStatusEnum {
 
     ;
 
-    private String code;
+    private final String code;
 
-    private String desc;
+    private final String desc;
 }

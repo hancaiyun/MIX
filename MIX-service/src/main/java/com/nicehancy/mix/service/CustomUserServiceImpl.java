@@ -2,7 +2,6 @@ package com.nicehancy.mix.service;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.utils.GsonUtil;
-import com.nicehancy.mix.common.utils.PasswordUtil;
 import com.nicehancy.mix.common.utils.VerifyUtil;
 import com.nicehancy.mix.manager.model.UserInfoBO;
 import com.nicehancy.mix.manager.redis.RedisManager;

@@ -39,10 +39,10 @@ public enum SensitiveTypeEnum {
     /**
      * 枚举值
      */
-    private String code;
+    private final String code;
 
     /**
      * 描述
      */
-    private String desc;
+    private final String desc;
 }

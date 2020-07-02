@@ -11,7 +11,7 @@ layui.define(['table', 'form'], function(exports){
   ,table = layui.table
   ,form = layui.form;
 
-  //文章管理
+  //消息管理
   table.render({
     elem: '#LAY-app-content-list'
     ,url: '/message/pageQuery'

@@ -22,11 +22,11 @@
                 <label class="layui-form-label">我的角色</label>
                 <div class="layui-input-inline">
                   <select name="role" lay-verify="">
-                    <option value="SUPPER_ADMIN" selected>超级管理员</option>
-                    <option value="ADMIN" disabled>普通管理员</option>
-                    <option value="DEVELOPER" disabled>开发人员</option>
-                    <option value="TESTER" disabled>测试人员</option>
-                    <option value="USER" disabled>普通用户</option>
+                    <option value="COMMON_USER" selected>普通用户</option>
+                    <option value="COMMON_MEMBER" disabled>普通会员</option>
+                    <option value="SILVER_VIP" disabled>白银会员</option>
+                    <option value="GOLD_VIP" disabled>黄金会员</option>
+                    <option value="PLATINUM_VIP" disabled>白金会员</option>
                   </select> 
                 </div>
               </div>
@@ -108,7 +108,7 @@
         success: function (res) {
           if (res.code === "0000") {
             //设置表单数据
-            var maskUserNo = mobilePhoneMask(res.data.loginNo);
+            const maskUserNo = mobilePhoneMask(res.data.loginNo);
             $("#username").attr("value", maskUserNo);
             $("#nickname").attr("value", res.data.nickName);
             $("#email").attr("value", res.data.email);
@@ -132,7 +132,7 @@
 
       //手机号掩码处理
       function mobilePhoneMask(input) {
-        var output = input;
+        let output = input;
         if (input == null || input === "")return output;
 
         output = input.substr(0, 3) + "****" + input.substr(input.length - 4);

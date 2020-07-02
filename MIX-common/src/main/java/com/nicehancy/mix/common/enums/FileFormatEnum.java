@@ -17,11 +17,6 @@ import org.springframework.util.StringUtils;
 public enum FileFormatEnum {
 
     /**
-     * 未知配置
-     */
-    UNKNOWN("UNKNOWN", "UNKNOWN","未知"),
-
-    /**
      * jpg
      */
     JPG(".jpg", "PHOTO", "jpg"),
@@ -70,6 +65,57 @@ public enum FileFormatEnum {
      * xlsx
      */
     XLSX(".xlsx", "WORD", "xlsx"),
+
+    /**
+     * mp4
+     */
+    MP4(".mp4", "VIDEO", "mp4"),
+
+    /**
+     * avi
+     */
+    AVI(".avi", "VIDEO", "avi"),
+
+    /**
+     * wmv
+     */
+    WMV(".wmv", "VIDEO", "wmv"),
+
+    /**
+     * mpeg
+     */
+    MPEG(".mpeg", "VIDEO", "mpeg"),
+
+    /**
+     * dv
+     */
+    DV(".dv", "VIDEO", "dv"),
+
+    /**
+     * mkv
+     */
+    MKV(".mkv", "VIDEO", "mkv"),
+
+    /**
+     * mov
+     */
+    MOV(".mov", "VIDEO", "mov"),
+
+    /**
+     * mod
+     */
+    MOD(".mod", "VIDEO", "mod"),
+
+    /**
+     * flv
+     */
+    FLV(".flv", "VIDEO", "flv"),
+
+    /**
+     * 未知配置
+     */
+    UNKNOWN("UNKNOWN", "UNKNOWN","未知"),
+
     ;
 
     private final String code;

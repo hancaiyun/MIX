@@ -50,39 +50,7 @@
 			//auto: false, //选择文件后不自动上传 默认值为true
 			//bindAction: '#testListAction', //指向一个按钮触发上传
 			//选择文件的回调 在文件被选择后触发，该回调会在 before 回调之前。一般用于非自动上传（即 auto: false ）的场景 预览图片等其他操作
-			/*choose: function(obj){
-   				//将每次选择的文件追加到文件队列
-    			var files = obj.pushFile();
-				//预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
-    			obj.preview(function(index, file, result){
-			  	console.log(index); //得到文件索引
-			 	console.log(file); //得到文件对象
-			  	console.log(result); //得到文件base64编码，比如图片
-      			//obj.resetFile(index, file, '123.jpg'); //重命名文件名
-      			//这里还可以做一些 append 文件列表 DOM 的操作
-      			//obj.upload(index, file); //对上传失败的单个文件重新上传，一般在某个事件中使用
-      			//delete files[index]; //删除列表中对应的文件，一般在某个事件中使用
-				 obj.preview(function(index, file, result){
-					 //对上传失败的单个文件重新上传，一般在某个事件中使用
-					 //obj.upload(index, file);
-				});
-    		});
-			*/
-			/*allDone: function(obj){ //当文件全部被提交后，才触发  开启多文件上传时该回调才可触发
-				console.log(obj.total); //得到总文件数
-				console.log(obj.successful); //请求成功的文件数
-				console.log(obj.aborted); //请求失败的文件数
-  			},*/
 			done: function (res, index, upload) {//在多文件上传中 每次成功将被调用一次
-				/*  你不一定非得按照上述格式返回，只要是合法的 JSON 字符即可。其响应信息会转化成JS对象传递给 done 回调。
-				{	如果上传后，出现文件下载框（一般为ie下），那么你需要在服务端对response的header设置 Content-Type: text/html
-  					"code": 0,
-  					"msg": "",
- 					"data": {
-    					"src": "http://google.com"
- 				 	}
-				}
-				*/
 				//上传完毕回调
 				layer.close(layer.index);
 				if (res.code === "0000") {//此处只用于单文件图片的上传，若为多图片多文件请做其他处理

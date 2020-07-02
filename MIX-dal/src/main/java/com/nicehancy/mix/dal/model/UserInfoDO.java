@@ -3,6 +3,7 @@ package com.nicehancy.mix.dal.model;
 import com.nicehancy.mix.dal.model.base.BaseDO;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -15,11 +16,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
  **/
 @Getter
 @Setter
+@ToString
 @Document("c_user_info")
 public class UserInfoDO extends BaseDO {
 
     /**
-     * 登陆号（邮箱）
+     * 登陆号
      */
     private String userNo;
 
@@ -32,6 +34,13 @@ public class UserInfoDO extends BaseDO {
      * 头像
      */
     private String headCopy;
+
+    /**
+     * 性别
+     * 男-MALE
+     * 女-FEMALE
+     */
+    private String sex;
 
     /**
      * 密码

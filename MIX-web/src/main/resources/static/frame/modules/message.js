@@ -122,9 +122,9 @@ layui.define(['admin', 'table', 'util'], function(exports){
   };
   
   $('.LAY-app-message-btns .layui-btn').on('click', function(){
-    var othis = $(this)
-    ,thisEvent = othis.data('events')
-    ,type = othis.data('type');
+    const othis = $(this)
+        , thisEvent = othis.data('events')
+        , type = othis.data('type');
     events[thisEvent] && events[thisEvent].call(this, othis, type);
   });
   

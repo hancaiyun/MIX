@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Slf4j
 @SpringBootApplication
 @ServletComponentScan
-@EnableKafka
+//@EnableKafka
 @EnableTransactionManagement
 @EnableDubbo(scanBasePackages = "com.nicehancy.MIX.service")
 public class MixApplication {

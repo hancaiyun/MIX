@@ -41,11 +41,11 @@ window.onload = function () {
 //初始化富文本域
 //富文本集相关操作
 layui.use('layedit', function () {
-    var layedit = layui.layedit;
-    var $ = layui.jquery;
+    const layedit = layui.layedit;
+    const $ = layui.jquery;
     // var layer = layui.layer;
     //建立编辑器
-    var textarea = layedit.build('note-area', {height: 480});
+    const textarea = layedit.build('note-area', {height: 480});
     //放入缓存，用于之后的更新操作
     layui.data('session', {
         key: 'textarea',
@@ -56,11 +56,11 @@ layui.use('layedit', function () {
     $("#save").click(function () {
 
         //获取文件名
-        var fileName = document.getElementById("fileName").value;
+        const fileName = document.getElementById("fileName").value;
         //获取一级目录名
-        var primaryDirectory = document.getElementById("primaryDirectory").value;
+        const primaryDirectory = document.getElementById("primaryDirectory").value;
         //获取二级目录名
-        var secondaryDirectory = document.getElementById("secondaryDirectory").value;
+        const secondaryDirectory = document.getElementById("secondaryDirectory").value;
         //保存文件需指定文件名
         if (fileName === "" || fileName == null) {
             layer.open({
@@ -70,7 +70,7 @@ layui.use('layedit', function () {
             return;
         }
         //获取文本域内容
-        var content = layedit.getContent(textarea);
+        const content = layedit.getContent(textarea);
         $.ajax({
             url: '/note/notemanage/save',//提交地址
             data: {
@@ -120,7 +120,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
     form.on('select(primaryDirectory)', function (data) {
 
         //1、获取data.value得到被选中的值
-        var primaryDirectory = data.value;
+        const primaryDirectory = data.value;
         if (primaryDirectory === "" || primaryDirectory == null) {
             return;
         }
@@ -332,14 +332,14 @@ function manageFile() {
         , area: ['460px', '450px']
         , btn: ['确定', '取消']
         , yes: function (index, layero) {
-            var iframeWindow = window['layui-layer-iframe' + index]
+            const iframeWindow = window['layui-layer-iframe' + index]
                 , submitID = 'LAY-user-front-submit'
                 , submit = layero.find('iframe').contents().find('#' + submitID);
 
             //监听提交
             iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
-                var $ = layui.jquery;
-                var field = data.field; //获取提交的字段
+                const $ = layui.jquery;
+                const field = data.field; //获取提交的字段
                 //var jsonData = JSON.stringify(field);// 转成JSON格式
                 //管理请求
                 $.ajax({
@@ -398,7 +398,6 @@ function deleteFile() {
     //获取文件名
     const fileName = document.getElementById("fileName").value;
 
-    alert("用户名：" + userNo + ";一级目录名：" + primaryDirectory +";二级目录名：" + secondaryDirectory + "；文件名：" + fileName);
     //文件名为空， 弹出提示信息
     if(fileName === '' || fileName == null){
         layer.open({
@@ -421,7 +420,7 @@ function deleteFile() {
                     "primaryDirectory": primaryDirectory,
                     "secondaryDirectory": secondaryDirectory,
                     "documentName": fileName,
-                    "userNo": window.localStorage["loginNo"]},
+                    "userNo": userNo},
                 dataType: 'json',//数据类型
                 type: 'GET',//请求方式
                 timeout: 3000,//超时时间

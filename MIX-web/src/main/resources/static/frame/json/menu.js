@@ -2,6 +2,21 @@
   "code": 0
   ,"msg": ""
   ,"data": [{
+    "title": "主页"
+    ,"icon": "layui-icon-home"
+    ,"list": [{
+      "title": "控制台"
+      ,"jump": "/"
+    }, {
+      "name": "homepage1"
+      ,"title": "主页一"
+      ,"jump": "home/homepage1"
+    }, {
+      "name": "homepage2"
+      ,"title": "主页二"
+      ,"jump": "home/homepage2"
+    }]
+  }, {
     "name": "component"
     ,"title": "组件"
     ,"icon": "layui-icon-component"
@@ -80,21 +95,121 @@
     }, {
       "name": "laydate"
       ,"title": "日期时间"
+      ,"list": [{
+        "name": "demo1"
+        ,"title": "功能演示一"
+      },{
+        "name": "demo2"
+        ,"title": "功能演示二"
+      },{
+        "name": "theme"
+        ,"title": "设定主题"
+      },{
+        "name": "special-demo"
+        ,"title": "特殊示例"
+      }]
     }, {
       "name": "table"
       ,"title": "表格"
+      ,"list": [{
+        "name": "simple"
+        ,"title": "简单数据表格"
+      },{
+        "name": "auto"
+        ,"title": "列宽自动分配"
+      },{
+        "name": "data"
+        ,"title": "赋值已知数据"
+      },{
+        "name": "tostatic"
+        ,"title": "转化静态表格"
+      },{
+        "name": "page"
+        ,"title": "开启分页"
+      },{
+        "name": "resetPage"
+        ,"title": "自定义分页"
+      },{
+        "name": "toolbar"
+        ,"title": "开启头部工具栏"
+      },{
+        "name": "totalRow"
+        ,"title": "开启合计行"
+      },{
+        "name": "height"
+        ,"title": "高度最大适应"
+      },{
+        "name": "checkbox"
+        ,"title": "开启复选框"
+      },{
+        "name": "radio"
+        ,"title": "开启单选框"
+      },{
+        "name": "cellEdit"
+        ,"title": "开启单元格编辑"
+      },{
+        "name": "form"
+        ,"title": "加入表单元素"
+      },{
+        "name": "style"
+        ,"title": "设置单元格样式"
+      },{
+        "name": "fixed"
+        ,"title": "固定列"
+      },{
+        "name": "operate"
+        ,"title": "数据操作"
+      },{
+        "name": "parseData"
+        ,"title": "解析任意数据格式"
+      },{
+        "name": "onrow"
+        ,"title": "监听行事件"
+      },{
+        "name": "reload"
+        ,"title": "数据表格的重载"
+      },{
+        "name": "initSort"
+        ,"title": "设置初始排序"
+      },{
+        "name": "cellEvent"
+        ,"title": "监听单元格事件"
+      },{
+        "name": "thead"
+        ,"title": "复杂表头"
+      }]
     }, {
       "name": "laypage"
       ,"title": "分页"
+      ,"list": [{
+        "name": "demo1"
+        ,"title": "功能演示一"
+      },{
+        "name": "demo2"
+        ,"title": "功能演示二"
+      }]
     }, {
       "name": "upload"
       ,"title": "上传"
+      ,"list": [{
+        "name": "demo1"
+        ,"title": "功能演示一"
+      },{
+        "name": "demo2"
+        ,"title": "功能演示二"
+      }]
+    }, {
+      "name": "colorpicker"
+      ,"title": "颜色选择器"
+    }, {
+      "name": "slider"
+      ,"title": "滑块组件"
+    }, {
+      "name": "rate"
+      ,"title": "评分"
     }, {
       "name": "carousel"
       ,"title": "轮播"
-    }, {
-      "name": "laytpl"
-      ,"title": "模板引擎"
     }, {
       "name": "flow"
       ,"title": "流加载"
@@ -111,36 +226,52 @@
     }]
   }, {
     "name": "template"
-    ,"title": "模板"
+    ,"title": "页面"
     ,"icon": "layui-icon-template"
     ,"list": [{
-      "name": "user"
-      ,"title": "用户相关"
-      ,"spread": true
-      ,"list": [{
-        "name": "reg"
-        ,"title": "注册"
-        ,"jump": "user/reg"
-      },{
-        "name": "login"
-        ,"title": "登入"
-        ,"jump": "user/login"
-      },{
-        "name": "forget"
-        ,"title": "忘记密码"
-        ,"jump": "user/forget"
-      }]
-    }, {
-      "name": "tips"
-      ,"title": "提示页面"
-      ,"spread": true
-      ,"list": [{
-        "name": "404"
-        ,"title": "404"
-      },{
-        "name": "error"
-        ,"title": "错误提示"
-      }]
+      "name": "personalpage"
+      ,"title": "个人主页"
+      ,"jump": "template/personalpage"
+    },{
+      "name": "addresslist"
+      ,"title": "通讯录"
+      ,"jump": "template/addresslist"
+    },{
+      "name": "caller"
+      ,"title": "客户列表"
+      ,"jump": "template/caller"
+    },{
+      "name": "goodslist"
+      ,"title": "商品列表"
+      ,"jump": "template/goodslist"
+    },{
+      "name": "msgboard"
+      ,"title": "留言板"
+      ,"jump": "template/msgboard"
+    },{
+      "name": "search"
+      ,"title": "搜索结果"
+      ,"jump": "template/search"
+    },{
+      "name": "reg"
+      ,"title": "注册"
+      ,"jump": "user/reg"
+    },{
+      "name": "login"
+      ,"title": "登入"
+      ,"jump": "user/login"
+    },{
+      "name": "forget"
+      ,"title": "忘记密码"
+      ,"jump": "user/forget"
+    },{
+      "name": "404"
+      ,"title": "404"
+      ,"jump": "template/tips/404"
+    },{
+      "name": "error"
+      ,"title": "错误提示"
+      ,"jump": "template/tips/error"
     }, {
       "name": ""
       ,"title": "内嵌页面"
@@ -164,8 +295,35 @@
     ,"title": "应用"
     ,"icon": "layui-icon-app"
     ,"list": [{
+      "name": "content"
+      ,"title": "内容系统"
+      ,"list": [{
+        "name": "list"
+        ,"title": "文章列表"
+      },{
+        "name": "tags"
+        ,"title": "分类管理"
+      },{
+        "name": "comment"
+        ,"title": "评论管理"
+      }]
+    },{
+      "name": "forum"
+      ,"title": "社区系统"
+      ,"list": [{
+        "name": "list"
+        ,"title": "帖子列表"
+      },{
+        "name": "replys"
+        ,"title": "回帖列表"
+      }]
+    },{
       "name": "message"
       ,"title": "消息中心"
+    },{
+      "name": "workorder"
+      ,"title": "工单系统"
+      ,"jump": "app/workorder/list"
     }]
   }, {
     "name": "senior"
@@ -174,6 +332,19 @@
     ,"list": [{
       "name": "im"
       ,"title": "通讯系统"
+    },{
+      "name": "echarts"
+      ,"title": "Echarts集成"
+      ,"list": [{
+        "name": "line"
+        ,"title": "折线图"
+      },{
+        "name": "bar"
+        ,"title": "柱状图"
+      },{
+        "name": "map"
+        ,"title": "地图"
+      }]
     }]
   }, {
     "name": "user"
@@ -181,42 +352,43 @@
     ,"icon": "layui-icon-user"
     ,"list": [{
       "name": "user"
-      ,"title": "用户"
-      ,"spread": true
-      ,"list": [{
-        "name": "list"
-        ,"title": "用户列表"
-      }]
-    },{
-      "name": "administrators"
-      ,"title": "后台管理组"
-      ,"spread": true
-      ,"list": [{
-        "name": "list"
-        ,"title": "管理员列表"
-      },{
-        "name": "role"
-        ,"title": "角色管理"
-      }]
+      ,"title": "网站用户"
+      ,"jump": "user/user/list"
+    }, {
+      "name": "administrators-list"
+      ,"title": "后台管理员"
+      ,"jump": "user/administrators/list"
+    }, {
+      "name": "administrators-rule"
+      ,"title": "角色管理"
+      ,"jump": "user/administrators/role"
     }]
   }, {
     "name": "set"
     ,"title": "设置"
     ,"icon": "layui-icon-set"
     ,"list": [{
-      "name": "base"
-      ,"title": "基本设置"
+      "name": "system"
+      ,"title": "系统设置"
       ,"spread": true
       ,"list": [{
         "name": "website"
-        ,"title": "系统设置"
+        ,"title": "网站设置"
       },{
         "name": "email"
         ,"title": "邮件服务"
       }]
     },{
-      "name": "security"
-      ,"title": "安全设置"
+      "name": "user"
+      ,"title": "我的设置"
+      ,"spread": true
+      ,"list": [{
+        "name": "info"
+        ,"title": "基本资料"
+      },{
+        "name": "password"
+        ,"title": "修改密码"
+      }]
     }]
   }, {
     "name": "get"
