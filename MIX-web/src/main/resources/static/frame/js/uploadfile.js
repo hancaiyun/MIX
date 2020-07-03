@@ -12,7 +12,7 @@
 			//使用闭包实现监听绑
 			return function () {
 				//通过$.ajaxSettings.xhr();获得XMLHttpRequest对象
-				var xhr = $.ajaxSettings.xhr();
+				const xhr = $.ajaxSettings.xhr();
 				//判断监听函数是否为函数
 				if (typeof xhrOnProgress.onprogress !== 'function')
 					return xhr;
@@ -29,11 +29,11 @@
 			url: '/note/file/upload', //上传接口
 			data:{"userNo": window.localStorage["loginNo"]},
 			exts: 'jpg|png|jpeg|txt|doc|docx|ppt|pptx|xls|xlsx|mp4|flv|mod|mov|mkv|dv|mpeg|wmv|avi',//限定上传类型
-			//accept: images,//指定允许上传时校验的文件类型 images（图片）、file（所有文件）、video（视频）、audio（音频）
+			//accept: file,//指定允许上传时校验的文件类型 images（图片）、file（所有文件）、video（视频）、audio（音频）
 			acceptMime: 'image/jpg, image/png, image/jpeg',//只筛选上述类型图片
 			enctype: 'multipart/form-data',
 			//number： '0',//0为不限制上传数量
-			//multiple: true,// 开启多文件上传
+			multiple: true,// 开启多文件上传
 			drag:true, //是否允许拖拽上传
 			size: 1024 * 150,//为0为不限制大小
 			xhr: xhrOnProgress,

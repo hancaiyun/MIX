@@ -56,7 +56,7 @@ public class FileManagementManager {
 
         //文件格式
         String suffix = filename.substring(filename.lastIndexOf("."));
-
+        log.info("suffix:{}", suffix);
         //服务器文件目录
         String path = CommonConstant.FILE_PATH;
 
@@ -65,6 +65,7 @@ public class FileManagementManager {
 
         //文件路径
         String filePath = path + fileName;
+        log.info("filePath:{}", filePath);
         File localFile = new File(filePath);
         if (!localFile.exists()) {
             boolean isCreated = localFile.mkdirs();
