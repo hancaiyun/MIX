@@ -35,7 +35,7 @@
 			//number： '0',//0为不限制上传数量
 			//multiple: true,// 开启多文件上传
 			drag:true, //是否允许拖拽上传
-			size: 1024 * 6,//为0为不限制大小
+			size: 1024 * 150,//为0为不限制大小
 			xhr: xhrOnProgress,
 			//监听xhr进度，并返回给进度条
 			progress: function (value) { //上传进度回调 value进度值
