@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -138,4 +139,69 @@ public class RedisManager {
 
         return surplusTime;
     }
+
+    /**
+     * 加锁
+     *
+     * @param key     key值
+     * @param id      id
+     * @param timeout 超时时间，单位/秒 注：超时时间建议比线程实际处理时间长一点
+     * @return 计数结果值
+     */
+    public void lock(final String key, String id, final long timeout) {
+
+        log.info("获取锁请求:key={}, id={}, timeout={}", key, id, timeout);
+
+        //获取锁
+        long start = System.currentTimeMillis();
+        //获取失败， 循环等待或者在超时时间前结束
+        try {
+            for (; ; ) {
+                //获取锁
+                boolean lock = redisTemplate.hasKey(key);
+                if (!lock) {
+                    redisTemplate.execute((RedisCallback<Boolean>) connection -> {
+                                byte[] redisKey = redisTemplate.getStringSerializer().serialize(key);
+                                byte[] redisValue = redisTemplate.getStringSerializer().serialize(id);
+                                connection.set(redisKey, redisValue);
+                                if (timeout > 0) {
+                                    redisTemplate.expire(key, timeout, TimeUnit.SECONDS);
+                                }
+                                return true;
+                    });
+                    log.info("持有锁: key={}", key);
+                    return;
+                }
+                //否则循环等待，在timeout时间内仍未获取到锁，则获取失败
+                long l = System.currentTimeMillis() - start;
+                if (l >= timeout*1000) {
+                    return;
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 解锁
+     * @param key               key值
+     */
+    public void unlock(final String key){
+
+        log.info("解锁请求:key={}", key);
+
+        Long result = redisTemplate.execute((RedisCallback<Long>) connection -> {
+            byte[] redisKey = redisTemplate.getStringSerializer().serialize(key);
+            return connection.del(redisKey);
+        });
+
+        log.info("解锁结果：{}", result);
+    }
+
 }
