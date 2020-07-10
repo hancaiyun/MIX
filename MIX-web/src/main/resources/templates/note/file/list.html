@@ -113,14 +113,12 @@
           }
           layer.close(index);
           layer.confirm('确定删除吗？', function (index) {
-
-            //执行 Ajax 后重载
-            /*
-            admin.req({
-              url: 'xxx'
-              //,……
-            });
-            */
+            //批量
+            for(let i = 0; i< checkData.length; i++){
+                deleteFile(checkData[i].fileId);
+            }
+            //表格删除
+            layer.close(index);
             table.reload('LAY-file-manage');
             layer.msg('已删除');
           });
@@ -151,9 +149,35 @@
     };
 
     $('.layui-btn.layuiadmin-btn-useradmin').on('click', function(){
-      var type = $(this).data('type');
+      const type = $(this).data('type');
       active[type] ? active[type].call(this) : '';
     });
+
+
+    function deleteFile(fileId){
+      //删除文件数据
+      $.ajax({
+        url: '/note/file/delete',
+        data: {"fileId": fileId, "userNo": window.localStorage["loginNo"]},
+        dataType: 'json',//数据类型
+        type: 'GET',//类型
+        timeout: 3000,//超时
+        //请求成功
+        success: function (res) {
+          if (res.code !== "0000") {
+            //成功
+            layer.alert("删除失败：失败文件id："+ fileId);
+          }
+        },
+        //失败/超时
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          if (textStatus === 'timeout') {
+            layer.msg('网络异常');
+          }
+          layer.msg("失败原因：" + errorThrown);
+        }
+      });
+    }
   });
   </script>
 </body>
