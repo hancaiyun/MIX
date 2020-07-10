@@ -37,6 +37,11 @@ public enum FileTypeEnum {
     VIDEO("VIDEO", "视频"),
 
     /**
+     * 压缩包
+     */
+    PACKAGE("PACKAGE", "压缩包"),
+
+    /**
      * 未知配置
      */
     UNKNOWN("UNKNOWN","未知"),

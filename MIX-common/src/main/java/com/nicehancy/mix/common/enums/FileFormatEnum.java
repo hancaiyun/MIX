@@ -112,6 +112,21 @@ public enum FileFormatEnum {
     FLV(".flv", "VIDEO", "flv"),
 
     /**
+     * zip
+     */
+    ZIP(".zip", "PACKAGE", "zip"),
+
+    /**
+     * rar
+     */
+    RAR(".rar", "PACKAGE", "rar"),
+
+    /**
+     * 7z
+     */
+    SEVENZ(".7z", "PACKAGE", "7z"),
+
+    /**
      * 未知配置
      */
     UNKNOWN("UNKNOWN", "UNKNOWN","未知"),
