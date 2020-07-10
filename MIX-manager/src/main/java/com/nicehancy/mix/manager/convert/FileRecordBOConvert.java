@@ -1,7 +1,7 @@
 package com.nicehancy.mix.manager.convert;
 
 import com.nicehancy.mix.dal.model.FileUploadRecordDO;
-import com.nicehancy.mix.dal.model.FileUploadRecordPageQueryReqDO;
+import com.nicehancy.mix.dal.model.request.FileUploadRecordPageQueryReqDO;
 import com.nicehancy.mix.manager.model.FileUploadRecordBO;
 import com.nicehancy.mix.manager.model.FileUploadRecordPageQueryReqBO;
 import com.nicehancy.mix.manager.model.FileUploadRequestBO;

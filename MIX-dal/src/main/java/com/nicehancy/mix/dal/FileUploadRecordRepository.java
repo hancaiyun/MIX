@@ -1,7 +1,7 @@
 package com.nicehancy.mix.dal;
 
 import com.nicehancy.mix.dal.model.FileUploadRecordDO;
-import com.nicehancy.mix.dal.model.FileUploadRecordPageQueryReqDO;
+import com.nicehancy.mix.dal.model.request.FileUploadRecordPageQueryReqDO;
 
 import java.util.List;
 

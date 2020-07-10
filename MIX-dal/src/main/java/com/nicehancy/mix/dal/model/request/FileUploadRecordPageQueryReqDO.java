@@ -1,4 +1,4 @@
-package com.nicehancy.mix.dal.model;
+package com.nicehancy.mix.dal.model.request;
 
 import lombok.Getter;
 import lombok.Setter;
