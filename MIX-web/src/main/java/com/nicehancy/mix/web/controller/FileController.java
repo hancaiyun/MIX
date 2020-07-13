@@ -170,7 +170,7 @@ public class FileController extends BaseController {
     }
 
     /**
-     * 处理图片显示请求
+     * 处理图片显示请求(宣传、广告栏位)
      * @param fileName 文件名
      */
     @RequestMapping("/file/showPic/{fileName}.{suffix}")

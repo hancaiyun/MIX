@@ -1,19 +1,22 @@
-<!-- 建议提交脚本 -->
-layui.define(['form'], function () {
-    const $ = layui.$
-         ,layer = layui.layer;
-
+$("#commit").click(function(){
+    const content = document.getElementById("content").value;
+    if(content == null || content ===''){
+        layer.msg('反馈内容不能为空', {icon: 5});
+        return;
+    }
     $.ajax({
         url: '/suggest/commit',
-        data: {"content":document.getElementById("suggest").value, "userNo":window.localStorage["loginNo"]},
+        data: {"content":content, "userNo":window.localStorage["loginNo"]},
         dataType: 'json',//数据类型
         type: 'GET',//类型
         timeout: 3000,//超时
         //请求成功
         success: function (res) {
             if (res.code === "0000") {
-                //获取头像地址、昵称
-                layer.msg("感谢您的反馈");
+                //关闭弹窗
+                layer.closeAll();
+                //提交结果
+                layer.msg("已收到您的反馈内容，感谢您的反馈");
             } else {
                 layer.open({
                     title: '提示信息'

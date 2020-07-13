@@ -137,7 +137,7 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         }
 
         //更新操作
-        mongoTemplate.updateFirst(query, update, NoteInfoDO.class);
+        mongoTemplate.updateMulti(query, update, NoteInfoDO.class);
 
     }
 }

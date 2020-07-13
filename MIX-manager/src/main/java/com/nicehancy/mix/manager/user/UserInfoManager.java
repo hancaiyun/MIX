@@ -69,7 +69,7 @@ public class UserInfoManager {
             //将验证码放入缓存中， 并设置超时时间为5分钟
             redisManager.insertObject(vercode, phone, 300);
             //设置消息发送记录内容信息
-            messageSendRecordDO.setContent("欢迎注册MIX账号，您的验证码为:" + vercode + "，该码5分钟内有效");
+            messageSendRecordDO.setContent("欢迎注册MIX账号，您的验证码为:" + vercode + "，该码5分钟内有效，打死不要告诉别人哦！");
             messageSendRecordDO.setSendResult(SendResultEnum.SUCCESS.getCode());
         } catch (Exception e) {
             messageSendRecordDO.setSendResult(SendResultEnum.FAILURE.getCode());
