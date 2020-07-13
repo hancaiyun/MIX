@@ -74,18 +74,13 @@ layui.define(['table', 'form'], function() {
         }
 
         //播放
-        if(obj.event === 'play'){
+        if(obj.event === 'edit'){
 
-            let html = '<div class="wrap">';
-            html += '<video  height="100%" width="100%" controls autobuffer>';
-            html += '<source src="/note/file/preview?filePath='+ data.filePath +'" type="video/mp4" />';
-            html += '</video>';
-            html += '</div>';
             //弹出层
             layer.open({
                 type: 1,
                 title: "视频播放",
-                content: html
+                content: "1"
             });
         }
     });

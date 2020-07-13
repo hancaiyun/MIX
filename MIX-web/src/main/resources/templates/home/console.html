@@ -163,26 +163,20 @@
             //设置系统资源使用情况, 超过预警值，使用率进度条标红
             //CPU
             const cpuPercent = "~";//res.data.CPU; TODO CPU使用率计算时间过长，暂不展示
-            const cpuDiv = document.getElementById("cpu");
-            if(cpuPercent > 75){
-              const bgRed = document.createElement("layui-bg-red");
-              cpuDiv.appendChild(bgRed);
+            if(cpuPercent > 95){
+              $("#cpu").addClass("layui-bg-red");
             }
             $("#cpu").attr("lay-percent", cpuPercent + "%");
             //内存
             const memoryPercent = res.data.MEMORY;
-            const memoryDiv = document.getElementById("memory");
-            if(memoryPercent > 20){
-              const bgRed = document.createElement("layui-bg-red");
-              memoryDiv.appendChild(bgRed);
+            if(memoryPercent > 85){
+              $("#memory").addClass("layui-bg-red");
             }
             $("#memory").attr("lay-percent", memoryPercent + "%");
             //磁盘
             const diskPercent = res.data.DISK;
-            const diskDiv = document.getElementById("disk");
-            if(diskPercent > 75){
-              const bgRed = document.createElement("layui-bg-red");
-              diskDiv.appendChild(bgRed);
+            if(diskPercent > 90){
+              $("#disk").addClass("layui-bg-red");
             }
             $("#disk").attr("lay-percent", diskPercent + "%");
 
@@ -204,7 +198,7 @@
     };
 
     layui.use('carousel', function(){
-      var carousel = layui.carousel;
+      const carousel = layui.carousel;
       //建造实例
       carousel.render({
         elem: '#advertisement'
