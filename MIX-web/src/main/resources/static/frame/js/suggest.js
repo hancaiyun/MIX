@@ -16,7 +16,7 @@ $("#commit").click(function(){
                 //关闭弹窗
                 layer.closeAll();
                 //提交结果
-                layer.msg("已收到您的反馈内容，感谢您的反馈");
+                layer.msg("感谢您的反馈");
             } else {
                 layer.open({
                     title: '提示信息'
