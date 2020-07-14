@@ -11,7 +11,7 @@ layui.define(['table', 'form'], function() {
             , {field: 'id', title: 'ID', width: 100}
             , {field: 'address', title: '地址', Width: 50}
             , {field: 'account', title: '账号', Width: 50}
-            , {field: 'password', title: '密码', Width:50}
+            , {field: 'password', title: '密码', Width:50, toolbar: '#table-password-operate'}
             , {field: 'remark', title: '备注', width: 100}
             , {field: 'updatedAt', title: '更新时间', width: 100, sort: true}
             , {title: '操作', width: 210, align: 'center', fixed: 'right', toolbar: '#table-account-operate'}
@@ -82,6 +82,13 @@ layui.define(['table', 'form'], function() {
                 title: "视频播放",
                 content: "1"
             });
+        }
+
+        //连接
+        if(obj.event === 'link'){
+
+            //打开新网页
+            window.open(data.address);
         }
     });
 })

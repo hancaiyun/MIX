@@ -42,8 +42,15 @@
             </div>
             <!--表格-->
             <table id="LAY-account-manage" lay-filter="LAY-account-manage"></table>
+
+            <!--密码控件-->
+            <script type="text/html" id="table-password-operate">
+                <a id="showPassword">******</a><img id="img" onclick="hideShowPsw()" src="/file/showPic/icon-visible.png">
+            </script>
+
             <!--仅照片显示预览按钮，共用按钮:下载、删除-->
             <script type="text/html" id="table-account-operate">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="link"><i class="layui-icon layui-icon-link"></i>链接</a>
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
             </script>
@@ -159,6 +166,20 @@
             });
         }
     });
+
+    function hideShowPsw() {
+        const passwordImg = document.getElementById("img");
+        const showPassword = document.getElementById("showPassword");
+        if (passwordImg.src === "http://localhost:8090/file/showPic/icon-visible.png") {
+            //PWD.type = "text";
+            showPassword.innerText = "******";
+            passwordImg.src = "/file/showPic/icon-invisible.png"; //图片路径（闭眼图片）
+        } else {
+            //PWD.type = "password";
+            showPassword.innerText = "123456";
+            passwordImg.src = "/file/showPic/icon-visible.png"; // 图片路径（睁眼图片）
+        }
+    }
 </script>
 </body>
 </html>
