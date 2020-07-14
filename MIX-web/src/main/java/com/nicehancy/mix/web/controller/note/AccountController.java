@@ -42,7 +42,7 @@ public class AccountController extends BaseController {
      * 文件表单页
      * @return      表单页视图
      */
-    @RequestMapping("/note/account/accountForm")
+    @RequestMapping("/note/accountForm")
     public ModelAndView fileForm(){
         return new ModelAndView("note/account/account_form");
     }

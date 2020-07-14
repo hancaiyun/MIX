@@ -4,14 +4,14 @@ layui.define(['table', 'form'], function() {
 
     //文件管理
     table.render({
-        elem: '#LAY-file-manage'
+        elem: '#LAY-account-manage'
         , url: '/note/account/page' + "?userNo=" + window.localStorage["loginNo"]
         , cols: [[
             {type: 'checkbox', fixed: 'left'}
-            , {field: 'id', title: 'ID', width: 200}
+            , {field: 'id', title: 'ID', width: 100}
             , {field: 'address', title: '地址', Width: 50}
-            , {field: 'account', title: '账号', width: 100}
-            , {field: 'password', title: '密码', width:100}
+            , {field: 'account', title: '账号', Width: 50}
+            , {field: 'password', title: '密码', Width:50}
             , {field: 'remark', title: '备注', width: 100}
             , {field: 'updatedAt', title: '更新时间', width: 100, sort: true}
             , {title: '操作', width: 210, align: 'center', fixed: 'right', toolbar: '#table-account-operate'}

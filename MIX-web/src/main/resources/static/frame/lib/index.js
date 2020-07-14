@@ -21,14 +21,14 @@ layui.extend({
   //打开标签页
   ,openTabsPage = function(url, text){
     //遍历页签选项卡
-    var matchTo
-    ,tabs = $('#LAY_app_tabsheader>li')
-    ,path = url.replace(/(^http(s*):)|(\?[\s\S]*$)/g, '');
-    
-    tabs.each(function(index){
+        let matchTo
+            , tabs = $('#LAY_app_tabsheader>li')
+            , path = url.replace(/(^http(s*):)|(\?[\s\S]*$)/g, '');
+
+        tabs.each(function(index){
       var li = $(this)
       ,layid = li.attr('lay-id');
-      
+
       if(layid === url){
         matchTo = true;
         tabsPage.index = index;
@@ -64,7 +64,7 @@ layui.extend({
       ,text: text
     });
   }
-  
+
   ,APP_BODY = '#LAY_app_body', FILTER_TAB_TBAS = 'layadmin-layout-tabs'
   ,$ = layui.$, $win = $(window);
   

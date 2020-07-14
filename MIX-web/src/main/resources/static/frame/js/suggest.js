@@ -1,5 +1,5 @@
 $("#commit").click(function(){
-    const content = document.getElementById("content").value;
+    const content = document.getElementById("suggestion").value;
     if(content == null || content ===''){
         layer.msg('反馈内容不能为空', {icon: 5});
         return;
