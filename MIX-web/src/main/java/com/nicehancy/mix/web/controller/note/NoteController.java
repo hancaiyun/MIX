@@ -52,6 +52,7 @@ public class NoteController extends BaseController {
         return new ModelAndView("note/notemanage/noteform");
     }
 
+
     /**
      * 查询目录列表
      * @return        目录列表
@@ -172,7 +173,7 @@ public class NoteController extends BaseController {
      * 笔记管理
      * @return       分页查询数据
      */
-    @RequestMapping("/notemanage/manage")
+    @RequestMapping("/manage")
     @ResponseBody
     public ModelMap manage(HttpServletRequest request){
         String traceLogId = UUID.randomUUID().toString();
@@ -182,8 +183,10 @@ public class NoteController extends BaseController {
         reqDTO.setUserNo(this.getParameters(request).get("userNo"));
         reqDTO.setPrimaryDirectory(this.getParameters(request).get("primaryDirectory"));
         reqDTO.setSecondaryDirectory(this.getParameters(request).get("secondaryDirectory"));
-        reqDTO.setDocumentName(this.getParameters(request).get("documentName"));
-        reqDTO.setOperatorType(this.getParameters(request).get("operateType"));
+        reqDTO.setFileName(this.getParameters(request).get("fileName"));
+        reqDTO.setOpType(this.getParameters(request).get("opType"));
+        reqDTO.setOpLocation(this.getParameters(request).get("opLocation"));
+        reqDTO.setOpName(this.getParameters(request).get("opName"));
         reqDTO.setTraceLogId(traceLogId);
 
         log.info("NoteController manage request PARAM: reqDTO={}", reqDTO);
@@ -226,14 +229,4 @@ public class NoteController extends BaseController {
         log.info("NoteController delete result: {}", modelMap);
         return modelMap;
     }
-
-//    /**
-//     * 表单页
-//     * @return      主页视图
-//     */
-//    @RequestMapping("/note/updateOrAddAccount")
-//    public ModelAndView accountForm(){
-//        return new ModelAndView("note/account/accountForm");
-//    }
-
 }

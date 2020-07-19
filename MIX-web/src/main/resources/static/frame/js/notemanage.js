@@ -45,12 +45,21 @@ layui.use('layedit', function () {
     const $ = layui.jquery;
     // var layer = layui.layer;
     //建立编辑器
-    const textarea = layedit.build('note-area', {height: 480});
+    const textarea = layedit.build('note-area', {height: 480, uploadImage: {url: '/file/upload', type: 'post'}});
     //放入缓存，用于之后的更新操作
     layui.data('session', {
         key: 'textarea',
         value: textarea
     });
+
+    //保存文件，快捷键监听
+    document.addEventListener('keydown', function(e) {
+        if (e.keyCode === 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey))      {
+            e.preventDefault();
+            $('#save').click();
+        }
+    });
+
 
     //保存文件
     $("#save").click(function () {
@@ -63,10 +72,7 @@ layui.use('layedit', function () {
         const secondaryDirectory = document.getElementById("secondaryDirectory").value;
         //保存文件需指定文件名
         if (fileName === "" || fileName == null) {
-            layer.open({
-                title: '保存失败'
-                , content: '请指定要保存的文件'
-            });
+            layer.msg('请选择要保存的文件', {icon: 5});
             return;
         }
         //获取文本域内容
@@ -137,7 +143,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
             //请求成功
             success: function (res) {
                 if (res.code === "0000") {
-                    var directoryList = res.data;
+                    const directoryList = res.data;
                     //清空原数据
                     removeAll("secondaryDirectory");
                     $.each(directoryList, function (index, item) {
@@ -212,7 +218,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
         //data.value 得到被选中的值
         const secondaryDirectory = data.value;
         if (secondaryDirectory === "" || secondaryDirectory == null) {
-            //清空文件列表
+            //清空文件列表  TODO 非清空文件列表，而是触发根据一级目录再查询一次
             removeAll("fileName");
             layui.form.render("select");
             return;
@@ -265,7 +271,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
 
     });
 
-    //文件列表点击触发事件——查询文件内容
+    //文件列表点击触发事件——查询文件内容并同步富文本集
     form.on('select(fileName)', function (data) {
 
         //data.value 得到被选中的值

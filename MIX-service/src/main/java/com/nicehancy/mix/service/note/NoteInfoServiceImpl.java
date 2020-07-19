@@ -1,6 +1,7 @@
 package com.nicehancy.mix.service.note;
 
 import com.nicehancy.mix.common.Result;
+import com.nicehancy.mix.common.utils.VerifyUtil;
 import com.nicehancy.mix.manager.note.NoteInfoManager;
 import com.nicehancy.mix.service.api.model.NoteInfoDTO;
 import com.nicehancy.mix.service.api.model.request.note.*;
@@ -139,14 +140,15 @@ public class NoteInfoServiceImpl implements NoteInfoService {
         MDC.put("TRACE_LOG_ID", reqDTO.getTraceLogId());
         try{
             log.info("call NoteInfoServiceImpl manage param: reqDTO={}", reqDTO);
+            //参数校验
+            VerifyUtil.validateObject(reqDTO);
             //业务处理
-            Result<Boolean> res = noteInfoManager.manage(NoteDTOConvert.getReqBOByDTO(reqDTO));
-            result = res;
-            log.info("call NoteInfoServiceImpl manage result: {}", result);
+            result = noteInfoManager.manage(NoteDTOConvert.getReqBOByDTO(reqDTO));
         }catch (Exception e){
             result.setErrorMsg(e.getMessage());
             log.error("call NoteInfoServiceImpl manage failed, message：e={}, result={}", e, result);
         }
+        log.info("call NoteInfoServiceImpl manage result: {}", result);
         return result;
     }
 

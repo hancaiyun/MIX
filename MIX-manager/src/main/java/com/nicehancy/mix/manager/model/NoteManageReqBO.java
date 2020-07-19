@@ -34,14 +34,25 @@ public class NoteManageReqBO {
     private String secondaryDirectory;
 
     /**
+     * 文档名称
+     */
+    private String fileName;
+
+    /**
      * 操作类型
      * 增加-ADD
      * 删除-DELETE
+     * 修改-EDIT
      */
-    private String operatorType;
+    private String opType;
 
     /**
-     * 文档名称
+     * 操作位置
      */
-    private String documentName;
+    private String opLocation;
+
+    /**
+     * 操作值
+     */
+    private String opName;
 }

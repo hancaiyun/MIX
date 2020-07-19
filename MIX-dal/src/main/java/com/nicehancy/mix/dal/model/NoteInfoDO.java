@@ -36,14 +36,9 @@ public class NoteInfoDO extends BaseDO {
     private String secondaryDirectory;
 
     /**
-     * 三级目录
-     */
-    private String tertiaryDirectory;
-
-    /**
      * 文档名
      */
-    private String documentName;
+    private String fileName;
 
     /**
      * 文档内容

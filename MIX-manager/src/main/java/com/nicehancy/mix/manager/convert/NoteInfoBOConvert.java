@@ -43,8 +43,7 @@ public class NoteInfoBOConvert {
         noteDO.setUserNo(noteBO.getUserNo());
         noteDO.setPrimaryDirectory(noteBO.getPrimaryDirectory());
         noteDO.setSecondaryDirectory(noteBO.getSecondaryDirectory());
-        noteDO.setTertiaryDirectory(noteBO.getTertiaryDirectory());
-        noteDO.setDocumentName(noteBO.getDocumentName());
+        noteDO.setFileName(noteBO.getDocumentName());
         noteDO.setContent(noteBO.getContent());
         noteDO.setStatus(noteBO.getStatus());
         noteDO.setRemark(noteBO.getRemark());
@@ -71,8 +70,7 @@ public class NoteInfoBOConvert {
         noteBO.setUserNo(noteDO.getUserNo());
         noteBO.setPrimaryDirectory(noteDO.getPrimaryDirectory());
         noteBO.setSecondaryDirectory(noteDO.getSecondaryDirectory());
-        noteBO.setTertiaryDirectory(noteDO.getTertiaryDirectory());
-        noteBO.setDocumentName(noteDO.getDocumentName());
+        noteBO.setDocumentName(noteDO.getFileName());
         noteBO.setContent(noteDO.getContent());
         noteBO.setStatus(noteDO.getStatus());
         noteBO.setRemark(noteDO.getRemark());
@@ -116,7 +114,7 @@ public class NoteInfoBOConvert {
         noteQueryReqDO.setUserNo(reqBO.getUserNo());
         noteQueryReqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
         noteQueryReqDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
-        noteQueryReqDO.setDocumentName(reqBO.getDocumentName());
+        noteQueryReqDO.setFileName(reqBO.getDocumentName());
 
         return noteQueryReqDO;
     }

@@ -60,10 +60,10 @@ public class NoteInfoManager {
             }
             //设置文件名列表
             for(NoteInfoDO noteInfoDO: noteInfoDOS){
-                if(StringUtils.isEmpty(noteInfoDO.getDocumentName())){
+                if(StringUtils.isEmpty(noteInfoDO.getFileName())){
                     continue;
                 }
-                list.add(noteInfoDO.getDocumentName());
+                list.add(noteInfoDO.getFileName());
             }
             return list.stream().distinct().collect(Collectors.toList());
         }
@@ -82,7 +82,7 @@ public class NoteInfoManager {
             return list;
         }
         for(NoteInfoDO noteInfoDO: noteInfoDOS){
-            list.add(noteInfoDO.getDocumentName());
+            list.add(noteInfoDO.getFileName());
         }
         return list;
     }
@@ -109,7 +109,7 @@ public class NoteInfoManager {
         reqDO.setUserNo(reqBO.getUserNo());
         reqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
         reqDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
-        reqDO.setDocumentName(reqBO.getDocumentName());
+        reqDO.setFileName(reqBO.getDocumentName());
         List<NoteInfoDO> noteInfoDOS = noteRepository.queryNoteInfo(reqDO);
         if(!CollectionUtils.isEmpty(noteInfoDOS)){
             //更新
@@ -117,7 +117,7 @@ public class NoteInfoManager {
             noteBOForUpdate.setUserNo(reqBO.getUserNo());
             noteBOForUpdate.setPrimaryDirectory(reqBO.getPrimaryDirectory());
             noteBOForUpdate.setSecondaryDirectory(reqBO.getSecondaryDirectory());
-            noteBOForUpdate.setDocumentName(reqBO.getDocumentName());
+            noteBOForUpdate.setFileName(reqBO.getDocumentName());
             noteBOForUpdate.setContent(reqBO.getContent());
             noteBOForUpdate.setUpdatedBy(reqBO.getUserNo());
             noteRepository.updateContent(noteBOForUpdate);
@@ -127,7 +127,7 @@ public class NoteInfoManager {
             noteBOForSave.setUserNo(reqBO.getUserNo());
             noteBOForSave.setPrimaryDirectory(reqBO.getPrimaryDirectory());
             noteBOForSave.setSecondaryDirectory(reqBO.getSecondaryDirectory());
-            noteBOForSave.setDocumentName(reqBO.getDocumentName());
+            noteBOForSave.setFileName(reqBO.getDocumentName());
             noteBOForSave.setContent(reqBO.getContent());
             noteBOForSave.setCreatedBy(reqBO.getUserNo());
             noteBOForSave.setUpdatedBy(reqBO.getUserNo());
@@ -143,52 +143,165 @@ public class NoteInfoManager {
      */
     public Result<Boolean> manage(NoteManageReqBO reqBO){
 
-        Result<Boolean> result = new Result<>();
         //增加
-        if("ADD".equals(reqBO.getOperatorType())){
-            //查询已有，返回已存在
-            NoteQueryReqDO reqDO = new NoteQueryReqDO();
-            reqDO.setUserNo(reqBO.getUserNo());
-            reqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
-            reqDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
-            reqDO.setDocumentName(reqBO.getDocumentName());
-            List<NoteInfoDO> noteInfoDOS = noteRepository.queryNoteInfo(reqDO);
-            if(!CollectionUtils.isEmpty(noteInfoDOS)){
-                for(NoteInfoDO noteInfoDO : noteInfoDOS){
-                    if(noteInfoDO.getDocumentName().equals(reqBO.getDocumentName())){
-                        result.setResult(false);
-                        result.setErrorMsg("文档已存在");
-                        return result;
-                    }
-                }
-            }
-
-            //没有即新增
-            NoteInfoDO noteInfoDO = new NoteInfoDO();
-            noteInfoDO.setUserNo(reqBO.getUserNo());
-            noteInfoDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
-            noteInfoDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
-            noteInfoDO.setDocumentName(reqBO.getDocumentName());
-            noteInfoDO.setCreatedBy(reqBO.getUserNo());
-            noteInfoDO.setUpdatedBy(reqBO.getUserNo());
-            noteRepository.saveNote(noteInfoDO);
+        if("ADD".equals(reqBO.getOpType())){
+            doAdd(reqBO);
         }
 
         //删除
-        if("DELETE".equals(reqBO.getOperatorType())){
-
-            NoteInfoDO noteBOForUpdate = new NoteInfoDO();
-            noteBOForUpdate.setUserNo(reqBO.getUserNo());
-            noteBOForUpdate.setPrimaryDirectory(reqBO.getPrimaryDirectory());
-            noteBOForUpdate.setSecondaryDirectory(reqBO.getSecondaryDirectory());
-            noteBOForUpdate.setDocumentName(reqBO.getDocumentName());
-            noteBOForUpdate.setUpdatedBy(reqBO.getUserNo());
-            //设置状态为不可用
-            noteBOForUpdate.setStatus(NoteStatusEnum.DISABLE.getCode());
-            noteRepository.updateContent(noteBOForUpdate);
+        if("DELETE".equals(reqBO.getOpType())){
+            doDelete(reqBO);
         }
-        result.setResult(true);
-        return result;
+
+        //修改
+        if("EDIT".equals(reqBO.getOpType())){
+            doEdit(reqBO);
+        }
+        return new Result<>(true);
+    }
+
+    /**
+     * 新增
+     * @param reqBO     请求BO
+     */
+    private void doAdd(NoteManageReqBO reqBO){
+
+        NoteQueryReqDO reqDO = new NoteQueryReqDO();
+        NoteInfoDO noteInfoDO = new NoteInfoDO();
+        //根据操作位置分开处理
+        if("PRIMARY_DIRECTORY_OP".equals(reqBO.getOpLocation())){
+            //重复性校验
+            reqDO.setUserNo(reqBO.getUserNo());
+            reqDO.setPrimaryDirectory(reqBO.getOpName());
+            repeatCheck(reqDO, "该一级目录已存在");
+
+            //新增参数设置
+            noteInfoDO.setUserNo(reqBO.getUserNo());
+            noteInfoDO.setPrimaryDirectory(reqBO.getOpName());
+        }
+        if("SECONDARY_DIRECTORY_OP".equals(reqBO.getOpLocation())){
+            //重复性校验
+            reqDO.setUserNo(reqBO.getUserNo());
+            reqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+            reqDO.setSecondaryDirectory(reqBO.getOpName());
+            repeatCheck(reqDO, "该二级目录已存在");
+
+            //新增参数设置
+            noteInfoDO.setUserNo(reqBO.getUserNo());
+            noteInfoDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+            noteInfoDO.setSecondaryDirectory(reqBO.getOpName());
+        }
+        if("FILE_OP".equals(reqBO.getOpLocation())){
+            //重复性校验
+            reqDO.setUserNo(reqBO.getUserNo());
+            reqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+            reqDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+            reqDO.setFileName(reqBO.getOpName());
+            repeatCheck(reqDO, "该文件名已存在");
+
+            //新增参数设置
+            noteInfoDO.setUserNo(reqBO.getUserNo());
+            noteInfoDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+            noteInfoDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+            noteInfoDO.setFileName(reqBO.getOpName());
+        }
+
+        //新增
+        noteInfoDO.setCreatedBy(reqBO.getUserNo());
+        noteInfoDO.setUpdatedBy(reqBO.getUserNo());
+        noteRepository.saveNote(noteInfoDO);
+    }
+
+    /**
+     * 重复性校验
+     * @param reqDO          查询请求reqDTO
+     * @param message        提示信息
+     */
+    private void repeatCheck(NoteQueryReqDO reqDO, String message) {
+
+        List<NoteInfoDO> noteInfoDOS = noteRepository.queryNoteInfo(reqDO);
+        if(!CollectionUtils.isEmpty(noteInfoDOS)){
+            throw new RuntimeException(message);
+        }
+    }
+
+    /**
+     * 删除
+     * @param reqBO     请求BO
+     */
+    private void doDelete(NoteManageReqBO reqBO){
+
+        NoteInfoDO updateReqDO = new NoteInfoDO();
+        updateReqDO.setUserNo(reqBO.getUserNo());
+        //一级目录
+        if("PRIMARY_DIRECTORY_OP".equals(reqBO.getOpLocation())) {
+            updateReqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+            //设置状态为不可用
+            updateReqDO.setStatus(NoteStatusEnum.DISABLE.getCode());
+        }
+        //二级目录
+        if("SECONDARY_DIRECTORY_OP".equals(reqBO.getOpLocation())){
+            updateReqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+            updateReqDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+        }
+        //文件
+        if("FILE_OP".equals(reqBO.getOpLocation())){
+            updateReqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+            updateReqDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+            updateReqDO.setFileName(reqBO.getFileName());
+            //设置状态为不可用
+            updateReqDO.setStatus(NoteStatusEnum.DISABLE.getCode());
+        }
+
+        updateReqDO.setUpdatedBy(reqBO.getUserNo());
+        noteRepository.updateForDelete(updateReqDO, reqBO.getOpLocation());
+    }
+
+    /**
+     * 修改
+     * @param reqBO     请求BO
+     */
+    private void doEdit(NoteManageReqBO reqBO){
+
+        NoteQueryReqDO reqDO = new NoteQueryReqDO();
+        NoteInfoDO noteInfoDO = new NoteInfoDO();
+        //查询参数设置
+        noteInfoDO.setUserNo(reqBO.getUserNo());
+        noteInfoDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+        //根据操作位置分开处理
+        if("PRIMARY_DIRECTORY_OP".equals(reqBO.getOpLocation())){
+            //重复性校验
+            reqDO.setUserNo(reqBO.getUserNo());
+            reqDO.setPrimaryDirectory(reqBO.getOpName());
+            repeatCheck(reqDO, "该一级目录已存在");
+        }
+        if("SECONDARY_DIRECTORY_OP".equals(reqBO.getOpLocation())){
+            //重复性校验
+            reqDO.setUserNo(reqBO.getUserNo());
+            reqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+            reqDO.setSecondaryDirectory(reqBO.getOpName());
+            repeatCheck(reqDO, "该二级目录已存在");
+
+            //查询参数设置
+            noteInfoDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+        }
+        if("FILE_OP".equals(reqBO.getOpLocation())){
+            //重复性校验
+            reqDO.setUserNo(reqBO.getUserNo());
+            reqDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+            reqDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+            reqDO.setFileName(reqBO.getOpName());
+            repeatCheck(reqDO, "该文件名已存在");
+
+            //查询参数设置
+            noteInfoDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+            noteInfoDO.setFileName(reqBO.getFileName());
+        }
+
+        //更新
+
+        noteInfoDO.setUpdatedBy(reqBO.getUserNo());
+        noteRepository.updateDirectory(noteInfoDO, reqBO.getOpLocation(), reqBO.getOpName());
     }
 
     /**
@@ -204,7 +317,7 @@ public class NoteInfoManager {
         noteBOForUpdate.setUserNo(reqBO.getUserNo());
         noteBOForUpdate.setPrimaryDirectory(reqBO.getPrimaryDirectory());
         noteBOForUpdate.setSecondaryDirectory(reqBO.getSecondaryDirectory());
-        noteBOForUpdate.setDocumentName(reqBO.getDocumentName());
+        noteBOForUpdate.setFileName(reqBO.getDocumentName());
         noteBOForUpdate.setUpdatedBy(reqBO.getUserNo());
         //设置状态为不可用
         noteBOForUpdate.setStatus(NoteStatusEnum.DISABLE.getCode());

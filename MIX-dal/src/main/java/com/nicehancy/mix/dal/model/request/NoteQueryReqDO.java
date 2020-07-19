@@ -35,6 +35,6 @@ public class NoteQueryReqDO {
     /**
      * 文档名
      */
-    private String documentName;
+    private String fileName;
 
 }

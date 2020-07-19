@@ -50,4 +50,19 @@ public interface NoteInfoRepository {
      * @param noteInfoDO             文档
      */
     void updateContent(NoteInfoDO noteInfoDO);
+
+    /**
+     * 更新目录
+     * @param noteInfoDO             DO
+     * @param opLocation             更新目录位置
+     * @param opName                 更新值
+     */
+    void updateDirectory(NoteInfoDO noteInfoDO, String opLocation, String opName);
+
+    /**
+     * 删除更新
+     * @param reqDO                  请求DO
+     * @param opLocation             删除位置
+     */
+    void updateForDelete(NoteInfoDO reqDO, String opLocation);
 }

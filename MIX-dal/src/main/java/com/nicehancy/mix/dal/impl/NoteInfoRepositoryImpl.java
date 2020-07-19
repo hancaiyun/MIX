@@ -82,13 +82,15 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         Query query = new Query();
         Criteria criteria = new Criteria();
         criteria.and("userNo").is(reqDO.getUserNo());
-        criteria.and("primaryDirectory").is(reqDO.getPrimaryDirectory());
-        if(StringUtils.isEmpty(reqDO.getSecondaryDirectory())){
-            criteria.and("secondaryDirectory").is(null).orOperator(criteria.and("secondaryDirectory").is(""));
-        }else{
+        if(!StringUtils.isEmpty(reqDO.getPrimaryDirectory())){
+            criteria.and("primaryDirectory").is(reqDO.getPrimaryDirectory());
+        }
+        if(!StringUtils.isEmpty(reqDO.getSecondaryDirectory())){
             criteria.and("secondaryDirectory").is(reqDO.getSecondaryDirectory());
         }
-        criteria.and("documentName").is(reqDO.getDocumentName());
+        if(!StringUtils.isEmpty(reqDO.getFileName())){
+            criteria.and("fileName").is(reqDO.getFileName());
+        }
         criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
 
         query.addCriteria(criteria);
@@ -124,7 +126,7 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         criteria.and("userNo").is(noteDO.getUserNo());
         criteria.and("primaryDirectory").is(noteDO.getPrimaryDirectory());
         criteria.and("secondaryDirectory").is(noteDO.getSecondaryDirectory());
-        criteria.and("documentName").is(noteDO.getDocumentName());
+        criteria.and("fileName").is(noteDO.getFileName());
         query.addCriteria(criteria);
 
         //更新内容
@@ -139,5 +141,88 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         //更新操作
         mongoTemplate.updateMulti(query, update, NoteInfoDO.class);
 
+    }
+
+    /**
+     * 更新目录
+     * @param noteInfoDO             DO
+     * @param opLocation             更新目录位置
+     * @param opName                 更新值
+     */
+    @Override
+    public void updateDirectory(NoteInfoDO noteInfoDO, String opLocation, String opName) {
+
+        //查询条件
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.and("userNo").is(noteInfoDO.getUserNo());
+        criteria.and("primaryDirectory").is(noteInfoDO.getPrimaryDirectory());
+        if(!StringUtils.isEmpty(noteInfoDO.getSecondaryDirectory())) {
+            criteria.and("secondaryDirectory").is(noteInfoDO.getSecondaryDirectory());
+        }
+        if(!StringUtils.isEmpty(noteInfoDO.getFileName())) {
+            criteria.and("fileName").is(noteInfoDO.getFileName());
+        }
+        query.addCriteria(criteria);
+
+        //更新内容
+        Update update = new Update();
+        if("PRIMARY_DIRECTORY_OP".equals(opLocation)){
+            update.set("primaryDirectory", opName);
+        }
+        if("SECONDARY_DIRECTORY_OP".equals(opLocation)){
+            update.set("secondaryDirectory", opName);
+        }
+        if("FILE_OP".equals(opLocation)){
+            update.set("fileName", opName);
+        }
+
+        update.set("updatedAt", new Date());
+        update.set("updatedBy", noteInfoDO.getUpdatedBy());
+
+        //更新操作
+        mongoTemplate.updateMulti(query, update, NoteInfoDO.class);
+    }
+
+    /**
+     * 删除更新
+     * @param reqDO                  请求DO
+     * @param opLocation             删除位置
+     */
+    @Override
+    public void updateForDelete(NoteInfoDO reqDO, String opLocation) {
+
+        //查询条件
+        Query query = new Query();
+        //更新内容
+        Update update = new Update();
+        Criteria criteria = new Criteria();
+        criteria.and("userNo").is(reqDO.getUserNo());
+        if("PRIMARY_DIRECTORY_OP".equals(opLocation)){
+            criteria.and("primaryDirectory").is(reqDO.getPrimaryDirectory());
+            update.set("status", reqDO.getStatus());
+        }
+        if("SECONDARY_DIRECTORY_OP".equals(opLocation)){
+            criteria.and("primaryDirectory").is(reqDO.getPrimaryDirectory());
+            criteria.and("secondaryDirectory").is(reqDO.getSecondaryDirectory());
+            update.set("secondaryDirectory", "");
+            update.set("fileName", "");
+            update.set("content", "");
+        }
+        if("FILE_OP".equals(opLocation)){
+            criteria.and("primaryDirectory").is(reqDO.getPrimaryDirectory());
+            if(!StringUtils.isEmpty(reqDO.getSecondaryDirectory())) {
+                criteria.and("secondaryDirectory").is(reqDO.getSecondaryDirectory());
+            }
+            criteria.and("fileName").is(reqDO.getFileName());
+            update.set("status", reqDO.getStatus());
+        }
+
+        query.addCriteria(criteria);
+        update.set("updatedAt", new Date());
+        update.set("updatedBy", reqDO.getUpdatedBy());
+
+        //更新操作
+        mongoTemplate.updateMulti(query, update, NoteInfoDO.class);
     }
 }

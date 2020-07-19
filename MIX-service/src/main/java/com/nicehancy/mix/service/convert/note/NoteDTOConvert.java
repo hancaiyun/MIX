@@ -122,8 +122,10 @@ public class NoteDTOConvert {
         noteManageReqBO.setUserNo(reqDTO.getUserNo());
         noteManageReqBO.setPrimaryDirectory(reqDTO.getPrimaryDirectory());
         noteManageReqBO.setSecondaryDirectory(reqDTO.getSecondaryDirectory());
-        noteManageReqBO.setDocumentName(reqDTO.getDocumentName());
-        noteManageReqBO.setOperatorType(reqDTO.getOperatorType());
+        noteManageReqBO.setFileName(reqDTO.getFileName());
+        noteManageReqBO.setOpType(reqDTO.getOpType());
+        noteManageReqBO.setOpLocation(reqDTO.getOpLocation());
+        noteManageReqBO.setOpName(reqDTO.getOpName());
 
         return noteManageReqBO;
     }

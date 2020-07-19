@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
-
 import java.io.Serializable;
 
 /**
@@ -36,8 +35,6 @@ public class NoteManageReqDTO implements Serializable {
     /**
      * 一级目录名
      */
-    @NotEmpty(message = "一级目录名不允许为空")
-    @NotNull(message = "一级目录名不允许为空")
     private String primaryDirectory;
 
     /**
@@ -48,16 +45,29 @@ public class NoteManageReqDTO implements Serializable {
     /**
      * 文档名称
      */
-    private String documentName;
+    private String fileName;
 
     /**
      * 操作类型
      * 增加-ADD
      * 删除-DELETE
+     * 修改-EDIT
      */
     @NotEmpty(message = "操作类型不允许为空")
     @NotNull(message = "操作类型不允许为空")
-    private String operatorType;
+    private String opType;
+
+    /**
+     * 操作位置
+     */
+    @NotEmpty(message = "操作位置不允许为空")
+    @NotNull(message = "操作位置不允许为空")
+    private String opLocation;
+
+    /**
+     * 操作值
+     */
+    private String opName;
 
     /**
      * 日志ID
