@@ -1,10 +1,13 @@
 package com.nicehancy.mix.web.controller.note;
 
+import com.nicehancy.mix.common.Result;
+import com.nicehancy.mix.service.api.model.request.note.AccountAddReqDTO;
 import com.nicehancy.mix.service.api.model.request.note.AccountQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.AccountInfoDTO;
 import com.nicehancy.mix.web.controller.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +32,9 @@ import java.util.UUID;
 @Controller
 public class AccountController extends BaseController {
 
+    @Autowired
+    private Ac
+
     /**
      * 主页面
      * @return      主页视图
@@ -39,11 +45,11 @@ public class AccountController extends BaseController {
     }
 
     /**
-     * 文件表单页
+     * 账号表单页
      * @return      表单页视图
      */
     @RequestMapping("/note/accountForm")
-    public ModelAndView fileForm(){
+    public ModelAndView accountForm(){
         return new ModelAndView("note/account/account_form");
     }
 
@@ -76,13 +82,32 @@ public class AccountController extends BaseController {
 
         return this.processSuccessJSON(list, 1);
     }
+
     /**
-     * 表单页
-     * @return      主页视图
+     * 新增
+     * @return       新增
      */
-    @RequestMapping("/note/updateOrAddAccount")
-    public ModelAndView accountForm(){
-        return new ModelAndView("account_form");
+    @RequestMapping("/note/account/add")
+    @ResponseBody
+    public ModelMap add(HttpServletRequest request){
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+
+        AccountAddReqDTO reqDTO = new AccountAddReqDTO();
+        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
+        reqDTO.setTraceLogId(traceLogId);
+        reqDTO.setRequestSystem("MIX");
+        reqDTO.setAddress(this.getParameters(request).get("address"));
+        reqDTO.setAccount(this.getParameters(request).get("account"));
+        reqDTO.setPassword(this.getParameters(request).get("password"));
+        reqDTO.setRemark(this.getParameters(request).get("remark"));
+
+        log.info("AccountController add request PARAM: reqDTO={}", reqDTO);
+
+
+        Result<Boolean> result = new Result<>();
+        result.setResult(true);
+        return this.processSuccessJSON(result);
     }
 
 }

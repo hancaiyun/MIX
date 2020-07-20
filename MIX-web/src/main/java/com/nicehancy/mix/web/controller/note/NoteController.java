@@ -44,20 +44,10 @@ public class NoteController extends BaseController {
     }
 
     /**
-     * 笔记管理表单页
-     * @return      表单页视图
-     */
-    @RequestMapping("/notemanage/noteform")
-    public ModelAndView noteForm(){
-        return new ModelAndView("note/notemanage/noteform");
-    }
-
-
-    /**
      * 查询目录列表
      * @return        目录列表
      */
-    @RequestMapping("/notemanage/queryDirectory")
+    @RequestMapping("/queryDirectory")
     @ResponseBody
     public ModelMap queryDirectory(HttpServletRequest request){
         String traceLogId = UUID.randomUUID().toString();
@@ -84,7 +74,7 @@ public class NoteController extends BaseController {
      * 查询文档列表
      * @return        文档列表
      */
-    @RequestMapping("/notemanage/queryFileList")
+    @RequestMapping("/queryFileList")
     @ResponseBody
     public ModelMap queryFileList(HttpServletRequest request){
         String traceLogId = UUID.randomUUID().toString();
@@ -110,7 +100,7 @@ public class NoteController extends BaseController {
      * 查询笔记信息
      * @return        目录列表
      */
-    @RequestMapping("/notemanage/queryNoteInfo")
+    @RequestMapping("/queryNoteInfo")
     @ResponseBody
     public ModelMap queryNoteInfo(HttpServletRequest request){
         String traceLogId = UUID.randomUUID().toString();
@@ -143,7 +133,7 @@ public class NoteController extends BaseController {
      * 笔记保存
      * @return     处理结果
      */
-    @RequestMapping(value = "/notemanage/save")
+    @RequestMapping(value = "/save")
     @ResponseBody
     public ModelMap save(HttpServletRequest request){
 

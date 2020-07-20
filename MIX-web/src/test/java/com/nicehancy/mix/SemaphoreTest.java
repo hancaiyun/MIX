@@ -3,7 +3,6 @@ package com.nicehancy.mix;
 import com.nicehancy.mix.base.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-
 import java.util.concurrent.Semaphore;
 
 /**
@@ -24,15 +23,14 @@ public class SemaphoreTest extends BaseSpringTest {
     @Test
     public void ticketTest(){
         Semaphore windows = new Semaphore(5);// 声明5个窗口
-
         //模拟13个人排队，总共5个窗口购票
         for (int i = 0; i < 13; i++) {
             new Thread(() -> {
                 try {
                     windows.acquire();//占用窗口
-                    System.out.println(Thread.currentThread().getName() + ": 开始买票");
+                    System.out.println("["+System.currentTimeMillis() + "] " + Thread.currentThread().getName() + ": 开始买票");
                     //Thread.sleep(2000);//睡2秒，模拟买票流程
-                    System.out.println(Thread.currentThread().getName() + ": 购票成功");
+                    System.out.println("["+System.currentTimeMillis() + "] " + Thread.currentThread().getName() + ": 购票成功");
                     windows.release();//释放窗口
                 } catch (InterruptedException e) {
                     e.printStackTrace();

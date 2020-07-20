@@ -55,7 +55,7 @@ public class FileManagementServiceImpl implements FileManagementService {
         try{
             log.info("call FileManagementServiceImpl pageQuery param: reqDTO={}", reqDTO);
             //参数校验
-            VerifyUtil.validateObject(reqDTO);
+
 
             //业务处理
             BasePageQueryResDTO<FileUploadRecordDTO> resDTO = new BasePageQueryResDTO<>();

@@ -45,7 +45,10 @@
 
             <!--密码控件-->
             <script type="text/html" id="table-password-operate">
-                <a id="showPassword">******</a><img id="img" onclick="hideShowPsw()" src="/file/showPic/icon-visible.png">
+                {{# if('' == ''){}}
+                <input type="password" readonly value="{{d.password}}" id="password">
+                <input type="button" value="显示" onclick="switchPassword()" id="passwordBtn">
+                {{# }}}
             </script>
 
             <!--仅照片显示预览按钮，共用按钮:下载、删除-->
@@ -90,26 +93,15 @@
                     return layer.msg('请选择数据');
                 }
 
-                layer.prompt({
-                    formType: 1
-                    , title: '敏感操作，请验证口令'
-                }, function (value, index) {
-                    //口令
-                    if(value !== "19921577717"){
-                        layer.alert("口令验证失败！");
-                        return;
+                layer.confirm('确定删除吗？', function (index) {
+                    //批量
+                    for(let i = 0; i< checkData.length; i++){
+                        deleteAccount(checkData[i].fileId);
                     }
+                    //表格删除
                     layer.close(index);
-                    layer.confirm('确定删除吗？', function (index) {
-                        //批量
-                        for(let i = 0; i< checkData.length; i++){
-                            deleteAccount(checkData[i].fileId);
-                        }
-                        //表格删除
-                        layer.close(index);
-                        table.reload('LAY-file-manage');
-                        layer.msg('已删除');
-                    });
+                    table.reload('LAY-account-manage');
+                    layer.msg('已删除');
                 });
             }
             , add: function () {
@@ -120,17 +112,36 @@
                     , area: ['500px', '500px']
                     , btn: ['确定', '取消']
                     , yes: function (index, layero) {
-                        const iframeWindow = window['layui-layer-iframe' + index]
-                            , submitID = 'LAY-user-front-submit'
-                            , submit = layero.find('iframe').contents().find('#' + submitID);
+                        const data = $(layero).find('iframe')[0].contentWindow.callBackData();
 
-                        //监听提交
-                        iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
-                            const field = data.field; //获取提交的字段
-                            table.reload('LAY-file-search'); //数据刷新
-                            layer.close(index); //关闭弹层
-                        });
-                        submit.trigger('click');
+                        //ajax请求
+                        $.ajax({
+                            url: '/note/account/add',
+                            data: data,
+                            dataType: 'json',//数据类型
+                            type: 'GET',//类型
+                            timeout: 3000,//超时
+                            //请求成功
+                            success: function (res) {
+                                if (res.code === "0000") {
+                                    //成功
+                                    layer.msg("新增成功");
+                                } else {
+                                    layer.msg("新增失败：失败原因：" + res.msg);
+                                }
+                            },
+                            //失败/超时
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                if (textStatus === 'timeout') {
+                                    layer.msg('网络异常');
+                                }
+                                layer.msg("失败原因：" + errorThrown);
+                            }
+                        })
+
+                        table.reload('LAY-account-search'); //数据刷新
+                        layer.close(index); //关闭弹层
+
                     }
                 });
             }
@@ -140,6 +151,15 @@
             const type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+
+        //formType： 0（文本）默认1（密码）2（多行文本）
+        // layer.prompt({formType: 1,title: "请输入密码"}, function (val, index) {
+        //     if (val === "xxx") {
+        //         layer.msg("密码正确")
+        //     }else{
+        //         layer.msg("密码错误")
+        //     }
+        // });
 
         function deleteAccount(id){
             //删除文件数据
@@ -153,7 +173,7 @@
                 success: function (res) {
                     if (res.code !== "0000") {
                         //成功
-                        layer.alert("删除失败：失败账号id："+ id);
+                        layer.msg("删除失败：失败账号id："+ id);
                     }
                 },
                 //失败/超时
@@ -167,17 +187,19 @@
         }
     });
 
-    function hideShowPsw() {
-        const passwordImg = document.getElementById("img");
-        const showPassword = document.getElementById("showPassword");
-        if (passwordImg.src === "http://localhost:8090/file/showPic/icon-visible.png") {
-            //PWD.type = "text";
-            showPassword.innerText = "******";
-            passwordImg.src = "/file/showPic/icon-invisible.png"; //图片路径（闭眼图片）
-        } else {
-            //PWD.type = "password";
-            showPassword.innerText = "123456";
-            passwordImg.src = "/file/showPic/icon-visible.png"; // 图片路径（睁眼图片）
+    //密码显示与隐藏
+    let a = true;
+    function switchPassword(){
+        const btn = document.getElementById("passwordBtn");
+        const password = document.getElementById("password");
+        if(a){
+            password.type = 'text';
+            a = false;
+            btn.value = '隐藏';
+        }else{
+            password.type = 'password';
+            a = true;
+            btn.value = '显示';
         }
     }
 </script>

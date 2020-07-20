@@ -16,7 +16,7 @@
       <div class="layui-inline">
         <label class="layui-form-label">地址</label>
         <div class="layui-input-block">
-          <input type="text" name="address" placeholder="请输入" autocomplete="off" class="layui-input">
+          <input type="text" id="address" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
       </div>
     </div>
@@ -26,7 +26,7 @@
       <div class="layui-inline">
         <label class="layui-form-label">账号</label>
         <div class="layui-input-block">
-          <input type="text" name="account" placeholder="请输入" autocomplete="off" class="layui-input">
+          <input type="text" id="account" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
       </div>
     </div>
@@ -35,18 +35,18 @@
       <div class="layui-inline">
         <label class="layui-form-label">密码</label>
         <div class="layui-input-block">
-          <input type="text" name="password" placeholder="请输入" autocomplete="off" class="layui-input">
+          <input type="text" id="password" placeholder="请输入" autocomplete="off" class="layui-input">
         </div>
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">备注</label>
       <div class="layui-input-block">
-        <textarea type="text" name="descr" placeholder="可不填写" autocomplete="off" class="layui-textarea"></textarea>
+        <textarea type="text" id="remark" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
       </div>
     </div>
     <div class="layui-form-item layui-hide">
-      <button class="layui-btn" lay-submit lay-filter="LAY-user-role-submit" id="LAY-user-role-submit">提交</button>
+      <button class="layui-btn" lay-submit lay-filter="LAY-account-submit" id="LAY-account-submit">提交</button>
     </div>
   </div>
 
@@ -57,9 +57,20 @@
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index', 'form'], function(){
-    var $ = layui.$
-    ,form = layui.form ;
+
   })
+  </script>
+  <!--回调函数-->
+  <script>
+    function callBackData() {
+      return {
+        "address": document.getElementById("address").value,
+        "account": document.getElementById("account").value,
+        "password": document.getElementById("password").value,
+        "remark": document.getElementById("remark").value,
+        "userNo": window.localStorage["loginNo"]
+      };
+    }
   </script>
 </body>
 </html>

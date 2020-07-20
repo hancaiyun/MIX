@@ -1,11 +1,11 @@
 package com.nicehancy.mix.service.api.model.request.note;
 
-import com.nicehancy.mix.service.api.model.base.BasePageDTO;
 import com.nicehancy.mix.service.api.model.base.BaseReqDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.sf.oval.constraint.*;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotNull;
 
 /**
  * <p>
@@ -17,12 +17,12 @@ import net.sf.oval.constraint.*;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class AccountQueryReqDTO extends BasePageDTO {
+public class AccountAddReqDTO extends BaseReqDTO {
 
     /**
      * 序列化ID
      */
-    private static final long serialVersionUID = -1592310229206061761L;
+    private static final long serialVersionUID = 8399300313893307803L;
 
     /**
      * 用户编号
@@ -35,4 +35,19 @@ public class AccountQueryReqDTO extends BasePageDTO {
      * 地址
      */
     private String address;
+
+    /**
+     * 账号
+     */
+    private String account;
+
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
+     * 备注
+     */
+    private String remark;
 }

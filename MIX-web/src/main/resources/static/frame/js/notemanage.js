@@ -3,7 +3,7 @@
 window.onload = function () {
     //请求查询
     $.ajax({
-        url: '/note/notemanage/queryDirectory',
+        url: '/note/queryDirectory',
         data: {"userNo": window.localStorage["loginNo"]},
         dataType: 'json',//数据类型
         type: 'GET',//类型
@@ -11,9 +11,8 @@ window.onload = function () {
         //请求成功
         success: function (res) {
             if (res.code === "0000") {
-                var directoryList = res.data;
+                const directoryList = res.data;
                 $.each(directoryList, function (index, item) {
-                    //alert("参数打印：" + index + ";" + item);
                     $("#primaryDirectory").append(new Option(item, item));
                 });
                 //重载select模块，否则不会展示
@@ -43,7 +42,6 @@ window.onload = function () {
 layui.use('layedit', function () {
     const layedit = layui.layedit;
     const $ = layui.jquery;
-    // var layer = layui.layer;
     //建立编辑器
     const textarea = layedit.build('note-area', {height: 480, uploadImage: {url: '/file/upload', type: 'post'}});
     //放入缓存，用于之后的更新操作
@@ -59,7 +57,6 @@ layui.use('layedit', function () {
             $('#save').click();
         }
     });
-
 
     //保存文件
     $("#save").click(function () {
@@ -78,7 +75,7 @@ layui.use('layedit', function () {
         //获取文本域内容
         const content = layedit.getContent(textarea);
         $.ajax({
-            url: '/note/notemanage/save',//提交地址
+            url: '/note/save',//提交地址
             data: {
                 "userNo": window.localStorage["loginNo"],
                 "primaryDirectory": primaryDirectory,
@@ -114,7 +111,6 @@ layui.use('layedit', function () {
     });
 });
 
-
 //目录集操作
 layui.use(['form', 'layer', 'layedit'], function () {
     const $ = layui.jquery;
@@ -135,7 +131,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
         //2.1 查询二级目录列表并append option
         //请求查询
         $.ajax({
-            url: '/note/notemanage/queryDirectory',
+            url: '/note/queryDirectory',
             data: {"userNo": window.localStorage["loginNo"], "primaryDirectory": primaryDirectory},
             dataType: 'json',//数据类型
             type: 'GET',//类型
@@ -173,7 +169,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
         //2.2 查询一级目录下的笔记列表
         //请求查询
         $.ajax({
-            url: '/note/notemanage/queryFileList',
+            url: '/note/queryFileList',
             data: {
                 "userNo": window.localStorage["loginNo"],
                 "primaryDirectory": primaryDirectory
@@ -184,7 +180,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
             //请求成功
             success: function (res) {
                 if (res.code === "0000") {
-                    var directoryList = res.data;
+                    const directoryList = res.data;
                     //清空原数据
                     removeAll("fileName");
                     $.each(directoryList, function (index, item) {
@@ -217,7 +213,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
 
         //data.value 得到被选中的值
         const secondaryDirectory = data.value;
-        if (secondaryDirectory === "" || secondaryDirectory == null) {
+        if (secondaryDirectory === "") {
             //清空文件列表  TODO 非清空文件列表，而是触发根据一级目录再查询一次
             removeAll("fileName");
             layui.form.render("select");
@@ -230,7 +226,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
         //查询文件名列表并append option
         //请求查询
         $.ajax({
-            url: '/note/notemanage/queryDirectory',
+            url: '/note/queryDirectory',
             data: {
                 "userNo": window.localStorage["loginNo"],
                 "primaryDirectory": primaryDirectory,
@@ -242,7 +238,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
             //请求成功
             success: function (res) {
                 if (res.code === "0000") {
-                    var directoryList = res.data;
+                    const directoryList = res.data;
                     //清空原数据
                     removeAll("fileName");
                     $.each(directoryList, function (index, item) {
@@ -284,7 +280,7 @@ layui.use(['form', 'layer', 'layedit'], function () {
 
         //查询文件内容
         $.ajax({
-            url: '/note/notemanage/queryNoteInfo',
+            url: '/note/queryNoteInfo',
             data: {
                 "userNo": window.localStorage["loginNo"],
                 "primaryDirectory": primaryDirectory,
@@ -321,140 +317,237 @@ layui.use(['form', 'layer', 'layedit'], function () {
     });
 });
 
-
 //删除select中的option——用于清空历史append
 function removeAll(selectId) {
     const obj = document.getElementById(selectId);
     obj.options.length = 1;
 }
 
+<!--操作组-->
+//获取用户名
+const userNo = window.localStorage["loginNo"];
+//新增
+function addNote() {
+    //获取选中的操作位置,新增位置校验
+    const opLocation = document.getElementById("opLocation").value;
+    if(opLocation === ''){
+        layer.msg('请选择要新增的位置', {icon: 5});
+        return;
+    }
 
-//管理文件
-function manageFile() {
-    layer.open({
-        type: 2
-        , title: '笔记管理'
-        , content: 'noteform'
-        , area: ['460px', '450px']
-        , btn: ['确定', '取消']
-        , yes: function (index, layero) {
-            const iframeWindow = window['layui-layer-iframe' + index]
-                , submitID = 'LAY-user-front-submit'
-                , submit = layero.find('iframe').contents().find('#' + submitID);
+    //获取一级目录名
+    const primaryDirectory = document.getElementById("primaryDirectory").value;
 
-            //监听提交
-            iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
-                const $ = layui.jquery;
-                const field = data.field; //获取提交的字段
-                //var jsonData = JSON.stringify(field);// 转成JSON格式
-                //管理请求
-                $.ajax({
-                    url: '/note/notemanage/manage',
-                    data: {
-                        "primaryDirectory": field.primaryDirectory,
-                        "secondaryDirectory": field.secondaryDirectory,
-                        "documentName": field.fileName,
-                        "operateType": field.operateType,
-                        "userNo": window.localStorage["loginNo"]
-                    },
-                    dataType: 'json',//数据类型
-                    type: 'GET',//请求方式
-                    timeout: 3000,//超时时间
-                    //请求成功
-                    success: function (res) {
-                        if (res.code === "0000") {
-                            //展示主页
-                            layer.msg("操作成功");
-                            layui.form.render("select");
-                            //window.location.href="/index";
-                        } else {
-                            layer.error({
-                                title: '提示信息'
-                                , content: '笔记创建或者删除失败，失败原因：' + res.msg
-                            });
-                        }
-                    },
-                    //失败/超时
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        if (textStatus === 'timeout') {
-                            layer.error('网络异常');
-                            setTimeout(function () {
-                                alert('重新请求');
-                            }, 3000);
-                        }
-                        layer.error(errorThrown);
-                    }
-                });
-                layer.close(index); //关闭弹层
-            });
-            submit.trigger('click');
+    //操作组选中
+    //选中一级目录
+    if(opLocation === 'PRIMARY_DIRECTORY_OP'){
+        choosePromptForAdd("PRIMARY_DIRECTORY_OP");
+    }
+    //选中二级目录
+    if(opLocation === 'SECONDARY_DIRECTORY_OP'){
+        if(primaryDirectory ===''){
+            layer.msg('请选择一级目录', {icon: 5});
+        }else{
+            choosePromptForAdd("SECONDARY_DIRECTORY_OP");
         }
+    }
+
+    //选中文件
+    if(opLocation === 'FILE_OP'){
+        if(primaryDirectory ===''){
+            layer.msg('请至少选择一级目录', {icon: 5});
+        }else{
+            choosePromptForAdd("FILE_OP");
+        }
+    }
+}
+
+//修改（重命名）
+function editNote() {
+    //获取选中的操作位置
+    const opLocation = document.getElementById("opLocation").value;
+    if(opLocation ===''){
+        layer.msg('请选择要修改的位置', {icon: 5});
+        return;
+    }
+
+    //获取一级目录名
+    const primaryDirectory = document.getElementById("primaryDirectory").value;
+    const secondaryDirectory = document.getElementById("secondaryDirectory").value;
+    const fileName = document.getElementById("fileName").value;
+
+    //操作组选中
+    //选中一级目录
+    if(opLocation === 'PRIMARY_DIRECTORY_OP'){
+        if(primaryDirectory ===''){
+            layer.msg('请选择一级目录', {icon: 5});
+        }else{
+            choosePromptForEdit("PRIMARY_DIRECTORY_OP");
+        }
+    }
+    //选中二级目录
+    if(opLocation === 'SECONDARY_DIRECTORY_OP'){
+        if(primaryDirectory ===''){
+            layer.msg('请选择所属的一级目录', {icon: 5});
+        }else if(secondaryDirectory ===''){
+            layer.msg('请选择要修改的二级目录', {icon: 5});
+        }else{
+            choosePromptForEdit("SECONDARY_DIRECTORY_OP");
+        }
+    }
+
+    //选中文件
+    if(opLocation === 'FILE_OP'){
+        if(primaryDirectory ===''){
+            layer.msg('请选择该文件所属的目录', {icon: 5});
+        }else if(fileName ===''){
+            layer.msg('请选择要修改的文件', {icon: 5});
+        }else{
+            choosePromptForEdit("FILE_OP");
+        }
+    }
+}
+
+//删除
+function deleteNote(){
+    //获取选中的操作位置
+    const opLocation = document.getElementById("opLocation").value;
+    if(opLocation ===''){
+        layer.msg('请选择要删除的位置', {icon: 5});
+        return;
+    }
+
+    //获取一级目录名
+    const primaryDirectory = document.getElementById("primaryDirectory").value;
+    const secondaryDirectory = document.getElementById("secondaryDirectory").value;
+    const fileName = document.getElementById("fileName").value;
+
+    //操作组选中
+    //选中一级目录
+    if(opLocation === 'PRIMARY_DIRECTORY_OP'){
+        if(primaryDirectory ===''){
+            layer.msg('请选择要删除的目录', {icon: 5});
+        }else{
+            deleteConfirm(opLocation, primaryDirectory);
+        }
+    }
+    //选中二级目录
+    if(opLocation === 'SECONDARY_DIRECTORY_OP'){
+        if(primaryDirectory ===''){
+            layer.msg('请选择所在的一级目录', {icon: 5});
+        }else if(secondaryDirectory ===''){
+            layer.msg('请选择要删除的二级目录', {icon: 5});
+        }else{
+            deleteConfirm(opLocation, secondaryDirectory);
+        }
+    }
+
+    //选中文件
+    if(opLocation === 'FILE_OP'){
+        if(primaryDirectory ===''){
+            layer.msg('请选择该文件所属的目录', {icon: 5});
+        }else if(fileName ===''){
+            layer.msg('请选择要删除的文件', {icon: 5});
+        }else{
+            deleteConfirm(opLocation, fileName);
+        }
+    }
+}
+
+//公共方法
+//选择新增弹出框
+function choosePromptForAdd(opLocation) {
+    if (opLocation === 'PRIMARY_DIRECTORY_OP') {
+        layer.prompt({title: '创建一级目录'}, function (value, index) {
+            //新增请求
+            doRequest('PRIMARY_DIRECTORY_OP', 'ADD', value, index);
+        });
+    }
+    if (opLocation === 'SECONDARY_DIRECTORY_OP') {
+        layer.prompt({title: '创建二级目录'}, function (value, index) {
+            //新增请求
+            doRequest('SECONDARY_DIRECTORY_OP', 'ADD', value, index);
+        });
+    }
+    if (opLocation === 'FILE_OP') {
+        layer.prompt({title: '创建文件'}, function (value, index) {
+            //新增请求
+            doRequest('FILE_OP', 'ADD', value, index);
+        });
+    }
+}
+
+//选择修改弹出框
+function choosePromptForEdit(opLocation) {
+    if (opLocation === 'PRIMARY_DIRECTORY_OP') {
+        layer.prompt({title: '修改一级目录名'}, function (value, index) {
+            //修改请求
+            doRequest('PRIMARY_DIRECTORY_OP', 'EDIT', value, index);
+        });
+    }
+    if (opLocation === 'SECONDARY_DIRECTORY_OP') {
+        layer.prompt({title: '修改二级目录名'}, function (value, index) {
+            //修改请求
+            doRequest('SECONDARY_DIRECTORY_OP', 'EDIT', value, index);
+        });
+    }
+    if (opLocation === 'FILE_OP') {
+        layer.prompt({title: '修改文件名'}, function (value, index) {
+            //修改请求
+            doRequest('FILE_OP', 'EDIT', value, index);
+        });
+    }
+}
+
+//删除弹出框
+function deleteConfirm(opLocation, opName) {
+    layer.confirm('确认要删除' + opName + '吗？', function (index) {
+        doRequest(opLocation, "DELETE", "", index);
     });
 }
 
-//删除文件
-function deleteFile() {
-
-    //获取用户名
-    const userNo = window.localStorage["loginNo"];
-    //获取一级目录名
+//文件操作请求
+function doRequest(opLocation, opType, opName, index){
+    //获取一级、二级目录名、文件名
     const primaryDirectory = document.getElementById("primaryDirectory").value;
-    //获取二级目录名
     const secondaryDirectory = document.getElementById("secondaryDirectory").value;
-    //获取文件名
     const fileName = document.getElementById("fileName").value;
-
-    //文件名为空， 弹出提示信息
-    if(fileName === '' || fileName == null){
-        layer.open({
-            title: '删除失败'
-            , content: '未选中待删除文档！'
-        });
-        return;
-    }
-    //删除之前弹出提示信息
-    layer.open({
-        title: '文档删除提示信息'
-        , btn: ['确定']
-        , content: '确认删除此条文档？删除后无法恢复'
-        ,yes:function () {
-
-            //请求密码重置
-            $.ajax({
-                url: '/note/delete',
-                data:{
-                    "primaryDirectory": primaryDirectory,
-                    "secondaryDirectory": secondaryDirectory,
-                    "documentName": fileName,
-                    "userNo": userNo},
-                dataType: 'json',//数据类型
-                type: 'GET',//请求方式
-                timeout: 3000,//超时时间
-                //请求成功
-                success: function (res) {
-                    if (res.code === "0000") {
-                        //展示主页
-                        layer.open({
-                            title: '提示信息'
-                            , content: '删除成功'
-                        });
-                    } else {
-                        layer.open({
-                            title: '提示信息'
-                            , content: '文档删除失败，失败原因：' + res.msg
-                        });
-                    }
-                },
-                //失败/超时
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    if (textStatus === 'timeout') {
-                        alert('网络异常');
-                        setTimeout(function () {
-                        }, 30000);
-                    }
-                    alert(errorThrown);
-                }
-            });
+    //管理请求
+    $.ajax({
+        url: '/note/manage',
+        data: {
+            "primaryDirectory": primaryDirectory,
+            "secondaryDirectory": secondaryDirectory,
+            "fileName": fileName,
+            "opLocation": opLocation,
+            "opName": opName,
+            "opType": opType,
+            "userNo": userNo
+        },
+        dataType: 'json',//数据类型
+        type: 'GET',//请求方式
+        timeout: 3000,//超时时间
+        //请求成功
+        success: function (res) {
+            if (res.code === "0000") {
+                //展示主页
+                layer.msg("操作成功");
+                layui.form.render("select");
+            } else {
+                layer.msg('操作失败，失败原因：'+ res.msg);
+            }
+        },
+        //失败/超时
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            if (textStatus === 'timeout') {
+                layer.error('网络异常');
+                setTimeout(function () {
+                    layui.alert('重新请求');
+                }, 3000);
+            }
+            layer.error(errorThrown);
         }
     });
+    //成功关闭弹窗
+    layer.close(index);
 }
