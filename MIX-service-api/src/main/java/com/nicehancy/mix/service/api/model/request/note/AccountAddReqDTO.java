@@ -34,16 +34,22 @@ public class AccountAddReqDTO extends BaseReqDTO {
     /**
      * 地址
      */
+    @NotNull(message = "地址不允许为空")
+    @NotBlank(message = "地址不允许为空")
     private String address;
 
     /**
      * 账号
      */
+    @NotNull(message = "账号不允许为空")
+    @NotBlank(message = "账号不允许为空")
     private String account;
 
     /**
      * 密码
      */
+    @NotNull(message = "密码不允许为空")
+    @NotBlank(message = "密码不允许为空")
     private String password;
 
     /**

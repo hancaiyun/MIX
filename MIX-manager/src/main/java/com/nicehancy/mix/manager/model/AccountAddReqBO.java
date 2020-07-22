@@ -1,28 +1,20 @@
-package com.nicehancy.mix.service.api.model.result;
+package com.nicehancy.mix.manager.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-
-import java.util.Date;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotNull;
 
 /**
- * 账号信息DO
  * <p>
  * <p/>
  *
  * @author hancaiyun
- * @since 2020/7/10 14:38
+ * @since 2020/7/10 16:09
  **/
 @Getter
 @Setter
-@ToString
-public class AccountInfoDTO {
-
-    /**
-     * id
-     */
-    private Long id;
+public class AccountAddReqBO {
 
     /**
      * 用户编号
@@ -48,9 +40,4 @@ public class AccountInfoDTO {
      * 备注
      */
     private String remark;
-
-    /**
-     * 更新时间
-     */
-    private Date updatedAt;
 }

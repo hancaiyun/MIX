@@ -18,13 +18,13 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">地址</label>
                     <div class="layui-input-block">
-                        <input type="text" name="address" placeholder="" autocomplete="off" class="layui-input">
+                        <input type="text" name="address" placeholder="模糊匹配" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">账号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="account" placeholder="" autocomplete="off" class="layui-input">
+                        <input type="text" name="account" placeholder="模糊匹配" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -44,12 +44,12 @@
             <table id="LAY-account-manage" lay-filter="LAY-account-manage"></table>
 
             <!--密码控件-->
-            <script type="text/html" id="table-password-operate">
-                {{# if('' == ''){}}
-                <input type="password" readonly value="{{d.password}}" id="password">
-                <input type="button" value="显示" onclick="switchPassword()" id="passwordBtn">
-                {{# }}}
-            </script>
+<!--            <script type="text/html" id="table-password-operate">-->
+<!--                {{# if('' == ''){}}-->
+<!--                <input type="password" readonly value="{{d.password}}" id="password">-->
+<!--                <input type="button" value="显示" onclick="switchPassword()" id="passwordBtn">-->
+<!--                {{# }}}-->
+<!--            </script>-->
 
             <!--仅照片显示预览按钮，共用按钮:下载、删除-->
             <script type="text/html" id="table-account-operate">
@@ -69,139 +69,23 @@
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'useradmin', 'table'], function(){
-        const $ = layui.$
-            , form = layui.form
-            , table = layui.table;
-
-        //监听搜索
-        form.on('submit(LAY-account-search)', function(data){
-            const field = data.field;
-
-            //执行重载
-            table.reload('LAY-account-manage', {
-                where: field
-            });
-        });
-
-        //事件
-        const active = {
-            batchdel: function () {
-                const checkStatus = table.checkStatus('LAY-account-manage')
-                    , checkData = checkStatus.data; //得到选中的数据
-
-                if (checkData.length === 0) {
-                    return layer.msg('请选择数据');
-                }
-
-                layer.confirm('确定删除吗？', function (index) {
-                    //批量
-                    for(let i = 0; i< checkData.length; i++){
-                        deleteAccount(checkData[i].fileId);
-                    }
-                    //表格删除
-                    layer.close(index);
-                    table.reload('LAY-account-manage');
-                    layer.msg('已删除');
-                });
-            }
-            , add: function () {
-                layer.open({
-                    type: 2
-                    , title: '新增账号'
-                    , content: 'accountForm'
-                    , area: ['500px', '500px']
-                    , btn: ['确定', '取消']
-                    , yes: function (index, layero) {
-                        const data = $(layero).find('iframe')[0].contentWindow.callBackData();
-
-                        //ajax请求
-                        $.ajax({
-                            url: '/note/account/add',
-                            data: data,
-                            dataType: 'json',//数据类型
-                            type: 'GET',//类型
-                            timeout: 3000,//超时
-                            //请求成功
-                            success: function (res) {
-                                if (res.code === "0000") {
-                                    //成功
-                                    layer.msg("新增成功");
-                                } else {
-                                    layer.msg("新增失败：失败原因：" + res.msg);
-                                }
-                            },
-                            //失败/超时
-                            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                if (textStatus === 'timeout') {
-                                    layer.msg('网络异常');
-                                }
-                                layer.msg("失败原因：" + errorThrown);
-                            }
-                        })
-
-                        table.reload('LAY-account-search'); //数据刷新
-                        layer.close(index); //关闭弹层
-
-                    }
-                });
-            }
-        };
-
-        $('.layui-btn.layuiadmin-btn-useradmin').on('click', function(){
-            const type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-
-        //formType： 0（文本）默认1（密码）2（多行文本）
-        // layer.prompt({formType: 1,title: "请输入密码"}, function (val, index) {
-        //     if (val === "xxx") {
-        //         layer.msg("密码正确")
-        //     }else{
-        //         layer.msg("密码错误")
-        //     }
-        // });
-
-        function deleteAccount(id){
-            //删除文件数据
-            $.ajax({
-                url: '/note/file/delete',
-                data: {"id": id, "userNo": window.localStorage["loginNo"]},
-                dataType: 'json',//数据类型
-                type: 'GET',//类型
-                timeout: 3000,//超时
-                //请求成功
-                success: function (res) {
-                    if (res.code !== "0000") {
-                        //成功
-                        layer.msg("删除失败：失败账号id："+ id);
-                    }
-                },
-                //失败/超时
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    if (textStatus === 'timeout') {
-                        layer.msg('网络异常');
-                    }
-                    layer.msg("失败原因：" + errorThrown);
-                }
-            });
-        }
     });
 
     //密码显示与隐藏
-    let a = true;
-    function switchPassword(){
-        const btn = document.getElementById("passwordBtn");
-        const password = document.getElementById("password");
-        if(a){
-            password.type = 'text';
-            a = false;
-            btn.value = '隐藏';
-        }else{
-            password.type = 'password';
-            a = true;
-            btn.value = '显示';
-        }
-    }
+    // let a = true;
+    // function switchPassword(){
+    //     const btn = document.getElementById("passwordBtn");
+    //     const password = document.getElementById("password");
+    //     if(a){
+    //         password.type = 'text';
+    //         a = false;
+    //         btn.value = '隐藏';
+    //     }else{
+    //         password.type = 'password';
+    //         a = true;
+    //         btn.value = '显示';
+    //     }
+    // }
 </script>
 </body>
 </html>
