@@ -150,6 +150,10 @@
   }).use(['index', 'console', 'util']);
   </script>
   <script>
+
+    //定时器，5秒触发一次
+    // setInterval('reloadView()',5000);
+    // window.reloadView=function(){};
     window.onload=function(){
       //请求系统信息查询
       $.ajax({
@@ -180,7 +184,6 @@
               $("#disk").addClass("layui-bg-red");
             }
             $("#disk").attr("lay-percent", diskPercent + "%");
-
           } else {
             layer.open({
               title: '提示信息'
