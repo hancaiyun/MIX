@@ -21,6 +21,8 @@ window.onload=function(){
                 headCopy = res.data.headCopy;
                 //设置头像
                 setHeadCopy(headCopy);
+                //根据权限编号决定显示管理组模块
+                setColumn(res.data.authCode);
             } else {
                 layer.open({
                     title: '提示信息'
@@ -58,4 +60,22 @@ function mobilePhoneMask(input) {
     if (input == null || input === "")return output;
     output = input.substr(0, 3) + "****" + input.substr(input.length - 4);
     return output;
+}
+
+//权限组模块展示
+function setColumn(authCode){
+    //超级管理员
+    if('SUPPER_ADMIN' === authCode){
+        document.getElementById("user").style.display="block";
+        document.getElementById("system").style.display="block";
+        document.getElementById("message").style.display="block";
+    }
+
+    //普通管理员
+    if('ADMIN' === authCode){
+        document.getElementById("system").style.display="block";
+        document.getElementById("message").style.display="block";
+    }
+    //普通用户展示默认
+    //TODO 用户等级的不同操作权限
 }

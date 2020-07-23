@@ -46,6 +46,14 @@ public class UserInfoDTO extends BaseReqDTO implements Serializable{
     private String email;
 
     /**
+     * 性别
+     *
+     * MALE-男
+     * FEMALE-女
+     */
+    private String sex;
+
+    /**
      * 状态
      */
     private String status;

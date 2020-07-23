@@ -1,6 +1,8 @@
 package com.nicehancy.mix.web.controller;
 
 import com.nicehancy.mix.common.Result;
+import com.nicehancy.mix.common.enums.AuthCodeEnum;
+import com.nicehancy.mix.common.enums.SexEnum;
 import com.nicehancy.mix.common.utils.SystemResourceUtil;
 import com.nicehancy.mix.service.CustomUserServiceImpl;
 import com.nicehancy.mix.service.api.model.UserInfoDTO;
@@ -108,6 +110,8 @@ public class HomeController extends BaseController {
         userInfoDTO.setPassword(this.getParameters(request).get("password"));
         userInfoDTO.setNickName(this.getParameters(request).get("nickname"));
         userInfoDTO.setEmail(this.getParameters(request).get("email"));
+        userInfoDTO.setSex(SexEnum.MALE.getCode());
+        userInfoDTO.setAuthCode(AuthCodeEnum.USER.getCode());
         userInfoDTO.setVerCode(this.getParameters(request).get("vercode"));
 
         log.info("HomeController register request PARAM: userInfoDTO={}, traceLogId={}", userInfoDTO, traceLogId);

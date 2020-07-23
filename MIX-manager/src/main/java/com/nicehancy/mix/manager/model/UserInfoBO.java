@@ -34,6 +34,14 @@ public class UserInfoBO extends BaseBO{
     private String headCopy;
 
     /**
+     * 性别
+     *
+     * MALE-男
+     * FEMALE-女
+     */
+    private String sex;
+
+    /**
      * 邮箱
      */
     private String email;
