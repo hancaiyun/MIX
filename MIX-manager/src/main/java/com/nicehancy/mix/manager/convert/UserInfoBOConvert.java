@@ -40,6 +40,7 @@ public class UserInfoBOConvert {
         userInfoBO.setAuthCode(userInfoDO.getAuthCode());
         userInfoBO.setStatus(userInfoDO.getStatus());
         userInfoBO.setRemark(userInfoDO.getRemark());
+        userInfoBO.setSex(userInfoDO.getSex());
         userInfoBO.setCreatedAt(userInfoDO.getCreatedAt());
         userInfoBO.setCreatedBy(userInfoDO.getCreatedBy());
         userInfoBO.setUpdatedAt(userInfoDO.getUpdatedAt());
@@ -66,6 +67,7 @@ public class UserInfoBOConvert {
         userInfoDO.setPassword(userInfoBO.getPassword());
         userInfoDO.setAuthCode(userInfoBO.getAuthCode());
         userInfoDO.setEmail(userInfoBO.getEmail());
+        userInfoDO.setSex(userInfoBO.getSex());
         userInfoDO.setRemark(userInfoBO.getRemark());
         userInfoDO.setCreatedAt(userInfoBO.getCreatedAt());
         userInfoDO.setCreatedBy(userInfoBO.getCreatedBy());

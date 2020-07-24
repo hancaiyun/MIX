@@ -51,6 +51,15 @@ public class UserController extends BaseController {
     }
 
     /**
+     * 申请管理页面
+     * @return      默认页视图
+     */
+    @RequestMapping("/user/applyAdmin")
+    public ModelAndView applyAdmin(){
+        return new ModelAndView("set/user/apply_admin");
+    }
+
+    /**
      * 用户列表信息页面
      * @return      默认页视图
      */
@@ -143,6 +152,7 @@ public class UserController extends BaseController {
         userInfoDTO.setNickName(this.getParameters(request).get("nickname"));
         userInfoDTO.setHeadCopy(this.getParameters(request).get("avatar"));
         userInfoDTO.setEmail(this.getParameters(request).get("email"));
+        userInfoDTO.setSex(this.getParameters(request).get("sex"));
         userInfoDTO.setRemark(this.getParameters(request).get("remarks"));
         userInfoDTO.setTraceLogId(traceLogId);
         userInfoDTO.setRequestSystem("MIX");

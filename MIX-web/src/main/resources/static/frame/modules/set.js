@@ -75,7 +75,7 @@ layui.define(['form', 'upload'], function(exports){
   
   //设置我的资料
   form.on('submit(setmyinfo)', function(obj){
-    var data = obj.field;
+    const data = obj.field;
     data.userNo = window.localStorage["loginNo"];
     //提交修改
     admin.req({

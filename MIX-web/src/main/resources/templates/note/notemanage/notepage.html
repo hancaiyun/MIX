@@ -15,9 +15,10 @@
 <div class="layui-card">
     <div class="layui-form layui-card-header layuiadmin-card-header-auto">
         <div class="layui-form-item">
-            <!--一级目录-->
+            <!--索引栏-->
             <label class="layui-form-label">目录索引：</label>
             <div class="layui-input-block">
+                <!--一级目录-->
                 <div class="layui-inline">
                     <select id="primaryDirectory" lay-filter="primaryDirectory" lay-verify="required">
                         <option value="">选择一级目录</option>
@@ -36,44 +37,41 @@
                     </select>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="layui-card-body">
-        <!--操作栏-->
-        <div style="padding-bottom: 10px;">
-            <div class="layui-form">
-                <div class="layui-form-item">
-                    <!--一级目录-->
-                    <label class="layui-form-label">操作位置：</label>
-                    <div class="layui-input-block">
-                        <div class="layui-inline">
-                            <select id="opLocation" lay-verify="required">
-                                <option value="">选择操作的目录或者文件</option>
-                                <option value="PRIMARY_DIRECTORY_OP">一级目录</option>
-                                <option value="SECONDARY_DIRECTORY_OP">二级目录</option>
-                                <option value="FILE_OP">文件</option>
-                            </select>
-                        </div>
+            <!--操作栏-->
+            <div class="layui-form-item">
+                <!--一级目录-->
+                <label class="layui-form-label">操作位置：</label>
+                <div class="layui-input-block">
+                    <div class="layui-inline">
+                        <select id="opLocation" lay-verify="required">
+                            <option value="">选择操作的目录或者文件</option>
+                            <option value="PRIMARY_DIRECTORY_OP">一级目录</option>
+                            <option value="SECONDARY_DIRECTORY_OP">二级目录</option>
+                            <option value="FILE_OP">文件</option>
+                        </select>
+                    </div>
 
-                        <!--操作组按钮-->
-                        <div class="layui-inline">
-                            <div class="layui-btn-group">
-                                <button class="layui-btn" onclick="editNote()">编辑</button>
-                                <button class="layui-btn" onclick="deleteNote()">删除</button>
-                                <button class="layui-btn" onclick="addNote()">增加</button>
-                                <!--<button class="layui-btn" onclick="moveNote()">移动</button>-->
-                            </div>
+                    <!--操作组按钮-->
+                    <div class="layui-inline">
+                        <div class="layui-btn-group">
+                            <button class="layui-btn" onclick="editNote()">编辑</button>
+                            <button class="layui-btn" onclick="deleteNote()">删除</button>
+                            <button class="layui-btn" onclick="addNote()">增加</button>
+                            <!--<button class="layui-btn" onclick="moveNote()">移动</button>-->
                         </div>
+                    </div>
 
-                        <!--文件保存按钮-->
-                        <div class="layui-inline">
-                            &nbsp;<button class="layui-btn layui-btn-warm" th:id="save">保存</button>
-                        </div>
+                    <!--文件保存按钮-->
+                    <div class="layui-inline">
+                        &nbsp;<button class="layui-btn layui-btn-warm" th:id="save">保存</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="layui-card-body">
         <!--富文本域-->
         <div class="my-btn-box">
             <label for="note-area"></label><textarea class="layui-form-item" id="note-area" style="display: none;">

@@ -60,6 +60,7 @@ public class UserInfoDTOConvert {
         userInfoDTO.setNickName(user.getNickName());
         userInfoDTO.setHeadCopy(user.getHeadCopy());
         userInfoDTO.setEmail(user.getEmail());
+        userInfoDTO.setSex(user.getSex());
         userInfoDTO.setPassword(user.getPassword());
         userInfoDTO.setAuthCode(user.getAuthCode());
         userInfoDTO.setStatus(user.getStatus());

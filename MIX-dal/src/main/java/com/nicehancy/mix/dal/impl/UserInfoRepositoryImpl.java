@@ -101,6 +101,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
         Update update = new Update();
         update.set("nickName", userInfoDO.getNickName());
         update.set("headCopy", userInfoDO.getHeadCopy());
+        update.set("sex", userInfoDO.getSex());
         update.set("email", userInfoDO.getEmail());
         update.set("remark", userInfoDO.getRemark());
         update.set("updatedAt", new Date());

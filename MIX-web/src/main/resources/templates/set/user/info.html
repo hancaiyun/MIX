@@ -24,9 +24,9 @@
                   <select name="role" lay-verify="">
                     <option value="COMMON_USER" selected>普通用户</option>
                     <option value="COMMON_MEMBER" disabled>普通会员</option>
-                    <option value="SILVER_VIP" disabled>白银会员</option>
-                    <option value="GOLD_VIP" disabled>黄金会员</option>
-                    <option value="PLATINUM_VIP" disabled>白金会员</option>
+<!--                    <option value="SILVER_VIP" disabled>白银会员</option>-->
+<!--                    <option value="GOLD_VIP" disabled>黄金会员</option>-->
+<!--                    <option value="PLATINUM_VIP" disabled>白金会员</option>-->
                   </select> 
                 </div>
               </div>
@@ -45,8 +45,8 @@
               <div class="layui-form-item">
                 <label class="layui-form-label">性别</label>
                 <div class="layui-input-block">
-                  <input type="radio" name="sex" value="male" title="男" checked>
-                  <input type="radio" name="sex" value="female" title="女">
+                  <input type="radio" name="sex" value="MALE" title="男" checked>
+                  <input type="radio" name="sex" value="FEMALE" title="女">
                 </div>
               </div>
               <div class="layui-form-item">
@@ -114,6 +114,10 @@
             $("#email").attr("value", res.data.email);
             $("#remarks").html(res.data.remark);
             $("#LAY_avatarSrc").attr("value", res.data.headCopy);
+            const femaleRadio = document.getElementsByName("sex")[1];
+            if(res.data.sex === 'FEMALE'){
+              femaleRadio.checked = true;
+            }
           } else {
             layer.open({
               title: '提示信息'
@@ -134,11 +138,9 @@
       function mobilePhoneMask(input) {
         let output = input;
         if (input == null || input === "")return output;
-
         output = input.substr(0, 3) + "****" + input.substr(input.length - 4);
         return output;
       }
-
     };
   </script>
 </body>
