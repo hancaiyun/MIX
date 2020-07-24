@@ -46,7 +46,7 @@
           <!--待办事项-->
           <div class="layui-col-md6">
             <div class="layui-card">
-              <div class="layui-card-header">预留功能块</div>
+              <div class="layui-card-header">待办事项</div>
               <div class="layui-card-body">
                 <div class="layui-carousel layadmin-carousel layadmin-backlog">
                   <div carousel-item>
@@ -103,16 +103,15 @@
       <!--广告栏位-->
       <div class="layui-col-md4">
         <div class="layui-card">
-          <div class="layui-card-header">banner位</div>
+          <div class="layui-card-header">相关链接</div>
           <div class="layui-card-body layui-text">
             <div class="layui-carousel" id="advertisement">
               <div carousel-item>
-                <!-- src="/file/showPic/u=3586665107,1637339745&fm=26&gp=0.jpg" -->
-                <div><img src="" alt="adv1" width="100%" height="185px"></div>
-                <div><img src="" alt="adv2"></div>
-                <div><img src="" alt="adv3" width="100%" height="185px"></div>
-                <div><img src="" alt="adv4" width="100%" height="185px"></div>
-                <div><img src="" alt="adv5" width="100%" height="185px"></div>
+                <div><img src="/file/showPic/海浪.gif" alt="pic1" width="100%" height="185px"></div>
+                <div><img src="/file/showPic/海洋.gif" alt="pic2" width="100%" height="185px"></div>
+                <div><img src="/file/showPic/潜泳.png" alt="pic3" width="100%" height="185px"></div>
+                <div><img src="/file/showPic/沙漠.png" alt="pic4" width="100%" height="185px"></div>
+                <div><img src="/file/showPic/徒步.png" alt="pic5" width="100%" height="185px"></div>
               </div>
             </div>
           </div>
@@ -120,7 +119,7 @@
 
         <!--实时监控-->
         <div class="layui-card">
-          <div class="layui-card-header">服务器实时监控</div>
+          <div class="layui-card-header">系统资源实时监控</div>
           <div class="layui-card-body layadmin-takerates">
             <div class="layui-progress" lay-showPercent="yes">
               <h3>CPU使用率</h3>
@@ -152,8 +151,9 @@
   <script>
 
     //定时器，5秒触发一次
-    // setInterval('reloadView()',5000);
-    // window.reloadView=function(){};
+    //setInterval('reloadView()',5000);
+    //window.reloadView=function(){};
+    //$("#system").load(location.href + " #system");
     window.onload=function(){
       //请求系统信息查询
       $.ajax({
@@ -167,8 +167,8 @@
             const $ = layui.jquery;
             //设置系统资源使用情况, 超过预警值，使用率进度条标红
             //CPU
-            const cpuPercent = "~";//res.data.CPU; TODO CPU使用率计算时间过长，暂不展示
-            if(cpuPercent > 95){
+            const cpuPercent = res.data.CPU;
+            if(cpuPercent > 90){
               $("#cpu").addClass("layui-bg-red");
             }
             $("#cpu").attr("lay-percent", cpuPercent + "%");

@@ -33,7 +33,8 @@ public class SystemResourceUtil {
     public static int getCpuRatioForWindows(){
 
         try {
-            String procCmd = System.getenv("windir")+"//system32//wbem//wmic.exe process get Caption,CommandLine,KernelModeTime,ReadOperationCount,ThreadCount,UserModeTime,WriteOperationCount";
+            String procCmd = System.getenv("windir")+"//system32//wbem//wmic.exe process get Caption,CommandLine," +
+                    "KernelModeTime,ReadOperationCount,ThreadCount,UserModeTime,WriteOperationCount";
             //取进程信息
             long[] c0 = readCpu(Runtime.getRuntime().exec(procCmd));
             Thread.sleep(CPUTIME);

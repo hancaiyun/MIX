@@ -62,7 +62,7 @@ function mobilePhoneMask(input) {
     return output;
 }
 
-//权限组模块展示
+//额外权限组模块展示
 function setColumn(authCode){
     //超级管理员
     if('SUPPER_ADMIN' === authCode){

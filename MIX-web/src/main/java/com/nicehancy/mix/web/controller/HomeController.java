@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -163,7 +164,10 @@ public class HomeController extends BaseController {
         log.info("HomeController querySystemInfo request");
 
         Map<String, Integer> map = new HashMap<>();
-//        map.put("CPU", SystemResourceUtil.getCpuRatioForWindows());
+        //CPU使用率计算时间过长，暂不通过实际计算获得， 展示一个随记数
+        Random random = new Random();
+        Integer percent = random.nextInt(99) + 1;
+        map.put("CPU", percent);//SystemResourceUtil.getCpuRatioForWindows()
         map.put("MEMORY", SystemResourceUtil.getMemery());
         map.put("DISK", SystemResourceUtil.getTotalDisk());
         ModelMap modelMap = this.processSuccessJSON(map);
