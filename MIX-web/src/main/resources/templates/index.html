@@ -103,7 +103,7 @@
 
             <!--工作空间-->
             <li data-name="note" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="MIX" lay-direction="2">
+              <a href="javascript:;" lay-tips="工作空间" lay-direction="2">
                 <i class="layui-icon layui-icon-app"></i>
                 <cite>工作空间</cite>
               </a>
@@ -140,7 +140,20 @@
             </li>
 
             <!--权限管理-->
-
+            <li data-name="auth" id="auth" class="layui-nav-item" style="display: none">
+              <a href="javascript:;" lay-tips="权限" lay-direction="2">
+                <i class="layui-icon layui-icon-auz"></i>
+                <cite>权限管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd>
+                  <a lay-href="auth/list">权限列表</a>
+                </dd>
+                <dd>
+                  <a lay-href="auth/apply">管理申请</a>
+                </dd>
+              </dl>
+            </li>
 
             <!--系统管理-->
             <li data-name="system" id="system" class="layui-nav-item" style="display: none;">

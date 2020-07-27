@@ -74,6 +74,48 @@ public class FileController extends BaseController {
     }
 
     /**
+     * 图片上传-专用于富文本集工具栏集成图片工具
+     *
+     * @return 文件路径
+     */
+    @RequestMapping(value = "/file/uploadPic")
+    @ResponseBody
+    public ModelMap uploadPic(@RequestParam("file") MultipartFile file) throws IOException {
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        log.info("FileController uploadPic request: traceLogId={}", traceLogId);
+
+        String oldName = file.getOriginalFilename();
+        //服务器文件目录
+        String path = "C://file/";
+        assert oldName != null;
+        String fileName = changeName(oldName);
+        String filePath = path + fileName;
+
+        File localFile = new File(filePath);
+        if (!localFile.exists()) {
+            boolean isCreated = localFile.mkdirs();
+            if(!isCreated){
+                log.error("文件目录创建失败！");
+                throw new RuntimeException("文件目录创建失败！");
+            }
+        }
+        file.transferTo(localFile);
+
+        //封装返回报文
+        String src = "/file/download?fileName=" + fileName;
+        ModelMap data = new ModelMap();
+        data.put("src", src);
+        data.put("title", fileName);
+        ModelMap modelMap = this.processSuccessJSON(data, "success");
+        log.info("FileController uploadPic result={}", modelMap);
+
+        //返回文件名
+        return modelMap;
+    }
+
+    /**
      * 更改文件名
      *
      * @param oldName 原名字

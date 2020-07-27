@@ -43,7 +43,7 @@ layui.use('layedit', function () {
     const layedit = layui.layedit;
     const $ = layui.jquery;
     //建立编辑器
-    const textarea = layedit.build('note-area', {height: 480, uploadImage: {url: '/file/upload', type: 'post'}});
+    const textarea = layedit.build('note-area', {height: 480, uploadImage: {url: '/file/uploadPic', type: 'post'}});
     //放入缓存，用于之后的更新操作
     layui.data('session', {
         key: 'textarea',
@@ -382,7 +382,7 @@ function editNote() {
         if(primaryDirectory ===''){
             layer.msg('请选择一级目录', {icon: 5});
         }else{
-            choosePromptForEdit("PRIMARY_DIRECTORY_OP");
+            choosePromptForEdit("PRIMARY_DIRECTORY_OP", primaryDirectory);
         }
     }
     //选中二级目录
@@ -392,7 +392,7 @@ function editNote() {
         }else if(secondaryDirectory ===''){
             layer.msg('请选择要修改的二级目录', {icon: 5});
         }else{
-            choosePromptForEdit("SECONDARY_DIRECTORY_OP");
+            choosePromptForEdit("SECONDARY_DIRECTORY_OP", secondaryDirectory);
         }
     }
 
@@ -403,7 +403,7 @@ function editNote() {
         }else if(fileName ===''){
             layer.msg('请选择要修改的文件', {icon: 5});
         }else{
-            choosePromptForEdit("FILE_OP");
+            choosePromptForEdit("FILE_OP", fileName);
         }
     }
 }
@@ -478,21 +478,21 @@ function choosePromptForAdd(opLocation) {
 }
 
 //选择修改弹出框
-function choosePromptForEdit(opLocation) {
+function choosePromptForEdit(opLocation, originName) {
     if (opLocation === 'PRIMARY_DIRECTORY_OP') {
-        layer.prompt({title: '修改一级目录名'}, function (value, index) {
+        layer.prompt({title: '修改一级目录名', value: originName}, function (value, index) {
             //修改请求
             doRequest('PRIMARY_DIRECTORY_OP', 'EDIT', value, index);
         });
     }
     if (opLocation === 'SECONDARY_DIRECTORY_OP') {
-        layer.prompt({title: '修改二级目录名'}, function (value, index) {
+        layer.prompt({title: '修改二级目录名', value: originName}, function (value, index) {
             //修改请求
             doRequest('SECONDARY_DIRECTORY_OP', 'EDIT', value, index);
         });
     }
     if (opLocation === 'FILE_OP') {
-        layer.prompt({title: '修改文件名'}, function (value, index) {
+        layer.prompt({title: '修改文件名', value: originName}, function (value, index) {
             //修改请求
             doRequest('FILE_OP', 'EDIT', value, index);
         });

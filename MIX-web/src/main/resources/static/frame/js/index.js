@@ -67,6 +67,7 @@ function setColumn(authCode){
     //超级管理员
     if('SUPPER_ADMIN' === authCode){
         document.getElementById("user").style.display="block";
+        document.getElementById("auth").style.display="block";
         document.getElementById("system").style.display="block";
         document.getElementById("message").style.display="block";
     }
@@ -76,6 +77,7 @@ function setColumn(authCode){
         document.getElementById("system").style.display="block";
         document.getElementById("message").style.display="block";
     }
+
     //普通用户展示默认
     //TODO 用户等级的不同操作权限
 }
