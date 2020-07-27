@@ -140,7 +140,8 @@
                         url: r.url, method: r.type, elem: e(n).find("input")[0], done: function (e) {
                             0 == e.code ? (e.data = e.data || {}, v.call(t, "img", {
                                 src: e.data.src,
-                                alt: e.data.title
+                                alt: e.data.title,
+                                width: '45%'//设置富文本集中图片大小，等比缩放
                             }, a)) : i.msg(e.msg || "上传失败")
                         }
                     })
