@@ -161,7 +161,7 @@ public class HomeController extends BaseController {
 
         String traceLogId = UUID.randomUUID().toString();
         MDC.put("TRACE_LOG_ID", traceLogId);
-        log.info("HomeController querySystemInfo request");
+        //log.info("HomeController querySystemInfo request");
 
         Map<String, Integer> map = new HashMap<>();
         //CPU使用率计算时间过长，暂不通过实际计算获得， 展示一个随记数
@@ -172,7 +172,7 @@ public class HomeController extends BaseController {
         map.put("DISK", SystemResourceUtil.getTotalDisk());
         ModelMap modelMap = this.processSuccessJSON(map);
 
-        log.info("HomeController querySystemInfo result={}", modelMap);
+        //log.info("HomeController querySystemInfo result={}", modelMap);
         return modelMap;
     }
 
