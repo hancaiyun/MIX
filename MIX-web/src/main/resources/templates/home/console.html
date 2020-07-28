@@ -123,7 +123,7 @@
         <div class="layui-card">
           <div class="layui-card-header">系统资源实时监控</div>
           <div class="layui-card-body layadmin-takerates">
-            <div class="layui-progress" lay-showPercent="yes">
+            <div class="layui-progress" lay-filter="cpu" lay-showPercent="yes">
               <h3>CPU使用率</h3>
                 <div id="cpu" class="layui-progress-bar" lay-percent="0%"></div>
             </div>
@@ -151,12 +151,12 @@
   }).use(['index', 'console', 'util']);
   </script>
   <script>
-    //定时器，5秒触发一次
-    //setInterval('reloadView()',5000);
-    //window.reloadView=function(){};
-    //$("#system").load(location.href + " #system");
-    window.onload=function(){
-      //请求系统信息查询
+    layui.use('element',function () {
+      const $ = layui.jquery;
+      const element = layui.element;
+      //定时获取数据并刷新element（3秒）
+      setInterval('reloadView()',3000);
+      window.reloadView=function(){
       $.ajax({
         url: '/home/console/systemInfo',
         dataType: 'json',//数据类型
@@ -165,31 +165,9 @@
         //请求成功
         success: function (res) {
           if (res.code === "0000") {
-            const $ = layui.jquery;
-            //设置系统资源使用情况, 超过预警值，使用率进度条标红
-            //CPU
-            const cpuPercent = res.data.CPU;
-            if(cpuPercent > 90){
-              $("#cpu").addClass("layui-bg-red");
-            }
-            $("#cpu").attr("lay-percent", cpuPercent + "%");
-            //内存
-            const memoryPercent = res.data.MEMORY;
-            if(memoryPercent > 85){
-              $("#memory").addClass("layui-bg-red");
-            }
-            $("#memory").attr("lay-percent", memoryPercent + "%");
-            //磁盘
-            const diskPercent = res.data.DISK;
-            if(diskPercent > 90){
-              $("#disk").addClass("layui-bg-red");
-            }
-            $("#disk").attr("lay-percent", diskPercent + "%");
+            showPercent(res.data);
           } else {
-            layer.open({
-              title: '提示信息'
-              , content: '系统信息查询失败，失败原因：' + res.msg
-            });
+            layer.msg('系统信息查询失败，失败原因：' + res.msg);
           }
         },
         //失败/超时
@@ -200,8 +178,56 @@
           layer.msg("失败原因：" + errorThrown);
         }
       });
-    };
 
+      };
+      //资源百分比设置
+      function showPercent(data){
+        //CPU
+        $('#cpu').attr('lay-percent',data.CPU+'%');
+        if(data.CPU > 90){
+           $("#cpu").addClass("layui-bg-red");
+        }else{
+          const cpu = document.getElementById("cpu");
+          removeClass(cpu, 'layui-bg-red');
+        }
+        //memory
+        $('#memory').attr('lay-percent',data.MEMORY +'%');
+        if(data.MEMORY > 85){
+          $("#memory").addClass("layui-bg-red");
+        }else{
+          const memory = document.getElementById("memory");
+          removeClass(memory, 'layui-bg-red');
+        }
+        //disk
+        $('#disk').attr('lay-percent',data.DISK +'%');
+        if(data.DISK > 90){
+          $("#disk").addClass("layui-bg-red");
+        }else{
+          const disk = document.getElementById("disk");
+          removeClass(disk, 'layui-bg-red');
+        }
+        element.init();
+        element.progress('cpu', data.CPU+'%');
+        element.progress('memory', data.MEMORY+'%');
+        element.progress('disk', data.DISK+'%');
+      }
+
+      //移除class
+      function removeClass( elements,cName ){
+        if(hasClass( elements,cName )){
+          elements.className = elements.className.replace( new RegExp( "(\\s|^)" + cName + "(\\s|$)" )," " );
+        }
+      }
+
+      //判断是否有class
+      function hasClass( elements,cName ){
+        return !!elements.className.match( new RegExp( "(\\s|^)" + cName + "(\\s|$)") );
+      }
+
+    });
+  </script>
+
+  <script>
     layui.use('carousel', function(){
       const carousel = layui.carousel;
       //建造实例

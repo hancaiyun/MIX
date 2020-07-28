@@ -56,8 +56,9 @@ function setHeadCopy(headCopy){
 
 //手机号掩码处理
 function mobilePhoneMask(input) {
+    //入参为空或者不为手机号，不做掩码
     let output = input;
-    if (input == null || input === "")return output;
+    if (input == null || input === "" || input.length !== 11)return output;
     output = input.substr(0, 3) + "****" + input.substr(input.length - 4);
     return output;
 }

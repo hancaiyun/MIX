@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>计时器</title>
+    <style type="text/css">
+        *{
+            margin:0;
+            padding:0;
+        }
+
+        .wrap{
+            width:300px;
+            height:300px;
+            border-radius:50%;
+            position:absolute;
+            top:calc(50% - 150px);
+            left:calc(50% - 150px);
+            box-shadow: 0 0 9px red;
+        }
+
+
+        #timer{
+            position:absolute;
+            top:90px;
+            left:60px;
+            font-size:38px;
+        }
+
+        #btn{
+            position:absolute;
+            top:180px;
+            left:70px;
+            font-size:30px;
+        }
+
+        #btn button{
+            width:80px;
+            font-size:28px;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function(){
+            let hours = document.getElementById("hours"),
+                minute = document.getElementById("minute"),
+                second = document.getElementById("second"),
+                begin = document.getElementById("begin"),
+                pause = document.getElementById("pause"),
+                timer = null,
+                Hours = 0,
+                Minute = 0,
+                Second = 0;
+
+            begin.onclick = function(){
+                timer = setInterval(function(){
+                    Second++;
+                    if(Second > 59){
+                        Second = 0;
+                        Minute++;
+                        if(Minute >59){
+                            Minute = 0;
+                            Hours++;
+                        }
+                    }
+
+                    if(Second < 10){
+                        second.innerText = "0" + Second;
+                    }else{
+                        second.innerText = Second;
+                    }
+                    if(Minute < 10){
+                        minute.innerText = "0" + Minute;
+                    }else{
+                        minute.innerText = Minute;
+                    }
+
+                    if(Hours < 10){
+                        hours.innerText = "0" + Hours;
+                    }else{
+                        hours.innerText = Hours;
+                    }
+                },1000)
+            }
+
+            pause.onclick = function(){
+                clearInterval(timer);
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="wrap">
+    <div id="timer">
+        <span id="hours">00</span>
+        <span>:</span>
+        <span id="minute">00</span>
+        <span>:</span>
+        <span id="second">00</span>
+    </div>
+
+    <div id="btn">
+        <button id="begin">开始</button>
+        <button id="pause">暂停</button>
+    </div>
+</div>
+</body>
+</html>

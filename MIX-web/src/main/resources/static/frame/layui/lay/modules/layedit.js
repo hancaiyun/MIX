@@ -141,7 +141,7 @@
                             0 == e.code ? (e.data = e.data || {}, v.call(t, "img", {
                                 src: e.data.src,
                                 alt: e.data.title,
-                                width: '45%'//设置富文本集中图片大小，等比缩放
+                                width: '40%'//设置富文本集中图片大小，等比缩放
                             }, a)) : i.msg(e.msg || "上传失败")
                         }
                     })
