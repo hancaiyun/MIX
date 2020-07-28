@@ -38,7 +38,7 @@
 
               <div class="layui-form-item">
                 <div class="layui-input-block">
-                  <button class="layui-btn" lay-submit lay-filter="applyAdminCommit">提交申请</button>
+                  <button class="layui-btn" lay-submit lay-filter="applyAdminCommit" onclick="commit()">提交申请</button>
                 </div>
               </div>
             </div>
@@ -65,7 +65,9 @@
     });
 
     //提交事件
-
+    function commit(){
+       layui.alert("管理员数量已达上线");
+    }
 
   </script>
 </body>
