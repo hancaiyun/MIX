@@ -43,6 +43,7 @@ public class AccountInfoBOConvert {
         accountInfoDO.setUserNo(accountAddReqBO.getUserNo());
         accountInfoDO.setAddress(accountAddReqBO.getAddress());
         accountInfoDO.setAccount(accountAddReqBO.getAccount());
+        accountInfoDO.setAccountType(accountAddReqBO.getAccountType());
         accountInfoDO.setPassword(accountAddReqBO.getPassword());
         accountInfoDO.setRemark(accountAddReqBO.getRemark());
         accountInfoDO.setCreatedBy(accountAddReqBO.getUserNo());
@@ -70,27 +71,6 @@ public class AccountInfoBOConvert {
     }
 
     /**
-     * 根据请求BO获取DO
-     * @param accountQueryReqBO         BO
-     * @return                          DO
-     */
-    public static AccountQueryReqDO getDOByBO(AccountQueryReqBO accountQueryReqBO) {
-
-        if (accountQueryReqBO == null) {
-            return null;
-        }
-
-        AccountQueryReqDO accountQueryReqDO = new AccountQueryReqDO();
-        accountQueryReqDO.setUserNo(accountQueryReqBO.getUserNo());
-        accountQueryReqDO.setAddress(accountQueryReqBO.getAddress());
-        accountQueryReqDO.setAccount(accountQueryReqBO.getAccount());
-        accountQueryReqDO.setCurrentPage(accountQueryReqBO.getCurrentPage());
-        accountQueryReqDO.setPageSize(accountQueryReqBO.getPageSize());
-
-        return accountQueryReqDO;
-    }
-
-    /**
      * 通过DO获取BO
      * @param accountInfoDO     DO
      * @return                  BO
@@ -107,6 +87,7 @@ public class AccountInfoBOConvert {
         accountInfoBO.setAccount(accountInfoDO.getAccount());
         accountInfoBO.setPassword(accountInfoDO.getPassword());
         accountInfoBO.setStatus(accountInfoDO.getStatus());
+        accountInfoBO.setAccountType(accountInfoDO.getAccountType());
         accountInfoBO.setRemark(accountInfoDO.getRemark());
         accountInfoBO.setId(accountInfoDO.getId());
         accountInfoBO.setCreatedAt(accountInfoDO.getCreatedAt());
@@ -115,6 +96,28 @@ public class AccountInfoBOConvert {
         accountInfoBO.setUpdatedBy(accountInfoDO.getUpdatedBy());
 
         return accountInfoBO;
+    }
+
+    /**
+     * 根据请求BO获取DO
+     * @param accountQueryReqBO         BO
+     * @return                          DO
+     */
+    public static AccountQueryReqDO getDOByBO(AccountQueryReqBO accountQueryReqBO) {
+
+        if (accountQueryReqBO == null) {
+            return null;
+        }
+
+        AccountQueryReqDO accountQueryReqDO = new AccountQueryReqDO();
+        accountQueryReqDO.setUserNo(accountQueryReqBO.getUserNo());
+        accountQueryReqDO.setAddress(accountQueryReqBO.getAddress());
+        accountQueryReqDO.setAccount(accountQueryReqBO.getAccount());
+        accountQueryReqDO.setAccountType(accountQueryReqBO.getAccountType());
+        accountQueryReqDO.setCurrentPage(accountQueryReqBO.getCurrentPage());
+        accountQueryReqDO.setPageSize(accountQueryReqBO.getPageSize());
+
+        return accountQueryReqDO;
     }
 
     /**

@@ -40,4 +40,10 @@ public class AccountQueryReqDTO extends BasePageDTO {
      * 账号
      */
     private String account;
+
+    /**
+     * 账号类型
+     */
+    @MemberOf(value = {"WORK", "OWN", ""}, message = "账号类型只能是办公账号或者个人账号")
+    private String accountType;
 }

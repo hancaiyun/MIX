@@ -138,7 +138,6 @@
 
             //监听提交
             iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
-              const field = data.field; //获取提交的字段
               table.reload('LAY-file-search'); //数据刷新
               layer.close(index); //关闭弹层
             });

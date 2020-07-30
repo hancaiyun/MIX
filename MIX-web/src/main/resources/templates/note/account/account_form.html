@@ -11,6 +11,20 @@
 <body>
 
   <div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role" style="padding: 20px 30px 0 0;">
+
+    <!--账号类型-->
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+          <select name="accountType" id="accountType">
+            <option value="OWN" selected>个人账号</option>
+            <option value="WORK">办公账号</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
     <!--地址/账号说明-->
     <div class="layui-form-item">
       <div class="layui-inline">
@@ -67,6 +81,7 @@
         "address": document.getElementById("address").value,
         "account": document.getElementById("account").value,
         "password": document.getElementById("password").value,
+        "accountType": document.getElementById("accountType").value,
         "remark": document.getElementById("remark").value,
         "userNo": window.localStorage["loginNo"]
       };

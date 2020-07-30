@@ -1,11 +1,9 @@
 package com.nicehancy.mix.service.convert.note;
 
-import com.nicehancy.mix.manager.model.AccountAddReqBO;
-import com.nicehancy.mix.manager.model.AccountDeleteReqBO;
-import com.nicehancy.mix.manager.model.AccountInfoBO;
-import com.nicehancy.mix.manager.model.AccountQueryReqBO;
+import com.nicehancy.mix.manager.model.*;
 import com.nicehancy.mix.service.api.model.request.note.AccountAddReqDTO;
 import com.nicehancy.mix.service.api.model.request.note.AccountDeleteReqDTO;
+import com.nicehancy.mix.service.api.model.request.note.AccountImportReqDTO;
 import com.nicehancy.mix.service.api.model.request.note.AccountQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.AccountInfoDTO;
 import org.springframework.util.CollectionUtils;
@@ -44,10 +42,29 @@ public class AccountInfoDTOConvert {
         accountAddReqBO.setUserNo(accountAddReqDTO.getUserNo());
         accountAddReqBO.setAddress(accountAddReqDTO.getAddress());
         accountAddReqBO.setAccount(accountAddReqDTO.getAccount());
+        accountAddReqBO.setAccountType(accountAddReqDTO.getAccountType());
         accountAddReqBO.setPassword(accountAddReqDTO.getPassword());
         accountAddReqBO.setRemark(accountAddReqDTO.getRemark());
 
         return accountAddReqBO;
+    }
+
+    /**
+     * 获取BO
+     * @param accountAddReqDTO      DTO
+     * @return                      BO
+     */
+    public static AccountImportReqBO getReqBOByDTO(AccountImportReqDTO accountAddReqDTO) {
+
+        if (accountAddReqDTO == null) {
+            return null;
+        }
+
+        AccountImportReqBO accountImportReqBO = new AccountImportReqBO();
+        accountImportReqBO.setUserNo(accountAddReqDTO.getUserNo());
+        accountImportReqBO.setFileData(accountAddReqDTO.getFileData());
+
+        return accountImportReqBO;
     }
 
     /**
@@ -83,6 +100,7 @@ public class AccountInfoDTOConvert {
         accountQueryReqBO.setUserNo(queryReqDTO.getUserNo());
         accountQueryReqBO.setAddress(queryReqDTO.getAddress());
         accountQueryReqBO.setAccount(queryReqDTO.getAccount());
+        accountQueryReqBO.setAccountType(queryReqDTO.getAccountType());
         accountQueryReqBO.setCurrentPage(queryReqDTO.getCurrentPage());
         accountQueryReqBO.setPageSize(queryReqDTO.getPageSize());
 
@@ -122,6 +140,7 @@ public class AccountInfoDTOConvert {
         accountInfoDTO.setUserNo(accountInfoBO.getUserNo());
         accountInfoDTO.setAddress(accountInfoBO.getAddress());
         accountInfoDTO.setAccount(accountInfoBO.getAccount());
+        accountInfoDTO.setAccountType(accountInfoBO.getAccountType());
         accountInfoDTO.setPassword(accountInfoBO.getPassword());
         accountInfoDTO.setRemark(accountInfoBO.getRemark());
         accountInfoDTO.setUpdatedAt(accountInfoBO.getUpdatedAt());

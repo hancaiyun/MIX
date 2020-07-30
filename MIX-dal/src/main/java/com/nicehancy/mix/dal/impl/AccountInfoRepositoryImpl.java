@@ -69,6 +69,9 @@ public class AccountInfoRepositoryImpl implements AccountInfoRepository {
             Pattern pattern=Pattern.compile("^.*"+accountQueryReqDO.getAccount()+".*$", Pattern.CASE_INSENSITIVE);
             criteria.and("account").regex(pattern);
         }
+        if(!StringUtils.isEmpty(accountQueryReqDO.getAccountType())){
+            criteria.and("accountType").is(accountQueryReqDO.getAccountType());
+        }
         criteria.and("userNo").is(accountQueryReqDO.getUserNo());
         criteria.and("status").ne(FileStatusEnum.DELETE.getCode());
         query.addCriteria(criteria);
@@ -98,6 +101,9 @@ public class AccountInfoRepositoryImpl implements AccountInfoRepository {
         if(!StringUtils.isEmpty(accountQueryReqDO.getAccount())){
             Pattern pattern=Pattern.compile("^.*"+accountQueryReqDO.getAccount()+".*$", Pattern.CASE_INSENSITIVE);
             criteria.and("account").regex(pattern);
+        }
+        if(!StringUtils.isEmpty(accountQueryReqDO.getAccountType())){
+            criteria.and("accountType").is(accountQueryReqDO.getAccountType());
         }
         criteria.and("userNo").is(accountQueryReqDO.getUserNo());
         criteria.and("status").ne(FileStatusEnum.DELETE.getCode());

@@ -2,6 +2,7 @@ package com.nicehancy.mix.manager.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.sf.oval.constraint.MemberOf;
 
 /**
  * <p>
@@ -28,6 +29,11 @@ public class AccountQueryReqBO {
      * 账号
      */
     private String account;
+
+    /**
+     * 账号类型
+     */
+    private String accountType;
 
     /**
      * 当前页

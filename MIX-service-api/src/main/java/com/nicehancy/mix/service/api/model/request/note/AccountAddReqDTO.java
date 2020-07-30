@@ -4,6 +4,7 @@ import com.nicehancy.mix.service.api.model.base.BaseReqDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import net.sf.oval.constraint.MemberOf;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotNull;
 
@@ -51,6 +52,12 @@ public class AccountAddReqDTO extends BaseReqDTO {
     @NotNull(message = "密码不允许为空")
     @NotBlank(message = "密码不允许为空")
     private String password;
+
+    /**
+     * 账号类型
+     */
+    @MemberOf(value = {"WORK", "OWN"}, message = "账号类型只能是办公账号或者个人账号")
+    private String accountType;
 
     /**
      * 备注

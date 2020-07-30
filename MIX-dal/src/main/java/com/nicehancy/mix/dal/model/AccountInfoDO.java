@@ -46,6 +46,11 @@ public class AccountInfoDO extends BaseDO {
     private String status;
 
     /**
+     * 账号类型
+     */
+    private String accountType;
+
+    /**
      * 备注
      */
     private String remark;

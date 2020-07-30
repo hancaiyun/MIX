@@ -3,6 +3,7 @@ package com.nicehancy.mix.service.api.note;
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.service.api.model.request.note.AccountAddReqDTO;
 import com.nicehancy.mix.service.api.model.request.note.AccountDeleteReqDTO;
+import com.nicehancy.mix.service.api.model.request.note.AccountImportReqDTO;
 import com.nicehancy.mix.service.api.model.request.note.AccountQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.AccountInfoDTO;
 import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
@@ -37,4 +38,11 @@ public interface AccountManagementService {
      * @return                      删除结果
      */
     Result<Boolean> delete(AccountDeleteReqDTO reqDTO);
+
+    /**
+     * 账户信息excel文件批量导入
+     * @param reqDTO                请求DTO
+     * @return                      返回结果
+     */
+    Result<Boolean> importAccount(AccountImportReqDTO reqDTO);
 }

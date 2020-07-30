@@ -1,8 +1,10 @@
 package com.nicehancy.mix.web.controller.note;
 
 import com.nicehancy.mix.common.Result;
+import com.nicehancy.mix.common.enums.AccountTypeEnum;
 import com.nicehancy.mix.service.api.model.request.note.AccountAddReqDTO;
 import com.nicehancy.mix.service.api.model.request.note.AccountDeleteReqDTO;
+import com.nicehancy.mix.service.api.model.request.note.AccountImportReqDTO;
 import com.nicehancy.mix.service.api.model.request.note.AccountQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.AccountInfoDTO;
 import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
@@ -15,7 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,6 +77,7 @@ public class AccountController extends BaseController {
         reqDTO.setRequestSystem("MIX");
         reqDTO.setAddress(this.getParameters(request).get("address"));
         reqDTO.setAccount(this.getParameters(request).get("account"));
+        reqDTO.setAccountType(this.getParameters(request).get("accountType"));
         reqDTO.setCurrentPage(Integer.valueOf(this.getParameters(request).get("page")));
         reqDTO.setPageSize(Integer.valueOf(this.getParameters(request).get("limit")));
 
@@ -81,7 +86,15 @@ public class AccountController extends BaseController {
         ModelMap modelMap;
         if(result.isSuccess()){
             if(!CollectionUtils.isEmpty(result.getResult().getPageResult())) {
-                modelMap = this.processSuccessJSON(result.getResult().getPageResult(), result.getResult().getCount());
+                //翻译
+                List<AccountInfoDTO> list = result.getResult().getPageResult();
+                List<AccountInfoDTO> pageResult = new ArrayList<>();
+                for(AccountInfoDTO accountInfoDTO : list){
+                    accountInfoDTO.setAccountType(AccountTypeEnum.expireOfCode(accountInfoDTO.getAccountType()).
+                            getDesc());
+                    pageResult.add(accountInfoDTO);
+                }
+                modelMap = this.processSuccessJSON(pageResult, result.getResult().getCount());
             } else {
                 modelMap = this.processSuccessJSON("查无数据");
             }
@@ -108,6 +121,7 @@ public class AccountController extends BaseController {
         reqDTO.setRequestSystem("MIX");
         reqDTO.setAddress(this.getParameters(request).get("address"));
         reqDTO.setAccount(this.getParameters(request).get("account"));
+        reqDTO.setAccountType(this.getParameters(request).get("accountType"));
         reqDTO.setPassword(this.getParameters(request).get("password"));
         reqDTO.setRemark(this.getParameters(request).get("remark"));
 
@@ -121,6 +135,36 @@ public class AccountController extends BaseController {
             modelMap = this.processSuccessJSON(result.getErrorMsg());
         }
         log.info("AccountController add result={}", modelMap);
+
+        return modelMap;
+    }
+
+    /**
+     * 批量导入
+     * @return       导入结果
+     */
+    @RequestMapping("/note/account/import")
+    @ResponseBody
+    public ModelMap importAccount(HttpServletRequest request, @RequestParam("file") MultipartFile file){
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+
+        AccountImportReqDTO reqDTO = new AccountImportReqDTO();
+        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
+        reqDTO.setTraceLogId(traceLogId);
+        reqDTO.setRequestSystem("MIX");
+        reqDTO.setFileData(file);
+
+        log.info("AccountController importAccount request PARAM: reqDTO={}", reqDTO);
+        Result<Boolean> result = accountManagementService.importAccount(reqDTO);
+
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap = this.processSuccessJSON(result);
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("AccountController importAccount result={}", modelMap);
 
         return modelMap;
     }

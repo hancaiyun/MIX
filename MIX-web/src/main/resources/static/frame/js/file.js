@@ -1,7 +1,6 @@
 layui.define(['table', 'form'], function() {
     const $ = layui.$
-        , table = layui.table
-        , form = layui.form;
+        , table = layui.table;
 
     //文件管理
     table.render({

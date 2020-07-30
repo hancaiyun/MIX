@@ -49,6 +49,11 @@ public class AccountInfoBO {
     private String status;
 
     /**
+     * 账号类型
+     */
+    private String accountType;
+
+    /**
      * 备注
      */
     private String remark;
@@ -72,4 +77,9 @@ public class AccountInfoBO {
      * 更新人
      */
     private String updatedBy;
+
+    /**
+     * 原因
+     */
+    private String reason;
 }

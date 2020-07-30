@@ -6,6 +6,7 @@ import com.nicehancy.mix.manager.model.AccountInfoBO;
 import com.nicehancy.mix.manager.note.AccountManager;
 import com.nicehancy.mix.service.api.model.request.note.AccountAddReqDTO;
 import com.nicehancy.mix.service.api.model.request.note.AccountDeleteReqDTO;
+import com.nicehancy.mix.service.api.model.request.note.AccountImportReqDTO;
 import com.nicehancy.mix.service.api.model.request.note.AccountQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.AccountInfoDTO;
 import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
@@ -123,6 +124,32 @@ public class AccountManagementServiceImpl implements AccountManagementService {
             log.error("call AccountManagementServiceImpl delete failed, message：e={}， result={}", e, result);
         }
         log.info("call AccountManagementServiceImpl delete result: {}", result);
+        return result;
+    }
+
+    /**
+     * 批量导入接口
+     * @param reqDTO                请求DTO
+     * @return                      导入结果
+     */
+    @Override
+    public Result<Boolean> importAccount(AccountImportReqDTO reqDTO) {
+
+        Result<Boolean> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", reqDTO.getTraceLogId());
+        try{
+            log.info("call AccountManagementServiceImpl importAccount param: reqDTO={}", reqDTO);
+            //参数校验
+            VerifyUtil.validateObject(reqDTO);
+
+            //业务处理
+            accountManager.importAccount(AccountInfoDTOConvert.getReqBOByDTO(reqDTO));
+            result.setResult(true);
+        }catch (Exception e){
+            result.setErrorMsg(e.getMessage());
+            log.error("call AccountManagementServiceImpl importAccount failed, message：e={}， result={}", e, result);
+        }
+        log.info("call AccountManagementServiceImpl importAccount result: {}", result);
         return result;
     }
 }

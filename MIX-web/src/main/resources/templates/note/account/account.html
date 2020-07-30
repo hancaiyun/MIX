@@ -28,6 +28,16 @@
                     </div>
                 </div>
                 <div class="layui-inline">
+                    <label class="layui-form-label">账号类型</label>
+                    <div class="layui-input-block">
+                        <select name="accountType">
+                            <option value="">不限</option>
+                            <option value="WORK">办公账号</option>
+                            <option value="OWN">个人账号</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
                     <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-account-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                     </button>
@@ -39,6 +49,8 @@
             <div style="padding-bottom: 10px;">
                 <button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
                 <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">新增</button>
+                <button class="layui-btn layuiadmin-btn-useradmin" id="import">导入</button>
+                <button class="layui-btn layuiadmin-btn-useradmin layui-btn-warm" data-type="download">下载模版</button>
             </div>
             <!--表格-->
             <table id="LAY-account-manage" lay-filter="LAY-account-manage"></table>

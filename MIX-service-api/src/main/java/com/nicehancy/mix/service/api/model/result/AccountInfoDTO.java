@@ -45,6 +45,11 @@ public class AccountInfoDTO {
     private String password;
 
     /**
+     * 账号类型
+     */
+    private String accountType;
+
+    /**
      * 备注
      */
     private String remark;

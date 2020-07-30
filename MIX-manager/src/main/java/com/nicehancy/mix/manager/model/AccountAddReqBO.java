@@ -32,6 +32,11 @@ public class AccountAddReqBO {
     private String account;
 
     /**
+     * 账号类型
+     */
+    private String accountType;
+
+    /**
      * 密码
      */
     private String password;

@@ -30,6 +30,11 @@ public class AccountQueryReqDO {
     private String account;
 
     /**
+     * 账号类型
+     */
+    private String accountType;
+
+    /**
      * 当前页
      */
     private Integer currentPage;

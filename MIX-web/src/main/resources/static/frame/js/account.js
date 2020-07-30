@@ -13,6 +13,7 @@ layui.define(['table', 'form'], function() {
             , {field: 'address', title: '地址', Width: 50}
             , {field: 'account', title: '账号', Width: 50}
             , {field: 'password', title: '密码', Width:50}//toolbar: '#table-password-operate'
+            , {field: 'accountType', title: '账号类型', Width: 50}
             , {field: 'remark', title: '备注', width: 100}
             , {field: 'updatedAt', title: '更新时间', width: 100, sort: true}
             , {title: '操作', width: 210, align: 'center', fixed: 'right', toolbar: '#table-account-operate'}
@@ -47,7 +48,6 @@ layui.define(['table', 'form'], function() {
     //监听搜索
     form.on('submit(LAY-account-search)', function(data){
         const field = data.field;
-
         //执行重载
         table.reload('LAY-account-manage', {
             where: field
@@ -62,64 +62,133 @@ layui.define(['table', 'form'], function() {
     //事件
     const active = {
         batchdel: function () {
-            const checkStatus = table.checkStatus('LAY-account-manage')
-                , checkData = checkStatus.data; //得到选中的数据
-
-            if (checkData.length === 0) {
-                return layer.msg('请选择数据');
-            }
-
-            layer.confirm('确定批量删除吗？', function (index) {
-                //批量
-                batchDelete(checkData);
-                //关闭弹层
-                layer.close(index);
-                //执行重载
-                table.reload('LAY-account-manage');
-                layer.msg('已删除');
-            });
+            batchDelete();
         }
         , add: function () {
-            layer.open({
-                type: 2
-                , title: '新增账号'
-                , content: 'accountForm'
-                , area: ['500px', '500px']
-                , btn: ['确定', '取消']
-                , yes: function (index, layero) {
-                    const data = $(layero).find('iframe')[0].contentWindow.callBackData();
-
-                    //ajax请求
-                    $.ajax({
-                        url: '/note/account/add',
-                        data: data,
-                        dataType: 'json',//数据类型
-                        type: 'GET',//类型
-                        timeout: 3000,//超时
-                        //请求成功
-                        success: function (res) {
-                            if (res.code === "0000") {
-                                //成功
-                                layer.msg("新增成功");
-                                layer.close(index); //关闭弹层
-                            } else {
-                                layer.msg("新增失败：失败原因：" + res.msg);
-                            }
-                        },
-                        //失败/超时
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            if (textStatus === 'timeout') {
-                                layer.msg('网络异常');
-                            }
-                            layer.msg("失败原因：" + errorThrown);
-                        }
-                    })
-                    //执行重载
-                    table.reload('LAY-account-manage');
-                }
-            });
+            add();
+        }
+        ,download:function(){
+            downloadTemplate();
         }
     };
+
+    //下载模版
+    function downloadTemplate(){
+        //下载模版
+        //获取XMLHttpRequest
+        const xmlHttpRequest = new XMLHttpRequest();
+        //发起请求
+        xmlHttpRequest.open("POST", "/file/download?fileName=账号批量导入模版.xlsx", true);
+        //设置请求头类型
+        xmlHttpRequest.setRequestHeader("Content-type", "application/json");
+        xmlHttpRequest.setRequestHeader("id", "1");
+        xmlHttpRequest.responseType = "blob";
+        //返回
+        xmlHttpRequest.onload = function() {
+            //alert(this.status);
+            const content = xmlHttpRequest.response;
+            // 组装a标签
+            const elink = document.createElement("a");
+
+            //拼接下载的文件名
+            //设置文件下载路径
+            elink.download = "账号批量导入模版.xlsx";
+            elink.style.display = "none";
+            const blob = new Blob([content]);
+
+            //解决下载不存在文件的问题，根据blob大小判断
+            if(blob.size===0){
+                layer.msg('服务器没找到此文件，请联系管理员!');
+            }else{
+                elink.href = URL.createObjectURL(blob);
+                document.body.appendChild(elink);
+                elink.click();
+                document.body.removeChild(elink);
+            }
+        };
+        xmlHttpRequest.send();
+    }
+
+    //批量导入
+    layui.use('upload', function () {
+        const upload = layui.upload;
+
+        //执行实例
+        const uploadInst = upload.render({
+            elem: '#import' //绑定元素
+            , url: '/note/account/import' //上传接口
+            , data: {"userNo": window.localStorage["loginNo"]}
+            , exts: 'xls|xlsx'
+            , enctype: 'multipart/form-data'
+            , number: '1'
+            , multiple: false
+            , drag: true
+            , size: 1024 * 15
+            , done: function (res) {
+                //上传完毕回调
+                if (res.code === "0000") {
+                    layer.msg("上传成功！");
+                } else {
+                    layer.msg("上传失败！原因：" + res.msg);
+                }
+            }
+            , error: function () {
+                //请求异常回调
+                layer.confirm("上传失败，您是否要重新上传？", {
+                    btn: ['确定', '取消'],
+                    icon: 3,
+                    title: "提示"
+                }, function () {
+                    //关闭询问框
+                    layer.closeAll();
+                    //重新调用上传方法
+                    uploadInst.upload();
+                })
+            }
+        });
+    });
+
+    //账户新增
+    function add(){
+        layer.open({
+            type: 2
+            , title: '新增账号'
+            , content: 'accountForm'
+            , area: ['500px', '500px']
+            , btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                const data = $(layero).find('iframe')[0].contentWindow.callBackData();
+
+                //ajax请求
+                $.ajax({
+                    url: '/note/account/add',
+                    data: data,
+                    dataType: 'json',//数据类型
+                    type: 'GET',//类型
+                    timeout: 3000,//超时
+                    //请求成功
+                    success: function (res) {
+                        if (res.code === "0000") {
+                            //成功
+                            layer.msg("新增成功");
+                            layer.close(index); //关闭弹层
+                        } else {
+                            layer.msg("新增失败：失败原因：" + res.msg);
+                        }
+                    },
+                    //失败/超时
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        if (textStatus === 'timeout') {
+                            layer.msg('网络异常');
+                        }
+                        layer.msg("失败原因：" + errorThrown);
+                    }
+                })
+                //执行重载
+                table.reload('LAY-account-manage');
+            }
+        });
+    }
 
     //账户信息删除
     function deleteAccount(id, obj){
@@ -154,7 +223,27 @@ layui.define(['table', 'form'], function() {
     }
 
     //批量删除
-    function batchDelete(checkData){
+    function batchDelete(){
+        const checkStatus = table.checkStatus('LAY-account-manage')
+            , checkData = checkStatus.data; //得到选中的数据
+
+        if (checkData.length === 0) {
+            return layer.msg('请选择数据');
+        }
+
+        layer.confirm('确定批量删除吗？', function (index) {
+            //批量
+            batchDeleteData(checkData);
+            //关闭弹层
+            layer.close(index);
+            //执行重载
+            table.reload('LAY-account-manage');
+            layer.msg('已删除');
+        });
+    }
+
+    //批量删除请求
+    function batchDeleteData(checkData){
         for(let i = 0; i< checkData.length; i++){
 
             //删除文件数据
