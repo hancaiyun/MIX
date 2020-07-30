@@ -30,6 +30,8 @@ layui.define(['table', 'form'], function() {
         //删除
         if (obj.event === 'del') {
             deleteAccount(data.id, obj);
+            //表格删除
+            obj.del();
         }
 
         //编辑 TODO
@@ -218,6 +220,8 @@ layui.define(['table', 'form'], function() {
 
             //表格删除
             obj.del();
+            //执行重载
+            table.reload('LAY-account-manage');
             layer.close(index);
         });
     }
@@ -268,5 +272,7 @@ layui.define(['table', 'form'], function() {
                 }
             });
         }
+        //执行重载
+        table.reload('LAY-account-manage');
     }
 })
