@@ -16,7 +16,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class AccountInfoBO {
+public class AccountInfoBO extends AccountInfoImportResultBO{
 
     /**
      * id

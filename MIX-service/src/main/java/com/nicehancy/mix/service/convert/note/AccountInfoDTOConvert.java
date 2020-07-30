@@ -63,6 +63,7 @@ public class AccountInfoDTOConvert {
         AccountImportReqBO accountImportReqBO = new AccountImportReqBO();
         accountImportReqBO.setUserNo(accountAddReqDTO.getUserNo());
         accountImportReqBO.setFileData(accountAddReqDTO.getFileData());
+        accountImportReqBO.setTraceLogId(accountAddReqDTO.getTraceLogId());
 
         return accountImportReqBO;
     }

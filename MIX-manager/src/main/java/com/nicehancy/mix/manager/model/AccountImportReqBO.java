@@ -27,4 +27,9 @@ public class AccountImportReqBO {
      * 文件数据
      */
     private MultipartFile fileData;
+
+    /**
+     * 日志ID
+     */
+    private String traceLogId;
 }

@@ -102,26 +102,15 @@
           return layer.msg('请选择数据');
         }
 
-        layer.prompt({
-          formType: 1
-          , title: '敏感操作，请验证口令'
-        }, function (value, index) {
-          //口令
-          if(value !== "19921577717"){
-            layer.alert("口令验证失败！");
-            return;
+        layer.confirm('确定删除吗？', function (index) {
+          //批量
+          for(let i = 0; i< checkData.length; i++){
+            deleteFile(checkData[i].fileId);
           }
+          //表格删除
           layer.close(index);
-          layer.confirm('确定删除吗？', function (index) {
-            //批量
-            for(let i = 0; i< checkData.length; i++){
-                deleteFile(checkData[i].fileId);
-            }
-            //表格删除
-            layer.close(index);
-            table.reload('LAY-file-manage');
-            layer.msg('已删除');
-          });
+          table.reload('LAY-file-manage');
+          layer.msg('已删除');
         });
       }
       , add: function () {
