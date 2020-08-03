@@ -312,7 +312,7 @@ layui.define(['laytpl', 'upload-mobile', 'layer-mobile', 'zepto'], function(expo
       var href = (str.match(/file\(([\s\S]+?)\)\[/)||[])[1];
       var text = (str.match(/\)\[([\s\S]*?)\]/)||[])[1];
       if(!href) return str;
-      return '<a class="layui-layim-file" href="'+ href +'" download target="_blank"><i class="layui-icon">&#xe61e;</i><cite>'+ (text||href) +'</cite></a>';
+      return '<a class="layui-layim-file" href="'+ href +'" download.html target="_blank"><i class="layui-icon">&#xe61e;</i><cite>'+ (text||href) +'</cite></a>';
     })
     .replace(/audio\[([^\s]+?)\]/g, function(audio){  //转义音频
       return '<div class="layui-unselect layui-layim-audio" layim-event="playAudio" data-src="' + audio.replace(/(^audio\[)|(\]$)/g, '') + '"><i class="layui-icon">&#xe652;</i><p>音频消息</p></div>';

@@ -42,8 +42,14 @@ layui.define(['table', 'form'], function() {
 
         //链接
         if(obj.event === 'link'){
-            //打开新网页
-            window.open(data.address);
+
+            const reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
+            if(reg.test(data.address)){
+                //打开新网页
+                window.open(data.address);
+            }else{
+                layer.msg("非网址，不跳转，</br>若确认为网址， 请粘贴至浏览器自行访问");
+            }
         }
     });
 
@@ -90,22 +96,22 @@ layui.define(['table', 'form'], function() {
             //alert(this.status);
             const content = xmlHttpRequest.response;
             // 组装a标签
-            const elink = document.createElement("a");
+            const alink = document.createElement("a");
 
             //拼接下载的文件名
             //设置文件下载路径
-            elink.download = "账号批量导入模版.xlsx";
-            elink.style.display = "none";
+            alink.download = "账号批量导入模版.xlsx";
+            alink.style.display = "none";
             const blob = new Blob([content]);
 
             //解决下载不存在文件的问题，根据blob大小判断
             if(blob.size===0){
                 layer.msg('服务器没找到此文件，请联系管理员!');
             }else{
-                elink.href = URL.createObjectURL(blob);
-                document.body.appendChild(elink);
-                elink.click();
-                document.body.removeChild(elink);
+                alink.href = URL.createObjectURL(blob);
+                document.body.appendChild(alink);
+                alink.click();
+                document.body.removeChild(alink);
             }
         };
         xmlHttpRequest.send();

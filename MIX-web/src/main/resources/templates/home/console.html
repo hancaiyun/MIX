@@ -184,8 +184,9 @@
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           if (textStatus === 'timeout') {
             layer.msg('网络异常');
+          } else {
+            layer.msg("失败原因：" + errorThrown);
           }
-          layer.msg("失败原因：" + errorThrown);
         }
       });
 

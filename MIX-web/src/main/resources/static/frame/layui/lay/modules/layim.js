@@ -83,7 +83,7 @@
             return '<img class="layui-layim-photos" src="' + i.replace(/(^img\[)|(\]$)/g, "") + '">'
         }).replace(/file\([\s\S]+?\)\[[\s\S]*?\]/g, function (i) {
             var a = (i.match(/file\(([\s\S]+?)\)\[/) || [])[1], e = (i.match(/\)\[([\s\S]*?)\]/) || [])[1];
-            return a ? '<a class="layui-layim-file" href="' + a + '" download target="_blank"><i class="layui-icon">&#xe61e;</i><cite>' + (e || a) + "</cite></a>" : i
+            return a ? '<a class="layui-layim-file" href="' + a + '" download.html target="_blank"><i class="layui-icon">&#xe61e;</i><cite>' + (e || a) + "</cite></a>" : i
         }).replace(/audio\[([^\s]+?)\]/g, function (i) {
             return '<div class="layui-unselect layui-layim-audio" layim-event="playAudio" data-src="' + i.replace(/(^audio\[)|(\]$)/g, "") + '"><i class="layui-icon">&#xe652;</i><p>音频消息</p></div>'
         }).replace(/video\[([^\s]+?)\]/g, function (i) {
