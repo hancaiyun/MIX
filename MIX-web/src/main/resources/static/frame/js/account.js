@@ -135,7 +135,7 @@ layui.define(['table', 'form'], function() {
             , done: function (res) {
                 //上传完毕回调
                 if (res.code === "0000") {
-                    layer.msg("上传成功！请至“文件管理”查看具体的导入结果");
+                    layer.msg("上传成功！请至“下载中心”查看具体的导入结果");
                 } else {
                     layer.msg("上传失败！原因：" + res.msg);
                 }

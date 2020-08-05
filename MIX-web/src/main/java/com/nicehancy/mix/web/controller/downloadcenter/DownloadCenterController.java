@@ -2,14 +2,21 @@ package com.nicehancy.mix.web.controller.downloadcenter;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.constant.CommonErrorConstant;
+import com.nicehancy.mix.common.enums.AccountTypeEnum;
+import com.nicehancy.mix.common.enums.CreateResultEnum;
 import com.nicehancy.mix.common.utils.FileOperateUtil;
+import com.nicehancy.mix.service.api.FileDownloadInfoService;
+import com.nicehancy.mix.service.api.model.FileDownloadInfoDTO;
+import com.nicehancy.mix.service.api.model.request.FileDownloadInfoPageQueryReqDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileQueryDetailReqDTO;
 import com.nicehancy.mix.service.api.model.request.note.FileUploadRecordPageQueryReqDTO;
+import com.nicehancy.mix.service.api.model.result.AccountInfoDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadRecordDTO;
 import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
 import com.nicehancy.mix.web.controller.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
@@ -19,6 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -33,6 +42,9 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/downloadCenter")
 public class DownloadCenterController extends BaseController {
+
+    @Autowired
+    private FileDownloadInfoService fileDownloadInfoService;
 
     /**
      * 下载中心主页
@@ -52,20 +64,26 @@ public class DownloadCenterController extends BaseController {
     public ModelMap pageQuery(HttpServletRequest request){
         String traceLogId = UUID.randomUUID().toString();
         MDC.put("TRACE_LOG_ID", traceLogId);
-        FileUploadRecordPageQueryReqDTO reqDTO = new FileUploadRecordPageQueryReqDTO();
+        FileDownloadInfoPageQueryReqDTO reqDTO = new FileDownloadInfoPageQueryReqDTO();
         reqDTO.setUserNo(this.getParameters(request).get("userNo"));
-        reqDTO.setFileId(this.getParameters(request).get("fileId"));
-        reqDTO.setFileName(this.getParameters(request).get("fileName"));
-        reqDTO.setFileType(this.getParameters(request).get("fileType"));
         reqDTO.setCurrentPage(Integer.valueOf(this.getParameters(request).get("page")));
         reqDTO.setPageSize(Integer.valueOf(this.getParameters(request).get("limit")));
         reqDTO.setRequestSystem("SYSTEM");
         reqDTO.setTraceLogId(traceLogId);
         log.info("DownloadCenterController pageQuery request PARAM: reqDTO={}", reqDTO);
-        Result<BasePageQueryResDTO<FileUploadRecordDTO>> result =  null;//fileManagementService.pageQuery(reqDTO);
+        Result<BasePageQueryResDTO<FileDownloadInfoDTO>> result =  fileDownloadInfoService.pageQuery(reqDTO);
         ModelMap modelMap;
         if(result.isSuccess()){
             if(!CollectionUtils.isEmpty(result.getResult().getPageResult())) {
+                //翻译
+                List<FileDownloadInfoDTO> list = result.getResult().getPageResult();
+                List<FileDownloadInfoDTO> pageResult = new ArrayList<>();
+                for(FileDownloadInfoDTO fileDownloadInfoDTO : list){
+                    fileDownloadInfoDTO.setCreateResult(CreateResultEnum.expireOfCode(fileDownloadInfoDTO.
+                            getCreateResult()).getDesc());
+                    pageResult.add(fileDownloadInfoDTO);
+                }
+
                 modelMap = this.processSuccessJSON(result.getResult().getPageResult(), result.getResult().getCount());
             } else {
                 modelMap = this.processSuccessJSON("查无数据");

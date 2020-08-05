@@ -20,13 +20,13 @@
             <!--下载按钮，仅文件生成成功的展示下载按钮-->
             <script type="text/html" id="table-download-operate">
                 <!--生成成功-->
-                {{# if(d.status == 'SUCCESS'){}}
+                {{# if(d.createResult == '成功'){}}
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="download"><i
                         class="layui-icon"></i>下载</a>
                 {{# }}}
 
                 <!--生成失败-->
-                {{# if(d.status != 'SUCCESS'){}}
+                {{# if(d.createResult != '成功'){}}
                 <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event=""><i
                         class="layui-icon"></i>下载</a>
                 {{# }}}

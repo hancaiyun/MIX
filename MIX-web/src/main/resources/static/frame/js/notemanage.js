@@ -50,11 +50,25 @@ layui.use('layedit', function () {
         value: textarea
     });
 
-    //保存文件，快捷键监听
+    //保存文件，快捷键监听ctrl+s
     document.addEventListener('keydown', function(e) {
-        if (e.keyCode === 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey))      {
+        if (e.keyCode === 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
             e.preventDefault();
             $('#save').click();
+        }
+    });
+
+    //table键监听
+    document.addEventListener('keydown', function(e) {
+        if (e.keyCode === 9){
+            alert("已监听到");
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            else {
+                window.event.returnValue = false;
+            }
+            document.getElementById("note-area").value +="    ";
         }
     });
 

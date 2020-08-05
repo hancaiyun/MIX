@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "logger_logback_logPath",
+      "type": "java.lang.String",
+      "description": "Description for logger_logback_logPath."
+    }
+  ]
+}

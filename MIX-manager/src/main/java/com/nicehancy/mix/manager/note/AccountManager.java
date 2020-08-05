@@ -3,13 +3,16 @@ package com.nicehancy.mix.manager.note;
 import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.common.constant.DatePatternConstant;
 import com.nicehancy.mix.common.enums.AccountTypeEnum;
+import com.nicehancy.mix.common.enums.CreateResultEnum;
 import com.nicehancy.mix.common.enums.FileTypeEnum;
 import com.nicehancy.mix.common.utils.DateUtil;
 import com.nicehancy.mix.common.utils.ThreadPoolUtil;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.AccountInfoRepository;
+import com.nicehancy.mix.dal.FileDownloadInfoRepository;
 import com.nicehancy.mix.dal.FileUploadRecordRepository;
 import com.nicehancy.mix.dal.model.AccountInfoDO;
+import com.nicehancy.mix.dal.model.FileDownloadInfoDO;
 import com.nicehancy.mix.dal.model.FileUploadRecordDO;
 import com.nicehancy.mix.manager.convert.AccountInfoBOConvert;
 import com.nicehancy.mix.manager.model.*;
@@ -47,7 +50,7 @@ public class AccountManager {
     private AccountInfoRepository accountInfoRepository;
 
     @Autowired
-    private FileUploadRecordRepository fileUploadRecordRepository;
+    private FileDownloadInfoRepository fileDownloadInfoRepository;
 
     /**
      * 账户新增
@@ -177,10 +180,17 @@ public class AccountManager {
             XSSFWorkbook xssfWorkbook = createResultFile(accountInfoBOS);
 
             //2、上传至指定位置
-            String path = uploadExcel(xssfWorkbook);
+            String path = "";
+            boolean isCreated = true;
+            try {
+                path = uploadExcel(xssfWorkbook);
+            }catch (Exception e){
+                log.error("文件生成失败，失败原因：{}", e.getMessage());
+                isCreated = false;
+            }
 
             //3、新增导入记录（用于下载反馈文件）
-            createFileUploadRecord(reqBO, path);
+            createFileDownloadInfo(reqBO, path, isCreated);
         });
     }
 
@@ -244,17 +254,18 @@ public class AccountManager {
      * 新增文件批量导入记录
      * @param reqBO                    请求参数BO
      * @param path                     位置
+     * @param isCreated                创建结果
      */
-    private void createFileUploadRecord(AccountImportReqBO reqBO, String path) {
+    private void createFileDownloadInfo(AccountImportReqBO reqBO, String path, boolean isCreated) {
 
-        FileUploadRecordDO fileUploadRecordDO = new FileUploadRecordDO();
-        fileUploadRecordDO.setUserNo(reqBO.getUserNo());
-        fileUploadRecordDO.setFilePath(path);
-        fileUploadRecordDO.setFileType(FileTypeEnum.WORD.getCode());
-        fileUploadRecordDO.setFileName("批量导入账号结果文件.xlsx");
-        fileUploadRecordDO.setCreatedBy(reqBO.getUserNo());
-        fileUploadRecordDO.setUpdatedBy(reqBO.getUserNo());
-        fileUploadRecordRepository.insert(fileUploadRecordDO);
+        FileDownloadInfoDO fileDownloadInfoDO = new FileDownloadInfoDO();
+        fileDownloadInfoDO.setUserNo(reqBO.getUserNo());
+        fileDownloadInfoDO.setFullFilePath(path);
+        fileDownloadInfoDO.setFileDesc("批量导入账号结果文件.xlsx");
+        fileDownloadInfoDO.setCreateResult(isCreated?CreateResultEnum.SUCCESS.getCode():CreateResultEnum.FAIL.getCode());
+        fileDownloadInfoDO.setCreatedBy(reqBO.getUserNo());
+        fileDownloadInfoDO.setUpdatedBy(reqBO.getUserNo());
+        fileDownloadInfoRepository.insert(fileDownloadInfoDO);
     }
 
     /**
@@ -298,7 +309,7 @@ public class AccountManager {
             cell.setCellValue(resultBO.getPassword());
 
             cell = row.createCell(3);
-            cell.setCellValue(resultBO.getAccountType());
+            cell.setCellValue(AccountTypeEnum.expireOfCode(resultBO.getAccountType()).getDesc());
 
             cell = row.createCell(4);
             cell.setCellValue(resultBO.getRemark());

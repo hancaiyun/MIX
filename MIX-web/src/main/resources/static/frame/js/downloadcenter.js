@@ -7,8 +7,8 @@ layui.define(['table', 'form'], function() {
         , url: '/downloadCenter/pageQuery' + "?userNo=" + window.localStorage["loginNo"]
         , cols: [[
             {field: 'fileId', title: '文件ID', width: 200}
-            , {field: 'fileName', title: '文件名', Width: 50}
-            , {field: 'status', title: '状态', width: 100}
+            , {field: 'fileDesc', title: '文件名', Width: 50}
+            , {field: 'createResult', title: '状态', width: 100}
             , {field: 'createdAt', title: '生成时间', width:100, sort: true}
             , {title: '操作', width: 200, align: 'center', fixed: 'right', toolbar: '#table-download-operate'}
         ]]
