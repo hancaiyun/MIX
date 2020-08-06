@@ -2,15 +2,12 @@ package com.nicehancy.mix.web.controller.downloadcenter;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.constant.CommonErrorConstant;
-import com.nicehancy.mix.common.enums.AccountTypeEnum;
 import com.nicehancy.mix.common.enums.CreateResultEnum;
 import com.nicehancy.mix.common.utils.FileOperateUtil;
 import com.nicehancy.mix.service.api.FileDownloadInfoService;
 import com.nicehancy.mix.service.api.model.FileDownloadInfoDTO;
 import com.nicehancy.mix.service.api.model.request.FileDownloadInfoPageQueryReqDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileQueryDetailReqDTO;
-import com.nicehancy.mix.service.api.model.request.note.FileUploadRecordPageQueryReqDTO;
-import com.nicehancy.mix.service.api.model.result.AccountInfoDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadRecordDTO;
 import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
 import com.nicehancy.mix.web.controller.base.BaseController;
@@ -23,7 +20,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
