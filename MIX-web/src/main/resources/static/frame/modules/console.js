@@ -165,7 +165,7 @@ layui.define(function(exports){
     renderDataView(0);
     
     //监听数据概览轮播
-    var carouselIndex = 0;
+    let carouselIndex = 0;
     carousel.on('change(LAY-index-dataview)', function(obj){
       renderDataView(carouselIndex = obj.index);
     });

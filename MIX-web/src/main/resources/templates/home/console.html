@@ -47,6 +47,14 @@
                           <cite>账号</cite>
                         </a>
                       </li>
+
+                      <!--下载中心-->
+                      <li class="layui-col-xs3">
+                        <a lay-href="downloadCenter/page">
+                          <i class="layui-icon layui-icon-template-1"></i>
+                          <cite>下载中心</cite>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -93,19 +101,47 @@
             </div>
           </div>
 
-          <!--数据概览-->
+          <!--活跃用户-->
           <div class="layui-col-md12">
             <div class="layui-card">
-              <div class="layui-card-header">数据概览</div>
+              <div class="layui-card-header">活跃用户</div>
               <div class="layui-card-body">
-                <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade"
-                     lay-filter="LAY-index-dataview">
-                  <div carousel-item id="LAY-index-dataview">
-                    <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
-                    <div></div>
-                    <div></div>
-                  </div>
-                </div>
+                <table class="layui-table layuiadmin-page-table" lay-skin="line">
+                  <thead>
+                  <tr>
+                    <th>用户名</th>
+                    <th>登录时间</th>
+                    <th>状态</th>
+                    <th>点赞数</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td><span class="first">韩旭</span></td>
+                    <td><i class="layui-icon layui-icon-log"> 11:20</i></td>
+                    <td><span>在线</span></td>
+                    <td>22 <i class="layui-icon layui-icon-praise"></i></td>
+                  </tr>
+                  <tr>
+                    <td><span class="second">小白</span></td>
+                    <td><i class="layui-icon layui-icon-log"> 10:40</i></td>
+                    <td><span>在线</span></td>
+                    <td>21 <i class="layui-icon layui-icon-praise"></i></td>
+                  </tr>
+                  <tr>
+                    <td><span class="third">大锤</span></td>
+                    <td><i class="layui-icon layui-icon-log"> 10:40</i></td>
+                    <td><span>离线</span></td>
+                    <td>10 <i class="layui-icon layui-icon-praise"></i></td>
+                  </tr>
+                  <tr>
+                    <td><span>王也</span></td>
+                    <td><i class="layui-icon layui-icon-log"> 10:40</i></td>
+                    <td><span>离线</span></td>
+                    <td>5 <i class="layui-icon layui-icon-praise"></i></td>
+                  </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -131,7 +167,7 @@
 
         <!--实时监控-->
         <div class="layui-card">
-          <div class="layui-card-header">系统资源实时监控</div>
+          <div class="layui-card-header">系统资源</div>
           <div class="layui-card-body layadmin-takerates">
             <div class="layui-progress" lay-filter="cpu" lay-showPercent="yes">
               <h3>CPU使用率</h3>
@@ -178,14 +214,6 @@
             showPercent(res.data);
           } else {
             layer.msg('系统信息查询失败，失败原因：' + res.msg);
-          }
-        },
-        //失败/超时
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-          if (textStatus === 'timeout') {
-            layer.msg('网络异常');
-          } else {
-            layer.msg("失败原因：" + errorThrown);
           }
         }
       });
