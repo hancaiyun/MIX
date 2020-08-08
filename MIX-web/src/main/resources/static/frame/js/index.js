@@ -42,15 +42,18 @@ window.onload=function(){
 
 //设置头像与用户名
 function setHeadCopy(headCopy){
+    let headCopySrc;
     if(headCopy === "" || headCopy == null){
         //默认头像地址
-        headCopy = "default.png";
+        headCopySrc = "/frame/images/default.png";
+    } else{
+        headCopySrc = "/file/download?fileName=" + headCopy;
     }
 
     //设置用户展示信息
     const storage = window.localStorage;//拼接用户前缀图标
     const maskName = mobilePhoneMask(storage["loginNo"]);
-    document.getElementById("userNo").innerHTML = "<cite><img src=\"/file/download?fileName="+ headCopy +"\" " +
+    document.getElementById("userNo").innerHTML = "<cite><img src=\""+ headCopySrc +"\" " +
         "class=\"layui-circle\" picture\" id=\"picture\" width=\"25\" height=\"25\"> " + maskName + "</cite>";
 }
 

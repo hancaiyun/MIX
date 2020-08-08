@@ -55,6 +55,15 @@
                           <cite>下载中心</cite>
                         </a>
                       </li>
+
+                      <!--操作入门-->
+                      <li class="layui-col-xs3">
+                        <a href="javascript:operateVideo()">
+                          <i class="layui-icon layui-icon-chart-screen"></i>
+                          <cite>操作入门</cite>
+                        </a>
+                      </li>
+
                     </ul>
                   </div>
                 </div>
@@ -155,11 +164,11 @@
           <div class="layui-card-body layui-text">
             <div class="layui-carousel" id="advertisement">
               <div carousel-item>
-                <div><img src="/file/showPic/海浪.gif" alt="pic1" width="100%" height="185px"></div>
-                <div><img src="/file/showPic/海洋.gif" alt="pic2" width="100%" height="185px"></div>
-                <div><img src="/file/showPic/潜泳.png" alt="pic3" width="100%" height="185px"></div>
-                <div><img src="/file/showPic/沙漠.png" alt="pic4" width="100%" height="185px"></div>
-                <div><img src="/file/showPic/徒步.png" alt="pic5" width="100%" height="185px"></div>
+                <div><img src="/frame/images/海浪.gif" alt="pic1" width="100%" height="185px"></div>
+                <div><img src="/frame/images/海洋.gif" alt="pic2" width="100%" height="185px"></div>
+                <div><img src="/frame/images/潜泳.png" alt="pic3" width="100%" height="185px"></div>
+                <div><img src="/frame/images/沙漠.png" alt="pic4" width="100%" height="185px"></div>
+                <div><img src="/frame/images/徒步.png" alt="pic5" width="100%" height="185px"></div>
               </div>
             </div>
           </div>
@@ -189,6 +198,7 @@
 
   <script th:src="@{/frame/layui/layui.js}"></script>
   <script th:src="@{/frame/js/jquery-3.4.1.min.js}"></script>
+  <script th:src="@{/frame/js/console.js}"></script>
   <script>
   layui.config({
     base: '../frame/' //静态资源所在路径
@@ -196,87 +206,23 @@
     index: 'lib/index' //主入口模块
   }).use(['index', 'console', 'util']);
   </script>
-  <script>
-    layui.use('element',function () {
-      const $ = layui.jquery;
-      const element = layui.element;
-      //定时获取数据并刷新element（3秒）
-      setInterval('reloadView()',3000);
-      window.reloadView=function(){
-      $.ajax({
-        url: '/home/console/systemInfo',
-        dataType: 'json',//数据类型
-        type: 'GET',//类型
-        timeout: 3000,//超时时间
-        //请求成功
-        success: function (res) {
-          if (res.code === "0000") {
-            showPercent(res.data);
-          } else {
-            layer.msg('系统信息查询失败，失败原因：' + res.msg);
-          }
-        }
-      });
-
-      };
-      //资源百分比设置
-      function showPercent(data){
-        //CPU
-        $('#cpu').attr('lay-percent',data.CPU+'%');
-        if(data.CPU > 90){
-           $("#cpu").addClass("layui-bg-red");
-        }else{
-          const cpu = document.getElementById("cpu");
-          removeClass(cpu, 'layui-bg-red');
-        }
-        //memory
-        $('#memory').attr('lay-percent',data.MEMORY +'%');
-        if(data.MEMORY > 85){
-          $("#memory").addClass("layui-bg-red");
-        }else{
-          const memory = document.getElementById("memory");
-          removeClass(memory, 'layui-bg-red');
-        }
-        //disk
-        $('#disk').attr('lay-percent',data.DISK +'%');
-        if(data.DISK > 90){
-          $("#disk").addClass("layui-bg-red");
-        }else{
-          const disk = document.getElementById("disk");
-          removeClass(disk, 'layui-bg-red');
-        }
-        element.init();
-        element.progress('cpu', data.CPU+'%');
-        element.progress('memory', data.MEMORY+'%');
-        element.progress('disk', data.DISK+'%');
-      }
-
-      //移除class
-      function removeClass( elements,cName ){
-        if(hasClass( elements,cName )){
-          elements.className = elements.className.replace( new RegExp( "(\\s|^)" + cName + "(\\s|$)" )," " );
-        }
-      }
-
-      //判断是否有class
-      function hasClass( elements,cName ){
-        return !!elements.className.match( new RegExp( "(\\s|^)" + cName + "(\\s|$)") );
-      }
-
-    });
-  </script>
 
   <script>
-    layui.use('carousel', function(){
-      const carousel = layui.carousel;
-      //建造实例
-      carousel.render({
-        elem: '#advertisement'
-        ,width: '100%'   //设置容器宽度
-        ,height: '185px' //设置容器高度
-        ,arrow: 'always' //始终显示箭头
+    //教程gif
+    function operateVideo(){
+      //弹出层
+      layer.photos({
+        photos: {
+          "title": "查看教程"
+          ,"data": [{
+            "src": "/frame/images/course.gif"
+          }]
+        }
+        ,shade: 0.01
+        ,closeBtn: 1
+        ,anim: 5
       });
-    });
+    }
   </script>
 </body>
 </html>
