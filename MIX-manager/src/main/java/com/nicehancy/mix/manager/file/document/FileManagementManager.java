@@ -1,11 +1,12 @@
 package com.nicehancy.mix.manager.file.document;
 
-import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.common.constant.DatePatternConstant;
 import com.nicehancy.mix.common.enums.FileFormatEnum;
+import com.nicehancy.mix.common.enums.FilePathEnum;
 import com.nicehancy.mix.common.enums.FileStatusEnum;
 import com.nicehancy.mix.common.utils.DateUtil;
 import com.nicehancy.mix.common.utils.FileOperateUtil;
+import com.nicehancy.mix.common.utils.FilePathMappingUtil;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.FileUploadRecordRepository;
 import com.nicehancy.mix.dal.model.FileUploadRecordDO;
@@ -57,7 +58,7 @@ public class FileManagementManager {
         //文件格式
         String suffix = filename.substring(filename.lastIndexOf("."));
         //服务器文件目录
-        String path = CommonConstant.FILE_PATH;
+        String path = FilePathMappingUtil.getPath(FilePathEnum.FILE_PATH.getCode());
 
         //变更文件名（唯一）
         String fileName = changeName(filename);

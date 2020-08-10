@@ -4,16 +4,15 @@ import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.common.constant.DatePatternConstant;
 import com.nicehancy.mix.common.enums.AccountTypeEnum;
 import com.nicehancy.mix.common.enums.CreateResultEnum;
-import com.nicehancy.mix.common.enums.FileTypeEnum;
+import com.nicehancy.mix.common.enums.FilePathEnum;
 import com.nicehancy.mix.common.utils.DateUtil;
+import com.nicehancy.mix.common.utils.FilePathMappingUtil;
 import com.nicehancy.mix.common.utils.ThreadPoolUtil;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.AccountInfoRepository;
 import com.nicehancy.mix.dal.FileDownloadInfoRepository;
-import com.nicehancy.mix.dal.FileUploadRecordRepository;
 import com.nicehancy.mix.dal.model.AccountInfoDO;
 import com.nicehancy.mix.dal.model.FileDownloadInfoDO;
-import com.nicehancy.mix.dal.model.FileUploadRecordDO;
 import com.nicehancy.mix.manager.convert.AccountInfoBOConvert;
 import com.nicehancy.mix.manager.model.*;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -202,7 +200,7 @@ public class AccountManager {
     private String uploadExcel(XSSFWorkbook xssfWorkbook) {
 
         //服务器文件目录
-        String path = CommonConstant.DOWNLOAD_CENTER_PATH;
+        String path = FilePathMappingUtil.getPath(FilePathEnum.DOWNLOAD_CENTER_PATH.getCode());
 
         //文件名（唯一）
         //前缀

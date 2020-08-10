@@ -1,8 +1,11 @@
 package com.nicehancy.mix;
 
 import com.nicehancy.mix.base.BaseSpringTest;
+import com.nicehancy.mix.common.utils.FilePathMappingUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+
+import java.util.Properties;
 
 /**
  * 单元测试
@@ -108,5 +111,16 @@ public class UnitTest extends BaseSpringTest {
 
         String str = oldName.substring(oldName.lastIndexOf("."));
         log.info("{}", str);
+    }
+
+    /**
+     * 当前系统判定测试类
+     */
+    @Test
+    public void systemTest(){
+        Properties properties = System.getProperties();
+        log.info("{}", properties.getProperty("os.name"));
+
+        log.info("{}", FilePathMappingUtil.getPath("DOWNLOAD_CENTER_PATH"));
     }
 }

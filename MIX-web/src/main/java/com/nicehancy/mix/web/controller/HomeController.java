@@ -3,7 +3,9 @@ package com.nicehancy.mix.web.controller;
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.enums.AuthCodeEnum;
 import com.nicehancy.mix.common.enums.SexEnum;
+import com.nicehancy.mix.common.enums.SystemTypeEnum;
 import com.nicehancy.mix.common.utils.SystemResourceUtil;
+import com.nicehancy.mix.common.utils.SystemUtil;
 import com.nicehancy.mix.service.CustomUserServiceImpl;
 import com.nicehancy.mix.service.api.model.UserInfoDTO;
 import com.nicehancy.mix.web.controller.base.BaseController;
@@ -162,18 +164,25 @@ public class HomeController extends BaseController {
         String traceLogId = UUID.randomUUID().toString();
         MDC.put("TRACE_LOG_ID", traceLogId);
         //log.info("HomeController querySystemInfo request");
-
         Map<String, Integer> map = new HashMap<>();
-        //CPU使用率计算时间过长，暂不通过实际计算获得， 展示一个随记数
-        Random random = new Random();
-        Integer percent = random.nextInt(99) + 1;
-        map.put("CPU", percent);//SystemResourceUtil.getCpuRatioForWindows()
-        map.put("MEMORY", SystemResourceUtil.getMemery());
-        map.put("DISK", SystemResourceUtil.getTotalDisk());
-        ModelMap modelMap = this.processSuccessJSON(map);
 
+        if(SystemTypeEnum.LINUX.getCode().equals(SystemUtil.getSystemType())) {
+            Random random = new Random();
+            Integer percent = random.nextInt(99) + 1;
+            map.put("CPU", percent);
+            map.put("MEMORY", 50);
+            map.put("DISK", 50);
+            return this.processSuccessJSON(map);
+        }else{
+            //CPU使用率计算时间过长，暂不通过实际计算获得， 展示一个随记数
+            Random random = new Random();
+            Integer percent = random.nextInt(99) + 1;
+            map.put("CPU", percent);//SystemResourceUtil.getCpuRatioForWindows()
+            map.put("MEMORY", SystemResourceUtil.getMemery());
+            map.put("DISK", SystemResourceUtil.getTotalDisk());
+            return this.processSuccessJSON(map);
+        }
         //log.info("HomeController querySystemInfo result={}", modelMap);
-        return modelMap;
     }
 
 

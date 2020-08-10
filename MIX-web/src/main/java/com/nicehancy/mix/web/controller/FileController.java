@@ -2,7 +2,9 @@ package com.nicehancy.mix.web.controller;
 
 import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.common.constant.DatePatternConstant;
+import com.nicehancy.mix.common.enums.FilePathEnum;
 import com.nicehancy.mix.common.utils.DateUtil;
+import com.nicehancy.mix.common.utils.FilePathMappingUtil;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.web.controller.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +52,7 @@ public class FileController extends BaseController {
 
         String oldName = file.getOriginalFilename();
         //服务器文件目录
-        String path = CommonConstant.BASE_FILE_PATH;
+        String path = FilePathMappingUtil.getPath(FilePathEnum.BASE_FILE_PATH.getCode());
         assert oldName != null;
         String fileName = changeName(oldName);
         String filePath = path + fileName;
@@ -89,7 +91,7 @@ public class FileController extends BaseController {
 
         String oldName = file.getOriginalFilename();
         //服务器文件目录
-        String path = CommonConstant.NOTE_PATH;
+        String path = FilePathMappingUtil.getPath(FilePathEnum.NOTE_PATH.getCode());
         assert oldName != null;
         String fileName = changeName(oldName);
         String filePath = path + fileName;
@@ -149,9 +151,9 @@ public class FileController extends BaseController {
 
         //图片下载
         //通过物理路径下载文件
-        String realPath = CommonConstant.BASE_FILE_PATH + fileName;
+        String realPath = FilePathMappingUtil.getPath(FilePathEnum.BASE_FILE_PATH.getCode()) + fileName;
         if("note".equals(fileType)){
-            realPath = CommonConstant.NOTE_PATH + fileName;
+            realPath = FilePathMappingUtil.getPath(FilePathEnum.NOTE_PATH.getCode()) + fileName;
         }
         File file = new File(realPath);
         downFile(response, file, fileName);
@@ -226,7 +228,8 @@ public class FileController extends BaseController {
     public void showPicture(@PathVariable("fileName") String fileName,
                             @PathVariable("suffix") String suffix,
                             HttpServletResponse response){
-        File imgFile = new File(CommonConstant.BASE_FILE_PATH + fileName + "." + suffix);
+        File imgFile = new File(FilePathMappingUtil.getPath(FilePathEnum.BASE_FILE_PATH.getCode()) +
+                fileName + "." + suffix);
         responseFile(response, imgFile);
     }
 
