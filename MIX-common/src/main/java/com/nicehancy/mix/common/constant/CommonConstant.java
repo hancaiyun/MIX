@@ -36,9 +36,19 @@ public final class CommonConstant {
     public static final int STATUS_404 = 404;
 
     /**
-     * 文件路径
+     * 文件根目录
      */
-    public static final String FILE_PATH = "C://file/manager/";
+    public static final String BASE_FILE_PATH = "C://file/";
+
+    /**
+     * 文件管理-文件路径
+     */
+    public static final String FILE_PATH = "C://file/file_manager/";
+
+    /**
+     * 笔记管理-文件路径
+     */
+    public static final String NOTE_PATH = "C://file/note_manager/";
 
     /**
      * 下载中心

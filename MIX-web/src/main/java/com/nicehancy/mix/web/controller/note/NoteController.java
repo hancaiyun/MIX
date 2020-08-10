@@ -38,7 +38,7 @@ public class NoteController extends BaseController {
      * 主页面
      * @return      主页视图
      */
-    @RequestMapping("/notemanage/page")
+    @RequestMapping("/noteManage/page")
     public ModelAndView mainPage(){
         return new ModelAndView("note/notemanage/notepage");
     }

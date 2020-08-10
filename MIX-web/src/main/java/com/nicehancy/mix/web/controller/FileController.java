@@ -1,5 +1,6 @@
 package com.nicehancy.mix.web.controller;
 
+import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.common.constant.DatePatternConstant;
 import com.nicehancy.mix.common.utils.DateUtil;
 import com.nicehancy.mix.common.utils.UUIDUtil;
@@ -44,12 +45,12 @@ public class FileController extends BaseController {
     public ModelMap upload(@RequestParam("file") MultipartFile file) throws IOException {
 
         String traceLogId = UUID.randomUUID().toString();
-        MDC.put("TRACE_LOG_ID", traceLogId);
+        MDC.put(CommonConstant.TRACE_LOG_ID, traceLogId);
         log.info("FileController upload request: traceLogId={}", traceLogId);
 
         String oldName = file.getOriginalFilename();
         //服务器文件目录
-        String path = "C://file/";
+        String path = CommonConstant.BASE_FILE_PATH;
         assert oldName != null;
         String fileName = changeName(oldName);
         String filePath = path + fileName;
@@ -83,12 +84,12 @@ public class FileController extends BaseController {
     public ModelMap uploadPic(@RequestParam("file") MultipartFile file) throws IOException {
 
         String traceLogId = UUID.randomUUID().toString();
-        MDC.put("TRACE_LOG_ID", traceLogId);
+        MDC.put(CommonConstant.TRACE_LOG_ID, traceLogId);
         log.info("FileController uploadPic request: traceLogId={}", traceLogId);
 
         String oldName = file.getOriginalFilename();
         //服务器文件目录
-        String path = "C://file/";
+        String path = CommonConstant.NOTE_PATH;
         assert oldName != null;
         String fileName = changeName(oldName);
         String filePath = path + fileName;
@@ -104,7 +105,7 @@ public class FileController extends BaseController {
         file.transferTo(localFile);
 
         //封装返回报文
-        String src = "/file/download?fileName=" + fileName;
+        String src = "/file/download?fileName=" + fileName + "&fileType=note";
         ModelMap data = new ModelMap();
         data.put("src", src);
         data.put("title", fileName);
@@ -137,16 +138,21 @@ public class FileController extends BaseController {
     public void download(HttpServletRequest request, HttpServletResponse response){
 
         String traceLogId = UUID.randomUUID().toString();
-        MDC.put("TRACE_LOG_ID", traceLogId);
+        MDC.put(CommonConstant.TRACE_LOG_ID, traceLogId);
         String fileName = this.getParameters(request).get("fileName");
-        log.info("FileController download request: fileName={}, traceLogId={}", fileName, traceLogId);
+        String fileType = this.getParameters(request).get("fileType");
+        log.info("FileController download request: fileName={}, fileType={}, traceLogId={}", fileName, fileType,
+                traceLogId);
         if(StringUtils.isEmpty(fileName)){
             return;
         }
 
         //图片下载
         //通过物理路径下载文件
-        String realPath = "C://file/" + fileName;
+        String realPath = CommonConstant.BASE_FILE_PATH + fileName;
+        if("note".equals(fileType)){
+            realPath = CommonConstant.NOTE_PATH + fileName;
+        }
         File file = new File(realPath);
         downFile(response, file, fileName);
     }
@@ -213,13 +219,14 @@ public class FileController extends BaseController {
 
     /**
      * 处理图片显示请求(宣传、广告栏位)
+     * 注：使用静态资源请求路径之后， 无需使用此request
      * @param fileName 文件名
      */
     @RequestMapping("/file/showPic/{fileName}.{suffix}")
     public void showPicture(@PathVariable("fileName") String fileName,
                             @PathVariable("suffix") String suffix,
                             HttpServletResponse response){
-        File imgFile = new File("C://file/" + fileName + "." + suffix);
+        File imgFile = new File(CommonConstant.BASE_FILE_PATH + fileName + "." + suffix);
         responseFile(response, imgFile);
     }
 

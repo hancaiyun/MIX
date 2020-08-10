@@ -38,12 +38,11 @@ public class MessageSendController extends BaseController {
     @Autowired
     private MessageService messageService;
 
-
     /**
      * 消息列表页
      * @return      列表页视图
      */
-    @RequestMapping("/message/sendRecordpage")
+    @RequestMapping("/message/sendRecordPage")
     public ModelAndView recordPage(){
         return new ModelAndView("message/messagelist");
     }
