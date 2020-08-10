@@ -127,6 +127,11 @@ public enum FileFormatEnum {
     SEVENZ(".7z", "PACKAGE", "7z"),
 
     /**
+     * tgz
+     */
+    TGZ(".tgz", "PACKAGE", "tgz"),
+
+    /**
      * 未知配置
      */
     UNKNOWN("UNKNOWN", "UNKNOWN","未知"),
