@@ -11,6 +11,7 @@
 		<module>MIX-service-api</module>
 		<module>MIX-web</module>
         <module>MIX-core</module>
+        <module>MIX-task</module>
     </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -41,6 +42,7 @@
 		<apache.poi.version>3.9</apache.poi.version>
 		<commons-fileupload>1.4</commons-fileupload>
 <!--		<spring-kafka.version>2.3.1.RELEASE</spring-kafka.version>-->
+		<elastic-job.version>2.1.5</elastic-job.version>
 	</properties>
 
 	<dependencyManagement>
@@ -263,6 +265,18 @@
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>2.10.5</version>
+		</dependency>
+
+		<!--elastic-job-->
+		<dependency>
+			<groupId>com.dangdang</groupId>
+			<artifactId>elastic-job-lite-core</artifactId>
+			<version>${elastic-job.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.dangdang</groupId>
+			<artifactId>elastic-job-lite-spring</artifactId>
+			<version>${elastic-job.version}</version>
 		</dependency>
 
 		<!--KAFKA-->
