@@ -1,7 +1,7 @@
 package com.nicehancy.mix.web.controller.user;
 
 import com.nicehancy.mix.common.Result;
-import com.nicehancy.mix.service.CustomUserServiceImpl;
+import com.nicehancy.mix.service.user.CustomUserServiceImpl;
 import com.nicehancy.mix.service.api.model.UserInfoDTO;
 import com.nicehancy.mix.service.api.model.result.PasswordResetDTO;
 import com.nicehancy.mix.web.controller.base.BaseController;

@@ -19,9 +19,9 @@ import lombok.ToString;
 public class UserInfoBO extends BaseBO{
 
     /**
-     * 登陆号（邮箱）
+     * 用户编号（手机号）
      */
-    private String loginNo;
+    private String userNo;
 
     /**
      * 昵称

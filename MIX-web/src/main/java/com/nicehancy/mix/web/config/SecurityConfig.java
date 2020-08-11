@@ -1,6 +1,8 @@
 package com.nicehancy.mix.web.config;
 
-import com.nicehancy.mix.service.CustomUserServiceImpl;
+import com.nicehancy.mix.service.user.CustomUserServiceImpl;
+import com.nicehancy.mix.web.config.login.MyLogoutSuccessHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,6 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     UserDetailsService CustomUserService(){
         return new CustomUserServiceImpl();
     }
+
+    @Autowired
+    private MyLogoutSuccessHandler myLogoutSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -57,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //单用户登录，如果有一个登录了，同一个用户在其他地方不能登录
         http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true);
         //自定义退出页，退出时清空cookies并跳转到登录页
-        http.logout().logoutSuccessUrl("/login").deleteCookies("JSESSIONID");
+        http.logout().logoutSuccessHandler(myLogoutSuccessHandler).logoutSuccessUrl("/login").deleteCookies("JSESSIONID");
         //解决中文乱码问题
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");

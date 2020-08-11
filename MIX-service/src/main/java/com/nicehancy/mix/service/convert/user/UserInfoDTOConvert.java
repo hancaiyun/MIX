@@ -32,7 +32,7 @@ public class UserInfoDTOConvert {
         }
 
         UserInfoBO userInfoBO = new UserInfoBO();
-        userInfoBO.setLoginNo(userInfoDTO.getLoginNo());
+        userInfoBO.setUserNo(userInfoDTO.getLoginNo());
         userInfoBO.setNickName(userInfoDTO.getNickName());
         userInfoBO.setHeadCopy(userInfoDTO.getHeadCopy());
         userInfoBO.setPassword(userInfoDTO.getPassword());
@@ -56,7 +56,7 @@ public class UserInfoDTOConvert {
         }
 
         UserInfoDTO userInfoDTO = new UserInfoDTO();
-        userInfoDTO.setLoginNo(user.getLoginNo());
+        userInfoDTO.setLoginNo(user.getUserNo());
         userInfoDTO.setNickName(user.getNickName());
         userInfoDTO.setHeadCopy(user.getHeadCopy());
         userInfoDTO.setEmail(user.getEmail());

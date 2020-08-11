@@ -1,4 +1,4 @@
-package com.nicehancy.mix.service;
+package com.nicehancy.mix.service.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

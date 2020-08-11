@@ -32,7 +32,7 @@ public class UserInfoBOConvert {
         }
 
         UserInfoBO userInfoBO = new UserInfoBO();
-        userInfoBO.setLoginNo(userInfoDO.getUserNo());
+        userInfoBO.setUserNo(userInfoDO.getUserNo());
         userInfoBO.setNickName(userInfoDO.getNickName());
         userInfoBO.setHeadCopy(userInfoDO.getHeadCopy());
         userInfoBO.setPassword(userInfoDO.getPassword());
@@ -61,7 +61,7 @@ public class UserInfoBOConvert {
         }
 
         UserInfoDO userInfoDO = new UserInfoDO();
-        userInfoDO.setUserNo(userInfoBO.getLoginNo());
+        userInfoDO.setUserNo(userInfoBO.getUserNo());
         userInfoDO.setNickName(userInfoBO.getNickName());
         userInfoDO.setHeadCopy(userInfoBO.getHeadCopy());
         userInfoDO.setPassword(userInfoBO.getPassword());

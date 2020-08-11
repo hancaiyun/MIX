@@ -6,7 +6,7 @@ import com.nicehancy.mix.common.enums.SexEnum;
 import com.nicehancy.mix.common.enums.SystemTypeEnum;
 import com.nicehancy.mix.common.utils.SystemResourceUtil;
 import com.nicehancy.mix.common.utils.SystemUtil;
-import com.nicehancy.mix.service.CustomUserServiceImpl;
+import com.nicehancy.mix.service.user.CustomUserServiceImpl;
 import com.nicehancy.mix.service.api.model.UserInfoDTO;
 import com.nicehancy.mix.web.controller.base.BaseController;
 import lombok.extern.slf4j.Slf4j;

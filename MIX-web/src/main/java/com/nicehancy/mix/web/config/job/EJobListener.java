@@ -4,8 +4,6 @@ import com.dangdang.ddframe.job.executor.ShardingContexts;
 import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Date;
-
 /**
  * 定时任务监听器
  * <p>
@@ -17,13 +15,18 @@ import java.util.Date;
 @Slf4j
 public class EJobListener implements ElasticJobListener {
 
+    Long start;
+    Long end;
+
     @Override
     public void beforeJobExecuted(ShardingContexts shardingContexts) {
-        log.info("===>{} 定时任务执行开始 {} <===",shardingContexts.getJobName(), new Date());
+        start = System.currentTimeMillis();
+        log.info("===>{} 定时任务执行开始",shardingContexts.getJobName());
     }
 
     @Override
     public void afterJobExecuted(ShardingContexts shardingContexts) {
-        log.info("===>{} 定时任务执行结束:{} <===",shardingContexts.getJobName(), new Date());
+        end = System.currentTimeMillis();
+        log.info("===>{} 定时任务执行结束, 总耗时:[{}]ms",shardingContexts.getJobName(), end - start);
     }
 }

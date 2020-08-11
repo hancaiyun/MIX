@@ -1,4 +1,4 @@
-package com.nicehancy.mix.service;
+package com.nicehancy.mix.service.user;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.utils.GsonUtil;
@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * <p>
- *     将用户权限交给springsecurity进行管控
+ *     将用户权限交给springSecurity进行管控
  * <p/>
  *
  * @author hancaiyun
@@ -58,7 +58,7 @@ public class CustomUserServiceImpl implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority(user.getAuthCode()));
 
         MUserDetails userDetails = new MUserDetails();
-        userDetails.setUsername(user.getNickName());
+        userDetails.setUsername(user.getUserNo());
         userDetails.setPassword(user.getPassword());
         userDetails.setAuthorities(authorities);
         return userDetails;

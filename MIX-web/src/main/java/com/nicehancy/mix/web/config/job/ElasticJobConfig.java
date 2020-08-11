@@ -7,6 +7,7 @@ import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
+import com.nicehancy.mix.task.LoginStatisticJob;
 import com.nicehancy.mix.task.TaskTestJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +31,7 @@ public class ElasticJobConfig {
     /**
      * 配置任务监听器
      *
-     * @return
+     * @return  listener
      */
     @Bean
     public ElasticJobListener elasticJobListener() {
@@ -58,12 +59,12 @@ public class ElasticJobConfig {
     }
 
     /**
-     * 商户自主入驻申请员工认领逾期定时任务
+     * 测试定时任务
      * @param job                      job
      * @param cron                     cron表达式
      * @param shardingTotalCount       分片数
      * @param shardingItemParameters   分片参数
-     * @return
+     * @return                         job
      */
     @Bean(initMethod = "init")
     public SpringJobScheduler taskQuasiMerchantAssignOverdueJobScheduler(final TaskTestJob job,
@@ -73,6 +74,25 @@ public class ElasticJobConfig {
         EJobListener elasticJobListener = new EJobListener();
         return new SpringJobScheduler(job, regCenter,
                 getLiteJobConfiguration(job.getClass(), cron, shardingTotalCount, shardingItemParameters),
+                elasticJobListener);
+    }
+
+    /**
+     * 登陆数据统计定时任务
+     * @param Job                    job
+     * @param cron                   cron表达式
+     * @param shardingTotalCount     分片数
+     * @param shardingItemParameters 分片参数
+     * @return                       job
+     */
+    @Bean(initMethod = "init")
+    public SpringJobScheduler loginStatisticJobScheduler(final LoginStatisticJob Job,
+                                                                  @Value("${loginStatisticJob.cron}") final String cron,
+                                                                  @Value("${loginStatisticJob.shardingTotalCount}") final int shardingTotalCount,
+                                                                  @Value("${loginStatisticJob.shardingItemParameters}") final String shardingItemParameters) {
+        EJobListener elasticJobListener = new EJobListener();
+        return new SpringJobScheduler(Job, regCenter,
+                getLiteJobConfiguration(Job.getClass(), cron, shardingTotalCount, shardingItemParameters),
                 elasticJobListener);
     }
 }
