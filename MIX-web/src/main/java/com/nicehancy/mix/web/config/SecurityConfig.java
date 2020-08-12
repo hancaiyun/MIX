@@ -1,7 +1,7 @@
 package com.nicehancy.mix.web.config;
 
 import com.nicehancy.mix.service.user.CustomUserServiceImpl;
-import com.nicehancy.mix.web.config.login.MyLogoutSuccessHandler;
+import com.nicehancy.mix.web.config.handler.MyLogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

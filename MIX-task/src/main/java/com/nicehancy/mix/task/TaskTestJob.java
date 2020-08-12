@@ -19,7 +19,6 @@ public class TaskTestJob implements SimpleJob {
 
     @Override
     public void execute(ShardingContext shardingContext) {
-        log.info("正在执行~~~~~~~~~~~~~~~~~~");
+       //log.info("正在执行~~~~~~~~~~~~~~~~~~");
     }
-
 }

@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
 /**
  * <p>
- *     mongodb配置类
+ *     mongodb配置类, 因为web->service->manager->dal->web循环依赖， 暂不用此mongodb配置
  * <p/>
  *
  * @author hancaiyun

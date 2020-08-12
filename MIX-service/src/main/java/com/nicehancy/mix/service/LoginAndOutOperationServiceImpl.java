@@ -1,14 +1,12 @@
 package com.nicehancy.mix.service;
 
 import com.nicehancy.mix.common.constant.CommonConstant;
-import com.nicehancy.mix.common.utils.VerifyUtil;
 import com.nicehancy.mix.manager.LoginAndOutOperationManager;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
 import java.util.UUID;
 
 /**

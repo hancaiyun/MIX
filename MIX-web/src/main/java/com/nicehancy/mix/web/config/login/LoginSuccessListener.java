@@ -1,5 +1,6 @@
 package com.nicehancy.mix.web.config.login;
 
+import com.nicehancy.mix.common.utils.ThreadPoolUtil;
 import com.nicehancy.mix.service.LoginAndOutOperationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
@@ -27,7 +28,8 @@ public class LoginSuccessListener implements ApplicationListener {
         if (applicationEvent instanceof AuthenticationSuccessEvent) {
             AuthenticationSuccessEvent authEvent = (AuthenticationSuccessEvent) applicationEvent;
             UserDetails user = (UserDetails) authEvent.getAuthentication().getPrincipal();
-            loginAndOutOperationService.loginOperation(user.getUsername());
+            //登录成功后处理
+            ThreadPoolUtil.execute(()-> loginAndOutOperationService.loginOperation(user.getUsername()));
         }
     }
 }

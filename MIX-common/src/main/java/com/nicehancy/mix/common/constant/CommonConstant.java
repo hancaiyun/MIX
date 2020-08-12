@@ -39,4 +39,9 @@ public final class CommonConstant {
      * xlsx后缀
      */
     public static final String SUFFIX_OF_XLSX = ".xlsx";
+
+    /**
+     * 默认每页条目数
+     */
+    public static final int DEFAULT_PAGE_SIZE = 100;
 }

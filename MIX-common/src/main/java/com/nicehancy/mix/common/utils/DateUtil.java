@@ -180,7 +180,7 @@ public class DateUtil {
      * 增加时间
      *
      * @param date          时间
-     * @param calendarField 时间格式
+     * @param calendarField 时间格式  格式类：Calendar
      * @param amount        间隔
      * @return 日期
      */

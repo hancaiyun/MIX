@@ -3,15 +3,16 @@ package com.nicehancy.mix.dal.impl;
 import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.UserLoginRecordRepository;
-import com.nicehancy.mix.dal.model.UserInfoDO;
 import com.nicehancy.mix.dal.model.UserLoginRecordDO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户登录记录表
@@ -64,5 +65,30 @@ public class UserLoginRecordRepositoryImpl implements UserLoginRecordRepository 
 
         //更新操作
         mongoTemplate.updateFirst(query, update, UserLoginRecordDO.class);
+    }
+
+    /**
+     * 分页查询登录记录
+     * @param startDate     起始时间
+     * @param endDate       结束时间
+     * @param pageNum       页码
+     * @param pageSize      每页条目数
+     * @return              登录记录列表
+     */
+    @Override
+    public List<UserLoginRecordDO> pageQuery(Date startDate, Date endDate, int pageNum, int pageSize) {
+
+        //查询条件
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.and("loginTime").gte(startDate).lt(endDate);
+
+        query.addCriteria(criteria);
+        //设置排序
+        query.with(Sort.by(Sort.Direction.DESC, "createdAt"));
+        //分页
+        query.skip((pageNum - 1) * pageSize).limit(pageSize);
+
+        return mongoTemplate.find(query, UserLoginRecordDO.class);
     }
 }

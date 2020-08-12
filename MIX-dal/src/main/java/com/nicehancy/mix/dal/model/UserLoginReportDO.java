@@ -35,7 +35,7 @@ public class UserLoginReportDO extends BaseDO {
     /**
      * 登录次数
      */
-    private Date loginCount;
+    private Integer loginCount;
 
     /**
      * 登录日期

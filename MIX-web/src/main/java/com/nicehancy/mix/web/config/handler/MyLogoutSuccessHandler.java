@@ -1,5 +1,6 @@
-package com.nicehancy.mix.web.config.login;
+package com.nicehancy.mix.web.config.handler;
 
+import com.nicehancy.mix.common.utils.ThreadPoolUtil;
 import com.nicehancy.mix.service.LoginAndOutOperationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -30,8 +31,9 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
                                 Authentication authentication) throws IOException, ServletException {
 
+        //登出成功后处理
         UserDetails user = (UserDetails) authentication.getPrincipal();
-        loginAndOutOperationService.logoutOperation(user.getUsername());
+        ThreadPoolUtil.execute(()-> loginAndOutOperationService.logoutOperation(user.getUsername()));
         //重定向到登录页
         httpServletResponse.sendRedirect("/login");
     }

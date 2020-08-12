@@ -57,6 +57,10 @@
             <artifactId>MIX-service</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.nicehancy</groupId>
+            <artifactId>MIX-task</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -66,16 +70,20 @@
         <dependency>
             <groupId>com.dangdang</groupId>
             <artifactId>elastic-job-lite-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.curator</groupId>
+                    <artifactId>curator-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.dangdang</groupId>
             <artifactId>elastic-job-lite-spring</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.nicehancy</groupId>
-            <artifactId>MIX-task</artifactId>
-            <version>2.2.4</version>
-            <scope>compile</scope>
         </dependency>
         <!--        <dependency>-->
 <!--            <groupId>org.springframework.kafka</groupId>-->
