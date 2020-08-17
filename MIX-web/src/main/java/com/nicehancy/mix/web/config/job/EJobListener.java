@@ -21,12 +21,12 @@ public class EJobListener implements ElasticJobListener {
     @Override
     public void beforeJobExecuted(ShardingContexts shardingContexts) {
         start = System.currentTimeMillis();
-        log.info("===>{} 定时任务执行开始",shardingContexts.getJobName());
+        log.info("===>{} job start",shardingContexts.getJobName());
     }
 
     @Override
     public void afterJobExecuted(ShardingContexts shardingContexts) {
         end = System.currentTimeMillis();
-        log.info("===>{} 定时任务执行结束, 总耗时:[{}]ms",shardingContexts.getJobName(), end - start);
+        log.info("===>{} job end, use time:[{}]ms",shardingContexts.getJobName(), end - start);
     }
 }

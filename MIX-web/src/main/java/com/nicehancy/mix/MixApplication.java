@@ -20,6 +20,6 @@ public class MixApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MixApplication.class, args);
-		log.info("MIX服务已启动...");
+		log.info("MIX Service is started...");
 	}
 }

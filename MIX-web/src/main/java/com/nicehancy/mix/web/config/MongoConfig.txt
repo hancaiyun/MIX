@@ -28,7 +28,7 @@ public class MongoConfig {
                                                        MongoMappingContext context,
                                                        BeanFactory beanFactory) {
         DbRefResolver dbRefResolver = new DefaultDbRefResolver(factory);
-        MappingMongoConverter mappingConverter = new MappingMongoConverter(dbRefResolver, context);
+        MappingMongoConverter mappingConverte r = new MappingMongoConverter(dbRefResolver, context);
         try {
             mappingConverter.setCustomConversions(beanFactory.getBean(CustomConversions.class));
         } catch (NoSuchBeanDefinitionException ignore) {

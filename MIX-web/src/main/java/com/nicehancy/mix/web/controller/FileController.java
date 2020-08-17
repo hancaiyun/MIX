@@ -62,7 +62,7 @@ public class FileController extends BaseController {
         if (!localFile.exists()) {
             boolean isCreated = localFile.mkdirs();
             if(!isCreated){
-                log.error("文件目录创建失败！");
+                log.error("Create File directory fail！");
                 throw new RuntimeException("文件目录创建失败！");
             }
         }
@@ -100,7 +100,7 @@ public class FileController extends BaseController {
         if (!localFile.exists()) {
             boolean isCreated = localFile.mkdirs();
             if(!isCreated){
-                log.error("文件目录创建失败！");
+                log.error("Create File directory fail！");
                 throw new RuntimeException("文件目录创建失败！");
             }
         }
