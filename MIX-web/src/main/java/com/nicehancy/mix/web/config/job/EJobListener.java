@@ -27,6 +27,6 @@ public class EJobListener implements ElasticJobListener {
     @Override
     public void afterJobExecuted(ShardingContexts shardingContexts) {
         end = System.currentTimeMillis();
-        log.info("===>{} job end, use time:[{}]ms",shardingContexts.getJobName(), end - start);
+        log.info("===>{} job end, time:[{}]ms",shardingContexts.getJobName(), end - start);
     }
 }
