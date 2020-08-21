@@ -30,10 +30,10 @@ public class GsonUtil {
 
     /**
      * json字符串转成java对象
-     * @param str           字符串
+     * @param str            字符串
      * @param type           class对象
      * @param <T>            class对象
-     * @return
+     * @return               object
      */
     public static <T> T fromJson(String str,Class<T> type){
         Gson gson = new Gson();

@@ -20,7 +20,7 @@ public class SystemResourcesUtilTest extends BaseSpringTest {
     public void test(){
 
         log.info("{}", SystemResourceUtil.getCpuRatioForWindows());
-        log.info("{}", SystemResourceUtil.getMemery());
+        log.info("{}", SystemResourceUtil.getMemory());
         log.info("{}", SystemResourceUtil.getTotalDisk());
 
     }

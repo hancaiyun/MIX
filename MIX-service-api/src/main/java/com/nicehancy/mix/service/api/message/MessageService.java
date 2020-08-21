@@ -5,7 +5,6 @@ import com.nicehancy.mix.service.api.model.request.message.MessageSendRecordPage
 import com.nicehancy.mix.service.api.model.request.message.MessageSendReqDTO;
 import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
 import com.nicehancy.mix.service.api.model.result.message.MessageSendRecordDTO;
-import java.util.List;
 
 /**
  * 消息管理接口

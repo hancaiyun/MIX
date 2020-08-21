@@ -12,7 +12,6 @@ import com.nicehancy.mix.service.api.model.request.file.FileDeleteRequestDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileQueryDetailReqDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileUploadRequestDTO;
 import com.nicehancy.mix.service.api.model.request.note.FileUploadRecordPageQueryReqDTO;
-import com.nicehancy.mix.service.api.model.result.FileDownloadResultDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadRecordDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadResultDTO;
 import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;

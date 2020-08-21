@@ -21,7 +21,7 @@ public final class UUIDUtil {
 
     /**
      * UUID创建16位唯一编号
-     * @return
+     * @return           NO
      */
     public static String createNoByUUId() {
 

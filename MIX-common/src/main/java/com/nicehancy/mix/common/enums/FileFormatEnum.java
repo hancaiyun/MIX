@@ -132,6 +132,11 @@ public enum FileFormatEnum {
     TGZ(".tgz", "PACKAGE", "tgz"),
 
     /**
+     * gz
+     */
+    GZ(".gz", "PACKAGE", "gz"),
+
+    /**
      * 未知配置
      */
     UNKNOWN("UNKNOWN", "UNKNOWN","未知"),

@@ -4,7 +4,6 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
-import net.sf.oval.expression.ExpressionLanguageGroovyImpl;
 
 /**
  * 参数校验工具类

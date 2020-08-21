@@ -10,7 +10,6 @@ import com.nicehancy.mix.service.convert.note.NoteDTOConvert;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import java.util.List;

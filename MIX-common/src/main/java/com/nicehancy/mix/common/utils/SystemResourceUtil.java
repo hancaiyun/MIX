@@ -54,7 +54,7 @@ public class SystemResourceUtil {
 
     /**
      * 读取cpu相关信息
-     * @param proc
+     * @param proc      proc
      * @return
      */
     private static long[] readCpu(final Process proc) {
@@ -134,7 +134,7 @@ public class SystemResourceUtil {
      * 2、获取内存使用率
      * @return    使用率百分比整数数值
      */
-    public static int getMemery() {
+    public static int getMemory() {
         OperatingSystemMXBean osmxb = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
         // 总的物理内存+虚拟内存
         long totalvirtualMemory = osmxb.getTotalSwapSpaceSize();

@@ -178,7 +178,7 @@ public class HomeController extends BaseController {
             Random random = new Random();
             Integer percent = random.nextInt(99) + 1;
             map.put("CPU", percent);//SystemResourceUtil.getCpuRatioForWindows()
-            map.put("MEMORY", SystemResourceUtil.getMemery());
+            map.put("MEMORY", SystemResourceUtil.getMemory());
             map.put("DISK", SystemResourceUtil.getTotalDisk());
             return this.processSuccessJSON(map);
         }

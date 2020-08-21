@@ -24,7 +24,7 @@ public class SystemUtil {
 
     /**
      * 获取系统
-     * @return
+     * @return           系统名
      */
     public static String getSystemType(){
 
