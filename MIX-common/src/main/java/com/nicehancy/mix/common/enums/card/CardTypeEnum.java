@@ -1,18 +1,19 @@
-package com.nicehancy.mix.cardgame.card.enums;
+package com.nicehancy.mix.common.enums.card;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * 牌类型枚举类
  * <p>
  * <p/>
  *
  * @author hancaiyun
- * @since 2020/8/21 13:57
+ * @since 2020/8/25 11:17
  **/
 @Getter
 @AllArgsConstructor
-public enum TypeEnum {
+public enum CardTypeEnum {
 
     ATTACK("ATTACK", "攻击型"),
 
@@ -20,7 +21,7 @@ public enum TypeEnum {
 
     AUXILIARY("AUXILIARY", "辅助型"),
 
-    HEALTH("HEALTH", "生命值型"),
+    HEALTH("HEALTH", "生命值型")
     ;
 
     private final String code;

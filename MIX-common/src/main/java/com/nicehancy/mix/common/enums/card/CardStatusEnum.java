@@ -1,4 +1,4 @@
-package com.nicehancy.mix.cardgame.card.enums;
+package com.nicehancy.mix.common.enums.card;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum StatusEnum {
+public enum CardStatusEnum {
 
     NORMAL("NORMAL", "正常"),
 
@@ -26,4 +26,14 @@ public enum StatusEnum {
     private final String code;
 
     private final String desc;
+
+    public static CardStatusEnum expire(String code){
+        for(CardStatusEnum cardStatusEnum : CardStatusEnum.values()){
+            if(cardStatusEnum.getCode().equals(code)){
+                return cardStatusEnum;
+            }
+        }
+
+        return NORMAL;
+    }
 }

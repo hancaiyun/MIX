@@ -1,22 +1,25 @@
-package com.nicehancy.mix.cardgame.card.enums;
+package com.nicehancy.mix.common.enums.card;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * 品质枚举类
  * <p>
  * <p/>
  *
  * @author hancaiyun
- * @since 2020/8/21 16:58
+ * @since 2020/8/25 11:22
  **/
 @Getter
 @AllArgsConstructor
-public enum BuffTypeEnum {
+public enum CardLevelEnum {
 
-    BUFF("BUFF", "增益"),
+    BLUE("", "蓝色"),
 
-    DEBUFF("DEBUFF", "减益"),
+    PURPLE("", "紫色"),
+
+    GOLD("GOLD", "金色"),
 
     ;
 
