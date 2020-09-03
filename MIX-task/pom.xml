@@ -21,7 +21,6 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <!--elastic-job-->
-        <!--elastic-job-->
         <dependency>
             <groupId>com.dangdang</groupId>
             <artifactId>elastic-job-lite-core</artifactId>
@@ -49,6 +48,4 @@
             <artifactId>MIX-manager</artifactId>
         </dependency>
     </dependencies>
-
-
 </project>

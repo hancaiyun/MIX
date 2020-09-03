@@ -18,7 +18,7 @@ public class HashMap<K, V> implements Map<K, V> {
 
     private int size = 0;
 
-    public HashMap(){
+    public HashMap(){//两个构造函数，门面模式
         this(defaultLength, defaultLoader);
     }
 

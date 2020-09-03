@@ -59,12 +59,10 @@ public class BattleManager {
                 redisManager.deleteObject(card1.getCardCode() + "SKILL");
                 redisManager.deleteObject(card1.getCardCode() + "BUFF");
                 redisManager.deleteObject(card1.getCardCode() + "DEBUFF");
-
                 //清除所有冷却， buff/debuff
                 redisManager.deleteObject(card2.getCardCode() + "SKILL");
                 redisManager.deleteObject(card2.getCardCode() + "BUFF");
                 redisManager.deleteObject(card2.getCardCode() + "DEBUFF");
-
                 break;
             }
 

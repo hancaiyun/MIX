@@ -29,8 +29,8 @@ public class UnitTest extends BaseSpringTest {
     @Test
     public void boxingTest() {
         //自动拆装箱
-        Integer i = 13;
-        Integer j = 13;
+        Integer i = 130;
+        Integer j = 130;
         if (i == j) {
             log.info("{}", "两者相等");
         }
