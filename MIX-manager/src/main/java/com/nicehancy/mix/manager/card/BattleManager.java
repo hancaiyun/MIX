@@ -55,11 +55,11 @@ public class BattleManager {
                     card2.getCardName(), card2.getCurrentHealth(), CardStatusEnum.expire(card2.getCardStatus()).getDesc());
             //判死
             if(!checkAlive(card1, card2)){
-                //清除所有冷却， buff/debuff
+                //清除card1所有冷却， buff/debuff
                 redisManager.deleteObject(card1.getCardCode() + "SKILL");
                 redisManager.deleteObject(card1.getCardCode() + "BUFF");
                 redisManager.deleteObject(card1.getCardCode() + "DEBUFF");
-                //清除所有冷却， buff/debuff
+                //清除card2所有冷却， buff/debuff
                 redisManager.deleteObject(card2.getCardCode() + "SKILL");
                 redisManager.deleteObject(card2.getCardCode() + "BUFF");
                 redisManager.deleteObject(card2.getCardCode() + "DEBUFF");

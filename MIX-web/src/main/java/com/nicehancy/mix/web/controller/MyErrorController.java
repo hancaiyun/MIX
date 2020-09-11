@@ -28,9 +28,9 @@ public class MyErrorController implements ErrorController {
             //缺省页面
             return "/403";
         }else if(statusCode == CommonConstant.STATUS_404){
-            return "template/tips/404";
+            return "tips/404";
         }else{
-            return "template/tips/error";
+            return "tips/error";
         }
     }
 

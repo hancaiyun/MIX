@@ -3,8 +3,10 @@ package com.nicehancy.mix.manager;
 import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.common.constant.DatePatternConstant;
 import com.nicehancy.mix.common.utils.DateUtil;
+import com.nicehancy.mix.dal.UserInfoRepository;
 import com.nicehancy.mix.dal.UserLoginRecordRepository;
 import com.nicehancy.mix.dal.UserLoginReportRepository;
+import com.nicehancy.mix.dal.model.UserInfoDO;
 import com.nicehancy.mix.dal.model.UserLoginRecordDO;
 import com.nicehancy.mix.dal.model.UserLoginReportDO;
 import com.nicehancy.mix.manager.convert.UserLoginRecordConvert;
@@ -32,6 +34,9 @@ public class LoginStatisticManager {
 
     @Autowired
     private UserLoginRecordRepository userLoginRecordRepository;
+
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
     /**
      * 登陆数据统计，生成日报表
@@ -61,7 +66,8 @@ public class LoginStatisticManager {
                 reportDO.setUserNo(entry.getKey());
                 reportDO.setLoginDate(startDate);
                 reportDO.setLoginCount(recordBOS.size());
-                reportDO.setNickName("M");
+                UserInfoDO userInfoDO = userInfoRepository.queryByUserNo(reportDO.getUserNo());
+                reportDO.setNickName(userInfoDO.getNickName());
                 reportDO.setCreatedBy(CommonConstant.SYSTEM);
                 reportDO.setUpdatedBy(CommonConstant.SYSTEM);
 

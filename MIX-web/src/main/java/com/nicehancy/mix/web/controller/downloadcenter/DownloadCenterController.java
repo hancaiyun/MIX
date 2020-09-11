@@ -48,7 +48,7 @@ public class DownloadCenterController extends BaseController {
      */
     @RequestMapping("/page")
     public ModelAndView downloadCenterPage(){
-        return new ModelAndView("downloadcenter/download");
+        return new ModelAndView("download/download");
     }
 
     /**
