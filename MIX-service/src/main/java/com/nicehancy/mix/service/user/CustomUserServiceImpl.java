@@ -1,6 +1,7 @@
 package com.nicehancy.mix.service.user;
 
 import com.nicehancy.mix.common.Result;
+import com.nicehancy.mix.common.constant.InitDataConstant;
 import com.nicehancy.mix.common.utils.GsonUtil;
 import com.nicehancy.mix.common.utils.ThreadPoolUtil;
 import com.nicehancy.mix.common.utils.VerifyUtil;
@@ -185,21 +186,21 @@ public class CustomUserServiceImpl implements UserDetailsService {
 
        NoteSaveReqBO reqBO1 = new NoteSaveReqBO();
        reqBO1.setUserNo(userNo);
-       reqBO1.setPrimaryDirectory("日记");
-       reqBO1.setDocumentName("2020-07-21");
-       reqBO1.setContent("今天是一个难忘的日子");
+       reqBO1.setPrimaryDirectory(InitDataConstant.PRIMARY_DIRECTORY_1);
+       reqBO1.setDocumentName(InitDataConstant.DOCUMENT_NAME_1);
+       reqBO1.setContent(InitDataConstant.CONTENT_1);
        noteInfoManager.saveNote(reqBO1);
 
        NoteSaveReqBO reqBO2 = new NoteSaveReqBO();
        reqBO2.setUserNo(userNo);
-       reqBO2.setPrimaryDirectory("笔记");
+       reqBO2.setPrimaryDirectory(InitDataConstant.PRIMARY_DIRECTORY_2);
        noteInfoManager.saveNote(reqBO2);
 
        NoteSaveReqBO reqBO3 = new NoteSaveReqBO();
        reqBO3.setUserNo(userNo);
-       reqBO3.setPrimaryDirectory("备忘录");
-       reqBO3.setDocumentName("每日");
-       reqBO3.setContent("一定记得，按时吃饭");
+       reqBO3.setPrimaryDirectory(InitDataConstant.PRIMARY_DIRECTORY_3);
+       reqBO3.setDocumentName(InitDataConstant.DOCUMENT_NAME_3);
+       reqBO3.setContent(InitDataConstant.CONTENT_3);
        noteInfoManager.saveNote(reqBO3);
     }
 
