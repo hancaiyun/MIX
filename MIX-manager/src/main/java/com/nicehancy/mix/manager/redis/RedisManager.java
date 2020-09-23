@@ -142,11 +142,12 @@ public class RedisManager {
 
     /**
      * 加锁
+     *（此种加锁并不能保证高并发时的绝对准确性，主要在于线程存活时间与等待锁释放的时间问题
+     * 推荐使用工具类中的redission在分布式环境下加解锁）
      *
      * @param key     key值
      * @param id      id
      * @param timeout 超时时间，单位/秒 注：超时时间建议比线程实际处理时间长一点
-     * @return 计数结果值
      */
     public void lock(final String key, String id, final long timeout) {
 

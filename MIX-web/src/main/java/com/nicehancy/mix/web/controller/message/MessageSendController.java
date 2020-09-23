@@ -1,4 +1,4 @@
-package com.nicehancy.mix.web.message;
+package com.nicehancy.mix.web.controller.message;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.constant.CommonConstant;

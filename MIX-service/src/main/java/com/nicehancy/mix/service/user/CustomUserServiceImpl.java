@@ -2,8 +2,11 @@ package com.nicehancy.mix.service.user;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.utils.GsonUtil;
+import com.nicehancy.mix.common.utils.ThreadPoolUtil;
 import com.nicehancy.mix.common.utils.VerifyUtil;
+import com.nicehancy.mix.manager.model.NoteSaveReqBO;
 import com.nicehancy.mix.manager.model.UserInfoBO;
+import com.nicehancy.mix.manager.note.NoteInfoManager;
 import com.nicehancy.mix.manager.redis.RedisManager;
 import com.nicehancy.mix.manager.user.UserInfoManager;
 import com.nicehancy.mix.service.api.model.UserInfoDTO;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * <p>
@@ -39,6 +43,9 @@ public class CustomUserServiceImpl implements UserDetailsService {
 
     @Autowired
     private RedisManager redisManager;
+
+    @Autowired
+    private NoteInfoManager noteInfoManager;
 
     /**
      * 登陆验证时，通过username获取用户的所有权限信息
@@ -149,6 +156,8 @@ public class CustomUserServiceImpl implements UserDetailsService {
             userInfoDTO.setPassword(bCryptPasswordEncoder.encode(password));
             boolean isOk = userInfoManager.addUser(UserInfoDTOConvert.getBOByDTO(userInfoDTO));
             result.setResult(isOk);
+            //新用户数据初始化
+            ThreadPoolUtil.execute(()->initUser(userInfoDTO.getLoginNo()));
             log.info("CustomUserService register result: result={}", result);
         }catch (Exception e){
             result.setErrorCode("SYSTEM_ERROR");
@@ -156,6 +165,42 @@ public class CustomUserServiceImpl implements UserDetailsService {
             log.error("CustomUserService register error: result={}, e={}", result, e);
         }
         return result;
+    }
+
+    /**
+     * 初始化用户
+     * @param userNo    用户编号
+     */
+    private void initUser(String userNo) {
+
+        //初始化用户笔记信息
+        initNote(userNo);
+    }
+
+    /**
+     * 初始化用户笔记
+     * @param userNo    用户编号
+     */
+    private void initNote(String userNo) {
+
+       NoteSaveReqBO reqBO1 = new NoteSaveReqBO();
+       reqBO1.setUserNo(userNo);
+       reqBO1.setPrimaryDirectory("日记");
+       reqBO1.setDocumentName("2020-07-21");
+       reqBO1.setContent("今天是一个难忘的日子");
+       noteInfoManager.saveNote(reqBO1);
+
+       NoteSaveReqBO reqBO2 = new NoteSaveReqBO();
+       reqBO2.setUserNo(userNo);
+       reqBO2.setPrimaryDirectory("笔记");
+       noteInfoManager.saveNote(reqBO2);
+
+       NoteSaveReqBO reqBO3 = new NoteSaveReqBO();
+       reqBO3.setUserNo(userNo);
+       reqBO3.setPrimaryDirectory("备忘录");
+       reqBO3.setDocumentName("每日");
+       reqBO3.setContent("一定记得，按时吃饭");
+       noteInfoManager.saveNote(reqBO3);
     }
 
     /**
