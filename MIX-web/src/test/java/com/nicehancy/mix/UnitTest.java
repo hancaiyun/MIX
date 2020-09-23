@@ -5,6 +5,8 @@ import com.nicehancy.mix.common.utils.FilePathMappingUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.Properties;
 
 /**
@@ -122,5 +124,27 @@ public class UnitTest extends BaseSpringTest {
         log.info("{}", properties.getProperty("os.name"));
 
         log.info("{}", FilePathMappingUtil.getPath("DOWNLOAD_CENTER_PATH"));
+    }
+
+    @Test
+    public void bigDecimalTest(){
+
+        String amt = "1005.81";
+        BigDecimal result = new BigDecimal(amt).setScale(2, BigDecimal.ROUND_HALF_UP);
+
+        log.info("result:{}", result);
+    }
+
+    @Test
+    public void percentTest(){
+
+        //创建一个数值格式化对象
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        //设置精确到小数点后2位
+        numberFormat.setMaximumFractionDigits(2);
+        //所占百分比
+        String percentStr = numberFormat.format((float)  5/ (float)7* 100);
+
+        log.info("{}", percentStr);
     }
 }

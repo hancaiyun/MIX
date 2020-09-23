@@ -124,7 +124,6 @@ public class FileManageController extends BaseController {
         log.info("FileManageController download result= SUCCESS");
     }
 
-
     /**
      * 文件预览
      * 根据文件路径filePath下载文件

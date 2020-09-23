@@ -49,7 +49,10 @@ public final class ResultConstant {
     public static final String ERROR_404_CODE = "404";
 
     /** 404错误页 */
-    public static final String ERROR_404_PAGE = "/page/404.html";
+    public static final String ERROR_404_PAGE = "tips/404";
+
+    /** 错误页 */
+    public static final String ERROR_PAGE = "tips/error";
 
     /** 成功页 */
     public static final String SUCCESS_PAGE = "/page/welcome.html";

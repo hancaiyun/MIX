@@ -1,7 +1,7 @@
 package com.nicehancy.mix.common.constant;
 
 /**
- * 公共描述类
+ * 公共错误描述类
  * <p>
  * <p/>
  *

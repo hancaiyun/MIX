@@ -43,6 +43,7 @@
 		<commons-fileupload>1.4</commons-fileupload>
 <!--		<spring-kafka.version>2.3.1.RELEASE</spring-kafka.version>-->
 		<elastic-job.version>2.1.5</elastic-job.version>
+		<redission.version>3.10.4</redission.version>
 	</properties>
 
 	<dependencyManagement>
@@ -183,6 +184,13 @@
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
 			<optional>true</optional>
+		</dependency>
+
+		<!--redission-->
+		<dependency>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson</artifactId>
+			<version>${redission.version}</version>
 		</dependency>
 
 		<!--gson-->

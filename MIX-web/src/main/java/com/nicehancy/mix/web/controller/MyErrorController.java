@@ -1,6 +1,7 @@
 package com.nicehancy.mix.web.controller;
 
 import com.nicehancy.mix.common.constant.CommonConstant;
+import com.nicehancy.mix.common.constant.ResultConstant;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +29,14 @@ public class MyErrorController implements ErrorController {
             //缺省页面
             return "/403";
         }else if(statusCode == CommonConstant.STATUS_404){
-            return "tips/404";
+            return ResultConstant.ERROR_404_PAGE;
         }else{
-            return "tips/error";
+            return ResultConstant.ERROR_PAGE;
         }
     }
 
     @Override
     public String getErrorPath() {
-        return "template/tips/error";
+        return "tips/error";
     }
 }

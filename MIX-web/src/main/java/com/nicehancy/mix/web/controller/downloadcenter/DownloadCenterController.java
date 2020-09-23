@@ -100,26 +100,13 @@ public class DownloadCenterController extends BaseController {
 
         String traceLogId = UUID.randomUUID().toString();
         MDC.put("TRACE_LOG_ID", traceLogId);
-        FileQueryDetailReqDTO fileQueryDetailReqDTO = new FileQueryDetailReqDTO();
-        fileQueryDetailReqDTO.setFileId(this.getParameters(request).get("fileId"));
-        fileQueryDetailReqDTO.setRequestSystem("MIX");
-        fileQueryDetailReqDTO.setTraceLogId(traceLogId);
+        String fullFilePath = this.getParameters(request).get("fullFilePath");
         //查询文件明细信息获取下载路径
-        log.info("DownloadCenterController download request: fileQueryDetailReqDTO={}", fileQueryDetailReqDTO);
-        Result<FileUploadRecordDTO> result = null;//fileManagementService.queryDetail(fileQueryDetailReqDTO);
+        log.info("DownloadCenterController download request: fullFilePath={}", fullFilePath);
 
-        //查询失败
-        if(!result.isSuccess()){
-            throw new RuntimeException(result.getErrorMsg());
-            //文件未找到
-        } else if(null == result.getResult()){
-            throw new RuntimeException(CommonErrorConstant.FILE_NOT_FOND);
-            //查询成功且有文件
-        } else{
-            //文件下载
-            FileOperateUtil.download(result.getResult().getFilePath(), response);
-        }
+        //文件下载
+        FileOperateUtil.download(fullFilePath, response);
 
-        log.info("DownloadCenterController download result= SUCCESS");
+        log.info("DownloadCenterController download success");
     }
 }

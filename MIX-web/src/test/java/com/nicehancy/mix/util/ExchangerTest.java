@@ -1,4 +1,4 @@
-package com.nicehancy.mix;
+package com.nicehancy.mix.util;
 
 import java.util.concurrent.Exchanger;
 import java.util.concurrent.TimeUnit;

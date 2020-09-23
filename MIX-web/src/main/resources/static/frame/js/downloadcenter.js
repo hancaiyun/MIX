@@ -28,7 +28,7 @@ layui.define(['table', 'form'], function() {
             //获取XMLHttpRequest
             const xmlHttpRequest = new XMLHttpRequest();
             //发起请求
-            xmlHttpRequest.open("POST", "/downloadCenter/download" + "?fileId=" + data.fileId, true);
+            xmlHttpRequest.open("POST", "/downloadCenter/download" + "?fullFilePath=" + data.fullFilePath, true);
             //设置请求头类型
             xmlHttpRequest.setRequestHeader("Content-type", "application/json");
             xmlHttpRequest.setRequestHeader("id",data.id);

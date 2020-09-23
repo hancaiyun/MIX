@@ -37,11 +37,12 @@
     <logger level="info" name="org.I0Itec"/>
     <logger level="info" name="org.dozer"/>
 
-    <!-- 输出到文件，可定义更多的 Appender -->
+    <!-- 输出到文件，可定义更多的 appender -->
     <root level="INFO" >
         <appender-ref ref="STDOUT"/>
     </root>
 
+    <!-- 输出到文件， 可以定义更多的 appender -->
     <root level="INFO" name="com.nicehancy.mix">
         <appender-ref ref="logfile" />
     </root>
