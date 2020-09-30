@@ -134,14 +134,13 @@ public class HomeController extends BaseController {
         return modelMap;
     }
 
-
     /**
      * 侧边栏-主页
      * @return      默认页视图
      */
-    @RequestMapping("/home/homepage")
+    @RequestMapping("/home/home")
     public ModelAndView homepage(){
-        return new ModelAndView("home/homepage");
+        return new ModelAndView("home/home");
     }
 
     /**

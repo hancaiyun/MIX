@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>社区</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all">
+  <link rel="stylesheet" th:href="@{/frame/style/admin.css}" media="all">
+  <link rel="stylesheet" th:href="@{/frame/style/template.css}" media="all">
+</head>
+
+<body>
+  <div class="layui-fluid">
+    <div class="layadmin-caller">
+      <form class="layui-form caller-seach" action="">
+              <i class="layui-icon layui-icon-search caller-seach-icon caller-icon"></i>
+              <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off"
+                     class="layui-input caller-pl32">
+              <i class="layui-icon layui-icon-close caller-dump-icon caller-icon"></i>
+      </form>
+      <div class="layui-tab layui-tab-brief caller-tab" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title" id="queryType">
+          <li class="layui-this" value="ALL">所有</li>
+          <li value="COLLECTED">已收藏</li>
+        </ul>
+      </div>
+      <div class="caller-contar" id="community">
+        <div class="caller-item">
+          <img th:src="@{/frame/style/res/template/portrait.png}" alt="" class="caller-img caller-fl">
+          <div class="caller-main caller-fl">
+            <p><strong>韩旭</strong> </p>
+            <p class="caller-adds" lay-href="javascript:"><i class="layui-icon layui-icon-edit"></i>程序员的成长之路</p>
+            <div class="caller-iconset">
+              <i>发布时间：1 小时前</i>
+            </div>
+          </div>
+        </div>
+        <div class="caller-item">
+          <img th:src="@{/frame/style/res/template/portrait.png}" alt="" class="caller-img caller-fl">
+          <div class="caller-main caller-fl">
+            <p><strong>小白</strong> </p>
+            <p class="caller-adds" lay-href="javascript:"><i class="layui-icon layui-icon-edit"></i>贵州都有哪些好吃的</p>
+            <div class="caller-iconset">
+              <i>发布时间：2020-09-27 15:30:00</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="page"></div>
+    </div>
+  </div>
+
+  <script th:src="@{/frame/layui/layui.js}"></script>
+  <script>
+  layui.config({
+    base: '/frame/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'laypage','layer'], function(){
+    const laypage = layui.laypage,
+            layer = layui.layer;
+
+    //查询数据
+    $.ajax({
+      url: '/set/user/info',
+      data: {"userNo": window.localStorage["loginNo"], "queryType":document.getElementById("queryType").value},
+      dataType: 'json',//数据类型
+      type: 'GET',//类型
+      timeout: 3000,//超时
+      //请求成功
+      success: function (res) {
+        if (res.code === "0000") {
+
+        } else {
+          layer.open({
+            title: '提示信息'
+            , content: '社区信息列表查询失败，失败原因：' + res.msg
+          });
+        }
+      },
+      //失败/超时
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        if (textStatus === 'timeout') {
+          layer.msg('网络异常');
+        }
+        layer.msg("失败原因：" + errorThrown);
+      }
+    });
+
+    //分页渲染
+    laypage.render({
+      elem: 'page'
+      ,count: testLayPageData.length
+      ,jump: function(obj){
+        //模拟渲染
+        document.getElementById('community').innerHTML = function(){
+          const arr = [],
+                  thisData = testLayPageData.concat().splice(obj.curr * obj.limit - obj.limit, obj.limit);
+          layui.each(thisData, function(index, item){
+
+            arr.push('<li>'+ item +'</li>');
+
+          });
+          return arr.join('');
+        }();
+      }
+    });
+  });
+  </script>
+</body>
+</html>

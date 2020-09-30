@@ -326,4 +326,25 @@ public class NoteInfoManager {
         result.setResult(true);
         return result;
     }
+
+    /**
+     * 笔记分享
+     * @param reqBO          分享请求BO
+     * @return               分享结果
+     */
+    public boolean share(NoteShareReqBO reqBO) {
+
+        NoteInfoDO noteInfoDO = new NoteInfoDO();
+        noteInfoDO.setUserNo(reqBO.getUserNo());
+        noteInfoDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
+        noteInfoDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
+        noteInfoDO.setFileName(reqBO.getDocumentName());
+        noteInfoDO.setUpdatedBy(reqBO.getUserNo());
+        //设置分享标识
+        noteInfoDO.setShareFlag(reqBO.getShareFlag());
+
+        noteRepository.updateForShare(noteInfoDO);
+
+        return true;
+    }
 }

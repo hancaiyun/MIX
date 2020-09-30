@@ -65,4 +65,10 @@ public interface NoteInfoRepository {
      * @param opLocation             删除位置
      */
     void updateForDelete(NoteInfoDO reqDO, String opLocation);
+
+    /**
+     * 分享更新
+     * @param noteInfoDO             请求DO
+     */
+    void updateForShare(NoteInfoDO noteInfoDO);
 }

@@ -225,4 +225,30 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         //更新操作
         mongoTemplate.updateMulti(query, update, NoteInfoDO.class);
     }
+
+    /**
+     * 分享更新
+     * @param noteInfoDO             请求DO
+     */
+    @Override
+    public void updateForShare(NoteInfoDO noteInfoDO) {
+
+        //查询条件
+        Query query = new Query();
+        //更新内容
+        Update update = new Update();
+        Criteria criteria = new Criteria();
+        criteria.and("userNo").is(noteInfoDO.getUserNo());
+        criteria.and("primaryDirectory").is(noteInfoDO.getPrimaryDirectory());
+        criteria.and("secondaryDirectory").is(noteInfoDO.getSecondaryDirectory());
+        criteria.and("fileName").is(noteInfoDO.getFileName());
+
+        query.addCriteria(criteria);
+        update.set("shareFlag", noteInfoDO.getShareFlag());
+        update.set("updatedBy", noteInfoDO.getUpdatedBy());
+        update.set("updatedAt", new Date());
+
+        //更新操作
+        mongoTemplate.updateMulti(query, update, NoteInfoDO.class);
+    }
 }

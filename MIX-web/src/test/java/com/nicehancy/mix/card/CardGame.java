@@ -45,7 +45,7 @@ public class CardGame extends BaseSpringTest {
         skillInfoBO1.setSkillDesc("召唤寒冬风暴，【冰冻】范围内的敌人");
         skillInfoBO1.setSkillType(SkillTypeEnum.DEBUFF.getCode());
         //技能伤害
-        skillInfoBO1.setHurt(750);
+        skillInfoBO1.setHurt(3750);
         skillInfoBO1.setCoolTurn(3);
         skillInfoBO1.setEffect(EffectEnum.FREEZE.getCode());
         skillInfoBO1.setSkillNo(UUIDUtil.createNoByUUId());
@@ -68,7 +68,8 @@ public class CardGame extends BaseSpringTest {
         skillInfoBO2.setSkillName("无上力量");
         skillInfoBO2.setSkillDesc("对一名敌人进行攻击， 并且【眩晕】敌人");
         skillInfoBO2.setSkillType(SkillTypeEnum.DEBUFF.getCode());
-        skillInfoBO2.setHurt(1556);
+        //技能伤害
+        skillInfoBO2.setHurt(7780);
         skillInfoBO2.setCoolTurn(2);
 
         skillInfoBO2.setEffect(EffectEnum.DIZZY.getCode());

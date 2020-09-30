@@ -62,9 +62,20 @@
                         </div>
                     </div>
 
-                    <!--文件保存按钮-->
+                    <!--保存按钮-->
                     <div class="layui-inline">
                         &nbsp;<button class="layui-btn layui-btn-warm" th:id="save">保存</button>
+                    </div>
+                    <!--分享按钮-->
+                    <div class="layui-inline">
+                        <script type="text/html" id="">
+                            {{# if(d.shareFlag == 'TRUE'){}}
+                            <button class="layui-btn layui-btn-normal layui-btn-disabled" th:id="share">分享</button>
+                            {{# }}}
+                            {{# if(d.shareFlag != 'TRUE'){}}
+                            <button class="layui-btn layui-btn-normal" th:id="share">分享</button>
+                            {{# }}}
+                        </script>
                     </div>
                 </div>
             </div>

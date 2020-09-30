@@ -86,24 +86,24 @@
 
           <!--主页-->
           <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
-            <li data-name="home" class="layui-nav-item layui-nav-itemed" style="display: none;">
-              <a href="javascript:;" lay-tips="主页" lay-direction="2">
+            <li data-name="home" class="layui-nav-item layui-nav-itemed">
+              <a href="javascript:" lay-tips="主页" lay-direction="2">
                 <i class="layui-icon layui-icon-home"></i>
                 <cite>主页</cite>
               </a>
               <dl class="layui-nav-child">
+<!--                <dd data-name="console">-->
+<!--                  <a lay-href="home/home">主页</a>-->
+<!--                </dd>-->
                 <dd data-name="console" class="layui-this">
-                  <a lay-href="home/console">控制台</a>
-                </dd>
-                <dd data-name="console">
-                  <a lay-href="home/homepage">主页</a>
+                  <a lay-href="home/console">控制中心</a>
                 </dd>
               </dl>
             </li>
 
             <!--工作空间-->
             <li data-name="note" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="工作空间" lay-direction="2">
+              <a href="javascript:" lay-tips="工作" lay-direction="2">
                 <i class="layui-icon layui-icon-app"></i>
                 <cite>工作空间</cite>
               </a>
@@ -123,6 +123,35 @@
               </dl>
             </li>
 
+            <!--社区-->
+            <li data-name="tool" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="社区" lay-direction="2">
+                <i class="layui-icon layui-icon-group"></i>
+                <cite>社区中心</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd>
+                  <a lay-href="community/page">浏览社区</a>
+                </dd>
+                <dd>
+                  <a lay-href="community/community">浏览社区2</a>
+                </dd>
+              </dl>
+            </li>
+
+            <!--工具箱-->
+            <li data-name="tool" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="工具" lay-direction="2">
+                <i class="layui-icon layui-icon-template-1"></i>
+                <cite>工具管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd>
+                  <a lay-href="component/cronPage">Cron</a>
+                </dd>
+              </dl>
+            </li>
+
             <!--用户管理-->
             <li data-name="user" id="user" class="layui-nav-item" style="display: none;">
               <a href="javascript:;" lay-tips="用户" lay-direction="2">
@@ -133,12 +162,12 @@
                 <dd>
                   <a lay-href="user/list">网站用户</a>
                 </dd>
-                <dd>
-                  <a lay-href="administrators/list">后台管理员</a>
-                </dd>
-                <dd>
-                  <a lay-href="administrators/role">角色管理</a>
-                </dd>
+<!--                <dd>-->
+<!--                  <a lay-href="administrators/list"></a>-->
+<!--                </dd>-->
+<!--                <dd>-->
+<!--                  <a lay-href="administrators/role">角色管理</a>-->
+<!--                </dd>-->
               </dl>
             </li>
 
@@ -154,9 +183,6 @@
                 </dd>
                 <dd>
                   <a lay-href="auth/apply">管理申请</a>
-                </dd>
-                <dd>
-                  <a lay-href="test">测试页</a>
                 </dd>
               </dl>
             </li>

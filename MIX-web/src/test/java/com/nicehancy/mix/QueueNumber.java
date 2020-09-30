@@ -13,14 +13,14 @@ public class QueueNumber {
     public static void main(String[] args) {
         //叫号相当于排队，所以存贮在链表集合中
         //自动叫号机 普通客户
-        LinkedList<Integer> list = new LinkedList<Integer>();
+        LinkedList<Integer> list = new LinkedList<>();
         //vip客服专用通道
-        LinkedList<Integer> list_vip = new LinkedList<Integer>();
+        LinkedList<Integer> list_vip = new LinkedList<>();
         //三个工作人员的工作量，查询操作会比较多，所以用ArrayList
         //三个前台工作人员
-        ArrayList<Integer> list01 = new ArrayList<Integer>();
-        ArrayList<Integer> list02 = new ArrayList<Integer>();
-        ArrayList<Integer> list03 = new ArrayList<Integer>();
+        ArrayList<Integer> list01 = new ArrayList<>();
+        ArrayList<Integer> list02 = new ArrayList<>();
+        ArrayList<Integer> list03 = new ArrayList<>();
         //模拟叫号，给集合添加100个号
         int i;//普通账号从1号开始
         for (i = 1; i < 100; i++) {
@@ -59,9 +59,9 @@ public class QueueNumber {
             //第一个工作人员叫号,一号为vip窗口，当没有vip时，普通号可以到一号窗口办理
                 case 1:
                     if(!list_vip.isEmpty()){
-                        int numbervip = list_vip.removeFirst();
-                        list01.add(numbervip);
-                        System.out.println("请"+numbervip+"号客户上台");
+                        int numberVip = list_vip.removeFirst();
+                        list01.add(numberVip);
+                        System.out.println("请"+numberVip+"号客户上台");
                     }else{
                         int number = list.removeFirst();
                         list01.add(number);

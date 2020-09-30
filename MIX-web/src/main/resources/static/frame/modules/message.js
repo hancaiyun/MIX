@@ -1,13 +1,3 @@
-/**
-
- @Name：layuiAdmin（iframe版） 消息中心
- @Author：贤心
- @Site：http://www.layui.com/admin/
- @License：LPPL
-    
- */
-
-
 layui.define(['admin', 'table', 'util'], function(exports){
   var $ = layui.$
   ,admin = layui.admin
@@ -43,12 +33,12 @@ layui.define(['admin', 'table', 'util'], function(exports){
     ,url: layui.setter.base + 'json/message/all.js' //模拟接口
     ,page: true
     ,cols: [[
-      {type: 'checkbox', fixed: 'left'}
-      ,{field: 'title', title: '标题内容', minWidth: 300, templet: tplTitle}
+       {field: 'title', title: '标题内容', minWidth: 300, templet: tplTitle}
       ,{field: 'time', title: '时间', width: 170, templet: '<div>{{ layui.util.timeAgo(d.time) }}</div>'}
     ]]
     ,skin: 'line'
   });
+
   
   //通知
   table.render({
@@ -60,7 +50,7 @@ layui.define(['admin', 'table', 'util'], function(exports){
       ,{field: 'title', title: '标题内容', minWidth: 300, templet: tplTitle}
       ,{field: 'time', title: '时间', width: 170, templet: '<div>{{ layui.util.timeAgo(d.time) }}</div>'}
     ]]
-    ,skin: 'line'
+    ,skin: 'nob'
   });
   
   //私信

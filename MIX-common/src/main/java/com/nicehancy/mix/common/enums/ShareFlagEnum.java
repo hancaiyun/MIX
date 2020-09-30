@@ -4,31 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 账户信息状态枚举类
+ * 分享标识枚举类
  * <p>
  * <p/>
  *
  * @author hancaiyun
- * @since 2020/6/17 10:18
+ * @since 2020/9/27 17:39
  **/
 @Getter
 @AllArgsConstructor
-public enum AccountStatusEnum {
+public enum ShareFlagEnum {
 
     /**
-     * 正常
+     * 是
      */
-    NORMAL("NORMAL", "正常"),
+    TRUE("TRUE", "是"),
 
     /**
-     * 冻结
+     * 否
      */
-    FREEZE("FREEZE", "冻结"),
+    FALSE("FALSE", "否"),
 
-    /**
-     * 已删除
-     */
-    DELETE("DELETE", "已删除"),
     ;
 
     private final String code;

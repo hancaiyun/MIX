@@ -123,6 +123,64 @@ layui.use('layedit', function () {
             }
         })
     });
+
+    //共享文件
+    $("#share").click(function () {
+
+        //获取文件名
+        const fileName = document.getElementById("fileName").value;
+        //获取一级目录名
+        const primaryDirectory = document.getElementById("primaryDirectory").value;
+        //获取二级目录名
+        const secondaryDirectory = document.getElementById("secondaryDirectory").value;
+        //保存文件需指定文件名
+        if (fileName === "" || fileName == null) {
+            layer.msg('请选择要分享的文件', {icon: 5});
+            return;
+        }
+        //弹窗-确认
+        layer.confirm('确认共享笔记？共享之后别人将可以看到您的笔记', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            //确认发布
+            $.ajax({
+                url: '/note/share',//提交地址
+                data: {
+                    "userNo": window.localStorage["loginNo"],
+                    "primaryDirectory": primaryDirectory,
+                    "secondaryDirectory": secondaryDirectory,
+                    "fileName": fileName
+                },//数据， id获取
+                dataType: 'json',//数据类型-json
+                type: 'GET',//类型
+                timeout: 3000,//超时
+                //请求成功
+                success: function (res) {
+                    if (res.code === '0000') {
+                        layer.msg("发布成功");
+                    } else {
+                        layer.error({
+                            title: '失败信息'
+                            , content: res.msg
+                        });
+                    }
+                },
+                //失败/超时
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if (textStatus === 'timeout') {
+                        alert('請求超時');
+                        setTimeout(function () {
+                            alert('重新请求');
+                        }, 3000);
+                    }
+                    layui.error(errorThrown);
+                }
+            })
+        }, function(value, index){
+            layer.close(index);
+        });
+
+    });
 });
 
 //目录集操作

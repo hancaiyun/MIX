@@ -1,17 +1,7 @@
-/**
-
- @Name：layuiAdmin 用户管理 管理员管理 角色管理
- @Author：star1029
- @Site：http://www.layui.com/admin/
- @License：LPPL
-    
- */
-
-
 layui.define(['table', 'form'], function(exports){
-  var $ = layui.$
-  ,table = layui.table
-  ,form = layui.form;
+  const $ = layui.$
+      , table = layui.table
+      , form = layui.form;
 
   //用户管理
   table.render({
@@ -19,14 +9,12 @@ layui.define(['table', 'form'], function(exports){
     ,url: layui.setter.base + 'json/useradmin/webuser.js' //模拟接口
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
-      ,{field: 'id', width: 100, title: 'ID', sort: true}
+      ,{field: 'userNo', width: 100, title: '用户编号', sort: true}
       ,{field: 'username', title: '用户名', minWidth: 100}
-      ,{field: 'avatar', title: '头像', width: 100, templet: '#imgTpl'}
-      ,{field: 'phone', title: '手机'}
+      ,{field: "nickName", title: '昵称', minWidth: 100}
       ,{field: 'email', title: '邮箱'}
       ,{field: 'sex', width: 80, title: '性别'}
-      ,{field: 'ip', title: 'IP'}
-      ,{field: 'jointime', title: '加入时间', sort: true}
+      ,{field: 'createTime', title: '加入时间', sort: true}
       ,{title: '操作', width: 150, align:'center', fixed: 'right', toolbar: '#table-useradmin-webuser'}
     ]]
     ,page: true
@@ -37,7 +25,7 @@ layui.define(['table', 'form'], function(exports){
   
   //监听工具条
   table.on('tool(LAY-user-manage)', function(obj){
-    var data = obj.data;
+    const data = obj.data;
     if(obj.event === 'del'){
       layer.prompt({
         formType: 1
@@ -51,7 +39,7 @@ layui.define(['table', 'form'], function(exports){
         });
       });
     } else if(obj.event === 'edit'){
-      var tr = $(obj.tr);
+      const tr = $(obj.tr);
 
       layer.open({
         type: 2
@@ -67,7 +55,7 @@ layui.define(['table', 'form'], function(exports){
 
           //监听提交
           iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-            var field = data.field; //获取提交的字段
+            const field = data.field; //获取提交的字段
             
             //提交 Ajax 成功后，静态更新表格中的数据
             //$.ajax({});
@@ -104,7 +92,7 @@ layui.define(['table', 'form'], function(exports){
   
   //监听工具条
   table.on('tool(LAY-user-back-manage)', function(obj){
-    var data = obj.data;
+    const data = obj.data;
     if(obj.event === 'del'){
       layer.prompt({
         formType: 1
@@ -118,7 +106,7 @@ layui.define(['table', 'form'], function(exports){
         });
       });
     }else if(obj.event === 'edit'){
-      var tr = $(obj.tr);
+      const tr = $(obj.tr);
 
       layer.open({
         type: 2
@@ -127,13 +115,13 @@ layui.define(['table', 'form'], function(exports){
         ,area: ['420px', '420px']
         ,btn: ['确定', '取消']
         ,yes: function(index, layero){
-          var iframeWindow = window['layui-layer-iframe'+ index]
-          ,submitID = 'LAY-user-back-submit'
-          ,submit = layero.find('iframe').contents().find('#'+ submitID);
+          const iframeWindow = window['layui-layer-iframe' + index]
+              , submitID = 'LAY-user-back-submit'
+              , submit = layero.find('iframe').contents().find('#' + submitID);
 
           //监听提交
           iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-            var field = data.field; //获取提交的字段
+            const field = data.field; //获取提交的字段
             
             //提交 Ajax 成功后，静态更新表格中的数据
             //$.ajax({});
@@ -167,14 +155,14 @@ layui.define(['table', 'form'], function(exports){
   
   //监听工具条
   table.on('tool(LAY-user-back-role)', function(obj){
-    var data = obj.data;
+    const data = obj.data;
     if(obj.event === 'del'){
       layer.confirm('确定删除此角色？', function(index){
         obj.del();
         layer.close(index);
       });
     }else if(obj.event === 'edit'){
-      var tr = $(obj.tr);
+      const tr = $(obj.tr);
 
       layer.open({
         type: 2
@@ -183,8 +171,8 @@ layui.define(['table', 'form'], function(exports){
         ,area: ['500px', '480px']
         ,btn: ['确定', '取消']
         ,yes: function(index, layero){
-          var iframeWindow = window['layui-layer-iframe'+ index]
-          ,submit = layero.find('iframe').contents().find("#LAY-user-role-submit");
+          const iframeWindow = window['layui-layer-iframe' + index]
+              , submit = layero.find('iframe').contents().find("#LAY-user-role-submit");
 
           //监听提交
           iframeWindow.layui.form.on('submit(LAY-user-role-submit)', function(data){

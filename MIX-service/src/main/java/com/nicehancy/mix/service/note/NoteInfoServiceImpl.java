@@ -172,4 +172,27 @@ public class NoteInfoServiceImpl implements NoteInfoService {
         }
         return result;
     }
+
+    /**
+     * 笔记分享接口
+     * @param reqDTO                请求参数
+     * @return                      分享结果
+     */
+    @Override
+    public Result<Boolean> share(NoteShareReqDTO reqDTO) {
+
+        Result<Boolean> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", reqDTO.getTraceLogId());
+        try{
+            log.info("call NoteInfoServiceImpl share param: reqDTO={}", reqDTO);
+            //业务处理
+            boolean isDone = noteInfoManager.share(NoteDTOConvert.getReqBOByDTO(reqDTO));
+            result.setResult(isDone);
+            log.info("call NoteInfoServiceImpl share result: {}", result);
+        }catch (Exception e){
+            result.setErrorMsg(e.getMessage());
+            log.error("call NoteInfoServiceImpl share failed, message：e={}, result={}", e, result);
+        }
+        return result;
+    }
 }

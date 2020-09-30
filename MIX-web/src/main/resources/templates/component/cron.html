@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <title>Corn组件</title>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all"/>
+    <link rel="stylesheet" th:href="@{/frame/style/admin.css}" media="all"/>
+  </head>
+  <body>
+    <div class="layui-fluid">
+      <div class="layui-row layui-col-space15">
+        <div class="layui-col-md8">
+          <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+              <div class="layui-card">
+                <div class="layui-card-header">Cron生成器</div>
+                <div class="layui-card-body">
+                  <input type="text" class="layui-input" id="cronVal" value="0/20 * * * * ?"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script th:src="@{/frame/layui/layui.js}"></script>
+    <script>
+      layui
+        .config({
+          base: "/frame/", //静态资源所在路径
+        })
+        .extend({
+          index: "lib/index", //主入口模块
+          cron: "cron",
+        })
+        .use(["index", "console", "cron"], function () {
+          let $ = layui.$,
+              cron = layui.cron;
+          cron.render({
+            elem: "#cronVal", // 绑定元素
+            url: "https://www.fastmock.site/mock/58329c0ee61b03d6ce3ba0c1e2f13691/world/cron", // 获取最近运行时间的接口
+            value: $("#cronVal").val(), // 默认值
+            done: function (cronStr) {
+              console.log(cronStr);
+              $("#cronVal").val(cronStr);
+            },
+          });
+        });
+    </script>
+  </body>
+</html>

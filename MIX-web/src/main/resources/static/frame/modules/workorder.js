@@ -1,13 +1,3 @@
-/**
-
- @Name：layuiAdmin 工单系统
- @Author：star1029
- @Site：http://www.layui.com/admin/
- @License：GPL-2
-    
- */
-
-
 layui.define(['table', 'form', 'element'], function(exports){
   var $ = layui.$
   ,table = layui.table
@@ -55,7 +45,7 @@ layui.define(['table', 'form', 'element'], function(exports){
 
           //监听提交
           iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-            var field = data.field; //获取提交的字段
+            const field = data.field; //获取提交的字段
             
             //提交 Ajax 成功后，静态更新表格中的数据
             //$.ajax({});

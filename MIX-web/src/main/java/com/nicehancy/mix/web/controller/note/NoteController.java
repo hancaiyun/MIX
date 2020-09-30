@@ -1,6 +1,7 @@
 package com.nicehancy.mix.web.controller.note;
 
 import com.nicehancy.mix.common.Result;
+import com.nicehancy.mix.common.enums.ShareFlagEnum;
 import com.nicehancy.mix.service.api.model.NoteInfoDTO;
 import com.nicehancy.mix.service.api.model.request.note.*;
 import com.nicehancy.mix.service.api.note.NoteInfoService;
@@ -156,6 +157,36 @@ public class NoteController extends BaseController {
             modelMap =  this.processSuccessJSON(result.getErrorMsg());
         }
         log.info("NoteController save result: {}", modelMap);
+        return modelMap;
+    }
+
+    /**
+     * 笔记共享
+     * @return     处理结果
+     */
+    @RequestMapping(value = "/share")
+    @ResponseBody
+    public ModelMap share(HttpServletRequest request){
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        NoteShareReqDTO reqDTO = new NoteShareReqDTO();
+        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
+        reqDTO.setPrimaryDirectory(this.getParameters(request).get("primaryDirectory"));
+        reqDTO.setSecondaryDirectory(this.getParameters(request).get("secondaryDirectory"));
+        reqDTO.setDocumentName(this.getParameters(request).get("fileName"));
+        reqDTO.setShareFlag(ShareFlagEnum.TRUE.getCode());
+        reqDTO.setTraceLogId(traceLogId);
+
+        log.info("NoteController share request PARAM: reqDTO={}",reqDTO);
+        Result<Boolean> result =  noteInfoService.share(reqDTO);
+        ModelMap modelMap;
+        if(result.getResult()) {
+            modelMap =  this.processSuccessJSON(result.getResult());
+        }else{
+            modelMap =  this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("NoteController share result: {}", modelMap);
         return modelMap;
     }
 

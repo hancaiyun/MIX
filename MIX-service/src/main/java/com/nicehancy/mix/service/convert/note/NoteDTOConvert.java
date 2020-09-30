@@ -108,6 +108,27 @@ public class NoteDTOConvert {
     }
 
     /**
+     * 笔记分享请求DTO转BO
+     * @param reqDTO            请求DTO
+     * @return                  BO
+     */
+    public static NoteShareReqBO getReqBOByDTO(NoteShareReqDTO reqDTO) {
+
+        if (reqDTO == null) {
+            return null;
+        }
+
+        NoteShareReqBO noteShareReqBO = new NoteShareReqBO();
+        noteShareReqBO.setUserNo(reqDTO.getUserNo());
+        noteShareReqBO.setPrimaryDirectory(reqDTO.getPrimaryDirectory());
+        noteShareReqBO.setSecondaryDirectory(reqDTO.getSecondaryDirectory());
+        noteShareReqBO.setDocumentName(reqDTO.getDocumentName());
+        noteShareReqBO.setShareFlag(reqDTO.getShareFlag());
+
+        return noteShareReqBO;
+    }
+
+    /**
      * 笔记管理请求DTO转BO
      * @param reqDTO              请求DTO
      * @return                    BO

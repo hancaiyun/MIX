@@ -1,17 +1,7 @@
-/**
-
- @Name：layuiAdmin 社区系统
- @Author：star1029
- @Site：http://www.layui.com/admin/
- @License：LPPL
-    
- */
-
-
 layui.define(['table', 'form'], function(exports){
-  var $ = layui.$
-  ,table = layui.table
-  ,form = layui.form;
+  const $ = layui.$
+      , table = layui.table
+      , form = layui.form;
 
   //帖子管理
   table.render({
@@ -35,14 +25,14 @@ layui.define(['table', 'form'], function(exports){
   
   //监听工具条
   table.on('tool(LAY-app-forum-list)', function(obj){
-    var data = obj.data;
+    const data = obj.data;
     if(obj.event === 'del'){
       layer.confirm('确定删除此条帖子？', function(index){
         obj.del();
         layer.close(index);
       });
     } else if(obj.event === 'edit'){
-      var tr = $(obj.tr);
+      const tr = $(obj.tr);
 
       layer.open({
         type: 2
@@ -52,13 +42,13 @@ layui.define(['table', 'form'], function(exports){
         ,btn: ['确定', '取消']
         ,resize: false
         ,yes: function(index, layero){
-          var iframeWindow = window['layui-layer-iframe'+ index]
-          ,submitID = 'LAY-app-forum-submit'
-          ,submit = layero.find('iframe').contents().find('#'+ submitID);
+          const iframeWindow = window['layui-layer-iframe' + index]
+              , submitID = 'LAY-app-forum-submit'
+              , submit = layero.find('iframe').contents().find('#' + submitID);
 
           //监听提交
           iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-            var field = data.field; //获取提交的字段
+            const field = data.field; //获取提交的字段
             
             //提交 Ajax 成功后，静态更新表格中的数据
             //$.ajax({});
@@ -97,14 +87,14 @@ layui.define(['table', 'form'], function(exports){
   
   //监听工具条
   table.on('tool(LAY-app-forumreply-list)', function(obj){
-    var data = obj.data;
+    const data = obj.data;
     if(obj.event === 'del'){
       layer.confirm('确定删除此条评论？', function(index){
         obj.del();
         layer.close(index);
       });
     } else if(obj.event === 'edit'){
-      var tr = $(obj.tr);
+      const tr = $(obj.tr);
 
       layer.open({
         type: 2
@@ -115,9 +105,9 @@ layui.define(['table', 'form'], function(exports){
         ,resize: false
         ,yes: function(index, layero){
           //获取iframe元素的值
-          var othis = layero.find('iframe').contents().find("#layuiadmin-form-replys");
-          var content = othis.find('textarea[name="content"]').val();
-          
+          const othis = layero.find('iframe').contents().find("#layuiadmin-form-replys");
+          const content = othis.find('textarea[name="content"]').val();
+
           //数据更新
           obj.update({
             content: content

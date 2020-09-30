@@ -58,4 +58,11 @@ public interface NoteInfoService {
      * @return                      返回结果
      */
     Result<Boolean> delete(NoteDeleteReqDTO reqDTO);
+
+    /**
+     * 笔记共享
+     * @param reqDTO                请求参数
+     * @return                      返回结果
+     */
+    Result<Boolean> share(NoteShareReqDTO reqDTO);
 }
