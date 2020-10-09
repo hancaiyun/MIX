@@ -1,7 +1,6 @@
 package com.nicehancy.mix.core;
 
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 测试core
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class TestCore {
 
-    @Transactional(rollbackFor = { Exception.class })
+    //@Transactional(rollbackFor = { Exception.class })
     public void testMethod(){
 
         //数据库操作一

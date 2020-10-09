@@ -77,7 +77,6 @@ public class LoginStatisticManager {
         }
     }
 
-
     /**
      * 数据分组
      *
@@ -91,9 +90,11 @@ public class LoginStatisticManager {
         try {
             for (UserLoginRecordBO recordBO : recordBOList) {
 
-                if (resultMap.containsKey(recordBO.getUserNo())) {//map中异常批次已存在，将该数据存放到同一个key（key存放的是异常批次）的map中
+                if (resultMap.containsKey(recordBO.getUserNo())) {
+                    //map中异常批次已存在，将该数据存放到同一个key（key存放的是异常批次）的map中
                     resultMap.get(recordBO.getUserNo()).add(recordBO);
-                } else {//map中不存在，新建key，用来存放数据
+                } else {
+                    //map中不存在，新建key，用来存放数据
                     List<UserLoginRecordBO> tmpList = new ArrayList<>();
                     tmpList.add(recordBO);
                     resultMap.put(recordBO.getUserNo(), tmpList);
