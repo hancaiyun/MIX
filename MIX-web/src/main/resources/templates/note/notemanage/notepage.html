@@ -67,15 +67,20 @@
                         &nbsp;<button class="layui-btn layui-btn-warm" th:id="save">保存</button>
                     </div>
                     <!--分享按钮-->
+<!--                    <div class="layui-inline">-->
+<!--                        <script type="text/html" id="">-->
+<!--                            {{# if(d.shareFlag == 'TRUE'){}}-->
+<!--                            <button class="layui-btn layui-btn-normal layui-btn-disabled" th:id="share">分享</button>-->
+<!--                            {{# }}}-->
+<!--                            {{# if(d.shareFlag != 'TRUE'){}}-->
+<!--                            <button class="layui-btn layui-btn-normal" th:id="share">分享</button>-->
+<!--                            {{# }}}-->
+<!--                        </script>-->
+<!--                    </div>-->
+
+                    <!--分享按钮-->
                     <div class="layui-inline">
-                        <script type="text/html" id="">
-                            {{# if(d.shareFlag == 'TRUE'){}}
-                            <button class="layui-btn layui-btn-normal layui-btn-disabled" th:id="share">分享</button>
-                            {{# }}}
-                            {{# if(d.shareFlag != 'TRUE'){}}
-                            <button class="layui-btn layui-btn-normal" th:id="share">分享</button>
-                            {{# }}}
-                        </script>
+                        <button class="layui-btn layui-btn-normal" th:id="share">分享</button>
                     </div>
                 </div>
             </div>

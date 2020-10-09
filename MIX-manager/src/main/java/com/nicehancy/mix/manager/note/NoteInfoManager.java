@@ -3,7 +3,9 @@ package com.nicehancy.mix.manager.note;
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.enums.NoteStatusEnum;
 import com.nicehancy.mix.dal.NoteInfoRepository;
+import com.nicehancy.mix.dal.UserInfoRepository;
 import com.nicehancy.mix.dal.model.NoteInfoDO;
+import com.nicehancy.mix.dal.model.UserInfoDO;
 import com.nicehancy.mix.dal.model.request.NoteQueryReqDO;
 import com.nicehancy.mix.manager.convert.NoteInfoBOConvert;
 import com.nicehancy.mix.manager.model.*;
@@ -28,6 +30,9 @@ public class NoteInfoManager {
 
     @Autowired
     private NoteInfoRepository noteRepository;
+
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
     /**
      * 目录列表查询
@@ -346,5 +351,46 @@ public class NoteInfoManager {
         noteRepository.updateForShare(noteInfoDO);
 
         return true;
+    }
+
+    /**
+     * 分享笔记列表查询
+     * @return                返回结果
+     */
+    public List<NoteShareInfoBO> queryShare() {
+
+        List<NoteShareInfoBO> noteShareInfoBOS = new ArrayList<>();
+
+        //查询分享笔记列表
+        List<NoteInfoDO> noteInfoDOList = noteRepository.queryShareNote();
+
+        if(CollectionUtils.isEmpty(noteInfoDOList)){
+            return noteShareInfoBOS;
+        }
+        //设置共享笔记列表信息
+        for(NoteInfoDO noteInfoDO : noteInfoDOList){
+
+            //查询用户信息
+            UserInfoDO userInfoDO = userInfoRepository.queryByUserNo(noteInfoDO.getUserNo());
+            if(null == userInfoDO){
+                continue;
+            }
+
+            //设置共享信息
+            NoteShareInfoBO noteShareInfoBO = new NoteShareInfoBO();
+            //设置用户信息
+            noteShareInfoBO.setUserNo(userInfoDO.getUserNo());
+            noteShareInfoBO.setHeadCopy(userInfoDO.getHeadCopy());
+            noteShareInfoBO.setNickName(userInfoDO.getNickName());
+            //设置笔记信息
+            noteShareInfoBO.setDocumentName(noteInfoDO.getFileName());
+            noteShareInfoBO.setCreatedAt(noteInfoDO.getCreatedAt());
+            noteShareInfoBO.setCreatedBy(noteInfoDO.getCreatedBy());
+            noteShareInfoBO.setUpdatedAt(noteInfoDO.getUpdatedAt());
+            noteShareInfoBO.setUpdatedBy(noteInfoDO.getUpdatedBy());
+
+            noteShareInfoBOS.add(noteShareInfoBO);
+        }
+        return noteShareInfoBOS;
     }
 }

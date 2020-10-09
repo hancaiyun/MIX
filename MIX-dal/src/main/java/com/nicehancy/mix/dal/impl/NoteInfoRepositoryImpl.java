@@ -1,13 +1,16 @@
 package com.nicehancy.mix.dal.impl;
 
 import com.nicehancy.mix.common.enums.NoteStatusEnum;
+import com.nicehancy.mix.common.enums.ShareFlagEnum;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.NoteInfoRepository;
+import com.nicehancy.mix.dal.model.FileDownloadInfoDO;
 import com.nicehancy.mix.dal.model.request.DirectoryQueryReqDO;
 import com.nicehancy.mix.dal.model.request.FileListReqDO;
 import com.nicehancy.mix.dal.model.NoteInfoDO;
 import com.nicehancy.mix.dal.model.request.NoteQueryReqDO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -250,5 +253,25 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
 
         //更新操作
         mongoTemplate.updateMulti(query, update, NoteInfoDO.class);
+    }
+
+    /**
+     * 共享文档列表查询
+     * @return                       文档列表
+     */
+    @Override
+    public List<NoteInfoDO> queryShareNote() {
+
+        //设置分页查询条件
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.and("shareFlag").is(ShareFlagEnum.TRUE.getCode());
+        criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
+        query.addCriteria(criteria);
+        //设置排序
+        query.with(Sort.by(Sort.Direction.DESC, "updatedAt"));
+        //分页
+
+        return mongoTemplate.find(query, NoteInfoDO.class);
     }
 }

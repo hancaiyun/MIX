@@ -2,9 +2,11 @@ package com.nicehancy.mix.service.note;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.utils.VerifyUtil;
+import com.nicehancy.mix.manager.model.NoteShareInfoBO;
 import com.nicehancy.mix.manager.note.NoteInfoManager;
 import com.nicehancy.mix.service.api.model.NoteInfoDTO;
 import com.nicehancy.mix.service.api.model.request.note.*;
+import com.nicehancy.mix.service.api.model.result.NoteShareInfoDTO;
 import com.nicehancy.mix.service.api.note.NoteInfoService;
 import com.nicehancy.mix.service.convert.note.NoteDTOConvert;
 import lombok.extern.slf4j.Slf4j;
@@ -192,6 +194,29 @@ public class NoteInfoServiceImpl implements NoteInfoService {
         }catch (Exception e){
             result.setErrorMsg(e.getMessage());
             log.error("call NoteInfoServiceImpl share failed, message：e={}, result={}", e, result);
+        }
+        return result;
+    }
+
+    /**
+     * 共享文档列表查询
+     * @param reqDTO                请求参数
+     * @return                      共享文档列表
+     */
+    @Override
+    public Result<List<NoteShareInfoDTO>> queryShare(NoteShareQueryReqDTO reqDTO) {
+
+        Result<List<NoteShareInfoDTO>> result = new Result<>();
+        MDC.put("TRACE_LOG_ID", reqDTO.getTraceLogId());
+        try{
+            log.info("call NoteInfoServiceImpl queryShare param: reqDTO={}", reqDTO);
+            //业务处理
+            List<NoteShareInfoBO> shareInfoBOList= noteInfoManager.queryShare();
+            result.setResult(NoteDTOConvert.getShareDTOsByBOs(shareInfoBOList));
+            log.info("call NoteInfoServiceImpl queryShare result: {}", result);
+        }catch (Exception e){
+            result.setErrorMsg(e.getMessage());
+            log.error("call NoteInfoServiceImpl queryShare failed, message：e={}, result={}", e, result);
         }
         return result;
     }

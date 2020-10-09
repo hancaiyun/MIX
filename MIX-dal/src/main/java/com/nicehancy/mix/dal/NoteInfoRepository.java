@@ -71,4 +71,11 @@ public interface NoteInfoRepository {
      * @param noteInfoDO             请求DO
      */
     void updateForShare(NoteInfoDO noteInfoDO);
+
+    /**
+     * 分享文档列表查询
+     * @return                       共享文档列表
+     */
+    List<NoteInfoDO> queryShareNote();
+
 }

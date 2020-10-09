@@ -28,16 +28,6 @@ public class CommunityController extends BaseController {
     }
 
     /**
-     * 主页
-     * @return      主页视图
-     */
-    @RequestMapping("/community/community")
-    public ModelAndView community(){
-        return new ModelAndView("community/community");
-    }
-
-
-    /**
      * 详情页
      * @return      详情页视图
      */

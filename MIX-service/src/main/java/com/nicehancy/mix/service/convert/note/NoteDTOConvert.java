@@ -1,9 +1,12 @@
 package com.nicehancy.mix.service.convert.note;
 
 
+import com.nicehancy.mix.common.constant.DatePatternConstant;
+import com.nicehancy.mix.common.utils.DateUtil;
 import com.nicehancy.mix.manager.model.*;
 import com.nicehancy.mix.service.api.model.NoteInfoDTO;
 import com.nicehancy.mix.service.api.model.request.note.*;
+import com.nicehancy.mix.service.api.model.result.NoteShareInfoDTO;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -51,6 +54,30 @@ public class NoteDTOConvert {
         noteInfoDTO.setUpdatedBy(noteInfoBO.getUpdatedBy());
 
         return noteInfoDTO;
+    }
+
+    /**
+     * 根据BO获取DTO
+     * @param noteShareInfoBO    BO
+     * @return                   DTO
+     */
+    public static NoteShareInfoDTO getDTOByBO(NoteShareInfoBO noteShareInfoBO) {
+
+        if (noteShareInfoBO == null) {
+            return null;
+        }
+
+        NoteShareInfoDTO noteShareInfoDTO = new NoteShareInfoDTO();
+        noteShareInfoDTO.setUserNo(noteShareInfoBO.getUserNo());
+        noteShareInfoDTO.setHeadCopy(noteShareInfoBO.getHeadCopy());
+        noteShareInfoDTO.setNickName(noteShareInfoBO.getNickName());
+        noteShareInfoDTO.setDocumentName(noteShareInfoBO.getDocumentName());
+        noteShareInfoDTO.setCreatedAt(DateUtil.format(noteShareInfoBO.getCreatedAt(), DatePatternConstant.STANDARD_PATTERN));
+        noteShareInfoDTO.setCreatedBy(noteShareInfoBO.getCreatedBy());
+        noteShareInfoDTO.setUpdatedAt(DateUtil.format(noteShareInfoBO.getUpdatedAt(), DatePatternConstant.STANDARD_PATTERN));
+        noteShareInfoDTO.setUpdatedBy(noteShareInfoBO.getUpdatedBy());
+
+        return noteShareInfoDTO;
     }
 
     /**
@@ -129,6 +156,23 @@ public class NoteDTOConvert {
     }
 
     /**
+     * 笔记分享查询请求DTO转BO
+     * @param reqDTO            请求DTO
+     * @return                  BO
+     */
+    public static NoteShareQueryReqBO getReqBOByDTO(NoteShareQueryReqDTO reqDTO) {
+
+        if (reqDTO == null) {
+            return null;
+        }
+
+        NoteShareQueryReqBO reqBO = new NoteShareQueryReqBO();
+        reqBO.setUserNo(reqDTO.getUserNo());
+
+        return reqBO;
+    }
+
+    /**
      * 笔记管理请求DTO转BO
      * @param reqDTO              请求DTO
      * @return                    BO
@@ -188,6 +232,25 @@ public class NoteDTOConvert {
         directoryQueryReqBO.setSecondaryDirectory(reqDTO.getSecondaryDirectory());
         return directoryQueryReqBO;
     }
+
+    /**
+     * 根据BOs转换成DTOs
+     * @param noteShareInfoBOS       BOs
+     * @return                       DTOs
+     */
+    public static List<NoteShareInfoDTO> getShareDTOsByBOs(List<NoteShareInfoBO> noteShareInfoBOS) {
+
+        if(CollectionUtils.isEmpty(noteShareInfoBOS)){
+            return null;
+        }
+        List<NoteShareInfoDTO> noteShareInfoDTOS = new ArrayList<>();
+        for(NoteShareInfoBO noteShareInfoBO : noteShareInfoBOS){
+            noteShareInfoDTOS.add(getDTOByBO(noteShareInfoBO));
+        }
+        return noteShareInfoDTOS;
+    }
+
+
 
     /**
      * 文件列表查询请求DTO转BO

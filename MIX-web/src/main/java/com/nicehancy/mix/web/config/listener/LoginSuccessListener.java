@@ -5,9 +5,9 @@ import com.nicehancy.mix.service.LoginAndOutOperationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 /**
  * 登陆授权成功事件监听器
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * @author hancaiyun
  * @since 2020/8/11 13:45
  **/
-@Component
+//@Configuration
 public class LoginSuccessListener implements ApplicationListener {
 
     @Autowired
