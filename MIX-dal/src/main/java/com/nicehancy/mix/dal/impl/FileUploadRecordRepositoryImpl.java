@@ -1,6 +1,7 @@
 package com.nicehancy.mix.dal.impl;
 
 import com.nicehancy.mix.common.enums.FileStatusEnum;
+import com.nicehancy.mix.common.enums.ShareFlagEnum;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.FileUploadRecordRepository;
 import com.nicehancy.mix.dal.model.FileUploadRecordDO;
@@ -149,6 +150,30 @@ public class FileUploadRecordRepositoryImpl implements FileUploadRecordRepositor
 
         update.set("updatedAt", new Date());
         update.set("updatedBy", fileUploadRecordDO.getUpdatedBy());
+
+        //更新操作
+        mongoTemplate.updateFirst(query, update, FileUploadRecordDO.class);
+    }
+
+    /**
+     * 文件共享更新
+     * @param fileId                文件ID
+     * @param operator              操作人
+     */
+    @Override
+    public void shareFile(String fileId, String operator) {
+
+        //查询条件
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.and("fileId").is(fileId);
+        query.addCriteria(criteria);
+
+        //更新内容
+        Update update = new Update();
+        update.set("shareFlag", ShareFlagEnum.TRUE.getCode());
+        update.set("updatedAt", new Date());
+        update.set("updatedBy", operator);
 
         //更新操作
         mongoTemplate.updateFirst(query, update, FileUploadRecordDO.class);

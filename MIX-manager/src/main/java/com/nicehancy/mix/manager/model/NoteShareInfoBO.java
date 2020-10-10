@@ -20,6 +20,11 @@ import java.util.Date;
 public class NoteShareInfoBO {
 
     /**
+     * 数据库id
+     */
+    private Long id;
+
+    /**
      * 用户编号
      */
     private String userNo;

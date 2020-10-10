@@ -13,34 +13,32 @@
 
   <div class="layui-fluid" id="LAY-app-message-detail">
     <div class="layui-card layuiAdmin-msg-detail">
-      <script type="text/html" template lay-url="{{ layui.setter.base }}json/message/detail.js?id={{ layui.router().search.id }}">
-        <div class="layui-card-header">
-          <h1>{{ d.data.title }}</h1>
+      <script type="text/html" template lay-url="/note/queryShareDetail?id={{ UrlParam.paramValues('id') }}">
+        <div class="layui-card-header" style="background-color: #DCDCDC">
+          <h1>{{ d.data.documentName }}</h1>
           <p>
-            <span>{{ layui.util.timeAgo(d.data.time) }}</span>
+            <img src="/file/download?fileName={{ UrlParam.paramValues('headCopy') }}" class="layui-circle" width="25" height="25" alt="">
+              {{ UrlParam.paramValues('nickName') }} <span>{{ d.data.updatedAt }}</span>
           </p>
         </div>
         <div class="layui-card-body layui-text">
           <div class="layadmin-text">
             {{ d.data.content }}
-            <blockquote class="layui-elem-quote">
-              注：这里读取的是静态的模拟接口，实际应用时，您可以在该页面源代码中，修改成以下任意一种方式
-              <ul>
-                <li>将 <em>lay-url=""</em> 改成你的真实接口，系统会自动识别该动态模板，直接前端渲染。</li>
-                <li>剔除 script 动态模板标签，改成服务端渲染。</li>
-              </ul>
-            </blockquote>
           </div>
-          
           <div style="padding-top: 30px;">
-            <a href="javascript:;" layadmin-event="back" class="layui-btn layui-btn-primary layui-btn-sm">返回上级</a>
+            <a class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon layui-icon-praise"></i>点赞80</a>
+            <a class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon layui-icon-chat"></i>评论2</a>
           </div>
         </div>
+
+        <!--评论区-->
+
       </script>
     </div>
   </div>
 
-<script th:src="@{/frame/layui/layui.js}"></script>
+  <script th:src="@{/frame/layui/layui.js}"></script>
+  <script type="text/javascript" th:src="@{/frame/js/getUrlParam.js}"></script>
   <script>
   layui.config({
     base: '/frame/' //静态资源所在路径

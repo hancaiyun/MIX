@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 共享笔记DTO
@@ -18,12 +17,12 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class NoteShareInfoDTO implements Serializable {
+public class NoteShareDetailDTO implements Serializable {
 
     /**
      * 序列化ID
      */
-    private static final long serialVersionUID = -1793753641653542243L;
+    private static final long serialVersionUID = -3176429398302537331L;
 
     /**
      * 数据库id
@@ -36,19 +35,24 @@ public class NoteShareInfoDTO implements Serializable {
     private String userNo;
 
     /**
-     * 头像
-     */
-    private String headCopy;
-
-    /**
-     * 用户昵称
-     */
-    private String nickName;
-
-    /**
      * 文档名
      */
     private String documentName;
+
+    /**
+     * 文档内容
+     */
+    private String content;
+
+    /**
+     * 查看数
+     */
+    private Integer seeCount;
+
+    /**
+     * 支持数
+     */
+    private Integer supportCount;
 
     /**
      * 创建时间

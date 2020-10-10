@@ -154,4 +154,18 @@ public class FileManagementManager {
 
         return true;
     }
+
+    /**
+     * 文件共享
+     * @param fileId          文件ID
+     * @param operator        操作人
+     * @return                共享结果
+     */
+    public boolean shareFile(String fileId, String operator) {
+
+        //更新数据库
+        fileUploadRecordRepository.shareFile(fileId, operator);
+
+        return true;
+    }
 }

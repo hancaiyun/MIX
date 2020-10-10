@@ -269,9 +269,30 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
         query.addCriteria(criteria);
         //设置排序
-        query.with(Sort.by(Sort.Direction.DESC, "updatedAt"));
+        query.with(Sort.by(Sort.Direction.ASC, "updatedAt"));
         //分页
 
         return mongoTemplate.find(query, NoteInfoDO.class);
+    }
+
+    /**
+     * 根据id查询文档明细
+     * @param id                      数据库主键id
+     * @return                        文档信息
+     */
+    @Override
+    public NoteInfoDO queryNoteById(Long id) {
+
+        //设置分页查询条件
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.and("id").is(id);
+        criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
+        query.addCriteria(criteria);
+        //设置排序
+        query.with(Sort.by(Sort.Direction.DESC, "updatedAt"));
+        //分页
+
+        return mongoTemplate.findOne(query, NoteInfoDO.class);
     }
 }

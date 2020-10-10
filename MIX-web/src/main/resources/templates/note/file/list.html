@@ -52,6 +52,7 @@
         <div style="padding-bottom: 10px;">
           <button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
           <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">上传</button>
+          <button class="layui-btn layuiadmin-btn-useradmin" data-type="share">分享</button>
         </div>
         <!--表格-->
         <table id="LAY-file-manage" lay-filter="LAY-file-manage"></table>
@@ -134,13 +135,55 @@
           }
         });
       }
+      , share:function(){
+        const checkStatus = table.checkStatus('LAY-file-manage')
+                , checkData = checkStatus.data; //得到选中的数据
+
+        if (checkData.length === 0) {
+          return layer.msg('请选择要分享的文件');
+        }
+
+        layer.confirm('确定分享到共享社区吗？分享后别人将可以查看并下载文件', function () {
+          //分享
+          for(let i = 0; i< checkData.length; i++){
+            shareFile(checkData[i].fileId);
+          }
+          //表格删除
+          table.reload('LAY-file-manage');
+        });
+      }
     };
+
+    //文件批量共享
+    function shareFile(fileId){
+      //删除文件数据
+      $.ajax({
+        url: '/note/file/share',
+        data: {"fileId": fileId, "userNo": window.localStorage["loginNo"]},
+        dataType: 'json',//数据类型
+        type: 'GET',//类型
+        timeout: 3000,//超时
+        //请求成功
+        success: function (res) {
+          if (res.code === "0000") {
+            //成功
+            layer.open("分享成功");
+          }
+        },
+        //失败/超时
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          if (textStatus === 'timeout') {
+            layer.msg('网络异常');
+          }
+          layer.msg("失败原因：" + errorThrown);
+        }
+      });
+    }
 
     $('.layui-btn.layuiadmin-btn-useradmin').on('click', function(){
       const type = $(this).data('type');
       active[type] ? active[type].call(this) : '';
     });
-
 
     function deleteFile(fileId){
       //删除文件数据

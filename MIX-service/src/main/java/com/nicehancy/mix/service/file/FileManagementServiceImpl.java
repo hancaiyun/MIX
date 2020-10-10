@@ -10,6 +10,7 @@ import com.nicehancy.mix.manager.model.FileUploadResultBO;
 import com.nicehancy.mix.service.api.file.FileManagementService;
 import com.nicehancy.mix.service.api.model.request.file.FileDeleteRequestDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileQueryDetailReqDTO;
+import com.nicehancy.mix.service.api.model.request.file.FileShareRequestDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileUploadRequestDTO;
 import com.nicehancy.mix.service.api.model.request.note.FileUploadRecordPageQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadRecordDTO;
@@ -165,6 +166,36 @@ public class FileManagementServiceImpl implements FileManagementService {
             //异常信息包装
             result.setErrorMsg(e.getMessage());
             log.error("call FileManagementService deleteFile Fail,result:{}", result);
+        }
+        return result;
+    }
+
+    /**
+     * 文件共享
+     * @param requestDTO       请求对象
+     * @return                 共享结果
+     */
+    @Override
+    public Result<Boolean> shareFile(FileShareRequestDTO requestDTO) {
+
+        Result<Boolean> result = new Result<>();
+        try{
+            MDC.put(CommonConstant.TRACE_LOG_ID, requestDTO.getTraceLogId());
+            log.info("call FileManagementService shareFile request:{}", requestDTO);
+
+            //参数校验
+            VerifyUtil.validateObject(requestDTO);
+
+            //业务处理
+            boolean isShare = fileManagementManager.shareFile(requestDTO.getFileId(), requestDTO.getOperator());
+            //结果封装
+            result.setResult(isShare);
+            log.info("call FileManagementService shareFile success, result:{}", result);
+        }catch (Exception e){
+            log.error("call FileManagementService shareFile Fail, exception:{}, result:{}", e, result);
+            //异常信息包装
+            result.setErrorMsg(e.getMessage());
+            log.error("call FileManagementService shareFile Fail,result:{}", result);
         }
         return result;
     }

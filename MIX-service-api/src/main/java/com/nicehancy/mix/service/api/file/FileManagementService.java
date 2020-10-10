@@ -3,6 +3,7 @@ package com.nicehancy.mix.service.api.file;
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.service.api.model.request.file.FileDeleteRequestDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileQueryDetailReqDTO;
+import com.nicehancy.mix.service.api.model.request.file.FileShareRequestDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileUploadRequestDTO;
 import com.nicehancy.mix.service.api.model.request.note.FileUploadRecordPageQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadRecordDTO;
@@ -47,4 +48,10 @@ public interface FileManagementService {
      */
     Result<Boolean> deleteFile(FileDeleteRequestDTO requestDTO);
 
+    /**
+     *  文件共享
+     * @param requestDTO       请求对象
+     * @return                 共享结果
+     */
+    Result<Boolean> shareFile(FileShareRequestDTO requestDTO);
 }

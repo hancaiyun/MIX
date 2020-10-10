@@ -4,6 +4,7 @@ import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.enums.ShareFlagEnum;
 import com.nicehancy.mix.service.api.model.NoteInfoDTO;
 import com.nicehancy.mix.service.api.model.request.note.*;
+import com.nicehancy.mix.service.api.model.result.NoteShareDetailDTO;
 import com.nicehancy.mix.service.api.model.result.NoteShareInfoDTO;
 import com.nicehancy.mix.service.api.note.NoteInfoService;
 import com.nicehancy.mix.web.controller.base.BaseController;
@@ -205,7 +206,7 @@ public class NoteController extends BaseController {
         reqDTO.setUserNo(this.getParameters(request).get("userNo"));
         reqDTO.setTraceLogId(traceLogId);
 
-        log.info("NoteController share request PARAM: reqDTO={}",reqDTO);
+        log.info("NoteController queryShare request PARAM: reqDTO={}",reqDTO);
         Result<List<NoteShareInfoDTO>> result =  noteInfoService.queryShare(reqDTO);
         ModelMap modelMap;
         if(result.isSuccess()) {
@@ -213,7 +214,33 @@ public class NoteController extends BaseController {
         }else{
             modelMap =  this.processSuccessJSON(result.getErrorMsg());
         }
-        log.info("NoteController share result: {}", modelMap);
+        log.info("NoteController queryShare result: {}", modelMap);
+        return modelMap;
+    }
+
+    /**
+     * 共享笔记明细查询
+     * @return     处理结果
+     */
+    @RequestMapping(value = "/queryShareDetail")
+    @ResponseBody
+    public ModelMap queryShareDetail(HttpServletRequest request){
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        NoteShareQueryDetailReqDTO reqDTO = new NoteShareQueryDetailReqDTO();
+        reqDTO.setId(Long.valueOf(this.getParameters(request).get("id")));
+        reqDTO.setTraceLogId(traceLogId);
+
+        log.info("NoteController queryShareDetail request PARAM: reqDTO={}",reqDTO);
+        Result<NoteShareDetailDTO> result =  noteInfoService.queryShareDetail(reqDTO);
+        ModelMap modelMap;
+        if(result.isSuccess()) {
+            modelMap =  this.processSuccessJSON(result.getResult());
+        }else{
+            modelMap =  this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("NoteController queryShareDetail result: {}", modelMap);
         return modelMap;
     }
 

@@ -383,6 +383,7 @@ public class NoteInfoManager {
             noteShareInfoBO.setHeadCopy(userInfoDO.getHeadCopy());
             noteShareInfoBO.setNickName(userInfoDO.getNickName());
             //设置笔记信息
+            noteShareInfoBO.setId(noteInfoDO.getId());
             noteShareInfoBO.setDocumentName(noteInfoDO.getFileName());
             noteShareInfoBO.setCreatedAt(noteInfoDO.getCreatedAt());
             noteShareInfoBO.setCreatedBy(noteInfoDO.getCreatedBy());
@@ -392,5 +393,30 @@ public class NoteInfoManager {
             noteShareInfoBOS.add(noteShareInfoBO);
         }
         return noteShareInfoBOS;
+    }
+
+    /**
+     * 共享笔记明细查询
+     * @param id    数据库id
+     * @return      共享明细
+     */
+    public NoteShareDetailBO queryShareDetail(Long id) {
+
+        //查询笔记明细
+        NoteInfoDO noteInfoDO = noteRepository.queryNoteById(id);
+
+        //查询笔记查看、点赞统计明细
+
+        //结果封装
+        NoteShareDetailBO noteShareDetailBO = new NoteShareDetailBO();
+        noteShareDetailBO.setId(id);
+        noteShareDetailBO.setDocumentName(noteInfoDO.getFileName());
+        noteShareDetailBO.setContent(noteInfoDO.getContent());
+        noteShareDetailBO.setCreatedAt(noteInfoDO.getCreatedAt());
+        noteShareDetailBO.setCreatedBy(noteInfoDO.getCreatedBy());
+        noteShareDetailBO.setUpdatedAt(noteInfoDO.getUpdatedAt());
+        noteShareDetailBO.setUpdatedBy(noteInfoDO.getUpdatedBy());
+
+        return noteShareDetailBO;
     }
 }

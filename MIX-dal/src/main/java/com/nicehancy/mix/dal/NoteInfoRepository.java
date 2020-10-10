@@ -78,4 +78,10 @@ public interface NoteInfoRepository {
      */
     List<NoteInfoDO> queryShareNote();
 
+    /**
+     *  根据id查询文档明细
+     * @param id                      数据库主键id
+     * @return                        文档明细
+     */
+    NoteInfoDO queryNoteById(Long id);
 }

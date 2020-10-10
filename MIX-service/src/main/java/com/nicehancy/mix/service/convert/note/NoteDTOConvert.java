@@ -6,6 +6,7 @@ import com.nicehancy.mix.common.utils.DateUtil;
 import com.nicehancy.mix.manager.model.*;
 import com.nicehancy.mix.service.api.model.NoteInfoDTO;
 import com.nicehancy.mix.service.api.model.request.note.*;
+import com.nicehancy.mix.service.api.model.result.NoteShareDetailDTO;
 import com.nicehancy.mix.service.api.model.result.NoteShareInfoDTO;
 import org.springframework.util.CollectionUtils;
 
@@ -68,6 +69,7 @@ public class NoteDTOConvert {
         }
 
         NoteShareInfoDTO noteShareInfoDTO = new NoteShareInfoDTO();
+        noteShareInfoDTO.setId(noteShareInfoBO.getId());
         noteShareInfoDTO.setUserNo(noteShareInfoBO.getUserNo());
         noteShareInfoDTO.setHeadCopy(noteShareInfoBO.getHeadCopy());
         noteShareInfoDTO.setNickName(noteShareInfoBO.getNickName());
@@ -156,20 +158,29 @@ public class NoteDTOConvert {
     }
 
     /**
-     * 笔记分享查询请求DTO转BO
-     * @param reqDTO            请求DTO
-     * @return                  BO
+     * 共享明细BO转DTO
+     * @param noteShareDetailBO BO
+     * @return                  DTO
      */
-    public static NoteShareQueryReqBO getReqBOByDTO(NoteShareQueryReqDTO reqDTO) {
+    public static NoteShareDetailDTO getDTOByBO(NoteShareDetailBO noteShareDetailBO) {
 
-        if (reqDTO == null) {
+        if (noteShareDetailBO == null) {
             return null;
         }
 
-        NoteShareQueryReqBO reqBO = new NoteShareQueryReqBO();
-        reqBO.setUserNo(reqDTO.getUserNo());
+        NoteShareDetailDTO noteShareDetailDTO = new NoteShareDetailDTO();
+        noteShareDetailDTO.setId(noteShareDetailBO.getId());
+        noteShareDetailDTO.setUserNo(noteShareDetailBO.getUserNo());
+        noteShareDetailDTO.setDocumentName(noteShareDetailBO.getDocumentName());
+        noteShareDetailDTO.setContent(noteShareDetailBO.getContent());
+        noteShareDetailDTO.setSeeCount(noteShareDetailBO.getSeeCount());
+        noteShareDetailDTO.setSupportCount(noteShareDetailBO.getSupportCount());
+        noteShareDetailDTO.setCreatedAt(DateUtil.format(noteShareDetailBO.getCreatedAt(), DatePatternConstant.STANDARD_PATTERN));
+        noteShareDetailDTO.setCreatedBy(noteShareDetailBO.getCreatedBy());
+        noteShareDetailDTO.setUpdatedAt(DateUtil.format(noteShareDetailBO.getUpdatedAt(), DatePatternConstant.STANDARD_PATTERN));
+        noteShareDetailDTO.setUpdatedBy(noteShareDetailBO.getUpdatedBy());
 
-        return reqBO;
+        return noteShareDetailDTO;
     }
 
     /**

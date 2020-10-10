@@ -4,8 +4,10 @@ import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.constant.CommonErrorConstant;
 import com.nicehancy.mix.common.utils.FileOperateUtil;
 import com.nicehancy.mix.service.api.file.FileManagementService;
+import com.nicehancy.mix.service.api.model.FileDownloadInfoDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileDeleteRequestDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileQueryDetailReqDTO;
+import com.nicehancy.mix.service.api.model.request.file.FileShareRequestDTO;
 import com.nicehancy.mix.service.api.model.request.file.FileUploadRequestDTO;
 import com.nicehancy.mix.service.api.model.request.note.FileUploadRecordPageQueryReqDTO;
 import com.nicehancy.mix.service.api.model.result.FileUploadRecordDTO;
@@ -231,6 +233,35 @@ public class FileManageController extends BaseController {
             modelMap = this.processSuccessJSON(result.getErrorMsg());
         }
         log.info("FileManageController delete result={}", modelMap);
+
+        return modelMap;
+    }
+
+    /**
+     * 文件删除
+     * @return      删除结果
+     */
+    @RequestMapping("/note/file/share")
+    @ResponseBody
+    public ModelMap share(HttpServletRequest request) {
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        FileShareRequestDTO fileShareRequestDTO = new FileShareRequestDTO();
+        fileShareRequestDTO.setOperator(this.getParameters(request).get("userNo"));
+        fileShareRequestDTO.setFileId(this.getParameters(request).get("fileId"));
+        fileShareRequestDTO.setRequestSystem("SYSTEM");
+        fileShareRequestDTO.setTraceLogId(traceLogId);
+        log.info("FileManageController share request: fileShareRequestDTO={}", fileShareRequestDTO);
+
+        Result<Boolean> result = fileManagementService.shareFile(fileShareRequestDTO);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap = this.processSuccessJSON(result);
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("FileManageController share result={}", modelMap);
 
         return modelMap;
     }

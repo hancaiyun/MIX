@@ -47,4 +47,11 @@ public interface FileUploadRecordRepository {
      * @param fileUploadRecordDO    更新内容
      */
     void updateFileInfo(FileUploadRecordDO fileUploadRecordDO);
+
+    /**
+     * 文件共享更新
+     * @param fileId                文件ID
+     * @param operator              操作人
+     */
+    void shareFile(String fileId, String operator);
 }

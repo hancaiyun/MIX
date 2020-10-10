@@ -31,10 +31,10 @@
             layer = layui.layer,
             $ = layui.jquery;
 
-    laypage.render({
-      elem: 'demo1'
-      , count: 70 //数据总数
-    });
+    // laypage.render({
+    //   elem: 'demo1'
+    //   , count: 70 //数据总数
+    // });
 
      $.ajax({
        url: '/note/queryShare',
@@ -70,12 +70,14 @@
         let html='';
         for(let i = 0;i < data.length;i++){
           html = "<div class=\"caller-item\">\n" +
-                  "<img lay-href=\"\" src=/file/download?fileName=" + data[i].headCopy + " alt=\"\" class=\"caller-img caller-fl\">\n" +
+                  "<img src=/file/download?fileName=" + data[i].headCopy + " alt=\"\" class=\"caller-img caller-fl\">\n" +
                   "<div class=\"caller-main caller-fl\">       \n" +
-                  "<p lay-href=\"\">"+ data[i].nickName+" <em>"+ data[i].updatedAt+"</em></p>\n" +
-                  "<p class=\"caller-adds\" lay-href=\"\"><em><strong><font size=\"4\">"+ data[i].documentName +"</font></strong></em></p>\n" +
+                  "<p>"+ data[i].nickName+" <em>"+ data[i].updatedAt+"</em></p>\n" +
+                  "<p class=\"caller-adds\" lay-href=\"community/detail?id="+ data[i].id+"&nickName="+ data[i].nickName +
+                  "&headCopy="+ data[i].headCopy +"\"><em><strong><font size=\"4\">"+ data[i].documentName +"</font></strong></em></p>\n" +
                   "</div>\n" +
-                  "</div></<hr>" + html;
+                  "</div></<hr>" +
+                  html;
         }
         show.innerHTML = html;
      }
