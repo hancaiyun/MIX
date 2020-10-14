@@ -138,9 +138,9 @@ public class FileManageController extends BaseController {
         String filePath = this.getParameters(request).get("filePath");
         log.info("FileManageController preview request: filePath={}, traceLogId={}", filePath, traceLogId);
         if(StringUtils.isEmpty(filePath)){
-            return;
-        }
 
+        return;
+    }
         //通过物理路径下载文件
         String fileName = filePath.substring(filePath.lastIndexOf("/"));
         File file = new File(filePath);

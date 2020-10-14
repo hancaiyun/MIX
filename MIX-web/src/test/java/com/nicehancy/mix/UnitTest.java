@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -146,5 +148,15 @@ public class UnitTest extends BaseSpringTest {
         String percentStr = numberFormat.format((float)  5/ (float)7* 100);
 
         log.info("{}", percentStr);
+    }
+
+    /**
+     * list测试
+     */
+    public void listTest(){
+
+        List<Integer> list = new ArrayList<>();
+        list.add(12);
+        list.add(0, 2);
     }
 }

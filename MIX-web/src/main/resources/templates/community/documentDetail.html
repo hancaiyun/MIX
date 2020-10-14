@@ -26,8 +26,8 @@
             {{ d.data.content }}
           </div>
           <div style="padding-top: 30px;">
-            <a class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon layui-icon-praise"></i>点赞80</a>
-            <a class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon layui-icon-chat"></i>评论2</a>
+            <a id="prize" class="layui-btn layui-btn-primary layui-btn-sm" onclick="prize()"><i class="layui-icon layui-icon-praise"></i>点赞15</a><a
+                  class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-reply-fill"></i>评论1</a>
           </div>
         </div>
 
@@ -45,6 +45,17 @@
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index']);
+  </script>
+  <script>
+    function prize(){
+      if(document.getElementById("prize").className === "layui-btn layui-btn-primary layui-btn-sm"){
+        document.getElementById("prize").className = "layui-btn layui-btn-normal layui-btn-sm";
+        document.getElementById("prize").innerHTML = "<i class=\"layui-icon layui-icon-praise\"></i>点赞16";
+      }else{
+        document.getElementById("prize").className = "layui-btn layui-btn-primary layui-btn-sm"
+        document.getElementById("prize").innerHTML = "<i class=\"layui-icon layui-icon-praise\"></i>点赞15";
+      }
+    }
   </script>
 </body>
 </html>

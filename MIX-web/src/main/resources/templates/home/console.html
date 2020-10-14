@@ -56,6 +56,30 @@
                         </a>
                       </li>
 
+                      <!--共享中心-->
+                      <li class="layui-col-xs3">
+                        <a lay-href="community/documentPage">
+                          <i class="layui-icon layui-icon-release"></i>
+                          <cite>共享中心</cite>
+                        </a>
+                      </li>
+
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--操作指南-->
+          <div class="layui-col-md6">
+            <div class="layui-card">
+              <div class="layui-card-header">操作指南</div>
+              <div class="layui-card-body">
+                <div class="layui-carousel layadmin-carousel layadmin-shortcut">
+                  <div carousel-item>
+                    <ul class="layui-row layui-col-space10">
+
                       <!--操作入门-->
                       <li class="layui-col-xs3">
                         <a href="javascript:operateVideo()">
@@ -64,52 +88,14 @@
                         </a>
                       </li>
 
-                      <!--共享社区-->
+                      <!--操作手册-->
                       <li class="layui-col-xs3">
-                        <a lay-href="community/page">
-                          <i class="layui-icon layui-icon-group"></i>
-                          <cite>共享社区</cite>
+                        <a href="javascript:" onclick="layer.tips('攻城狮正在努力的编写操作文档', this, {tips: 3});">
+                          <i class="layui-icon layui-icon-read"></i>
+                          <cite>操作手册</cite>
                         </a>
                       </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!--待办事项-->
-          <div class="layui-col-md6">
-            <div class="layui-card">
-              <div class="layui-card-header">待办事项</div>
-              <div class="layui-card-body">
-                <div class="layui-carousel layadmin-carousel layadmin-backlog">
-                  <div carousel-item>
-                    <ul class="layui-row layui-col-space10">
-                      <li class="layui-col-xs6">
-                        <a lay-href="" class="layadmin-backlog-body">
-                          <h3>待审管理申请</h3>
-                          <p><cite>10</cite></p>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs6">
-                        <a lay-href="" class="layadmin-backlog-body">
-                          <h3>待审</h3>
-                          <p><cite>12</cite></p>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs6">
-                        <a lay-href="" class="layadmin-backlog-body">
-                          <h3>待审</h3>
-                          <p><cite>8</cite></p>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs6">
-                        <a href="javascript:;" onclick="layer.tips('不跳转', this, {tips: 3});" class="layadmin-backlog-body">
-                          <h3>待审</h3>
-                          <p><cite>20</cite></p>
-                        </a>
-                      </li>
                     </ul>
                   </div>
                 </div>
@@ -133,28 +119,25 @@
                   </thead>
                   <tbody>
                   <tr>
-                    <td><span class="first">韩旭</span></td>
+                    <td><img src="/file/download?fileName=202010121412016000000458967380.jpg" class="layui-circle"
+                             width="25" height="25" alt=""><span class="first">韩旭</span></td>
                     <td><i class="layui-icon layui-icon-log"> 11:20</i></td>
                     <td><span>在线</span></td>
                     <td>22 <i class="layui-icon layui-icon-praise"></i></td>
                   </tr>
                   <tr>
-                    <td><span class="second">小白</span></td>
+                    <td><img src="/file/download?fileName=202008100949436000001423811954.jpg" class="layui-circle"
+                             width="25" height="25" alt=""><span class="second">小白</span></td>
                     <td><i class="layui-icon layui-icon-log"> 10:40</i></td>
                     <td><span>在线</span></td>
                     <td>21 <i class="layui-icon layui-icon-praise"></i></td>
                   </tr>
                   <tr>
-                    <td><span class="third">大锤</span></td>
+                    <td><img src="/file/download?fileName=202010121418066000000727225657.gif" class="layui-circle"
+                             width="25" height="25" alt=""><span class="third">大锤</span></td>
                     <td><i class="layui-icon layui-icon-log"> 10:40</i></td>
                     <td><span>离线</span></td>
                     <td>10 <i class="layui-icon layui-icon-praise"></i></td>
-                  </tr>
-                  <tr>
-                    <td><span>王也</span></td>
-                    <td><i class="layui-icon layui-icon-log"> 10:40</i></td>
-                    <td><span>离线</span></td>
-                    <td>5 <i class="layui-icon layui-icon-praise"></i></td>
                   </tr>
                   </tbody>
                 </table>
@@ -212,24 +195,6 @@
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index', 'console', 'util']);
-  </script>
-
-  <script>
-    //教程gif
-    function operateVideo(){
-      //弹出层
-      layer.photos({
-        photos: {
-          "title": "查看教程"
-          ,"data": [{
-            "src": "/frame/images/course.gif"
-          }]
-        }
-        ,shade: 0.01
-        ,closeBtn: 1
-        ,anim: 5
-      });
-    }
   </script>
 </body>
 </html>

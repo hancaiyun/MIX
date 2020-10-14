@@ -76,3 +76,19 @@ layui.use('carousel', function(){
         ,arrow: 'always' //始终显示箭头
     });
 });
+
+//教程gif
+function operateVideo(){
+    //弹出层
+    layer.photos({
+        photos: {
+            "title": "查看教程"
+            ,"data": [{
+                "src": "/frame/images/course.gif"
+            }]
+        }
+        ,shade: 0.01
+        ,closeBtn: 1
+        ,anim: 5
+    });
+}

@@ -22,17 +22,18 @@ public class CommunityController extends BaseController {
      * 主页
      * @return      主页视图
      */
-    @RequestMapping("/community/page")
+    @RequestMapping("/community/documentPage")
     public ModelAndView index(){
-        return new ModelAndView("community/page");
+        return new ModelAndView("community/documentPage");
     }
 
     /**
      * 详情页
      * @return      详情页视图
      */
-    @RequestMapping("/community/detail")
+    @RequestMapping("/community/documentDetail")
     public ModelAndView detail(){
-        return new ModelAndView("community/detail");
+        return new ModelAndView("community/documentDetail");
+
     }
 }
