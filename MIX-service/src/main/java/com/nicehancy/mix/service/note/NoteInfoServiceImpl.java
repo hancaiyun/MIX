@@ -9,6 +9,7 @@ import com.nicehancy.mix.service.api.model.NoteInfoDTO;
 import com.nicehancy.mix.service.api.model.request.note.*;
 import com.nicehancy.mix.service.api.model.result.NoteShareDetailDTO;
 import com.nicehancy.mix.service.api.model.result.NoteShareInfoDTO;
+import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
 import com.nicehancy.mix.service.api.note.NoteInfoService;
 import com.nicehancy.mix.service.convert.note.NoteDTOConvert;
 import lombok.extern.slf4j.Slf4j;
@@ -206,15 +207,29 @@ public class NoteInfoServiceImpl implements NoteInfoService {
      * @return                      共享文档列表
      */
     @Override
-    public Result<List<NoteShareInfoDTO>> queryShare(NoteShareQueryReqDTO reqDTO) {
+    public Result<BasePageQueryResDTO<NoteShareInfoDTO>> queryShare(NoteShareQueryReqDTO reqDTO) {
 
-        Result<List<NoteShareInfoDTO>> result = new Result<>();
+        Result<BasePageQueryResDTO<NoteShareInfoDTO>> result = new Result<>();
+        BasePageQueryResDTO<NoteShareInfoDTO> pageQueryResDTO = new BasePageQueryResDTO<>();
         MDC.put("TRACE_LOG_ID", reqDTO.getTraceLogId());
         try{
             log.info("call NoteInfoServiceImpl queryShare param: reqDTO={}", reqDTO);
             //业务处理
-            List<NoteShareInfoBO> shareInfoBOList= noteInfoManager.queryShare();
-            result.setResult(NoteDTOConvert.getShareDTOsByBOs(shareInfoBOList));
+            //查询总条数
+            int totalCount = noteInfoManager.queryShareCount();
+            if(totalCount < 1){
+                pageQueryResDTO.setCount(0);
+                result.setResult(pageQueryResDTO);
+            }else{
+                //查询结果集
+                List<NoteShareInfoBO> shareInfoBOList= noteInfoManager.queryShare(reqDTO.getCurrentPage(), reqDTO.
+                        getPageSize());
+                pageQueryResDTO.setCount(totalCount);
+                pageQueryResDTO.setPageResult(NoteDTOConvert.getShareDTOsByBOs(shareInfoBOList));
+            }
+
+            //设置返回结果
+            result.setResult(pageQueryResDTO);
             log.info("call NoteInfoServiceImpl queryShare result: {}", result);
         }catch (Exception e){
             result.setErrorMsg(e.getMessage());

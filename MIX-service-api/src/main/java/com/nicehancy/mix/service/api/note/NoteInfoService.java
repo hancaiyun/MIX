@@ -5,6 +5,7 @@ import com.nicehancy.mix.service.api.model.NoteInfoDTO;
 import com.nicehancy.mix.service.api.model.request.note.*;
 import com.nicehancy.mix.service.api.model.result.NoteShareDetailDTO;
 import com.nicehancy.mix.service.api.model.result.NoteShareInfoDTO;
+import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
 
 import java.util.List;
 
@@ -73,7 +74,7 @@ public interface NoteInfoService {
      * @param reqDTO                请求参数
      * @return                      返回结果
      */
-    Result<List<NoteShareInfoDTO>> queryShare(NoteShareQueryReqDTO reqDTO);
+    Result<BasePageQueryResDTO<NoteShareInfoDTO>> queryShare(NoteShareQueryReqDTO reqDTO);
 
     /**
      * 共享笔记明细查询

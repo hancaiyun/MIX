@@ -1,5 +1,6 @@
 package com.nicehancy.mix.service.api.model.request.note;
 
+import com.nicehancy.mix.service.api.model.base.BasePageDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,7 +21,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class NoteShareQueryReqDTO implements Serializable {
+public class NoteShareQueryReqDTO extends BasePageDTO implements Serializable {
 
     /**
      * 序列化ID
@@ -33,11 +34,4 @@ public class NoteShareQueryReqDTO implements Serializable {
     @NotEmpty(message = "用户名不允许为空")
     @NotNull(message = "用户名不允许为空")
     private String userNo;
-
-    /**
-     * 日志ID
-     */
-    @NotEmpty(message = "日志ID不允许为空")
-    @NotNull(message = "日志ID不允许为空")
-    private String traceLogId;
 }

@@ -16,7 +16,7 @@
     <div class="layadmin-caller">
       <div class="caller-contar" id="shareDocumentList">
       </div>
-<!--分页      <div id="demo1"></div>-->
+        <div id="page"></div>
     </div>
   </div>
   
@@ -31,56 +31,80 @@
             layer = layui.layer,
             $ = layui.jquery;
 
-    // laypage.render({
-    //   elem: 'demo1'
-    //   , count: 70 //数据总数
-    // });
+    //页面默认加载, 默认第一页，每页五条
+    queryPage(1, 5);
 
-     $.ajax({
-       url: '/note/queryShare',
-       data: {"userNo": window.localStorage["loginNo"]},
-       dataType: 'json',//数据类型
-       type: 'GET',//类型
-       timeout: 3000,//超时
-       //请求成功
-       success: function (res) {
-         if (res.code === "0000") {
-           //设置数据展示
-           showNote(res.data);
+    //共享文档列表展示
+    function showNote(data) {
+      let show = document.getElementById("shareDocumentList");
+      let html = '';
+      for (let i = 0; i < data.length; i++) {
+        html = "<div class=\"caller-item\">\n" +
+                "<img src=/file/download?fileName=" + data[i].headCopy + " alt=\"\" class=\"caller-img caller-fl\">\n" +
+                "<div class=\"caller-main caller-fl\">       \n" +
+                "<p>" + data[i].nickName + " <em>" + data[i].updatedAt + "</em></p>\n" +
+                "<p class=\"caller-adds\" lay-href=\"community/documentDetail?id=" + data[i].id + "&nickName=" + data[i].nickName +
+                "&headCopy=" + data[i].headCopy + "\"><em><strong><font size=\"4\">" + data[i].documentName + "</font></strong></em></p>\n" +
+                "</div>\n" +
+                "</div></<hr>" +
+                html;
+      }
+      show.innerHTML = html;
+    }
 
-         } else {
-           layer.open({
-             title: '提示信息'
-             , content: '共享文档查询失败，失败原因：' + res.msg
-           });
-         }
-       },
-       //失败/超时
-       error: function (XMLHttpRequest, textStatus, errorThrown) {
-         if (textStatus === 'timeout') {
-           layer.msg('网络异常');
-         }
-         layer.msg("失败原因：" + errorThrown);
-       }
-     });
-
-     //共享文档列表展示
-     function showNote(data){
-        let show = document.getElementById("shareDocumentList");
-        let html='';
-        for(let i = 0;i < data.length;i++){
-          html = "<div class=\"caller-item\">\n" +
-                  "<img src=/file/download?fileName=" + data[i].headCopy + " alt=\"\" class=\"caller-img caller-fl\">\n" +
-                  "<div class=\"caller-main caller-fl\">       \n" +
-                  "<p>"+ data[i].nickName+" <em>"+ data[i].updatedAt+"</em></p>\n" +
-                  "<p class=\"caller-adds\" lay-href=\"community/documentDetail?id="+ data[i].id+"&nickName="+ data[i].nickName +
-                  "&headCopy="+ data[i].headCopy +"\"><em><strong><font size=\"4\">"+ data[i].documentName +"</font></strong></em></p>\n" +
-                  "</div>\n" +
-                  "</div></<hr>" +
-                  html;
+    //分页插件设置
+    function showPage(totalCount) {
+      laypage.render({
+        elem: 'page'
+        , count: totalCount //数据总数
+        , limit: 5 //每页展示5条
+        , jump: function (obj, first) {
+          //首次不执行
+          if (!first) {
+            //分页查询
+            queryPage(obj.curr, obj.limit);
+          }
         }
-        show.innerHTML = html;
-     }
+      });
+    }
+
+    /**
+     * 分页查询
+     * @param current     当前页
+     * @param limit       每页显示数
+     */
+    function queryPage(current, limit){
+
+      //请求
+      $.ajax({
+        url: '/note/queryShare',
+        data: {"userNo": window.localStorage["loginNo"], "current":current, "limit":limit},
+        dataType: 'json',
+        type: 'GET',
+        timeout: 3000,
+        //请求成功
+        success: function (res) {
+          if (res.code === "0000") {
+            //设置数据展示
+            showNote(res.data.pageResult);
+            //分页插件展示
+            showPage(res.data.count);
+          } else {
+            layer.open({
+              title: '提示信息'
+              , content: '共享文档查询失败，失败原因：' + res.msg
+            });
+          }
+        },
+        //失败/超时
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          if (textStatus === 'timeout') {
+            layer.msg('网络异常');
+          }
+          layer.msg("失败原因：" + errorThrown);
+        }
+      });
+    }
   });
   </script>
 </body>

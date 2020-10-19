@@ -73,10 +73,16 @@ public interface NoteInfoRepository {
     void updateForShare(NoteInfoDO noteInfoDO);
 
     /**
+     * 查询分享列表总数
+     * @return                       总条数
+     */
+    int queryShareCount();
+
+    /**
      * 分享文档列表查询
      * @return                       共享文档列表
      */
-    List<NoteInfoDO> queryShareNote();
+    List<NoteInfoDO> queryShareNote(int current, int limit);
 
     /**
      *  根据id查询文档明细

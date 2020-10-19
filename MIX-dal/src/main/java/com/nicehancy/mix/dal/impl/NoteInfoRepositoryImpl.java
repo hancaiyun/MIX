@@ -256,11 +256,32 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
     }
 
     /**
+     * 共享文档列表总数查询
+     * @return              共享文档列表总数
+     */
+    @Override
+    public int queryShareCount() {
+
+        //设置分页查询条件
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.and("shareFlag").is(ShareFlagEnum.TRUE.getCode());
+        criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
+        query.addCriteria(criteria);
+        //设置排序
+        query.with(Sort.by(Sort.Direction.ASC, "updatedAt"));
+
+        return (int)mongoTemplate.count(query, NoteInfoDO.class);
+    }
+
+    /**
      * 共享文档列表查询
+     * @param current                当前页
+     * @param limit                  每页条目数
      * @return                       文档列表
      */
     @Override
-    public List<NoteInfoDO> queryShareNote() {
+    public List<NoteInfoDO> queryShareNote(int current, int limit) {
 
         //设置分页查询条件
         Query query = new Query();
@@ -271,6 +292,7 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         //设置排序
         query.with(Sort.by(Sort.Direction.ASC, "updatedAt"));
         //分页
+        query.skip((current - 1) * limit).limit(limit);
 
         return mongoTemplate.find(query, NoteInfoDO.class);
     }

@@ -354,15 +354,24 @@ public class NoteInfoManager {
     }
 
     /**
+     * 列表总数查询
+     * @return      总条目数
+     */
+    public int queryShareCount() {
+
+        return noteRepository.queryShareCount();
+    }
+
+    /**
      * 分享笔记列表查询
      * @return                返回结果
      */
-    public List<NoteShareInfoBO> queryShare() {
+    public List<NoteShareInfoBO> queryShare(int current, int limit) {
 
         List<NoteShareInfoBO> noteShareInfoBOS = new ArrayList<>();
 
         //查询分享笔记列表
-        List<NoteInfoDO> noteInfoDOList = noteRepository.queryShareNote();
+        List<NoteInfoDO> noteInfoDOList = noteRepository.queryShareNote(current, limit);
 
         if(CollectionUtils.isEmpty(noteInfoDOList)){
             return noteShareInfoBOS;

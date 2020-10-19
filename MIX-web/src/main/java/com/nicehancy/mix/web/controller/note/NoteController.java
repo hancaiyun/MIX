@@ -6,6 +6,7 @@ import com.nicehancy.mix.service.api.model.NoteInfoDTO;
 import com.nicehancy.mix.service.api.model.request.note.*;
 import com.nicehancy.mix.service.api.model.result.NoteShareDetailDTO;
 import com.nicehancy.mix.service.api.model.result.NoteShareInfoDTO;
+import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
 import com.nicehancy.mix.service.api.note.NoteInfoService;
 import com.nicehancy.mix.web.controller.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
@@ -204,10 +205,13 @@ public class NoteController extends BaseController {
         MDC.put("TRACE_LOG_ID", traceLogId);
         NoteShareQueryReqDTO reqDTO = new NoteShareQueryReqDTO();
         reqDTO.setUserNo(this.getParameters(request).get("userNo"));
+        reqDTO.setCurrentPage(Integer.valueOf(this.getParameters(request).get("current")));
+        reqDTO.setPageSize(Integer.valueOf(this.getParameters(request).get("limit")));
         reqDTO.setTraceLogId(traceLogId);
+        reqDTO.setRequestSystem("MIX");
 
         log.info("NoteController queryShare request PARAM: reqDTO={}",reqDTO);
-        Result<List<NoteShareInfoDTO>> result =  noteInfoService.queryShare(reqDTO);
+        Result<BasePageQueryResDTO<NoteShareInfoDTO>> result =  noteInfoService.queryShare(reqDTO);
         ModelMap modelMap;
         if(result.isSuccess()) {
             modelMap =  this.processSuccessJSON(result.getResult());
