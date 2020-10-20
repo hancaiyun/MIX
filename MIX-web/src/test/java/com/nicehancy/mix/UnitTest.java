@@ -7,9 +7,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * 单元测试
@@ -158,5 +156,33 @@ public class UnitTest extends BaseSpringTest {
         List<Integer> list = new ArrayList<>();
         list.add(12);
         list.add(0, 2);
+    }
+
+    @Test
+    public void linkedHashSetTest(){
+
+        Set<String> linkedHashSet = new LinkedHashSet<>();
+        linkedHashSet.add("catepillar");
+        linkedHashSet.add("catepillar");
+        linkedHashSet.add("momor");
+        linkedHashSet.add("bush");
+        linkedHashSet.add("bush");
+        linkedHashSet.add("cateprillar");
+
+        log.info("linkedHashSet:{}", linkedHashSet);
+
+        Set<String> hashset = new HashSet<>();
+//        hashset.add("1");
+//        hashset.add("2");
+//        hashset.add("3");
+//        hashset.add("4");
+//        hashset.add("5");
+
+        hashset.add("b");
+        hashset.add("a");
+        hashset.add("a");
+        hashset.add("d");
+
+        log.info("hashSet:{}", hashset);
     }
 }

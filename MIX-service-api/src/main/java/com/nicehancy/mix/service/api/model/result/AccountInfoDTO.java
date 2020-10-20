@@ -57,5 +57,5 @@ public class AccountInfoDTO {
     /**
      * 更新时间
      */
-    private Date updatedAt;
+    private String updatedAt;
 }

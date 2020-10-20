@@ -7,6 +7,7 @@ layui.define(['table', 'form'], function() {
     table.render({
         elem: '#LAY-account-manage'
         , url: '/note/account/page' + "?userNo=" + window.localStorage["loginNo"]
+        , toolbar: '#table-toolbar-account'
         , cols: [[
             {type: 'checkbox', fixed: 'left'}
             , {field: 'id', title: 'ID', width: 100}

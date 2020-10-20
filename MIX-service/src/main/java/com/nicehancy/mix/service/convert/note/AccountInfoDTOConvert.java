@@ -1,5 +1,7 @@
 package com.nicehancy.mix.service.convert.note;
 
+import com.nicehancy.mix.common.constant.DatePatternConstant;
+import com.nicehancy.mix.common.utils.DateUtil;
 import com.nicehancy.mix.manager.model.*;
 import com.nicehancy.mix.service.api.model.request.note.AccountAddReqDTO;
 import com.nicehancy.mix.service.api.model.request.note.AccountDeleteReqDTO;
@@ -144,7 +146,7 @@ public class AccountInfoDTOConvert {
         accountInfoDTO.setAccountType(accountInfoBO.getAccountType());
         accountInfoDTO.setPassword(accountInfoBO.getPassword());
         accountInfoDTO.setRemark(accountInfoBO.getRemark());
-        accountInfoDTO.setUpdatedAt(accountInfoBO.getUpdatedAt());
+        accountInfoDTO.setUpdatedAt(DateUtil.format(accountInfoBO.getUpdatedAt(), DatePatternConstant.STANDARD_PATTERN));
 
         return accountInfoDTO;
     }
