@@ -23,7 +23,7 @@
                 <div class="layui-input-inline">
                   <select name="role" lay-verify="">
                     <option value="COMMON_USER" selected>普通用户</option>
-                    <option value="COMMON_MEMBER" disabled>普通会员</option>
+                    <option value="COMMON_MEMBER" disabled>高级会员</option>
 <!--                    <option value="SILVER_VIP" disabled>白银会员</option>-->
 <!--                    <option value="GOLD_VIP" disabled>黄金会员</option>-->
 <!--                    <option value="PLATINUM_VIP" disabled>白金会员</option>-->
@@ -68,14 +68,14 @@
                 </div>
               </div>
               <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">备注</label>
+                <label class="layui-form-label">个性签名</label>
                 <div class="layui-input-block">
-                  <textarea id="remarks" name="remarks" placeholder="请输入内容" class="layui-textarea"></textarea>
+                  <textarea id="remarks" name="remarks" placeholder="" class="layui-textarea"></textarea>
                 </div>
               </div>
               <div class="layui-form-item">
                 <div class="layui-input-block">
-                  <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认修改</button>
+                  <button class="layui-btn" lay-submit lay-filter="setMyInfo">确认修改</button>
                   <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
                 </div>
               </div>

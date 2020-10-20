@@ -16,7 +16,7 @@ layui.define(['table', 'form'], function() {
         ]]
         , page: true
         , limit: 10
-        , height: 'full-220'
+        , height: 350
         , text: '对不起，加载出现异常！'
     });
 
