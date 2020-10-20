@@ -4,7 +4,6 @@ import com.nicehancy.mix.common.enums.NoteStatusEnum;
 import com.nicehancy.mix.common.enums.ShareFlagEnum;
 import com.nicehancy.mix.common.utils.UUIDUtil;
 import com.nicehancy.mix.dal.NoteInfoRepository;
-import com.nicehancy.mix.dal.model.FileDownloadInfoDO;
 import com.nicehancy.mix.dal.model.request.DirectoryQueryReqDO;
 import com.nicehancy.mix.dal.model.request.FileListReqDO;
 import com.nicehancy.mix.dal.model.NoteInfoDO;
@@ -269,7 +268,7 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
         query.addCriteria(criteria);
         //设置排序
-        query.with(Sort.by(Sort.Direction.ASC, "updatedAt"));
+        query.with(Sort.by(Sort.Direction.DESC, "updatedAt"));
 
         return (int)mongoTemplate.count(query, NoteInfoDO.class);
     }
@@ -289,10 +288,9 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         criteria.and("shareFlag").is(ShareFlagEnum.TRUE.getCode());
         criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
         query.addCriteria(criteria);
-        //设置排序
-        query.with(Sort.by(Sort.Direction.ASC, "updatedAt"));
+
         //分页
-        query.skip((current - 1) * limit).limit(limit);
+        query.skip((current - 1) * limit).limit(limit).with(Sort.by(Sort.Direction.DESC, "updatedAt"));
 
         return mongoTemplate.find(query, NoteInfoDO.class);
     }
@@ -311,9 +309,6 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         criteria.and("id").is(id);
         criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
         query.addCriteria(criteria);
-        //设置排序
-        query.with(Sort.by(Sort.Direction.DESC, "updatedAt"));
-        //分页
 
         return mongoTemplate.findOne(query, NoteInfoDO.class);
     }

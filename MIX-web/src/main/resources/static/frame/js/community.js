@@ -74,7 +74,7 @@ layui.config({
     function showNote(data) {
         let show = document.getElementById("shareDocumentList");
         let html = '';
-        for (let i = 0; i < data.length; i++) {
+        for (let i = data.length - 1; i >= 0; i--) {
             html = "<div class=\"caller-item\">\n" +
                 "<img src=/file/download?fileName=" + data[i].headCopy + " alt=\"\" class=\"caller-img caller-fl\">\n" +
                 "<div class=\"caller-main caller-fl\">       \n" +

@@ -48,6 +48,7 @@ public class NoteDTOConvert {
         noteInfoDTO.setDocumentName(noteInfoBO.getDocumentName());
         noteInfoDTO.setContent(noteInfoBO.getContent());
         noteInfoDTO.setStatus(noteInfoBO.getStatus());
+        noteInfoDTO.setShareFlag(noteInfoBO.getShareFlag());
         noteInfoDTO.setRemark(noteInfoBO.getRemark());
         noteInfoDTO.setCreatedAt(noteInfoBO.getCreatedAt());
         noteInfoDTO.setCreatedBy(noteInfoBO.getCreatedBy());

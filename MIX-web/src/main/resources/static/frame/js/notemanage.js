@@ -135,11 +135,11 @@ layui.use('layedit', function () {
         const secondaryDirectory = document.getElementById("secondaryDirectory").value;
         //保存文件需指定文件名
         if (fileName === "" || fileName == null) {
-            layer.msg('请选择要分享的文件', {icon: 5});
+            layer.msg('请选择要发布的文件', {icon: 5});
             return;
         }
         //弹窗-确认
-        layer.confirm('确认共享笔记？共享之后别人将可以看到您的笔记', {
+        layer.confirm('确认发布笔记？发布之后别人将可以看到您的笔记', {
             btn: ['确认','取消'] //按钮
         }, function(){
             //确认发布
@@ -157,7 +157,72 @@ layui.use('layedit', function () {
                 //请求成功
                 success: function (res) {
                     if (res.code === '0000') {
+                        //分享按钮变更
+                        document.getElementById("unShare").style.display="block";
+                        document.getElementById("share").style.display="none";
                         layer.msg("发布成功");
+                    } else {
+                        layer.error({
+                            title: '失败信息'
+                            , content: res.msg
+                        });
+                    }
+                },
+                //失败/超时
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if (textStatus === 'timeout') {
+                        alert('請求超時');
+                        setTimeout(function () {
+                            alert('重新请求');
+                        }, 3000);
+                    }
+                    layui.error(errorThrown);
+                }
+            })
+        }, function(value, index){
+            layer.close(index);
+        });
+
+    });
+
+
+    //取消共享文件
+    $("#unShare").click(function () {
+
+        //获取文件名
+        const fileName = document.getElementById("fileName").value;
+        //获取一级目录名
+        const primaryDirectory = document.getElementById("primaryDirectory").value;
+        //获取二级目录名
+        const secondaryDirectory = document.getElementById("secondaryDirectory").value;
+        //保存文件需指定文件名
+        if (fileName === "" || fileName == null) {
+            layer.msg('请选择要取消发布的文件', {icon: 5});
+            return;
+        }
+        //弹窗-确认
+        layer.confirm('确认取消发布？取消之后别人将无法看到您的笔记', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            //确认发布
+            $.ajax({
+                url: '/note/unShare',//提交地址
+                data: {
+                    "userNo": window.localStorage["loginNo"],
+                    "primaryDirectory": primaryDirectory,
+                    "secondaryDirectory": secondaryDirectory,
+                    "fileName": fileName
+                },//数据， id获取
+                dataType: 'json',//数据类型-json
+                type: 'GET',//类型
+                timeout: 3000,//超时
+                //请求成功
+                success: function (res) {
+                    if (res.code === '0000') {
+                        //设置发布按钮
+                        document.getElementById("unShare").style.display="none";
+                        document.getElementById("share").style.display="block";
+                        layer.msg("取消发布成功");
                     } else {
                         layer.error({
                             title: '失败信息'
@@ -365,7 +430,16 @@ layui.use(['form', 'layer', 'layedit'], function () {
             //请求成功
             success: function (res) {
                 if (res.code === "0000") {
-                    const noteContent = res.data;
+                    //设置分享按钮
+                    if(res.data.shareFlag === 'TRUE'){
+                        document.getElementById("unShare").style.display="block";
+                        document.getElementById("share").style.display="none";
+                    }else{
+                        document.getElementById("share").style.display="block";
+                        document.getElementById("unShare").style.display="none";
+                    }
+
+                    const noteContent = res.data.content;
                     const session = layui.data("session");
                     layedit.setContent(session.textarea, noteContent);
                 } else {

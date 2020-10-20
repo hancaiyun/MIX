@@ -20,7 +20,7 @@ import java.io.Serializable;
  **/
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 public class NoteShareQueryReqDTO extends BasePageDTO implements Serializable {
 
     /**

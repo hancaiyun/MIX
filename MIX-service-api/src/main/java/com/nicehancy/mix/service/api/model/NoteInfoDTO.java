@@ -61,6 +61,11 @@ public class NoteInfoDTO implements Serializable {
     private String status;
 
     /**
+     * 分享标识
+     */
+    private String shareFlag;
+
+    /**
      * 备注
      */
     private String remark;

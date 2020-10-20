@@ -124,7 +124,7 @@ public class NoteController extends BaseController {
             if(CollectionUtils.isEmpty(result.getResult())){
                 modelMap =  this.processSuccessJSON(result.getResult());
             }else{
-                modelMap = this.processSuccessJSON(result.getResult().get(0).getContent(), "success");
+                modelMap = this.processSuccessJSON(result.getResult().get(0), "success");
             }
         }else{
             modelMap =  this.processSuccessJSON(result.getErrorMsg());
@@ -190,6 +190,36 @@ public class NoteController extends BaseController {
             modelMap =  this.processSuccessJSON(result.getErrorMsg());
         }
         log.info("NoteController share result: {}", modelMap);
+        return modelMap;
+    }
+
+    /**
+     * 笔记共享撤回
+     * @return     处理结果
+     */
+    @RequestMapping(value = "/unShare")
+    @ResponseBody
+    public ModelMap unShare(HttpServletRequest request){
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+        NoteShareReqDTO reqDTO = new NoteShareReqDTO();
+        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
+        reqDTO.setPrimaryDirectory(this.getParameters(request).get("primaryDirectory"));
+        reqDTO.setSecondaryDirectory(this.getParameters(request).get("secondaryDirectory"));
+        reqDTO.setDocumentName(this.getParameters(request).get("fileName"));
+        reqDTO.setShareFlag(ShareFlagEnum.FALSE.getCode());
+        reqDTO.setTraceLogId(traceLogId);
+
+        log.info("NoteController unShare request PARAM: reqDTO={}",reqDTO);
+        Result<Boolean> result =  noteInfoService.share(reqDTO);
+        ModelMap modelMap;
+        if(result.getResult()) {
+            modelMap =  this.processSuccessJSON(result.getResult());
+        }else{
+            modelMap =  this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("NoteController unShare result: {}", modelMap);
         return modelMap;
     }
 
