@@ -51,24 +51,23 @@ layui.use('layedit', function () {
     });
 
     //保存文件，快捷键监听ctrl+s
-    document.addEventListener('keydown', function(e) {
-        if (e.keyCode === 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+    document.addEventListener('keydown', function (e) {
+        if (e.keyCode === 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
             $('#save').click();
         }
     });
 
-    //table键监听
-    document.addEventListener('keydown', function(e) {
-        if (e.keyCode === 9){
+    //TODO table键监听
+    document.addEventListener('keydown', function (e) {
+        if (e.keyCode === 9) {
             alert("已监听到");
             if (e.preventDefault) {
                 e.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
-            document.getElementById("note-area").value +="    ";
+            document.getElementById("note-area").value += "    ";
         }
     });
 
@@ -133,15 +132,21 @@ layui.use('layedit', function () {
         const primaryDirectory = document.getElementById("primaryDirectory").value;
         //获取二级目录名
         const secondaryDirectory = document.getElementById("secondaryDirectory").value;
-        //保存文件需指定文件名
-        if (fileName === "" || fileName == null) {
+
+        //按钮禁用判断-返回
+        if(document.getElementById("share").classList.contains("layui-btn-disabled")){
+            if (fileName !== "" && fileName != null) {
+                layer.tips('已发布的可在共享社区中查看', this);
+            }
+            return;
+        }
+        if(fileName === "" || fileName == null){
             layer.msg('请选择要发布的文件', {icon: 5});
             return;
         }
+
         //弹窗-确认
-        layer.confirm('确认发布笔记？发布之后别人将可以看到您的笔记', {
-            btn: ['确认','取消'] //按钮
-        }, function(){
+        layer.confirm('确认发布笔记？发布之后别人将可以看到您的笔记', function (index) {
             //确认发布
             $.ajax({
                 url: '/note/share',//提交地址
@@ -158,8 +163,7 @@ layui.use('layedit', function () {
                 success: function (res) {
                     if (res.code === '0000') {
                         //分享按钮变更
-                        document.getElementById("unShare").style.display="block";
-                        document.getElementById("share").style.display="none";
+                        document.getElementById("share").classList.add("layui-btn-disabled");
                         layer.msg("发布成功");
                     } else {
                         layer.error({
@@ -179,72 +183,9 @@ layui.use('layedit', function () {
                     layui.error(errorThrown);
                 }
             })
-        }, function(value, index){
+            //成功关闭弹窗
             layer.close(index);
-        });
-
-    });
-
-
-    //取消共享文件
-    $("#unShare").click(function () {
-
-        //获取文件名
-        const fileName = document.getElementById("fileName").value;
-        //获取一级目录名
-        const primaryDirectory = document.getElementById("primaryDirectory").value;
-        //获取二级目录名
-        const secondaryDirectory = document.getElementById("secondaryDirectory").value;
-        //保存文件需指定文件名
-        if (fileName === "" || fileName == null) {
-            layer.msg('请选择要取消发布的文件', {icon: 5});
-            return;
-        }
-        //弹窗-确认
-        layer.confirm('确认取消发布？取消之后别人将无法看到您的笔记', {
-            btn: ['确认','取消'] //按钮
-        }, function(){
-            //确认发布
-            $.ajax({
-                url: '/note/unShare',//提交地址
-                data: {
-                    "userNo": window.localStorage["loginNo"],
-                    "primaryDirectory": primaryDirectory,
-                    "secondaryDirectory": secondaryDirectory,
-                    "fileName": fileName
-                },//数据， id获取
-                dataType: 'json',//数据类型-json
-                type: 'GET',//类型
-                timeout: 3000,//超时
-                //请求成功
-                success: function (res) {
-                    if (res.code === '0000') {
-                        //设置发布按钮
-                        document.getElementById("unShare").style.display="none";
-                        document.getElementById("share").style.display="block";
-                        layer.msg("取消发布成功");
-                    } else {
-                        layer.error({
-                            title: '失败信息'
-                            , content: res.msg
-                        });
-                    }
-                },
-                //失败/超时
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    if (textStatus === 'timeout') {
-                        alert('請求超時');
-                        setTimeout(function () {
-                            alert('重新请求');
-                        }, 3000);
-                    }
-                    layui.error(errorThrown);
-                }
-            })
-        }, function(value, index){
-            layer.close(index);
-        });
-
+        })
     });
 });
 
@@ -431,14 +372,10 @@ layui.use(['form', 'layer', 'layedit'], function () {
             success: function (res) {
                 if (res.code === "0000") {
                     //设置分享按钮
-                    if(res.data.shareFlag === 'TRUE'){
-                        document.getElementById("unShare").style.display="block";
-                        document.getElementById("share").style.display="none";
-                    }else{
-                        document.getElementById("share").style.display="block";
-                        document.getElementById("unShare").style.display="none";
+                    if (res.data.shareFlag !== 'TRUE') {
+                        document.getElementById("share").classList.remove("layui-btn-disabled");
                     }
-
+                    //设置富文本集内容
                     const noteContent = res.data.content;
                     const session = layui.data("session");
                     layedit.setContent(session.textarea, noteContent);
@@ -472,11 +409,12 @@ function removeAll(selectId) {
 <!--操作组-->
 //获取用户名
 const userNo = window.localStorage["loginNo"];
+
 //新增
 function addNote() {
     //获取选中的操作位置,新增位置校验
     const opLocation = document.getElementById("opLocation").value;
-    if(opLocation === ''){
+    if (opLocation === '') {
         layer.msg('请选择要新增的位置', {icon: 5});
         return;
     }
@@ -486,23 +424,23 @@ function addNote() {
 
     //操作组选中
     //选中一级目录
-    if(opLocation === 'PRIMARY_DIRECTORY_OP'){
+    if (opLocation === 'PRIMARY_DIRECTORY_OP') {
         choosePromptForAdd("PRIMARY_DIRECTORY_OP");
     }
     //选中二级目录
-    if(opLocation === 'SECONDARY_DIRECTORY_OP'){
-        if(primaryDirectory ===''){
+    if (opLocation === 'SECONDARY_DIRECTORY_OP') {
+        if (primaryDirectory === '') {
             layer.msg('请选择一级目录', {icon: 5});
-        }else{
+        } else {
             choosePromptForAdd("SECONDARY_DIRECTORY_OP");
         }
     }
 
     //选中文件
-    if(opLocation === 'FILE_OP'){
-        if(primaryDirectory ===''){
+    if (opLocation === 'FILE_OP') {
+        if (primaryDirectory === '') {
             layer.msg('请至少选择一级目录', {icon: 5});
-        }else{
+        } else {
             choosePromptForAdd("FILE_OP");
         }
     }
@@ -512,7 +450,7 @@ function addNote() {
 function editNote() {
     //获取选中的操作位置
     const opLocation = document.getElementById("opLocation").value;
-    if(opLocation ===''){
+    if (opLocation === '') {
         layer.msg('请选择要修改的位置', {icon: 5});
         return;
     }
@@ -524,41 +462,41 @@ function editNote() {
 
     //操作组选中
     //选中一级目录
-    if(opLocation === 'PRIMARY_DIRECTORY_OP'){
-        if(primaryDirectory ===''){
+    if (opLocation === 'PRIMARY_DIRECTORY_OP') {
+        if (primaryDirectory === '') {
             layer.msg('请选择一级目录', {icon: 5});
-        }else{
+        } else {
             choosePromptForEdit("PRIMARY_DIRECTORY_OP", primaryDirectory);
         }
     }
     //选中二级目录
-    if(opLocation === 'SECONDARY_DIRECTORY_OP'){
-        if(primaryDirectory ===''){
+    if (opLocation === 'SECONDARY_DIRECTORY_OP') {
+        if (primaryDirectory === '') {
             layer.msg('请选择所属的一级目录', {icon: 5});
-        }else if(secondaryDirectory ===''){
+        } else if (secondaryDirectory === '') {
             layer.msg('请选择要修改的二级目录', {icon: 5});
-        }else{
+        } else {
             choosePromptForEdit("SECONDARY_DIRECTORY_OP", secondaryDirectory);
         }
     }
 
     //选中文件
-    if(opLocation === 'FILE_OP'){
-        if(primaryDirectory ===''){
+    if (opLocation === 'FILE_OP') {
+        if (primaryDirectory === '') {
             layer.msg('请选择该文件所属的目录', {icon: 5});
-        }else if(fileName ===''){
+        } else if (fileName === '') {
             layer.msg('请选择要修改的文件', {icon: 5});
-        }else{
+        } else {
             choosePromptForEdit("FILE_OP", fileName);
         }
     }
 }
 
 //删除
-function deleteNote(){
+function deleteNote() {
     //获取选中的操作位置
     const opLocation = document.getElementById("opLocation").value;
-    if(opLocation ===''){
+    if (opLocation === '') {
         layer.msg('请选择要删除的位置', {icon: 5});
         return;
     }
@@ -570,31 +508,31 @@ function deleteNote(){
 
     //操作组选中
     //选中一级目录
-    if(opLocation === 'PRIMARY_DIRECTORY_OP'){
-        if(primaryDirectory ===''){
+    if (opLocation === 'PRIMARY_DIRECTORY_OP') {
+        if (primaryDirectory === '') {
             layer.msg('请选择要删除的目录', {icon: 5});
-        }else{
+        } else {
             deleteConfirm(opLocation, primaryDirectory);
         }
     }
     //选中二级目录
-    if(opLocation === 'SECONDARY_DIRECTORY_OP'){
-        if(primaryDirectory ===''){
+    if (opLocation === 'SECONDARY_DIRECTORY_OP') {
+        if (primaryDirectory === '') {
             layer.msg('请选择所在的一级目录', {icon: 5});
-        }else if(secondaryDirectory ===''){
+        } else if (secondaryDirectory === '') {
             layer.msg('请选择要删除的二级目录', {icon: 5});
-        }else{
+        } else {
             deleteConfirm(opLocation, secondaryDirectory);
         }
     }
 
     //选中文件
-    if(opLocation === 'FILE_OP'){
-        if(primaryDirectory ===''){
+    if (opLocation === 'FILE_OP') {
+        if (primaryDirectory === '') {
             layer.msg('请选择该文件所属的目录', {icon: 5});
-        }else if(fileName ===''){
+        } else if (fileName === '') {
             layer.msg('请选择要删除的文件', {icon: 5});
-        }else{
+        } else {
             deleteConfirm(opLocation, fileName);
         }
     }
@@ -653,7 +591,7 @@ function deleteConfirm(opLocation, opName) {
 }
 
 //文件操作请求
-function doRequest(opLocation, opType, opName, index){
+function doRequest(opLocation, opType, opName, index) {
     //获取一级、二级目录名、文件名
     const primaryDirectory = document.getElementById("primaryDirectory").value;
     const secondaryDirectory = document.getElementById("secondaryDirectory").value;
@@ -680,7 +618,7 @@ function doRequest(opLocation, opType, opName, index){
                 layer.msg("操作成功");
                 layui.form.render("select");
             } else {
-                layer.msg('操作失败，失败原因：'+ res.msg);
+                layer.msg('操作失败，失败原因：' + res.msg);
             }
         },
         //失败/超时
