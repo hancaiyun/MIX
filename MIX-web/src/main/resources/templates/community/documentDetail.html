@@ -28,14 +28,14 @@
           </div>
           <div style="padding-top: 30px;">
             <a id="prize" class="layui-btn layui-btn-primary layui-btn-sm" onclick="prize()"><i class="layui-icon layui-icon-praise"></i>点赞15</a><a
-                  class="layui-btn layui-btn-normal layui-btn-sm" href="#comment"><i class="layui-icon layui-icon-reply-fill"></i>评论1</a>
+                  class="layui-btn layui-btn-normal layui-btn-sm" href="#comment" onclick="comment()"><i class="layui-icon layui-icon-reply-fill"></i>评论1</a>
           </div>
         </div>
       </script>
     </div>
 
     <!--评论区-->
-    <div class="layui-card">
+    <div class="layui-card" id="commentArea" style="display: none">
 <!--      <div class="layui-card-header">评论区</div>-->
       <div class="layui-card-body layui-row layui-col-space10">
         <div class="layui-col-md12">
@@ -53,7 +53,6 @@
       <div class="layui-card-body layui-row layui-col-space10">
         <!--评论列表-->
         <div id="comment" class="layui-col-md12">
-
         </div>
         <!--分页组件-->
         <div id="page"></div>
@@ -141,16 +140,44 @@
     function showNote(data) {
       let show = document.getElementById("comment");
       let html = '';
-      for (let i = 0; i < data.length; i++) {
-        html = "<div class=\"caller-item\">\n" +
-                "<div class=\"caller-main caller-fl\">       \n" +
-                "<p>" + data[i].nickName + " <em>" + data[i].updatedAt + "</em></p>\n" +
-                "<p class=\"caller-adds\" lay-href=\"community/documentDetail?id=" + data[i].id + "&nickName=" + data[i].nickName +
-                "&headCopy=" + data[i].headCopy + "\"><em><strong><font size=\"4\">" + data[i].documentName + "</font></strong></em></p>\n" +
-                "</div>\n" +
-                "</div></<hr>" +
-                html;
-      }
+      // for (let i = 0; i < data.length; i++) {
+      //   html = "<div class=\"caller-item\">\n" +
+      //           "<div class=\"caller-main caller-fl\">       \n" +
+      //           "<p>" + data[i].nickName + " <em>" + data[i].updatedAt + "</em></p>\n" +
+      //           "<p class=\"caller-adds\" lay-href=\"community/documentDetail?id=" + data[i].id + "&nickName=" + data[i].nickName +
+      //           "&headCopy=" + data[i].headCopy + "\"><em><strong><font size=\"4\">" + data[i].documentName + "</font></strong></em></p>\n" +
+      //           "</div>\n" +
+      //           "</div></<hr>" +
+      //           html;
+      // }
+      html = "<div class=\"layui-card\">\n" +
+              "  <div class=\"layui-card-header\">动态</div>\n" +
+              "  <div class=\"layui-card-body\">\n" +
+              "    <dl class=\"layuiadmin-card-status\">\n" +
+              "      <dd>\n" +
+              "        <div class=\"layui-status-img\"><a href=\"javascript:;\"><img src=\"../../layuiadmin/style/res/logo.png\"></a></div>\n" +
+              "        <div>\n" +
+              "          <p>胡歌 在 <a lay-href=\"http://fly.layui.com/vipclub/list/layuiadmin/\">layuiadmin专区</a> 回答问题</p>\n" +
+              "          <span>几秒前</span>\n" +
+              "        </div>\n" +
+              "      </dd>\n" +
+              "      <dd>\n" +
+              "        <div class=\"layui-status-img\"><a href=\"javascript:;\"><img src=\"../../layuiadmin/style/res/logo.png\"></a></div>\n" +
+              "        <div>\n" +
+              "          <p>彭于晏 在 <a lay-href=\"http://fly.layui.com/vipclub/list/layuiadmin/\">layuiadmin专区</a> 进行了 <a lay-href=\"http://fly.layui.com/vipclub/list/layuiadmin/column/quiz/\">提问</a></p>\n" +
+              "          <span>2天前</span>\n" +
+              "        </div>\n" +
+              "      </dd>\n" +
+              "      <dd>\n" +
+              "        <div class=\"layui-status-img\"><a href=\"javascript:;\"><img src=\"../../layuiadmin/style/res/logo.png\"></a></div>\n" +
+              "        <div>\n" +
+              "          <p>贤心 将 <a lay-href=\"https://www.layui.com/\">layui</a> 更新至 2.3.0 版本</p>\n" +
+              "          <span>7天前</span>\n" +
+              "        </div>\n" +
+              "      </dd>\n" +
+              "    </dl>  \n" +
+              "  </div>\n" +
+              "</div> ";
       show.innerHTML = html;
     }
 
@@ -166,6 +193,10 @@
         document.getElementById("prize").className = "layui-btn layui-btn-primary layui-btn-sm"
         document.getElementById("prize").innerHTML = "<i class=\"layui-icon layui-icon-praise\"></i>点赞15";
       }
+    }
+
+    function comment(){
+      document.getElementById("commentArea").style.display="block";
     }
   </script>
 </body>
