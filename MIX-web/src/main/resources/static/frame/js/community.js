@@ -75,12 +75,19 @@ layui.config({
         let show = document.getElementById("shareDocumentList");
         let html = '';
         for (let i = data.length - 1; i >= 0; i--) {
+
+            //跨越面传参组装
+            const parameter = "loginNo=" + window.localStorage["loginNo"] +
+                              "&id=" + data[i].id +
+                              "&nickName=" + data[i].nickName +
+                              "&headCopy=" + data[i].headCopy;
+
             html = "<div class=\"caller-item\">\n" +
                 "<img src=/file/download?fileName=" + data[i].headCopy + " alt=\"\" class=\"caller-img caller-fl\">\n" +
                 "<div class=\"caller-main caller-fl\">       \n" +
                 "<p>" + data[i].nickName + " <em>" + data[i].updatedAt + "</em></p>\n" +
-                "<p class=\"caller-adds\" lay-href=\"community/documentDetail?id=" + data[i].id + "&nickName=" + data[i].nickName +
-                "&headCopy=" + data[i].headCopy + "\"><em><strong><font size=\"4\">" + data[i].documentName + "</font></strong></em></p>\n" +
+                "<p class=\"caller-adds\" lay-href=\"community/documentDetail?parameter=" + parameter + "\"><" +
+                "em><strong><font size=\"4\">" + data[i].documentName + "</font></strong></em></p>\n" +
                 "</div>\n" +
                 "</div></<hr>" +
                 html;

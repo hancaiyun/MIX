@@ -29,6 +29,8 @@
           <div style="padding-top: 30px;">
             <a id="prize" class="layui-btn layui-btn-primary layui-btn-sm" onclick="prize()"><i class="layui-icon layui-icon-praise"></i>点赞15</a><a
                   class="layui-btn layui-btn-normal layui-btn-sm" href="#comment" onclick="comment()"><i class="layui-icon layui-icon-reply-fill"></i>评论1</a>
+
+            <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="cancel"><i class="layui-icon layui-icon-delete"></i>删除发布</a>
           </div>
         </div>
       </script>
@@ -136,7 +138,7 @@
       });
     }
 
-    //共享文档列表展示
+    //评论列表展示
     function showNote(data) {
       let show = document.getElementById("comment");
       let html = '';
