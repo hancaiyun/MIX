@@ -194,7 +194,7 @@ public class NoteController extends BaseController {
     }
 
     /**
-     * TODO 笔记共享撤回 暂未使用-预留共享社区中删除
+     * 笔记共享撤回 共享社区中删除
      * @return     处理结果
      */
     @RequestMapping(value = "/unShare")

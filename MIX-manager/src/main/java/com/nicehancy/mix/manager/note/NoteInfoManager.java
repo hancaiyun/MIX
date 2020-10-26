@@ -421,6 +421,7 @@ public class NoteInfoManager {
         noteShareDetailBO.setId(id);
         noteShareDetailBO.setDocumentName(noteInfoDO.getFileName());
         noteShareDetailBO.setContent(noteInfoDO.getContent());
+        noteShareDetailBO.setUserNo(noteInfoDO.getUserNo());
         noteShareDetailBO.setCreatedAt(noteInfoDO.getCreatedAt());
         noteShareDetailBO.setCreatedBy(noteInfoDO.getCreatedBy());
         noteShareDetailBO.setUpdatedAt(noteInfoDO.getUpdatedAt());

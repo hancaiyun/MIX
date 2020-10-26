@@ -30,7 +30,9 @@
             <a id="prize" class="layui-btn layui-btn-primary layui-btn-sm" onclick="prize()"><i class="layui-icon layui-icon-praise"></i>点赞15</a><a
                   class="layui-btn layui-btn-normal layui-btn-sm" href="#comment" onclick="comment()"><i class="layui-icon layui-icon-reply-fill"></i>评论1</a>
 
-            <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="cancel"><i class="layui-icon layui-icon-delete"></i>删除发布</a>
+            {{# if(d.data.userNo == window.localStorage["loginNo"]){}}
+            <a class="layui-btn layui-btn-danger layui-btn-sm" onclick="cancelShare(d.data.id)"><i class="layui-icon layui-icon-delete"></i>删除发布</a>
+            {{# }}}
           </div>
         </div>
       </script>
@@ -141,18 +143,7 @@
     //评论列表展示
     function showNote(data) {
       let show = document.getElementById("comment");
-      let html = '';
-      // for (let i = 0; i < data.length; i++) {
-      //   html = "<div class=\"caller-item\">\n" +
-      //           "<div class=\"caller-main caller-fl\">       \n" +
-      //           "<p>" + data[i].nickName + " <em>" + data[i].updatedAt + "</em></p>\n" +
-      //           "<p class=\"caller-adds\" lay-href=\"community/documentDetail?id=" + data[i].id + "&nickName=" + data[i].nickName +
-      //           "&headCopy=" + data[i].headCopy + "\"><em><strong><font size=\"4\">" + data[i].documentName + "</font></strong></em></p>\n" +
-      //           "</div>\n" +
-      //           "</div></<hr>" +
-      //           html;
-      // }
-      html = "<div class=\"layui-card\">\n" +
+      let html = "<div class=\"layui-card\">\n" +
               "  <div class=\"layui-card-header\">动态</div>\n" +
               "  <div class=\"layui-card-body\">\n" +
               "    <dl class=\"layuiadmin-card-status\">\n" +
@@ -183,6 +174,8 @@
       show.innerHTML = html;
     }
 
+
+
   });
   </script>
 
@@ -199,6 +192,49 @@
 
     function comment(){
       document.getElementById("commentArea").style.display="block";
+    }
+
+    /**
+     * 删除共享文件
+     * @param id  文件id
+     */
+    function cancelShare(id){
+
+      const $ = layui.jquery,
+            layer = layui.layer;
+
+      layer.confirm('确认删除共享吗， 删除后别人将无法查看此文档', function (index) {
+        //删除文件数据
+        $.ajax({
+          url: '/note/unShare',
+          data: {"id": id, "userNo": window.localStorage["loginNo"]},
+          dataType: 'json',//数据类型
+          type: 'GET',//类型
+          timeout: 3000,//超时
+          //请求成功
+          success: function (res) {
+            if (res.code === "0000") {
+              //成功
+              layer.msg("删除成功");
+            } else {
+              layer.open({
+                title: '提示信息'
+                , content: '删除失败，失败原因：' + res.msg
+              });
+            }
+          },
+          //失败/超时
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+            if (textStatus === 'timeout') {
+              layer.msg('网络异常');
+            }
+            layer.msg("失败原因：" + errorThrown);
+          }
+        });
+
+        //关闭弹窗
+        layer.close(index);
+      });
     }
   </script>
 </body>

@@ -28,6 +28,11 @@ public class NoteShareReqDTO implements Serializable {
     private static final long serialVersionUID = -7840694716062275672L;
 
     /**
+     * 文件id
+     */
+    private Long id;
+
+    /**
      * 用户名（登录名）
      */
     @NotEmpty(message = "用户名不允许为空")
