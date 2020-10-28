@@ -20,6 +20,11 @@ import java.util.Date;
 public class BaseBO {
 
     /**
+     * 数据库id
+     */
+    private Long id;
+
+    /**
      * 创建时间
      */
     private Date createdAt;

@@ -190,6 +190,8 @@ public class NoteInfoServiceImpl implements NoteInfoService {
         MDC.put("TRACE_LOG_ID", reqDTO.getTraceLogId());
         try{
             log.info("call NoteInfoServiceImpl share param: reqDTO={}", reqDTO);
+            //参数校验
+            VerifyUtil.validateObject(reqDTO);
             //业务处理
             boolean isDone = noteInfoManager.share(NoteDTOConvert.getReqBOByDTO(reqDTO));
             result.setResult(isDone);

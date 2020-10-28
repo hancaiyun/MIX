@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import net.sf.oval.constraint.MemberOf;
+import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 
@@ -30,6 +31,8 @@ public class NoteShareReqDTO implements Serializable {
     /**
      * 文件id
      */
+    @NotEmpty(message = "文件id不允许为空")
+    @NotNull(message = "文件id不允许为空")
     private Long id;
 
     /**
@@ -39,24 +42,24 @@ public class NoteShareReqDTO implements Serializable {
     @NotNull(message = "用户名不允许为空")
     private String userNo;
 
-    /**
-     * 一级目录名
-     */
-    @NotEmpty(message = "一级目录名不允许为空")
-    @NotNull(message = "一级目录名不允许为空")
-    private String primaryDirectory;
-
-    /**
-     * 二级目录
-     */
-    private String secondaryDirectory;
-
-    /**
-     * 文档名
-     */
-    @NotEmpty(message = "文档名不允许为空")
-    @NotNull(message = "文档名不允许为空")
-    private String documentName;
+//    /**
+//     * 一级目录名
+//     */
+//    @NotEmpty(message = "一级目录名不允许为空")
+//    @NotNull(message = "一级目录名不允许为空")
+//    private String primaryDirectory;
+//
+//    /**
+//     * 二级目录
+//     */
+//    private String secondaryDirectory;
+//
+//    /**
+//     * 文档名
+//     */
+//    @NotEmpty(message = "文档名不允许为空")
+//    @NotNull(message = "文档名不允许为空")
+//    private String documentName;
 
     /**
      * 分享标识

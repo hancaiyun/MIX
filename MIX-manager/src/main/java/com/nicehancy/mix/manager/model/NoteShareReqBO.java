@@ -23,19 +23,9 @@ public class NoteShareReqBO {
     private String userNo;
 
     /**
-     * 一级目录名
+     * id
      */
-    private String primaryDirectory;
-
-    /**
-     * 二级目录
-     */
-    private String secondaryDirectory;
-
-    /**
-     * 文档名
-     */
-    private String documentName;
+    private Long id;
 
     /**
      * 分享标识

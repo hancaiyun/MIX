@@ -50,6 +50,7 @@ public class NoteDTOConvert {
         noteInfoDTO.setStatus(noteInfoBO.getStatus());
         noteInfoDTO.setShareFlag(noteInfoBO.getShareFlag());
         noteInfoDTO.setRemark(noteInfoBO.getRemark());
+        noteInfoDTO.setId(noteInfoBO.getId());
         noteInfoDTO.setCreatedAt(noteInfoBO.getCreatedAt());
         noteInfoDTO.setCreatedBy(noteInfoBO.getCreatedBy());
         noteInfoDTO.setUpdatedAt(noteInfoBO.getUpdatedAt());
@@ -150,9 +151,7 @@ public class NoteDTOConvert {
 
         NoteShareReqBO noteShareReqBO = new NoteShareReqBO();
         noteShareReqBO.setUserNo(reqDTO.getUserNo());
-        noteShareReqBO.setPrimaryDirectory(reqDTO.getPrimaryDirectory());
-        noteShareReqBO.setSecondaryDirectory(reqDTO.getSecondaryDirectory());
-        noteShareReqBO.setDocumentName(reqDTO.getDocumentName());
+        noteShareReqBO.setId(reqDTO.getId());
         noteShareReqBO.setShareFlag(reqDTO.getShareFlag());
 
         return noteShareReqBO;

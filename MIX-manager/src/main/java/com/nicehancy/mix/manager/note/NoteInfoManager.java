@@ -341,9 +341,8 @@ public class NoteInfoManager {
 
         NoteInfoDO noteInfoDO = new NoteInfoDO();
         noteInfoDO.setUserNo(reqBO.getUserNo());
-        noteInfoDO.setPrimaryDirectory(reqBO.getPrimaryDirectory());
-        noteInfoDO.setSecondaryDirectory(reqBO.getSecondaryDirectory());
-        noteInfoDO.setFileName(reqBO.getDocumentName());
+
+        noteInfoDO.setId(reqBO.getId());
         noteInfoDO.setUpdatedBy(reqBO.getUserNo());
         //设置分享标识
         noteInfoDO.setShareFlag(reqBO.getShareFlag());

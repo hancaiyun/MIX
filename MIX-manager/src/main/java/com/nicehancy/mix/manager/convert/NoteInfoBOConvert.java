@@ -75,6 +75,7 @@ public class NoteInfoBOConvert {
         noteBO.setStatus(noteDO.getStatus());
         noteBO.setRemark(noteDO.getRemark());
         noteBO.setShareFlag(noteDO.getShareFlag());
+        noteBO.setId(noteDO.getId());
         noteBO.setCreatedAt(noteDO.getCreatedAt());
         noteBO.setCreatedBy(noteDO.getCreatedBy());
         noteBO.setUpdatedAt(noteDO.getUpdatedAt());

@@ -12,11 +12,11 @@
 <body>
 
   <div class="layui-fluid" id="LAY-app-message-detail">
-    <!--详情页-->
     <div class="layui-card layuiAdmin-msg-detail">
       <script type="text/html" template lay-url="/note/queryShareDetail?id={{ UrlParam.paramValues('id') }}">
         <div class="layui-card-header" style="background-color: #DCDCDC">
           <h1>{{ d.data.documentName }}</h1>
+          <a id="documentId" style="display: none">{{ d.data.id }}</a>
           <p>
             <img src="/file/download?fileName={{ UrlParam.paramValues('headCopy') }}" class="layui-circle" width="25" height="25" alt="">
               {{ UrlParam.paramValues('nickName') }} <span>{{ d.data.updatedAt }}</span>
@@ -29,9 +29,8 @@
           <div style="padding-top: 30px;">
             <a id="prize" class="layui-btn layui-btn-primary layui-btn-sm" onclick="prize()"><i class="layui-icon layui-icon-praise"></i>点赞15</a><a
                   class="layui-btn layui-btn-normal layui-btn-sm" href="#comment" onclick="comment()"><i class="layui-icon layui-icon-reply-fill"></i>评论1</a>
-
             {{# if(d.data.userNo == window.localStorage["loginNo"]){}}
-            <a class="layui-btn layui-btn-danger layui-btn-sm" onclick="cancelShare(d.data.id)"><i class="layui-icon layui-icon-delete"></i>删除发布</a>
+            <a class="layui-btn layui-btn-danger layui-btn-sm" onclick="cancelShare()"><i class="layui-icon layui-icon-delete"></i>删除发布</a>
             {{# }}}
           </div>
         </div>
@@ -40,7 +39,6 @@
 
     <!--评论区-->
     <div class="layui-card" id="commentArea" style="display: none">
-<!--      <div class="layui-card-header">评论区</div>-->
       <div class="layui-card-body layui-row layui-col-space10">
         <div class="layui-col-md12">
           <label>
@@ -55,10 +53,8 @@
       <hr>
       <!--评论区-->
       <div class="layui-card-body layui-row layui-col-space10">
-        <!--评论列表-->
         <div id="comment" class="layui-col-md12">
         </div>
-        <!--分页组件-->
         <div id="page"></div>
       </div>
     </div>
@@ -148,21 +144,21 @@
               "  <div class=\"layui-card-body\">\n" +
               "    <dl class=\"layuiadmin-card-status\">\n" +
               "      <dd>\n" +
-              "        <div class=\"layui-status-img\"><a href=\"javascript:;\"><img src=\"../../layuiadmin/style/res/logo.png\"></a></div>\n" +
+              "        <div class=\"layui-status-img\"><a href=\"javascript:;\"><img src=\"../../frame/layui/images/logo.png\"></a></div>\n" +
               "        <div>\n" +
               "          <p>胡歌 在 <a lay-href=\"http://fly.layui.com/vipclub/list/layuiadmin/\">layuiadmin专区</a> 回答问题</p>\n" +
               "          <span>几秒前</span>\n" +
               "        </div>\n" +
               "      </dd>\n" +
               "      <dd>\n" +
-              "        <div class=\"layui-status-img\"><a href=\"javascript:;\"><img src=\"../../layuiadmin/style/res/logo.png\"></a></div>\n" +
+              "        <div class=\"layui-status-img\"><a href=\"javascript:;\"><img src=\"../../frame/layui/images/logo.png\"></a></div>\n" +
               "        <div>\n" +
               "          <p>彭于晏 在 <a lay-href=\"http://fly.layui.com/vipclub/list/layuiadmin/\">layuiadmin专区</a> 进行了 <a lay-href=\"http://fly.layui.com/vipclub/list/layuiadmin/column/quiz/\">提问</a></p>\n" +
               "          <span>2天前</span>\n" +
               "        </div>\n" +
               "      </dd>\n" +
               "      <dd>\n" +
-              "        <div class=\"layui-status-img\"><a href=\"javascript:;\"><img src=\"../../layuiadmin/style/res/logo.png\"></a></div>\n" +
+              "        <div class=\"layui-status-img\"><a href=\"javascript:;\"><img src=\"../../frame/layui/images/logo.png\"></a></div>\n" +
               "        <div>\n" +
               "          <p>贤心 将 <a lay-href=\"https://www.layui.com/\">layui</a> 更新至 2.3.0 版本</p>\n" +
               "          <span>7天前</span>\n" +
@@ -198,10 +194,10 @@
      * 删除共享文件
      * @param id  文件id
      */
-    function cancelShare(id){
-
+    function cancelShare(){
       const $ = layui.jquery,
             layer = layui.layer;
+      const id = document.getElementById("documentId").innerText;
 
       layer.confirm('确认删除共享吗， 删除后别人将无法查看此文档', function (index) {
         //删除文件数据
@@ -235,6 +231,11 @@
         //关闭弹窗
         layer.close(index);
       });
+    }
+
+    function closeTap(){
+      const topAdmin = parent === self ? admin : parent.layui.admin;
+      topAdmin.closeThisTabs();
     }
   </script>
 </body>

@@ -175,9 +175,7 @@ public class NoteController extends BaseController {
         MDC.put("TRACE_LOG_ID", traceLogId);
         NoteShareReqDTO reqDTO = new NoteShareReqDTO();
         reqDTO.setUserNo(this.getParameters(request).get("userNo"));
-        reqDTO.setPrimaryDirectory(this.getParameters(request).get("primaryDirectory"));
-        reqDTO.setSecondaryDirectory(this.getParameters(request).get("secondaryDirectory"));
-        reqDTO.setDocumentName(this.getParameters(request).get("fileName"));
+        reqDTO.setId(Long.valueOf(this.getParameters(request).get("id")));
         reqDTO.setShareFlag(ShareFlagEnum.TRUE.getCode());
         reqDTO.setTraceLogId(traceLogId);
 
@@ -204,10 +202,8 @@ public class NoteController extends BaseController {
         String traceLogId = UUID.randomUUID().toString();
         MDC.put("TRACE_LOG_ID", traceLogId);
         NoteShareReqDTO reqDTO = new NoteShareReqDTO();
+        reqDTO.setId(Long.valueOf(this.getParameters(request).get("id")));
         reqDTO.setUserNo(this.getParameters(request).get("userNo"));
-        reqDTO.setPrimaryDirectory(this.getParameters(request).get("primaryDirectory"));
-        reqDTO.setSecondaryDirectory(this.getParameters(request).get("secondaryDirectory"));
-        reqDTO.setDocumentName(this.getParameters(request).get("fileName"));
         reqDTO.setShareFlag(ShareFlagEnum.FALSE.getCode());
         reqDTO.setTraceLogId(traceLogId);
 

@@ -50,7 +50,7 @@ layui.use('layedit', function () {
         value: textarea
     });
 
-    //保存文件，快捷键监听ctrl+s
+    //保存文件，快捷键监听ctrl+s TODO 光标在富文本集内时ctrl+s快捷键会保存整个网页，与浏览器的默认快捷键冲突
     document.addEventListener('keydown', function (e) {
         if (e.keyCode === 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
@@ -128,10 +128,8 @@ layui.use('layedit', function () {
 
         //获取文件名
         const fileName = document.getElementById("fileName").value;
-        //获取一级目录名
-        const primaryDirectory = document.getElementById("primaryDirectory").value;
-        //获取二级目录名
-        const secondaryDirectory = document.getElementById("secondaryDirectory").value;
+        //获取文件id
+        const id = document.getElementById("documentId").innerText;
 
         //按钮禁用判断-返回
         if(document.getElementById("share").classList.contains("layui-btn-disabled")){
@@ -152,9 +150,7 @@ layui.use('layedit', function () {
                 url: '/note/share',//提交地址
                 data: {
                     "userNo": window.localStorage["loginNo"],
-                    "primaryDirectory": primaryDirectory,
-                    "secondaryDirectory": secondaryDirectory,
-                    "fileName": fileName
+                    "id": id
                 },//数据， id获取
                 dataType: 'json',//数据类型-json
                 type: 'GET',//类型
@@ -375,6 +371,8 @@ layui.use(['form', 'layer', 'layedit'], function () {
                     if (res.data.shareFlag !== 'TRUE') {
                         document.getElementById("share").classList.remove("layui-btn-disabled");
                     }
+                    //设置文件id
+                    document.getElementById("documentId").innerText = res.data.id;
                     //设置富文本集内容
                     const noteContent = res.data.content;
                     const session = layui.data("session");

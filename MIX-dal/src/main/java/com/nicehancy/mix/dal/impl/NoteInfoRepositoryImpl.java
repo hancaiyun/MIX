@@ -240,10 +240,7 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
         //更新内容
         Update update = new Update();
         Criteria criteria = new Criteria();
-        criteria.and("userNo").is(noteInfoDO.getUserNo());
-        criteria.and("primaryDirectory").is(noteInfoDO.getPrimaryDirectory());
-        criteria.and("secondaryDirectory").is(noteInfoDO.getSecondaryDirectory());
-        criteria.and("fileName").is(noteInfoDO.getFileName());
+        criteria.and("id").is(noteInfoDO.getId());
 
         query.addCriteria(criteria);
         update.set("shareFlag", noteInfoDO.getShareFlag());
