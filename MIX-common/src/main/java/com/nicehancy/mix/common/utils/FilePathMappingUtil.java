@@ -1,5 +1,6 @@
 package com.nicehancy.mix.common.utils;
 
+import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.common.enums.FilePathEnum;
 import java.util.Properties;
 
@@ -28,8 +29,8 @@ public class FilePathMappingUtil {
     public static String getPath(String pathConstantName){
 
         Properties properties = System.getProperties();
-        String osName = properties.getProperty("os.name");
-        if("Linux".equals(osName)){
+        String osName = properties.getProperty(CommonConstant.SYSTEM_PROPERTY);
+        if(CommonConstant.SYSTEM_NAME_FOR_LINUX.equals(osName)){
            return FilePathEnum.expireOfCode(pathConstantName).getPathInLinux();
         }
 

@@ -71,11 +71,11 @@ public class RegularValidatorUtil {
      */
     public static boolean isEmail(String str){
 
-        String reg = "^[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$";
+        String reg = "^[a-zA-Z0-9][\\w.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\\w.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$";
         Pattern pattern = Pattern.compile(reg);
         Matcher matcher = pattern.matcher(str);
 
-        return matcher.matches();
+        return !matcher.matches();
     }
 
     /**

@@ -39,6 +39,7 @@ public class MessageSendRecordManager {
      * @return                      总条数
      */
     public int queryCount(MessageSendRecordPageQueryBO pageQueryBO) {
+
         return messageSendRecordRepository.queryCount(MessageBOConvert.getDOByBO(pageQueryBO));
     }
 }

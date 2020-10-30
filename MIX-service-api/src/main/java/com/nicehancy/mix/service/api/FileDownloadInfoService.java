@@ -21,6 +21,4 @@ public interface FileDownloadInfoService {
      * @return                  分页结果集
      */
     Result<BasePageQueryResDTO<FileDownloadInfoDTO>> pageQuery(FileDownloadInfoPageQueryReqDTO reqDTO);
-
-
 }

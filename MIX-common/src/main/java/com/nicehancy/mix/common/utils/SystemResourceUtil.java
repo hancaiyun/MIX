@@ -55,7 +55,7 @@ public class SystemResourceUtil {
     /**
      * 读取cpu相关信息
      * @param proc      proc
-     * @return
+     * @return          info
      */
     private static long[] readCpu(final Process proc) {
         long[] retn = new long[2];
@@ -90,14 +90,20 @@ public class SystemResourceUtil {
                 String s1 = substring(line, kmtidx, rocidx - 1).trim();
                 String s2 = substring(line, umtidx, wocidx - 1).trim();
                 if ("System Idle Process".equals(caption) || "System".equals(caption)) {
-                    if (s1.length() > 0)
+                    if (s1.length() > 0) {
                         idletime += Long.parseLong(s1);
-                    if (s2.length() > 0)
+                    }
+                    if (s2.length() > 0) {
                         idletime += Long.parseLong(s2);
+                    }
                     continue;
                 }
-                if (s1.length() > 0) kneltime += Long.parseLong(s1);
-                if (s2.length() > 0) usertime += Long.parseLong(s2);
+                if (s1.length() > 0) {
+                    kneltime += Long.parseLong(s1);
+                }
+                if (s2.length() > 0) {
+                    usertime += Long.parseLong(s2);
+                }
             }
             retn[0] = idletime;
             retn[1] = kneltime + usertime;
@@ -123,11 +129,11 @@ public class SystemResourceUtil {
      */
     private static String substring(String src, int start_idx, int end_idx) {
         byte[] b = src.getBytes();
-        String tgt = "";
+        StringBuilder tgt = new StringBuilder();
         for (int i = start_idx; i <= end_idx; i++) {
-            tgt += (char) b[i];
+            tgt.append((char) b[i]);
         }
-        return tgt;
+        return tgt.toString();
     }
 
     /**

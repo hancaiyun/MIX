@@ -1,7 +1,6 @@
 package com.nicehancy.mix.service.api.model.request.note;
 
 import com.nicehancy.mix.service.api.model.base.BasePageDTO;
-import com.nicehancy.mix.service.api.model.base.BaseReqDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

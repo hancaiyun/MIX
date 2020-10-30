@@ -334,4 +334,35 @@ public class NoteController extends BaseController {
         log.info("NoteController delete result: {}", modelMap);
         return modelMap;
     }
+
+    /**
+     * 文档评论提交
+     * @param request   请求request
+     * @return          提交结果
+     */
+    @RequestMapping("/comment/commit")
+    @ResponseBody
+    public ModelMap commentCommit(HttpServletRequest request){
+
+//        String traceLogId = UUID.randomUUID().toString();
+//        MDC.put("TRACE_LOG_ID", traceLogId);
+//
+//        NoteDeleteReqDTO reqDTO = new NoteDeleteReqDTO();
+//        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
+//        reqDTO.setPrimaryDirectory(this.getParameters(request).get("primaryDirectory"));
+//        reqDTO.setSecondaryDirectory(this.getParameters(request).get("secondaryDirectory"));
+//        reqDTO.setDocumentName(this.getParameters(request).get("documentName"));
+//        reqDTO.setTraceLogId(traceLogId);
+//
+//        log.info("NoteController comment request PARAM: reqDTO={}", reqDTO);
+//        Result<Boolean> result =  noteInfoService.delete(reqDTO);
+//        ModelMap modelMap;
+//        if(result.isSuccess()){
+//            modelMap = this.processSuccessJSON(result.getResult());
+//        }else{
+//            modelMap = this.processSuccessJSON(result.getErrorMsg());
+//        }
+//        log.info("NoteController delete result: {}", modelMap);
+        return null;
+    }
 }

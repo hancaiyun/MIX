@@ -15,10 +15,19 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CardLevelEnum {
 
-    BLUE("", "蓝色"),
+    /**
+     * 蓝色
+     */
+    BLUE("BLUE", "蓝色"),
 
-    PURPLE("", "紫色"),
+    /**
+     * 紫色
+     */
+    PURPLE("PURPLE", "紫色"),
 
+    /**
+     * 金色
+     */
     GOLD("GOLD", "金色"),
 
     ;

@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.Random;
+
 /**
  * 用户管理manager
  * <p>
@@ -64,12 +66,17 @@ public class UserInfoManager {
         messageSendRecordDO.setUpdatedBy(CommonConstant.SYSTEM);
 
         try {
+
+            //生成6位验证码
+            String verifyCode = String.valueOf(new Random().nextInt(899999) + 100000);
+            //设置短信内容
+            String message = "欢迎注册MIX账号，您的验证码为:" + verifyCode + "，该码5分钟内有效，打死不要告诉别人哦！";
             //发送短信
-            String vercode = SendSmsUtil.sendVercode(phone);
+            SendSmsUtil.sendVercode(phone, message);
             //将验证码放入缓存中， 并设置超时时间为5分钟
-            redisManager.insertObject(vercode, phone, 300);
+            redisManager.insertObject(verifyCode, phone, 300);
             //设置消息发送记录内容信息
-            messageSendRecordDO.setContent("欢迎注册MIX账号，您的验证码为:" + vercode + "，该码5分钟内有效，打死不要告诉别人哦！");
+            messageSendRecordDO.setContent(message);
             messageSendRecordDO.setSendResult(SendResultEnum.SUCCESS.getCode());
         } catch (Exception e) {
             messageSendRecordDO.setSendResult(SendResultEnum.FAILURE.getCode());
@@ -104,7 +111,7 @@ public class UserInfoManager {
         if(user == null){
             throw new RuntimeException("用户不存在！");
         }
-        if(StringUtils.isEmpty(user.getEmail()) || !RegularValidatorUtil.isEmail(user.getEmail())){
+        if(StringUtils.isEmpty(user.getEmail()) || RegularValidatorUtil.isEmail(user.getEmail())){
             throw new RuntimeException("用户邮箱信息有误！");
         }
 

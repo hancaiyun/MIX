@@ -15,12 +15,24 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CardTypeEnum {
 
+    /**
+     * 攻击型
+     */
     ATTACK("ATTACK", "攻击型"),
 
+    /**
+     * 防御型
+     */
     DEFENCE("DEFENCE", "防御型"),
 
+    /**
+     * 辅助型
+     */
     AUXILIARY("AUXILIARY", "辅助型"),
 
+    /**
+     * 生命值型
+     */
     HEALTH("HEALTH", "生命值型")
     ;
 

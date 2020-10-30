@@ -1,6 +1,5 @@
 package com.nicehancy.mix.service.api.model.result.message;
 
-import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -15,9 +15,14 @@ import java.util.Collection;
  **/
 public class MUserDetails implements UserDetails {
 
-    //登录用户名
+    /**
+     * 登录用户名
+     */
     private String username;
-    //登录密码
+
+    /**
+     * 登录密码
+     */
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;

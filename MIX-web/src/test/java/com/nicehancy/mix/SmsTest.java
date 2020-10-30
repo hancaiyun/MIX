@@ -22,7 +22,7 @@ public class SmsTest extends BaseSpringTest {
     @Test
     public void sendVerCodeTest(){
         try {
-            SendSmsUtil.sendVercode("19921577717");
+            SendSmsUtil.sendVercode("19921577717", "测试短信");
         } catch (Exception e) {
             log.info("失败信息：", e);
         }

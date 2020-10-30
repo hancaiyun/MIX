@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 /**
  * 文件路径枚举类
  * <p>
- *     维护不同系统中的文件路径
+ *     维护不同系统中的文件存储路径
  * <p/>
  *
  * @author hancaiyun

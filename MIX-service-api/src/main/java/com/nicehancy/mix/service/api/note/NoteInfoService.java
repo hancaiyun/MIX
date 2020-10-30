@@ -19,7 +19,6 @@ import java.util.List;
  **/
 public interface NoteInfoService {
 
-
     /**
      * 目录查询
      * @param reqDTO    请求参数

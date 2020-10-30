@@ -33,24 +33,21 @@ public class SendSmsUtil {
     }
 
     /**
-     * 发送短信验证码
+     * 发送短信
      *
-     * @param phone 手机号
+     * @param phone     手机号
+     * @param message   短信内容
      */
-    public static String sendVercode(String phone) throws Exception {
+    public static void sendVercode(String phone, String message) throws Exception {
 
-        //生成6位验证码
-        String verifyCode = String.valueOf(new Random().nextInt(899999) + 100000);
-        String message = "欢迎注册MIX账号，您的验证码为:" + verifyCode + "，该码5分钟内有效";
-
-        //发送短信
+        //创建短信平台连接
         ZhenziSmsClient client = new ZhenziSmsClient(apiUrl, appId, appSecret);
+        //设置内容信息
         Map<String, String> map = new HashMap<>(10);
         map.put("message", message);
         map.put("number", phone);
+        //发送短信
         String result = client.send(map);
-        log.info("手机短信验证码发送内容：{}， 发送结果：{}", message, result);
-        //返回验证码
-        return verifyCode;
+        log.info("手机短息发送成功，手机号：{}, 短信发送内容：{}， 短信平台响应结果：{}", phone, message, result);
     }
 }

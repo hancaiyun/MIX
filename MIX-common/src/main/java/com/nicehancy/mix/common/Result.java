@@ -1,7 +1,6 @@
 package com.nicehancy.mix.common;
 
 import lombok.ToString;
-
 import java.io.Serializable;
 
 /**

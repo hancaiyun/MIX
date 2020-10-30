@@ -51,6 +51,7 @@ public class FileOperateUtil {
                 fis = new FileInputStream(file);
                 FileCopyUtils.copy(fis, fos);
             }
+            assert fis != null;
             fis.close();
             fos.flush();
             fos.close();
@@ -65,7 +66,7 @@ public class FileOperateUtil {
                     fos.close();
                 }
             }catch (Exception e){
-                e.getMessage();
+                log.error(e.getMessage());
             }
         }
     }
@@ -74,19 +75,19 @@ public class FileOperateUtil {
      * 删除文件
      *
      * @param pathname        文件路径名
-     * @return                删除结果
      */
-    public static boolean deleteFile(String pathname){
-        boolean result = false;
+    public static void deleteFile(String pathname){
         if(StringUtils.isEmpty(pathname)){
-            return false;
+            return;
         }
         File file = new File(pathname);
         if (file.exists()) {
-            file.delete();
-            result = true;
-            log.info("文件{}已经被成功删除", pathname.substring(pathname.lastIndexOf("/")));
+            boolean isDelete = file.delete();
+            if(isDelete) {
+                log.info("文件{}已经被成功删除", pathname.substring(pathname.lastIndexOf("/")));
+            }else{
+                log.info("文件{}删除失败", pathname.substring(pathname.lastIndexOf("/")));
+            }
         }
-        return result;
     }
 }

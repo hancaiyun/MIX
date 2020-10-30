@@ -2,6 +2,7 @@ package com.nicehancy.mix.manager.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotNull;
 
@@ -14,6 +15,7 @@ import net.sf.oval.constraint.NotNull;
  **/
 @Getter
 @Setter
+@ToString
 public class AccountAddReqBO {
 
     /**

@@ -47,7 +47,8 @@ public class HashMap<K, V> implements Map<K, V> {
 
     public int hash(K k){
         int m = defaultLength;
-        int i = k.hashCode()%m;//得到哈希值取模
+        //得到哈希值取模
+        int i = k.hashCode()%m;
 
         return i>=0?1:-i;
     }

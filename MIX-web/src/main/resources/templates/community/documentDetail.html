@@ -42,11 +42,11 @@
       <div class="layui-card-body layui-row layui-col-space10">
         <div class="layui-col-md12">
           <label>
-            <textarea name="" placeholder="" class="layui-textarea"></textarea>
+            <textarea id="content" placeholder="" class="layui-textarea"></textarea>
           </label>
         </div>
         <div>
-          最多输入500字<button style="float:right" onclick="" class="layui-btn layui-btn-danger">发表评论</button>
+          最多输入500字<button style="float:right" onclick="commitComment()" class="layui-btn layui-btn-danger">发表评论</button>
         </div>
       </div>
       <!--分割线-->
@@ -170,8 +170,6 @@
       show.innerHTML = html;
     }
 
-
-
   });
   </script>
 
@@ -188,6 +186,43 @@
 
     function comment(){
       document.getElementById("commentArea").style.display="block";
+    }
+
+    function commitComment(){
+      const $ = layui.jquery;
+      const content = document.getElementById("content").value;
+      if(content == null || content === "" ){
+        layer.alert("评论不允许为空");
+        return;
+      }
+
+      //发表评论请求
+      $.ajax({
+        url: '/note/comment/commit',
+        data: {"userNo": window.localStorage["loginNo"], "current": content},
+        dataType: 'json',
+        type: 'GET',
+        timeout: 3000,
+        //请求成功
+        success: function (res) {
+          if (res.code === "0000") {
+            //刷新评论
+
+          } else {
+            layer.open({
+              title: '提示信息'
+              , content: '评论失败，失败原因：' + res.msg
+            });
+          }
+        },
+        //失败/超时
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          if (textStatus === 'timeout') {
+            layer.msg('网络异常');
+          }
+          layer.msg("失败原因：" + errorThrown);
+        }
+      });
     }
 
     /**

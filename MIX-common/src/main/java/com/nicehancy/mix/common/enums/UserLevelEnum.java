@@ -21,9 +21,9 @@ public enum UserLevelEnum {
     COMMON("COMMON", "普通用户"),
 
     /**
-     * vip
+     * 高级会员
      */
-    VIP("VIP", "VIP"),
+    VIP("VIP", "高级会员"),
     ;
 
     private final String code;

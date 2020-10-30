@@ -45,10 +45,10 @@ public class UserController extends BaseController {
      * 密码修改页面
      * @return      默认页视图
      */
-    @RequestMapping("/user/password")
-    public ModelAndView password(){
-        return new ModelAndView("set/user/password");
-    }
+//    @RequestMapping("/user/password")
+//    public ModelAndView password(){
+//        return new ModelAndView("set/user/password");
+//    }
 
     /**
      * 申请管理页面

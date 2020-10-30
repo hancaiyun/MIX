@@ -1,5 +1,6 @@
 package com.nicehancy.mix.common.utils;
 
+import com.nicehancy.mix.common.constant.CommonConstant;
 import com.nicehancy.mix.common.enums.SystemTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,8 +30,8 @@ public class SystemUtil {
     public static String getSystemType(){
 
         Properties properties = System.getProperties();
-        String osName = properties.getProperty("os.name");
-        if("Linux".equals(osName)){
+        String osName = properties.getProperty(CommonConstant.SYSTEM_PROPERTY);
+        if(CommonConstant.SYSTEM_NAME_FOR_LINUX.equals(osName)){
             return SystemTypeEnum.LINUX.getCode();
         }
         return SystemTypeEnum.WINDOWS.getCode();

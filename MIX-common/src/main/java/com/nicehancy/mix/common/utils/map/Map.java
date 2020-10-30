@@ -10,16 +10,39 @@ package com.nicehancy.mix.common.utils.map;
  **/
 public interface Map<K, V> {
 
+    /**
+     * put
+     * @param k    k
+     * @param v    v
+     * @return     v
+     */
     V put(K k, V v);
 
+    /**
+     * get
+     * @param k    k
+     * @return     v
+     */
     V get(K k);
 
+    /**
+     * size
+     * @return  size
+     */
     int size();
 
     interface Entry<K, V>{
 
+        /**
+         * getKey
+         * @return  k
+         */
         K getKey();
 
+        /**
+         * getValue
+         * @return  v
+         */
         V getValue();
     }
 }

@@ -14,13 +14,30 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CardStatusEnum {
 
+    /**
+     * 正常
+     */
     NORMAL("NORMAL", "正常"),
 
+    /**
+     * 晕眩
+     */
     DIZZY("DIZZY", "晕眩"),
 
+    /**
+     * 冰冻
+     */
     FREEZE("FREEZE", "冰冻"),
 
+    /**
+     * 睡眠
+     */
     SLEEP("SLEEP", "睡眠"),
+
+    /**
+     * 死亡
+     */
+    DIED("DIED", "死亡"),
     ;
 
     private final String code;

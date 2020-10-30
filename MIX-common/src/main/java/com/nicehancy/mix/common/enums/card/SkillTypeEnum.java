@@ -14,8 +14,14 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SkillTypeEnum {
 
+    /**
+     * 增益
+     */
     BUFF("BUFF", "增益"),
 
+    /**
+     * 减益
+     */
     DEBUFF("DEBUFF", "减益"),
 
     ;

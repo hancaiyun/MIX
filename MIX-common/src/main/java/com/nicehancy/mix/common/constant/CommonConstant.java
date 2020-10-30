@@ -21,6 +21,16 @@ public final class CommonConstant {
     public static final String SYSTEM = "MIX";
 
     /**
+     * linux系统名
+     */
+    public static final String SYSTEM_NAME_FOR_LINUX = "Linux";
+
+    /**
+     * 系统属性名
+     */
+    public static final String SYSTEM_PROPERTY = "os.name";
+
+    /**
      * 401状态码
      */
     public static final int STATUS_401 = 401;

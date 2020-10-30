@@ -76,7 +76,7 @@ layui.config({
         let html = '';
         for (let i = data.length - 1; i >= 0; i--) {
 
-            //跨越面传参组装
+            //跨页面传参组装
             const parameter = "loginNo=" + window.localStorage["loginNo"] +
                               "&id=" + data[i].id +
                               "&nickName=" + data[i].nickName +

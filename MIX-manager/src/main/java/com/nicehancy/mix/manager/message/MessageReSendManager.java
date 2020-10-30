@@ -1,7 +1,6 @@
 package com.nicehancy.mix.manager.message;
 
 import com.nicehancy.mix.common.enums.BusinessTypeEnum;
-import com.nicehancy.mix.common.utils.PasswordUtil;
 import com.nicehancy.mix.common.utils.RegularValidatorUtil;
 import com.nicehancy.mix.manager.model.MessageSendReqBO;
 import com.nicehancy.mix.manager.user.UserInfoManager;
@@ -31,7 +30,7 @@ public class MessageReSendManager {
         //密码重置
         if(BusinessTypeEnum.PASSWORD_RESET.getCode().equals(messageSendReqBO.getBusinessType())){
             //邮箱验证
-            if(!RegularValidatorUtil.isEmail(messageSendReqBO.getRecipient())){
+            if(RegularValidatorUtil.isEmail(messageSendReqBO.getRecipient())){
                 throw new RuntimeException("暂仅支持邮箱！");
             }
             userInfoManager.resetPassword(messageSendReqBO.getRecipient());

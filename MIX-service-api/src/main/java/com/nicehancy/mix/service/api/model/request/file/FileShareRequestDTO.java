@@ -8,7 +8,6 @@ import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotNull;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 文件下载请求参数

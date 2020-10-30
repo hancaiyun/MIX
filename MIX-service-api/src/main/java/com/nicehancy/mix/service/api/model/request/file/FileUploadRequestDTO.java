@@ -4,7 +4,6 @@ import com.nicehancy.mix.service.api.model.base.BaseReqDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.sf.oval.constraint.MemberOf;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotNull;
 import org.springframework.web.multipart.MultipartFile;

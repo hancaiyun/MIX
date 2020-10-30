@@ -16,7 +16,7 @@ import net.sf.oval.Validator;
 @Slf4j
 public class VerifyUtil {
 
-    private static final Validator validator = new Validator();
+    private static final Validator VALIDATOR = new Validator();
 
 
     private VerifyUtil() {
@@ -28,7 +28,7 @@ public class VerifyUtil {
      * @param object 请求校验参数
      */
     public static void validateObject(Object object) throws RuntimeException {
-        List<ConstraintViolation> list = validator.validate(object);
+        List<ConstraintViolation> list = VALIDATOR.validate(object);
         if (null != list && !list.isEmpty()) {
             throw new RuntimeException(list.get(0).getMessage());
         }
