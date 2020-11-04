@@ -24,7 +24,9 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //注册UserDetailsService的bean
+    /**
+     * 注册UserDetailsService的bean
+     */
     @Bean
     UserDetailsService CustomUserService(){
         return new CustomUserServiceImpl();

@@ -11,6 +11,7 @@ import com.nicehancy.mix.dal.model.MessageSendRecordDO;
 import com.nicehancy.mix.manager.convert.UserInfoBOConvert;
 import com.nicehancy.mix.manager.model.UserInfoBO;
 import com.nicehancy.mix.manager.redis.RedisManager;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,7 @@ import java.util.Random;
  * @author hancaiyun
  * @since 2020/1/2 20:01
  **/
+@Slf4j
 @Component
 public class UserInfoManager {
 
@@ -71,16 +73,17 @@ public class UserInfoManager {
             String verifyCode = String.valueOf(new Random().nextInt(899999) + 100000);
             //设置短信内容
             String message = "欢迎注册MIX账号，您的验证码为:" + verifyCode + "，该码5分钟内有效，打死不要告诉别人哦！";
-            //发送短信
-            SendSmsUtil.sendVercode(phone, message);
             //将验证码放入缓存中， 并设置超时时间为5分钟
             redisManager.insertObject(verifyCode, phone, 300);
+            //发送短信
+            SendSmsUtil.sendVercode(phone, message);
             //设置消息发送记录内容信息
             messageSendRecordDO.setContent(message);
             messageSendRecordDO.setSendResult(SendResultEnum.SUCCESS.getCode());
         } catch (Exception e) {
             messageSendRecordDO.setSendResult(SendResultEnum.FAILURE.getCode());
             messageSendRecordDO.setReason(e.getMessage());
+            log.error("发送短信验证码失败，失败原因:", e);
             throw new RuntimeException("发送验证码失败，请稍后重试！");
         }
         //新增消息记录

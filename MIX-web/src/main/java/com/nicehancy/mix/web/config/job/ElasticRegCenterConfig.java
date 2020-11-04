@@ -19,9 +19,9 @@ public class ElasticRegCenterConfig {
 
     /**
      * 配置zookeeper
-     * @param serverList
-     * @param namespace
-     * @return
+     * @param serverList    server列表
+     * @param namespace     命名空间
+     * @return              zk
      */
     @Bean(initMethod = "init")
     public ZookeeperRegistryCenter regCenter(@Value("${regCenter.serverList}") final String serverList,
