@@ -84,11 +84,11 @@ layui.config({
 
             html = "<div class=\"caller-item\">\n" +
                 "<img src=/file/download?fileName=" + data[i].headCopy + " alt=\"\" class=\"caller-img caller-fl\">\n" +
-                "<div class=\"caller-main caller-fl\">       \n" +
+                "<div class=\"caller-main caller-fl\">\n" +
                 "<p>" + data[i].nickName + " <em>" + data[i].updatedAt + "</em></p>\n" +
                 "<p class=\"caller-adds\" lay-href=\"community/documentDetail?parameter=" + parameter + "\"><" +
-                "em><strong><font size=\"4\">" + data[i].documentName + "</font></strong></em></p>\n" +
-                "</div>\n" +
+                "em><strong><font size=\"4\">" + data[i].documentName + "</font></strong></em></p>" +
+                "</div>" +
                 "</div></<hr>" +
                 html;
         }

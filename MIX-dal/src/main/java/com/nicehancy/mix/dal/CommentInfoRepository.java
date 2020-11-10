@@ -1,6 +1,9 @@
 package com.nicehancy.mix.dal;
 
 import com.nicehancy.mix.dal.model.CommentInfoDO;
+import com.nicehancy.mix.dal.model.request.CommentInfoPageQueryReqDO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -21,7 +24,22 @@ public interface CommentInfoRepository {
     /**
      * 评论数查询
      * @param subjectId         主体id
+     * @param subjectType       主体类型
      * @return                  评论数查询
      */
-    int queryCountBySubjectId(Long subjectId);
+    int queryCountBySubjectId(Long subjectId, String subjectType);
+
+    /**
+     * 评论总条目数查询
+     * @param reqDO             分页请求DO
+     * @return                  条目数
+     */
+    int queryCount(CommentInfoPageQueryReqDO reqDO);
+
+    /**
+     * 评论列表查询
+     * @param reqDO             分页请求DO
+     * @return                  分页列表
+     */
+    List<CommentInfoDO> queryByPage(CommentInfoPageQueryReqDO reqDO);
 }

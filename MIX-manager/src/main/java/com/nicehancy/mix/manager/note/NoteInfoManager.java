@@ -2,6 +2,7 @@ package com.nicehancy.mix.manager.note;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.enums.NoteStatusEnum;
+import com.nicehancy.mix.common.enums.SubjectTypeEnum;
 import com.nicehancy.mix.common.utils.ThreadPoolUtil;
 import com.nicehancy.mix.dal.CommentInfoRepository;
 import com.nicehancy.mix.dal.NoteInfoRepository;
@@ -465,7 +466,8 @@ public class NoteInfoManager {
         //评论数
         ThreadPoolUtil.execute(()->{
             try{
-                int count = commentInfoRepository.queryCountBySubjectId(noteShareDetailBO.getId());
+                int count = commentInfoRepository.queryCountBySubjectId(noteShareDetailBO.getId(),
+                        SubjectTypeEnum.NOTE.getCode());
                 noteShareDetailBO.setCommentCount(count);
             }catch (Exception e){
                 log.error("评论数信息查询失败，e:", e);

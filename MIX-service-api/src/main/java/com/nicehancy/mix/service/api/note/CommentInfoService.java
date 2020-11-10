@@ -2,8 +2,9 @@ package com.nicehancy.mix.service.api.note;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.service.api.model.request.note.CommentCommitReqDTO;
-
-import java.util.List;
+import com.nicehancy.mix.service.api.model.request.note.CommentInfoPageQueryReqDTO;
+import com.nicehancy.mix.service.api.model.result.CommentInfoDTO;
+import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
 
 /**
  * 文档评论接口
@@ -27,10 +28,5 @@ public interface CommentInfoService {
      * @param reqDTO    请求参数DTO
      * @return          分页查询结果
      */
-    //Result<List<>> pageQuery(CommentInfoPageQueryReqDTO reqDTO);
-
-    /*
-      评论列表分页查询
-     */
-
+    Result<BasePageQueryResDTO<CommentInfoDTO>> pageQuery(CommentInfoPageQueryReqDTO reqDTO);
 }

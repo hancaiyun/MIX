@@ -1,14 +1,13 @@
-package com.nicehancy.mix.service.api.model.result;
+package com.nicehancy.mix.manager.model;
 
+import com.nicehancy.mix.manager.model.base.BaseBO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.Serializable;
-
 /**
  * <p>
- *     评论明细DTO
+ *     评论明细BO
  * <p/>
  *
  * @author hancaiyun
@@ -17,17 +16,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class CommentInfoDTO implements Serializable {
-
-    /**
-     * 序列化ID
-     */
-    private static final long serialVersionUID = 8584346218025045101L;
-
-    /**
-     * 数据库id
-     */
-    private Long id;
+public class CommentInfoBO extends BaseBO {
 
     /**
      * 主体id
@@ -63,9 +52,4 @@ public class CommentInfoDTO implements Serializable {
      * 评论状态
      */
     private String commentStatus;
-
-    /**
-     * 更新时间
-     */
-    private String updatedAt;
 }

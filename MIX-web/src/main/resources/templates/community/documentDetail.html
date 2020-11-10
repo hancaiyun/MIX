@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}" media="all">
   <link rel="stylesheet" th:href="@{/frame/style/admin.css}" media="all">
+  <link rel="stylesheet" th:href="@{/frame/style/template.css}" media="all">
 </head>
 <body>
 
@@ -28,7 +29,7 @@
           </div>
           <div style="padding-top: 30px;">
             <a id="prize" class="layui-btn layui-btn-primary layui-btn-sm" onclick="prize()"><i class="layui-icon layui-icon-praise"></i>点赞15</a><a
-                  class="layui-btn layui-btn-normal layui-btn-sm" href="#comment" onclick="comment()"><i class="layui-icon layui-icon-reply-fill"></i>评论{{ d.data.commentCount }}</a>
+                  class="layui-btn layui-btn-normal layui-btn-sm" id="commentPage" href="#comment" onclick="comment()"><i class="layui-icon layui-icon-reply-fill"></i>评论{{ d.data.commentCount }}</a>
             {{# if(d.data.userNo == window.localStorage["loginNo"]){}}
             <a class="layui-btn layui-btn-danger layui-btn-sm" onclick="cancelShare()"><i class="layui-icon layui-icon-delete"></i>删除发布</a>
             {{# }}}
@@ -52,233 +53,20 @@
       <!--分割线-->
       <hr>
       <!--评论区-->
-      <div class="layui-card-body layui-row layui-col-space10">
-        <div id="comment" class="layui-col-md12">
+      <div class="layui-card-body">
+        <div class="layui-fluid">
+          <div class="layadmin-caller">
+            <div class="caller-contar" id="comment">
+            </div>
+            <div id="page"></div>
+          </div>
         </div>
-        <div id="page"></div>
       </div>
     </div>
   </div>
 
   <script th:src="@{/frame/layui/layui.js}"></script>
   <script type="text/javascript" th:src="@{/frame/js/getUrlParam.js}"></script>
-  <script>
-  layui.config({
-    base: '/frame/' //静态资源所在路径
-  }).extend({
-    index: 'lib/index' //主入口模块
-  }).use(['index','laypage','layer'], function(){
-
-    const laypage = layui.laypage,
-            layer = layui.layer,
-            $ = layui.jquery;
-
-    //初始化
-    $(function () {
-      initLayPage();
-    });
-
-    //分页
-    function initLayPage(pageConf){
-      if(!pageConf){
-        pageConf = {};
-        pageConf.pageSize = 5;
-        pageConf.currentPage = 1;
-      }
-      //请求
-      $.ajax({
-        url: '/note/queryShare',
-        data: {"userNo": window.localStorage["loginNo"], "current":pageConf.currentPage, "limit":pageConf.pageSize},
-        dataType: 'json',
-        type: 'GET',
-        timeout: 3000,
-        //请求成功
-        success: function (res) {
-          if (res.code === "0000") {
-            //data
-            showNote(res.data.pageResult);
-            //page
-            showData(res.data, pageConf);
-          } else {
-            layer.open({
-              title: '提示信息'
-              , content: '共享文档查询失败，失败原因：' + res.msg
-            });
-          }
-        },
-        //失败/超时
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-          if (textStatus === 'timeout') {
-            layer.msg('网络异常');
-          }
-          layer.msg("失败原因：" + errorThrown);
-        }
-      });
-    }
-
-    //数据展示，分页插件设置
-    function showData(data, pageConf) {
-      //page
-      laypage.render({
-        elem: 'page',
-        count: data.count,
-        curr: pageConf.currentPage,
-        limit: pageConf.pageSize,
-        jump: function (obj, first) {
-          //首次不执行
-          if (!first) {
-            //分页查询
-            pageConf.currentPage = obj.curr;
-            pageConf.pageSize = obj.limit;
-            initLayPage(pageConf);
-          }
-        }
-      });
-    }
-
-    //评论列表展示
-    function showNote(data) {
-      let show = document.getElementById("comment");
-
-
-      let html = "<div class=\"layui-card\">\n" +
-              "  <div class=\"layui-card-header\">动态</div>\n" +
-              "  <div class=\"layui-card-body\">\n" +
-              "    <dl class=\"layuiadmin-card-status\">\n" +
-              "      <dd>\n" +
-              "        <div class=\"layui-status-img\"><a href=\"javascript:;\"><img src=\"../../frame/layui/images/logo.png\"></a></div>\n" +
-              "        <div>\n" +
-              "          <p>胡歌 在 <a lay-href=\"http://fly.layui.com/vipclub/list/layuiadmin/\">layuiadmin专区</a> 回答问题</p>\n" +
-              "          <span>几秒前</span>\n" +
-              "        </div>\n" +
-              "      </dd>\n" +
-              "      <dd>\n" +
-              "        <div class=\"layui-status-img\"><a href=\"javascript:;\"><img src=\"../../frame/layui/images/logo.png\"></a></div>\n" +
-              "        <div>\n" +
-              "          <p>彭于晏 在 <a lay-href=\"http://fly.layui.com/vipclub/list/layuiadmin/\">layuiadmin专区</a> 进行了 <a lay-href=\"http://fly.layui.com/vipclub/list/layuiadmin/column/quiz/\">提问</a></p>\n" +
-              "          <span>2天前</span>\n" +
-              "        </div>\n" +
-              "      </dd>\n" +
-              "      <dd>\n" +
-              "        <div class=\"layui-status-img\"><a href=\"javascript:;\"><img src=\"../../frame/layui/images/logo.png\"></a></div>\n" +
-              "        <div>\n" +
-              "          <p>贤心 将 <a lay-href=\"https://www.layui.com/\">layui</a> 更新至 2.3.0 版本</p>\n" +
-              "          <span>7天前</span>\n" +
-              "        </div>\n" +
-              "      </dd>\n" +
-              "    </dl>  \n" +
-              "  </div>\n" +
-              "</div> ";
-      show.innerHTML = html;
-    }
-
-  });
-  </script>
-
-  <script>
-    function prize(){
-      if(document.getElementById("prize").className === "layui-btn layui-btn-primary layui-btn-sm"){
-        document.getElementById("prize").className = "layui-btn layui-btn-normal layui-btn-sm";
-        document.getElementById("prize").innerHTML = "<i class=\"layui-icon layui-icon-praise\"></i>点赞16";
-      }else{
-        document.getElementById("prize").className = "layui-btn layui-btn-primary layui-btn-sm"
-        document.getElementById("prize").innerHTML = "<i class=\"layui-icon layui-icon-praise\"></i>点赞15";
-      }
-    }
-
-    /**
-     * 显示评论区, 展示评论列表
-     */
-    function comment(){
-      document.getElementById("commentArea").style.display="block";
-    }
-
-    /**
-     * 评论提交
-     */
-    function commitComment(){
-      const $ = layui.jquery;
-      const content = document.getElementById("content").value;
-      const subjectId = document.getElementById("documentId").innerText;
-      if(content == null || content === "" ){
-        layer.alert("评论不允许为空");
-        return;
-      }
-
-      //发表评论请求
-      $.ajax({
-        url: '/note/comment/commit',
-        data: {"userNo": window.localStorage["loginNo"], "content": content, "subjectId":subjectId},
-        dataType: 'json',
-        type: 'GET',
-        timeout: 3000,
-        //请求成功
-        success: function (res) {
-          if (res.code === "0000") {
-            //清空评论文本框
-            document.getElementById("content").value = '';
-            //刷新评论
-
-            layer.msg("评论成功");
-          } else {
-            layer.open({
-              title: '提示信息'
-              , content: '评论失败，失败原因：' + res.msg
-            });
-          }
-        },
-        //失败/超时
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-          if (textStatus === 'timeout') {
-            layer.msg('网络异常');
-          }
-          layer.msg("失败原因：" + errorThrown);
-        }
-      });
-    }
-
-    /**
-     * 删除共享文件
-     * @param id  文件id
-     */
-    function cancelShare(){
-      const $ = layui.jquery,
-            layer = layui.layer;
-      const id = document.getElementById("documentId").innerText;
-
-      layer.confirm('确认删除共享吗， 删除后别人将无法查看此文档', function (index) {
-        //删除文件数据
-        $.ajax({
-          url: '/note/unShare',
-          data: {"id": id, "userNo": window.localStorage["loginNo"]},
-          dataType: 'json',//数据类型
-          type: 'GET',//类型
-          timeout: 3000,//超时
-          //请求成功
-          success: function (res) {
-            if (res.code === "0000") {
-              //成功
-              layer.msg("删除成功");
-            } else {
-              layer.open({
-                title: '提示信息'
-                , content: '删除失败，失败原因：' + res.msg
-              });
-            }
-          },
-          //失败/超时
-          error: function (XMLHttpRequest, textStatus, errorThrown) {
-            if (textStatus === 'timeout') {
-              layer.msg('网络异常');
-            }
-            layer.msg("失败原因：" + errorThrown);
-          }
-        });
-
-        //关闭弹窗
-        layer.close(index);
-      });
-    }
-  </script>
+  <script th:src="@{/frame/js/shareDocumentDetail.js}"></script>
 </body>
 </html>

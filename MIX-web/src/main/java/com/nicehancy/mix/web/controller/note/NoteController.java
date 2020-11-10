@@ -5,6 +5,7 @@ import com.nicehancy.mix.common.enums.ShareFlagEnum;
 import com.nicehancy.mix.common.enums.SubjectTypeEnum;
 import com.nicehancy.mix.service.api.model.NoteInfoDTO;
 import com.nicehancy.mix.service.api.model.request.note.*;
+import com.nicehancy.mix.service.api.model.result.CommentInfoDTO;
 import com.nicehancy.mix.service.api.model.result.NoteShareDetailDTO;
 import com.nicehancy.mix.service.api.model.result.NoteShareInfoDTO;
 import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
@@ -369,6 +370,38 @@ public class NoteController extends BaseController {
             modelMap = this.processSuccessJSON(result.getErrorMsg());
         }
         log.info("NoteController commentCommit result: {}", modelMap);
+        return modelMap;
+    }
+
+    /**
+     * 文档评论分页查询
+     * @param request   请求request
+     * @return          提交结果
+     */
+    @RequestMapping("/comment/pageQuery")
+    @ResponseBody
+    public ModelMap pageQuery(HttpServletRequest request){
+
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+
+        CommentInfoPageQueryReqDTO reqDTO = new CommentInfoPageQueryReqDTO();
+        reqDTO.setSubjectId(Long.valueOf(this.getParameters(request).get("subjectId")));
+        reqDTO.setSubjectType(SubjectTypeEnum.NOTE.getCode());
+        reqDTO.setCurrentPage(Integer.valueOf(this.getParameters(request).get("current")));
+        reqDTO.setPageSize(Integer.valueOf(this.getParameters(request).get("limit")));
+        reqDTO.setTraceLogId(traceLogId);
+        reqDTO.setRequestSystem("MIX");
+
+        log.info("NoteController comment pageQuery request PARAM: reqDTO={}", reqDTO);
+        Result<BasePageQueryResDTO<CommentInfoDTO>> result =  commentInfoService.pageQuery(reqDTO);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap = this.processSuccessJSON(result.getResult().getPageResult(), result.getResult().getCount());
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("NoteController comment pageQuery result: {}", modelMap);
         return modelMap;
     }
 }

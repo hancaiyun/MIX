@@ -9,9 +9,15 @@ import com.nicehancy.mix.dal.UserInfoRepository;
 import com.nicehancy.mix.dal.model.CommentInfoDO;
 import com.nicehancy.mix.dal.model.NoteInfoDO;
 import com.nicehancy.mix.dal.model.UserInfoDO;
+import com.nicehancy.mix.dal.model.request.CommentInfoPageQueryReqDO;
+import com.nicehancy.mix.manager.convert.CommentInfoBOConvert;
 import com.nicehancy.mix.manager.model.CommentCommitReqBO;
+import com.nicehancy.mix.manager.model.CommentInfoBO;
+import com.nicehancy.mix.manager.model.CommentInfoPageQueryReqBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * <p>
@@ -86,5 +92,26 @@ public class CommentInfoManager {
         commentInfoDO.setUpdatedBy(reqBO.getUserNo());
 
         return commentInfoDO;
+    }
+
+    /**
+     * 评论总总数查询
+     * @param reqBO      BO
+     * @return           条目数
+     */
+    public int queryCount(CommentInfoPageQueryReqBO reqBO) {
+
+        return noteCommentInfoRepository.queryCount(CommentInfoBOConvert.getDOByBO(reqBO));
+    }
+
+    /**
+     * 评论列表查询
+     * @param reqBO         BO
+     * @return              评论列表
+     */
+    public List<CommentInfoBO> pageQuery(CommentInfoPageQueryReqBO reqBO) {
+
+        return CommentInfoBOConvert.getBOSByDOS(noteCommentInfoRepository.queryByPage(
+                CommentInfoBOConvert.getDOByBO(reqBO)));
     }
 }
