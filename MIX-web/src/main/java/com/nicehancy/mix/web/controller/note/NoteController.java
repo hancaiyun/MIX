@@ -2,11 +2,13 @@ package com.nicehancy.mix.web.controller.note;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.enums.ShareFlagEnum;
+import com.nicehancy.mix.common.enums.SubjectTypeEnum;
 import com.nicehancy.mix.service.api.model.NoteInfoDTO;
 import com.nicehancy.mix.service.api.model.request.note.*;
 import com.nicehancy.mix.service.api.model.result.NoteShareDetailDTO;
 import com.nicehancy.mix.service.api.model.result.NoteShareInfoDTO;
 import com.nicehancy.mix.service.api.model.result.base.BasePageQueryResDTO;
+import com.nicehancy.mix.service.api.note.CommentInfoService;
 import com.nicehancy.mix.service.api.note.NoteInfoService;
 import com.nicehancy.mix.web.controller.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +39,9 @@ public class NoteController extends BaseController {
 
     @Autowired
     private NoteInfoService noteInfoService;
+
+    @Autowired
+    private CommentInfoService commentInfoService;
 
     /**
      * 主页面
@@ -344,25 +349,26 @@ public class NoteController extends BaseController {
     @ResponseBody
     public ModelMap commentCommit(HttpServletRequest request){
 
-//        String traceLogId = UUID.randomUUID().toString();
-//        MDC.put("TRACE_LOG_ID", traceLogId);
-//
-//        NoteDeleteReqDTO reqDTO = new NoteDeleteReqDTO();
-//        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
-//        reqDTO.setPrimaryDirectory(this.getParameters(request).get("primaryDirectory"));
-//        reqDTO.setSecondaryDirectory(this.getParameters(request).get("secondaryDirectory"));
-//        reqDTO.setDocumentName(this.getParameters(request).get("documentName"));
-//        reqDTO.setTraceLogId(traceLogId);
-//
-//        log.info("NoteController comment request PARAM: reqDTO={}", reqDTO);
-//        Result<Boolean> result =  noteInfoService.delete(reqDTO);
-//        ModelMap modelMap;
-//        if(result.isSuccess()){
-//            modelMap = this.processSuccessJSON(result.getResult());
-//        }else{
-//            modelMap = this.processSuccessJSON(result.getErrorMsg());
-//        }
-//        log.info("NoteController delete result: {}", modelMap);
-        return null;
+        String traceLogId = UUID.randomUUID().toString();
+        MDC.put("TRACE_LOG_ID", traceLogId);
+
+        CommentCommitReqDTO reqDTO = new CommentCommitReqDTO();
+        reqDTO.setUserNo(this.getParameters(request).get("userNo"));
+        reqDTO.setContent(this.getParameters(request).get("content"));
+        reqDTO.setSubjectId(Long.valueOf(this.getParameters(request).get("subjectId")));
+        reqDTO.setSubjectType(SubjectTypeEnum.NOTE.getCode());
+        reqDTO.setTraceLogId(traceLogId);
+        reqDTO.setRequestSystem("MIX");
+
+        log.info("NoteController commentCommit request PARAM: reqDTO={}", reqDTO);
+        Result<Boolean> result =  commentInfoService.commentCommit(reqDTO);
+        ModelMap modelMap;
+        if(result.isSuccess()){
+            modelMap = this.processSuccessJSON(result.getResult());
+        }else{
+            modelMap = this.processSuccessJSON(result.getErrorMsg());
+        }
+        log.info("NoteController commentCommit result: {}", modelMap);
+        return modelMap;
     }
 }

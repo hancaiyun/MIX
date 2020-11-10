@@ -34,10 +34,17 @@ public interface NoteInfoRepository {
 
     /**
      * 查询文档
-     * @param reqDO             请求参数
-     * @return                  文档信息
+     * @param reqDO                 请求参数
+     * @return                      文档信息
      */
     List<NoteInfoDO> queryNoteInfo(NoteQueryReqDO reqDO);
+
+    /**
+     * 根据文件id查询文件
+     * @param fileId                文件id
+     * @return                      文件信息
+     */
+    NoteInfoDO queryNoteByFileId(Long fileId);
 
     /**
      * 保存笔记

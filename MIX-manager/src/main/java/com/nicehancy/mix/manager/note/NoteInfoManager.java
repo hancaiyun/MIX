@@ -2,6 +2,8 @@ package com.nicehancy.mix.manager.note;
 
 import com.nicehancy.mix.common.Result;
 import com.nicehancy.mix.common.enums.NoteStatusEnum;
+import com.nicehancy.mix.common.utils.ThreadPoolUtil;
+import com.nicehancy.mix.dal.CommentInfoRepository;
 import com.nicehancy.mix.dal.NoteInfoRepository;
 import com.nicehancy.mix.dal.UserInfoRepository;
 import com.nicehancy.mix.dal.model.NoteInfoDO;
@@ -9,12 +11,14 @@ import com.nicehancy.mix.dal.model.UserInfoDO;
 import com.nicehancy.mix.dal.model.request.NoteQueryReqDO;
 import com.nicehancy.mix.manager.convert.NoteInfoBOConvert;
 import com.nicehancy.mix.manager.model.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 /**
@@ -25,6 +29,7 @@ import java.util.stream.Collectors;
  * @author hancaiyun
  * @since 2019/10/17 10:58
  **/
+@Slf4j
 @Component
 public class NoteInfoManager {
 
@@ -33,6 +38,9 @@ public class NoteInfoManager {
 
     @Autowired
     private UserInfoRepository userInfoRepository;
+
+    @Autowired
+    private CommentInfoRepository commentInfoRepository;
 
     /**
      * 目录列表查询
@@ -256,6 +264,9 @@ public class NoteInfoManager {
             updateReqDO.setFileName(reqBO.getFileName());
             //设置状态为不可用
             updateReqDO.setStatus(NoteStatusEnum.DISABLE.getCode());
+
+            //TODO 删除该笔记下的评论、点赞
+
         }
 
         updateReqDO.setUpdatedBy(reqBO.getUserNo());
@@ -413,7 +424,71 @@ public class NoteInfoManager {
         //查询笔记明细
         NoteInfoDO noteInfoDO = noteRepository.queryNoteById(id);
 
-        //查询笔记查看、点赞统计明细
+        //基础信息构建
+        NoteShareDetailBO noteShareDetailBO = buildShareDetail(noteInfoDO, id);
+
+        //附属信息构建
+        buildOtherInfo(noteShareDetailBO);
+
+        return noteShareDetailBO;
+    }
+
+    /**
+     * 附属信息构建
+     * @param noteShareDetailBO     笔记分享明细BO
+     */
+    private void buildOtherInfo(NoteShareDetailBO noteShareDetailBO) {
+
+        //查询笔记查看、点赞、评论统计明细
+        CountDownLatch countDownLatch = new CountDownLatch(3);
+        //TODO 查看数
+        ThreadPoolUtil.execute(()->{
+            try{
+                noteShareDetailBO.setSeeCount(0);
+            }catch (Exception e){
+                log.error("查看数信息查询失败，e:", e);
+            }finally {
+                countDownLatch.countDown();
+            }
+        });
+        //TODO 点赞数
+        ThreadPoolUtil.execute(()->{
+            try{
+                noteShareDetailBO.setSupportCount(0);
+            }catch (Exception e){
+                log.error("点赞数信息查询失败，e:", e);
+            }finally {
+                countDownLatch.countDown();
+            }
+        });
+
+        //评论数
+        ThreadPoolUtil.execute(()->{
+            try{
+                int count = commentInfoRepository.queryCountBySubjectId(noteShareDetailBO.getId());
+                noteShareDetailBO.setCommentCount(count);
+            }catch (Exception e){
+                log.error("评论数信息查询失败，e:", e);
+            }finally {
+                countDownLatch.countDown();
+            }
+        });
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("附属信息查询失败");
+        }
+    }
+
+    /**
+     * 返回信息构建
+     * @param noteInfoDO        笔记DO
+     * @param id                id
+     * @return                  笔记BO
+     */
+    private NoteShareDetailBO buildShareDetail(NoteInfoDO noteInfoDO, Long id) {
 
         //结果封装
         NoteShareDetailBO noteShareDetailBO = new NoteShareDetailBO();

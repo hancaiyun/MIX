@@ -40,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //解决iframe框架不允许内嵌问题
         http.headers().frameOptions().disable();
-
         http.cors().and().csrf().disable();
         http
              //使用form表单post方式进行登录

@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 单元测试
@@ -180,9 +181,26 @@ public class UnitTest extends BaseSpringTest {
 
         hashset.add("b");
         hashset.add("a");
-        hashset.add("a");
+        //hashset.add("a");
         hashset.add("d");
 
         log.info("hashSet:{}", hashset);
+    }
+
+    /**
+     * list映射为map
+     */
+    @Test
+    public void collectionMapTest(){
+
+        List<String> list = new ArrayList<>();
+        list.add("one");
+        list.add("two");
+        list.add("three");
+        list.add("three");
+        Map<String, String> map = list.stream().collect(Collectors.toMap(
+                s -> s, s -> s, (oldValue, newValue)->newValue));
+
+        log.info("{}", map);
     }
 }

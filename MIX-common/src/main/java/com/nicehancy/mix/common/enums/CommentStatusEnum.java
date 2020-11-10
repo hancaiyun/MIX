@@ -4,16 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 笔记状态枚举
  * <p>
+ *     评论状态枚举类
  * <p/>
  *
  * @author hancaiyun
- * @since 2019/11/14 17:54
+ * @since 2020/11/6 14:39
  **/
 @Getter
 @AllArgsConstructor
-public enum NoteStatusEnum {
+public enum CommentStatusEnum {
 
     /**
      * 可用
@@ -24,12 +24,6 @@ public enum NoteStatusEnum {
      * 不可用
      */
     DISABLE("DISABLE", "不可用"),
-
-    /**
-     * 锁定
-     */
-    LOCK("LOCK", "锁定"),
-
     ;
 
     private final String code;

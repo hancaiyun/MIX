@@ -74,7 +74,7 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
     }
 
     /**
-     * 根据文档id获取文档信息
+     * 根据用户编号获取文档信息
      * @param reqDO             请求参数
      * @return                  文档信息
      */
@@ -97,6 +97,22 @@ public class NoteInfoRepositoryImpl implements NoteInfoRepository {
 
         query.addCriteria(criteria);
         return mongoTemplate.find(query, NoteInfoDO.class);
+    }
+
+    /**
+     * 根据文件id查询文件信息
+     * @param fileId                文件id
+     * @return                      文件信息
+     */
+    @Override
+    public NoteInfoDO queryNoteByFileId(Long fileId){
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.and("id").is(fileId);
+        criteria.and("status").is(NoteStatusEnum.ENABLE.getCode());
+
+        query.addCriteria(criteria);
+        return mongoTemplate.findOne(query, NoteInfoDO.class);
     }
 
     /**

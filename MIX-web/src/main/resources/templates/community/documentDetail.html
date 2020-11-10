@@ -28,7 +28,7 @@
           </div>
           <div style="padding-top: 30px;">
             <a id="prize" class="layui-btn layui-btn-primary layui-btn-sm" onclick="prize()"><i class="layui-icon layui-icon-praise"></i>点赞15</a><a
-                  class="layui-btn layui-btn-normal layui-btn-sm" href="#comment" onclick="comment()"><i class="layui-icon layui-icon-reply-fill"></i>评论1</a>
+                  class="layui-btn layui-btn-normal layui-btn-sm" href="#comment" onclick="comment()"><i class="layui-icon layui-icon-reply-fill"></i>评论{{ d.data.commentCount }}</a>
             {{# if(d.data.userNo == window.localStorage["loginNo"]){}}
             <a class="layui-btn layui-btn-danger layui-btn-sm" onclick="cancelShare()"><i class="layui-icon layui-icon-delete"></i>删除发布</a>
             {{# }}}
@@ -139,6 +139,8 @@
     //评论列表展示
     function showNote(data) {
       let show = document.getElementById("comment");
+
+
       let html = "<div class=\"layui-card\">\n" +
               "  <div class=\"layui-card-header\">动态</div>\n" +
               "  <div class=\"layui-card-body\">\n" +
@@ -184,13 +186,20 @@
       }
     }
 
+    /**
+     * 显示评论区, 展示评论列表
+     */
     function comment(){
       document.getElementById("commentArea").style.display="block";
     }
 
+    /**
+     * 评论提交
+     */
     function commitComment(){
       const $ = layui.jquery;
       const content = document.getElementById("content").value;
+      const subjectId = document.getElementById("documentId").innerText;
       if(content == null || content === "" ){
         layer.alert("评论不允许为空");
         return;
@@ -199,15 +208,18 @@
       //发表评论请求
       $.ajax({
         url: '/note/comment/commit',
-        data: {"userNo": window.localStorage["loginNo"], "current": content},
+        data: {"userNo": window.localStorage["loginNo"], "content": content, "subjectId":subjectId},
         dataType: 'json',
         type: 'GET',
         timeout: 3000,
         //请求成功
         success: function (res) {
           if (res.code === "0000") {
+            //清空评论文本框
+            document.getElementById("content").value = '';
             //刷新评论
 
+            layer.msg("评论成功");
           } else {
             layer.open({
               title: '提示信息'

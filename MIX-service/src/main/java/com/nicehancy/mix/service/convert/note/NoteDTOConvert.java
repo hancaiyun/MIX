@@ -175,6 +175,7 @@ public class NoteDTOConvert {
         noteShareDetailDTO.setContent(noteShareDetailBO.getContent());
         noteShareDetailDTO.setSeeCount(noteShareDetailBO.getSeeCount());
         noteShareDetailDTO.setSupportCount(noteShareDetailBO.getSupportCount());
+        noteShareDetailDTO.setCommentCount(noteShareDetailBO.getCommentCount());
         noteShareDetailDTO.setCreatedAt(DateUtil.format(noteShareDetailBO.getCreatedAt(), DatePatternConstant.STANDARD_PATTERN));
         noteShareDetailDTO.setCreatedBy(noteShareDetailBO.getCreatedBy());
         noteShareDetailDTO.setUpdatedAt(DateUtil.format(noteShareDetailBO.getUpdatedAt(), DatePatternConstant.STANDARD_PATTERN));

@@ -144,7 +144,8 @@ public class AccountManager {
     private void checkRows(Workbook workbook) {
 
         Sheet sheet = workbook.getSheetAt(0);
-        int totalRows = sheet.getLastRowNum() + 1;//计数器从0开始;
+        //计数器从0开始
+        int totalRows = sheet.getLastRowNum() + 1;
         log.info("本次数据导入行数共有{}条(不包括文件头)", totalRows - 4);
 
         if (totalRows < 5) {

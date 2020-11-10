@@ -51,6 +51,11 @@ public class NoteShareDetailBO {
     private Integer supportCount;
 
     /**
+     * 评论数
+     */
+    private Integer commentCount;
+
+    /**
      * 创建时间
      */
     private Date createdAt;

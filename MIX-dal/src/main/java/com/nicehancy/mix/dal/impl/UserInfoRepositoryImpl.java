@@ -37,6 +37,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
         Query query = new Query();
         Criteria criteria = new Criteria();
         criteria.and("userNo").is(userNo);
+        criteria.and("status").ne("DISABLE");
         query.addCriteria(criteria);
 
         return mongoTemplate.findOne(query, UserInfoDO.class);
