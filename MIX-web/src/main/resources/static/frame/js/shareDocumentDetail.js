@@ -98,9 +98,8 @@ function showNote(data) {
         html = "<div class=\"caller-item\">\n" +
             "<img src=/file/download?fileName=" + data[i].headCopy + " alt=\"\" class=\"caller-img caller-fl\">\n" +
             "<div class=\"caller-main caller-fl\">       \n" +
-            "<p><strong>" + data[i].nickName + "：<em>" + data[i].content + "</em></strong></p>\n" +
-            "<p class=\"caller-adds\"><" +
-            "em>" + data[i].updatedAt + "</em></p>\n" +
+            "<p><strong>" + data[i].nickName + "：<em>" + data[i].content + "</em></strong><p class=\"caller-adds\"><" +
+            "em>" + data[i].updatedAt + "</em></p></p>" +
             "</div>" +
             "</div></<hr>" + html;
     }
