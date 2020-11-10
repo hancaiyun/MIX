@@ -21,7 +21,7 @@
 	</parent>
 	<groupId>com.nicehancy</groupId>
 	<artifactId>MIX</artifactId>
-	<version>2.2.6</version>
+	<version>2.2.7</version>
 	<name>MIX</name>
 	<description>A project for that i think about，also，a web</description>
 
