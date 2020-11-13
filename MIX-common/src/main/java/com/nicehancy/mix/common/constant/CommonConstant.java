@@ -31,6 +31,11 @@ public final class CommonConstant {
     public static final String SYSTEM_PROPERTY = "os.name";
 
     /**
+     * 文件路径前缀
+     */
+    public static final String FILE_PATH_PREFIX = "file:/";
+
+    /**
      * 401状态码
      */
     public static final int STATUS_401 = 401;

@@ -1,10 +1,14 @@
 package com.nicehancy.mix.common.utils;
 
+import com.nicehancy.mix.common.constant.CommonConstant;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.servlet.ServletContext;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -128,27 +132,28 @@ public class SensitiveWordInit {
         Set<String> set;
 
         //读取文件
-        String filepath = System.getProperty("user.dir") + "/MIX-web/src/main/resources/SensitiveWord.txt";
-        File file = new File(filepath);
-        try (InputStreamReader read = new InputStreamReader(new FileInputStream(file), ENCODING)) {
-            //文件流是否存在
-            if (file.isFile() && file.exists()) {
-                set = new HashSet<>();
-                BufferedReader bufferedReader = new BufferedReader(read);
-                String txt;
-                //读取文件，将文件内容放入到set中
-                while ((txt = bufferedReader.readLine()) != null) {
-                    set.add(txt);
-                }
-            } else {
-                //不存在抛出异常信息
-                throw new Exception("敏感词库文件不存在");
+        URL url = Thread.currentThread().getContextClassLoader().getResource("SensitiveWord.txt");
+        assert url != null;
+        String path = url.toString().split(CommonConstant.FILE_PATH_PREFIX)[1];
+        File file = new File(path);
+
+        InputStreamReader read = new InputStreamReader(new FileInputStream(file), ENCODING);
+        //文件流是否存在
+        if (file.isFile() && file.exists()) {
+            set = new HashSet<>();
+            BufferedReader bufferedReader = new BufferedReader(read);
+            String txt;
+            //读取文件，将文件内容放入到set中
+            while ((txt = bufferedReader.readLine()) != null) {
+                set.add(txt);
             }
-        } catch (Exception e) {
-            log.error("敏感词库加载失败， 失败原因:", e);
-            throw e;
+            bufferedReader.close();
+        } else {
+            //不存在抛出异常信息
+            throw new RuntimeException("敏感词库文件不存在");
         }
         //关闭文件流
+        read.close();
         return set;
     }
 }
