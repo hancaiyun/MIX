@@ -12,6 +12,11 @@
     <artifactId>MIX-web</artifactId>
     <packaging>war</packaging>
     <dependencies>
+        <!--引入应用监控检查与监控-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
