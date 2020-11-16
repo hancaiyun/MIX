@@ -2,12 +2,11 @@ package com.nicehancy.mix.common.utils;
 
 import com.nicehancy.mix.common.constant.CommonConstant;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
 
 import javax.servlet.ServletContext;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -129,31 +128,20 @@ public class SensitiveWordInit {
      */
     @SuppressWarnings("resource")
     private Set<String> readSensitiveWordFile() throws Exception{
-        Set<String> set;
+        Set<String> set = new HashSet<>();
 
-        //读取文件
-        URL url = Thread.currentThread().getContextClassLoader().getResource("SensitiveWord.txt");
-        assert url != null;
-        String path = url.toString().split(CommonConstant.FILE_PATH_PREFIX)[1];
-        File file = new File(path);
-
-        InputStreamReader read = new InputStreamReader(new FileInputStream(file), ENCODING);
-        //文件流是否存在
-        if (file.isFile() && file.exists()) {
-            set = new HashSet<>();
-            BufferedReader bufferedReader = new BufferedReader(read);
-            String txt;
-            //读取文件，将文件内容放入到set中
-            while ((txt = bufferedReader.readLine()) != null) {
-                set.add(txt);
-            }
-            bufferedReader.close();
-        } else {
-            //不存在抛出异常信息
-            throw new RuntimeException("敏感词库文件不存在");
+        //读取文件 TODO 平台移植后无法读取到文件导致无法做敏感词校验问题
+        ClassPathResource classPathResource = new ClassPathResource("/SensitiveWord.txt");
+        InputStream inputStream = classPathResource.getInputStream();
+        BufferedReader br=new BufferedReader(new InputStreamReader(inputStream));
+        String txt;
+        while((txt = br.readLine()) != null){
+            set.add(txt);
         }
+
         //关闭文件流
-        read.close();
+        inputStream.close();
+        br.close();
         return set;
     }
 }
