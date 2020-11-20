@@ -51,10 +51,16 @@ public final class ResultConstant {
     /** 404错误页 */
     public static final String ERROR_404_PAGE = "tips/404";
 
+    /** 401错误页 */
+    public static final String ERROR_401_PAGE = "tips/401";
+
+    /** 403错误页 */
+    public static final String ERROR_403_PAGE = "tips/403";
+
     /** 错误页 */
     public static final String ERROR_PAGE = "tips/error";
 
     /** 成功页 */
-    public static final String SUCCESS_PAGE = "/page/welcome.html";
+    public static final String SUCCESS_PAGE = "index";
 
 }

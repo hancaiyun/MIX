@@ -10,8 +10,17 @@ package com.nicehancy.mix.common.utils.map;
  **/
 public class HashMap<K, V> implements Map<K, V> {
 
+    /**
+     * 默认大小
+     * PS:JDK并不会直接拿用户传进来的数字当做默认容量，而是会进行一番运算，最终得到一个2的幂
+     * 例如指定9，实际长度大小为16
+     */
     private static int defaultLength = 16;
 
+    /**
+     * 负载因子
+     * 达到扩容水平之后， 按照负载因子扩容
+     */
     private static double defaultLoader = 0.75;
 
     private final Entry<K, V> [] table;

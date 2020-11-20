@@ -1,6 +1,6 @@
 package com.nicehancy.mix.web.controller;
 
-import com.nicehancy.mix.common.constant.CommonConstant;
+import com.nicehancy.mix.common.constant.CommonPageConstant;
 import com.nicehancy.mix.common.constant.ResultConstant;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
@@ -20,15 +20,15 @@ public class MyErrorController implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request){
-        //获取statusCode:401,404,500
+        //获取statusCode:401,404,500...
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        if(statusCode == CommonConstant.STATUS_401){
+        if(statusCode == CommonPageConstant.STATUS_401){
             //缺省页面
-            return "/401";
-        }else if(statusCode == CommonConstant.STATUS_403){
+            return ResultConstant.ERROR_401_PAGE;
+        }else if(statusCode == CommonPageConstant.STATUS_403){
             //缺省页面
-            return "/403";
-        }else if(statusCode == CommonConstant.STATUS_404){
+            return ResultConstant.ERROR_403_PAGE;
+        }else if(statusCode == CommonPageConstant.STATUS_404){
             return ResultConstant.ERROR_404_PAGE;
         }else{
             return ResultConstant.ERROR_PAGE;

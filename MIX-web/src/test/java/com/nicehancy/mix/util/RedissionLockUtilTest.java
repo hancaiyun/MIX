@@ -28,7 +28,7 @@ public class RedissionLockUtilTest extends BaseSpringTest {
             }else {
                 log.info("test1{}", "锁获取失败");
             }
-            Thread.sleep(30000);
+            Thread.sleep(300000);
         }catch (Exception e){
             log.info("test1{}", e.getMessage());
         }finally {
