@@ -37,29 +37,29 @@ public class ThreadPoolUtil {
     /**
      * 队列默认长度为10
      */
-    private static final LinkedBlockingQueue<Runnable> linkedBlockingQueue = new LinkedBlockingQueue<>(10);
+    private static final LinkedBlockingQueue<Runnable> LINKED_BLOCKING_QUEUE = new LinkedBlockingQueue<>(10);
 
     /**
      * 线程池创建线程使用的工厂
      */
-    private static final ThreadFactory threadFactory = Executors.defaultThreadFactory();
+    private static final ThreadFactory THREAD_FACTORY = Executors.defaultThreadFactory();
 
     /**
      * 创建ThreadPoolExecutor线程池对象，并初始化该对象的各种参数
      */
-    private static final ExecutorService uploadExportPool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE,
-            KEEP_ALIVE_TIME, TIME_UNIT, linkedBlockingQueue, threadFactory);
+    private static final ExecutorService UPLOAD_EXPORT_POOL = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE,
+            KEEP_ALIVE_TIME, TIME_UNIT, LINKED_BLOCKING_QUEUE, THREAD_FACTORY);
 
     /**
      * 执行方法
      * @param runnable  线程
      */
     public static void execute(Runnable runnable) {
-        log.info("当前线程队列任务数量：{}", linkedBlockingQueue.size());
+        log.info("当前线程队列任务数量：{}", LINKED_BLOCKING_QUEUE.size());
         try {
-            uploadExportPool.execute(runnable);
+            UPLOAD_EXPORT_POOL.execute(runnable);
         } catch (RejectedExecutionException rejectedExecutionException) {
-            log.error("当前线程池已饱和，ThreadId：{}, size：{}", Thread.currentThread().getId(), linkedBlockingQueue.size());
+            log.error("当前线程池已饱和，ThreadId：{}, size：{}", Thread.currentThread().getId(), LINKED_BLOCKING_QUEUE.size());
         }
     }
 }
