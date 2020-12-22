@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //@EnableKafka
 @EnableTransactionManagement
 @EnableDubbo(scanBasePackages = "com.nicehancy.MIX.service")
+//apollo多配置文件配置
+//@EnableApolloConfig(value = {"application","redis","dubbo","dataSource","job","commonConstant","kafka"})
 public class MixApplication {
 
 	public static void main(String[] args) {

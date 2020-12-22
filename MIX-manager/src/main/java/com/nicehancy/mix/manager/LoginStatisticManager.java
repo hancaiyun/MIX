@@ -71,8 +71,9 @@ public class LoginStatisticManager {
                 reportDO.setCreatedBy(CommonConstant.SYSTEM);
                 reportDO.setUpdatedBy(CommonConstant.SYSTEM);
 
+                System.out.print("<<<<<<<<定时任务执行结果:" + reportDO);
                 //新增日报表数据，按用户
-                userLoginReportRepository.insert(reportDO);
+                //userLoginReportRepository.insert(reportDO);
             }
         }
     }

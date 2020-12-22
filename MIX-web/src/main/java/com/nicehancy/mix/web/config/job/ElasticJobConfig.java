@@ -8,6 +8,7 @@ import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 import com.nicehancy.mix.task.LoginStatisticJob;
+import com.nicehancy.mix.task.LoginStatisticJobTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -76,4 +77,16 @@ public class ElasticJobConfig {
                 getLiteJobConfiguration(loginStatisticJob.getClass(), cron, shardingTotalCount, shardingItemParameters),
                 elasticJobListener);
     }
+
+    @Bean(initMethod = "init")
+    public SpringJobScheduler loginStatisticJobTestScheduler(final LoginStatisticJobTest loginStatisticJob,
+                                                         @Value("${loginStatisticJobTest.cron}") final String cron,
+                                                         @Value("${loginStatisticJobTest.shardingTotalCount}") final int shardingTotalCount,
+                                                         @Value("${loginStatisticJobTest.shardingItemParameters}") final String shardingItemParameters) {
+        EJobListener elasticJobListener = new EJobListener();
+        return new SpringJobScheduler(loginStatisticJob, regCenter,
+                getLiteJobConfiguration(loginStatisticJob.getClass(), cron, shardingTotalCount, shardingItemParameters),
+                elasticJobListener);
+    }
+
 }
