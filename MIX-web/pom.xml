@@ -102,12 +102,22 @@
     </dependencies>
 
     <build>
+        <!--修改war包名-->
+        <finalName>${project.parent.artifactId}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <filtering>true</filtering>
             </resource>
         </resources>
         <plugins>
+            <!--war包打到根目录-->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>${basedir}/../target</outputDirectory>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

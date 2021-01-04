@@ -23,6 +23,12 @@ public class SuggestServiceImpl implements SuggestService {
 
     @Autowired
     private SuggestManager suggestManager;
+
+    /**
+     * 意见反馈提交
+     * @param reqDTO        请求参数
+     * @return              提交结果
+     */
     @Override
     public Result<Boolean> commit(SuggestCommitReqDTO reqDTO) {
 

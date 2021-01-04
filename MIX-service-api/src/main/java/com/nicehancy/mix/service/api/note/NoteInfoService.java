@@ -21,22 +21,22 @@ public interface NoteInfoService {
 
     /**
      * 目录查询
-     * @param reqDTO    请求参数
-     * @return          目录列表
+     * @param reqDTO                请求参数
+     * @return                      目录列表
      */
     Result<List<String>> queryDirectory(DirectoryQueryReqDTO reqDTO);
 
     /**
      * 文档列表查询
-     * @param reqDTO    请求参数DTO
-     * @return          文档列表
+     * @param reqDTO                请求参数DTO
+     * @return                      文档列表
      */
     Result<List<String>> queryFileList(FileListReqDTO reqDTO);
 
     /**
      * 笔记查询
-     * @param reqDTO        请求对象
-     * @return              查询结果
+     * @param reqDTO                请求对象
+     * @return                      查询结果
      */
     Result<List<NoteInfoDTO>> queryNoteInfo(NoteQueryReqDTO reqDTO);
 
