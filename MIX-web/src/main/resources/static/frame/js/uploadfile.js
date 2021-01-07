@@ -9,7 +9,7 @@
 		//创建监听函数
 		const xhrOnProgress = function (fun) {
 			xhrOnProgress.onprogress = fun; //绑定监听
-			//使用闭包实现监听绑
+			//使用闭包实现监听绑定
 			return function () {
 				//通过$.ajaxSettings.xhr();获得XMLHttpRequest对象
 				const xhr = $.ajaxSettings.xhr();
@@ -38,8 +38,17 @@
 			size: 1024 * 150,//为0为不限制大小  150M
 			xhr: xhrOnProgress,
 			//监听xhr进度，并返回给进度条
-			progress: function (value, element) { //上传进度回调 value进度值
-				element.progress('upload_progress', value + '%'); //设置页面进度条
+			progress: function (value, elem) { //上传进度回调 value进度值
+				// console.log(value);
+				// element.progress('upload_progress', value + '%'); //设置页面进度条
+
+				//上传进度回调
+				const percent = value + '%'; //获取进度百分比
+				//$("#uploadfile").attr("lay-percent", percent);
+				element.progress('upload_progress', percent); //原谅我,我不配用这个
+				element.render();
+				//以下系 layui 2.5.6 新增
+				console.log(percent); //得到当前触发的元素 DOM 对象。可通过该元素定义的属性值匹配到对应的进度条。
 			},
 			before: function () {
 				//开始上传时候让进度条去除隐藏状态

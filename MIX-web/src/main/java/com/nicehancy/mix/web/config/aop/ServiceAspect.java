@@ -2,7 +2,6 @@ package com.nicehancy.mix.web.config.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.slf4j .Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +27,11 @@ public class ServiceAspect {
 
         this.log.info("【*** aop Service-Before ***】执行参数："+ Arrays.toString (point.getArgs()));
         Object obj = point.proceed(point.getArgs());
-        this.log.info("【*** aop Service After ***】返回结果 ："+ obj);
+
+        this.log.info("【*** aop Service-After ***】返回结果 ："+ obj);
 
         return obj;
     }
+
+
 }
